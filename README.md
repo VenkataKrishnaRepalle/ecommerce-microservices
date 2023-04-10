@@ -1,1 +1,348 @@
-# spring-boot-ecommerce
+# Spring Boot Ecommerce
+
+- [ ] Project Overview (E)
+    - [ ] Understand Functional Requirements
+    - [ ] Understand Technical Requirements
+    - [ ] Understand User Interface Requirements
+    - [ ] Overview of Database Design
+    - [ ] Overview of System Architecture
+- [ ] Software Installation (E)
+    - [x]  Setup Java Development Kit (JDK)
+    - [x]  Setup Spring Tool Suite IDE
+    - [x]  Setup MySQL Community Server
+    - [x]  Install Git
+    - [x]  Install Maven
+- [ ] Setup Project (E)
+    - [ ]  Notes about Java Version for Project
+    - [ ]  Create a Multi-Module Project
+    - [ ]  Referential Project on GitHub
+    - [ ]  Clone Project from GitHub in Command Line
+    - [ ]  Clone Project from GitHub in Eclipse
+    - [ ]  Check Out a Specific Commit in Command Line
+    - [ ]  Understand Application Architecture
+- [ ] Code Admin Home Page (E)
+    - [ ]  Understand Requirement for Admin Home Page
+    - [ ]  Using jQuery and Bootstrap
+    - [ ]  Add Logo and Create Header Menu
+    - [ ]  KeyNotes #1
+- [ ] Testing on Mobile Phone (E)
+    - [ ]  How to Test on Your Mobile Phone
+    - [ ]  Code User Management Module
+    - [ ]  Understand Requirement of User Management Module
+    - [ ]  Understand Technical Design for User Module
+    - [ ]  Create Database and Configure Data Source
+    - [ ]  Code Role Entity, Role Repository and Unit Test
+    - [ ]  Code User Entity, User Repository and Unit Tests
+    - [ ]  Code Users Listing Function
+    - [ ]  Code New User Function
+    - [ ]  Encode User Password
+    - [ ]  Check Uniqueness of User Email
+    - [ ]  Using Fontawesome for Icons
+    - [ ]  Code Update User Function
+    - [ ]  Code Delete User Function
+    - [ ]  Code Update User Enabled Status
+    - [ ]  Code User Photos Upload Function
+    - [ ]  Fix Images Not Displayed
+    - [ ]  Import Sample Users Data
+    - [ ]  Code Pagination for Users List
+    - [ ]  Code Sorting for Users List
+    - [ ]  Code Filter Function for Users List
+    - [ ]  Code Refactor
+    - [ ]  Code Export Users to CSV
+    - [ ]  Code Export Users to Excel
+    - [ ]  Code Export Users to PDF
+    - [ ]  Update Users Listing for Mobile
+    - [ ]  Test Users Listing on iPhone
+    - [ ]  KeyNotes #2
+
+- [ ] Code User Authentication
+    - [ ]  Understand Requirement for User Authentication
+    - [ ]  Code User Login Page
+    - [ ]  Code User Authentication
+    - [ ]  Show User's Full Name and Logout Link
+    - [ ]  Code Logout Function
+    - [ ]  Code Refactor
+    - [ ]  Enable Remember Me for Login
+    - [ ]  Code Update Account Details
+    - [ ]  Test User Authentication on iPhone
+    - [ ]  KeyNotes #3
+- [ ] Code User Authorization
+    - [ ]  Understand Requirement for User Authorization
+    - [ ]  Code User Authorization Basics
+    - [ ]  Code Refactor
+    - [ ]  Test User Authorization on Smartphone
+- [ ] Show Custom Error Pages and Configure Logging (P)
+    - [ ]  Code Custom Error Pages
+    - [ ]  Configure Logging for Admin application
+- [ ] Code Category Management Module (B)
+    - [ ]  Understand Requirement of Category Module
+    - [ ]  Understand Technical Design for Category Module
+    - [ ]  Code Category Entity and Repository
+    - [ ]  Code Unit Tests for Category Repository
+    - [ ]  Exercise: Write Initial Code for Listing Categories
+    - [ ]  Code Category Form
+    - [ ]  Code Create Category Function
+    - [ ]  List Categories in Hierarchical Form
+    - [ ]  Exercise: Code Update Category Function
+    - [ ]  Check Uniqueness of Category
+    - [ ]  Code Sort Function for Categories List
+    - [ ]  Exercise: Code Update Category Enabled Status
+    - [ ]  Exercise: Code Delete Category Function
+    - [ ]  Code Pagination for Categories List
+    - [ ]  Code Filter Function for Categories List
+    - [ ]  Import Sample Categories Data
+    - [ ]  Exercise: Code Export Categories to CSV
+    - [ ]  Exercise: Make Categories Listing Page Fully Responsive
+    - [ ]  Code Refactor
+    - [ ]  KeyNotes #4
+- [ ] Code Brand Management Module (P)
+    - [ ]  Understand Requirement of Brand Module
+    - [ ]  Understand Technical Design for Brand Module
+    - [ ]  Code Brand Entity and Repository
+    - [ ]  Exercise: Code Unit Tests for Brand Repository
+    - [ ]  Exercise: Code Listing Brands
+    - [ ]  Exercise: Code Brand Form
+    - [ ]  Code Category Selection in Brand Form
+    - [ ]  Exercise: Code Create, Update and Delete Brand Function
+    - [ ]  Exercise: Check Uniqueness of Brand
+    - [ ]  Import Sample Brands Data
+    - [ ]  Exercise: Code Pagination, Sort and Filter for Brands Listing
+    - [ ]  Exercise: Make Brands Page Fully Responsive
+    - [ ]  Code Refactor
+    - [ ]  KeyNotes #5
+- [ ] Code Product Management Module29 lectures
+    - [ ]  Understand Requirement of Product Module
+    - [ ]  Understand Technical Design for Product Module
+    - [ ]  Code Product Entity and Repository
+    - [ ]  Code Unit Tests for Product Repository
+    - [ ]  Code Products Listing Page
+    - [ ]  Code Product Overview Form
+    - [ ]  Code Product Form Description and Shipping
+    - [ ]  Code Save Product Function
+    - [ ]  Exercise: Check Uniqueness of Product
+    - [ ]  Exercise: Update Product Enabled Status
+    - [ ]  Exercise: Code Delete Product
+    - [ ]  Start Coding Upload Product ImagesPreview
+    - [ ]  Code Upload Product's Main Image
+    - [ ]  Code Add Extra Images on Product FormPreview
+    - [ ]  Code Upload Product's Extra Images
+    - [ ]  Exercise: Code Product Detail Entity Class
+    - [ ]  Code Add Details (Specs) on Product Form
+    - [ ]  Code Save Product's Details (Specs)
+    - [ ]  Code Edit Product Function
+    - [ ]  Code Update Product Function
+    - [ ]  Code View Product Details in Modal Dialog
+    - [ ]  Import Sample Products Data
+    - [ ]  Code Pagination, Sort and Filter for Products Page
+    - [ ]  Update Category Module for Product Search
+    - [ ]  Code Filter Products by Category
+    - [ ]  Code Authorization for Product Module
+    - [ ]  Exercise: Make Products Listing Page Fully Responsive
+    - [ ]  Code Refactor
+    - [ ]  KeyNotes #6
+- [ ] Code Listing Products for Customers
+    - [ ]  Understand Requirement and Design of Products Listing
+    - [ ]  Code Home Page for Shopping Application
+    - [ ]  Code Listing Categories in Home Page
+    - [ ]  Code Listing Products in Category
+    - [ ]  Code Product Details Page
+    - [ ]  Code Product Images Slideshow
+    - [ ]  Code Search Products Function
+    - [ ]  KeyNotes #7
+- [ ] Code Settings Module13
+    - [ ]  Understand Requirement and Design of Settings Module
+    - [ ]  Code Setting Entity, Repository and Unit Tests
+    - [ ]  Code Currency Entity, Repository and Unit Tests
+    - [ ]  Code Manage General Settings
+    - [ ]  Apply General Settings for Shopping Application
+    - [ ]  Exercise: Code Repository Layer for Country and State
+    - [ ]  Code Controller Layer for Country
+    - [ ]  Code Manage Countries
+    - [ ]  Exercise: Code Controller Layer for State/Province
+    - [ ]  Exercise: Code Manage States/Provinces
+    - [ ]  Import Sample Data for Countries and States
+    - [ ]  Code Refactor
+    - [ ]  KeyNotes #8
+- [ ] Code Customer Registration
+    - [ ]  Understand Requirement and Design of Customer Registration
+    - [ ]  Exercise: Code Repository Layer for Customer
+    - [ ]  Code Customer Registration Form
+    - [ ]  Code Manage E-mail Settings
+    - [ ]  Code Send Verification Email
+    - [ ]  Code Verify Customer Account
+    - [ ]  Test Customer Registration on Smartphone
+    - [ ]  Code Refactor
+    - [ ]  KeyNotes #9
+- [ ] Code Customer Management
+    - [ ]  Understand Requirement and Design of Customer Module
+    - [ ]  Exercise: Code Customer Management Module
+    - [ ]  Import Sample Customers Data
+    - [ ]  Code Refactor #9 (Part 1)
+    - [ ]  Code Refactor #9 (Part 2)
+- [ ] Code Customer Authentication
+    - [ ]  Understand Requirement and Design of Customer Authentication
+    - [ ]  Exercise: Code Customer Login and Logout
+    - [ ]  Update Authentication Type of Customer
+    - [ ]  Understand OAuth
+    - [ ]  Code Login with Google
+    - [ ]  Code Login with Facebook
+    - [ ]  Code Update Customer's Details
+    - [ ]  Code Forgot Password Function
+    - [ ]  Test Customer Authentication on Smartphone
+    - [ ]  Code Refactor
+    - [ ]  KeyNotes #10
+- [ ] Code Shopping Cart Module
+    - [ ]  Understand Requirement and Design of Shopping Cart Module
+    - [ ]  Code Repository Layer for Shopping Cart
+    - [ ]  Code Quantity Control Component
+    - [ ]  Code Add Product to Shopping Cart
+    - [ ]  Code View Shopping Cart
+    - [ ]  Code Update Product Quantity
+    - [ ]  Code Remove Product from Shopping Cart
+    - [ ]  Format Currency in Shopping Cart
+    - [ ]  Test Shopping Cart on Smartphone
+    - [ ]  Code Refactor
+    - [ ]  KeyNotes #11
+- [ ] Code Shipping Rates Management Module
+    - [ ]  Understand Requirement and Design of Shipping Rates Module
+    - [ ]  Exercise: Code Shipping Rates Management Module
+    - [ ]  Import Sample Data for Shipping Rates
+- [ ] Code Address Book Module
+    - [ ]  Understand Requirement and Design of Address Book Module
+    - [ ]  Exercise: Code Repository Layer for Address Book
+    - [ ]  Code Address Book Listing
+    - [ ]  Exercise: Code Add, Edit and Delete Address
+    - [ ]  Code Set Default Address
+    - [ ]  Test Address Book on SmartphonePreview
+    - [ ]  Import Sample Data for Address Book
+- [ ] Code Order Management Module (Part 1)
+    - [ ]  Understand Requirement and Design of Order Module
+    - [ ]  Code Repository Layer for Order Module
+    - [ ]  Exercise: Code Orders Listing
+    - [ ]  Exercise: Code View Order Details
+    - [ ]  Exercise: Code Delete Order
+    - [ ]  Exercise: Code Fully-responsive Orders Page
+    - [ ]  Code Refactor
+    - [ ]  KeyNotes #12
+- [ ] Code Checkout Module
+    - [ ]  Understand Requirement and Design of Checkout Module
+    - [ ]  Update Shopping Cart Page
+    - [ ]  Code Checkout Page
+    - [ ]  Change Shipping Address from Checkout Page
+    - [ ]  Exercise: Update Settings Module
+    - [ ]  Code Place Order with COD
+    - [ ]  Code Send Order Confirmation E-mail
+    - [ ]  Create PayPal Accounts
+    - [ ]  Code Payment for Checkout Page
+    - [ ]  Code Validate PayPal Order
+    - [ ]  Review transactions of PayPal sandbox account
+    - [ ]  Test Checkout on Smartphone
+    - [ ]  Code Refactor
+    - [ ]  KeyNotes #13
+- [ ] Code Order Management Module (Part 2)
+    - [ ]  Understand Remaining Requirement and Design
+    - [ ]  Update Repository Layer for Order Module
+    - [ ]  Exercise: Display Order Tracking Information
+    - [ ]  Exercise: Code Edit Order Form (Overview and Shipping)
+    - [ ]  Code Edit Products in an Order
+    - [ ]  Calculate Shipping Cost of a Product
+    - [ ]  Code Add Products to an Order (Part 1)
+    - [ ]  Code Add Products to an Order (Part 2)
+    - [ ]  Code Remove Products from an Order
+    - [ ]  Exercise: Code Manage Track Records of an Order
+    - [ ]  Code Save Order into Database
+    - [ ]  Code Refactor #14
+- [ ] Code Order Management for Shipper
+    - [ ]  Understand Requirement and Design of Order Management for Shipper
+    - [ ]  Code Orders Listing for Shipper
+    - [ ]  Code Service and Controller for Updating Order Status
+    - [ ]  Code View Layer for Updating Order Status
+    - [ ]  Test Shipper Role on Smartphone
+- [ ] Code Order Management for Customer
+    - [ ]  Understand Requirement and Design of Order Management for Customer
+    - [ ]  Exercise: Code Orders Listing for Customer
+    - [ ]  Exercise: Code View Order Details for Customer
+    - [ ]  Code Return Order Function (Service and Controller)
+    - [ ]  Code Return Order Function (View Layer)
+    - [ ]  Code Refactor
+    - [ ]  Test Managing Orders on Smartphone
+- [ ] Migrate User-uploaded Files to Amazon S37
+    - [ ]  Understand Key Concepts in Amazon S3
+    - [ ]  Create AWS Account and IAM Users
+    - [ ]  Move Existing Image Files to Amazon S3
+    - [ ]  Setup AWS SDK for Java
+    - [ ]  Code Amazon S3 Utility Class
+    - [ ]  Integrate Amazon S3 Functions
+    - [ ]  KeyNotes #14
+- [ ] Deployment on Heroku
+    - [ ]  Understand Key Concepts in HerokuPreview
+    - [ ]  Create Heroku Account and Install Heroku CLI
+    - [ ]  Deploy a Simple App on to Heroku
+    - [ ]  Understand Deployment Approach for Shopme Project
+    - [ ]  Prepare for Deployment of Shopme Project
+    - [ ]  Deploy ShopmeBackEnd Project
+    - [ ]  Deploy MySQL Database
+    - [ ]  Deploy ShopmeFrontEnd Project
+    - [ ]  Add Custom Domain Names for Apps
+    - [ ]  Enable Secure Connection (https)
+    - [ ]  Update Social Login with Google and Facebook
+    - [ ]  Use Unicode for MySQL Database
+    - [ ]  KeyNotes #15
+- [ ] Code Sales Report Module
+- [ ]  Understand Requirement and Design of Sales Report Module
+- [ ]  Import Sample Data for Sales Report
+- [ ]  How to Produce Sales Report
+- [ ]  Code Repository Layer for Sales Report
+- [ ]  Understand Google Charts Library
+- [ ]  Code Sales Report by Date - Part 1
+- [ ]  Code Sales Report by Date - Part 2
+- [ ]  Code Sales Report by Date - Part 3
+- [ ]  Code Sales Report by Date - Part 4
+- [ ]  Format Currency for Sales Report
+- [ ]  Code Sales Report by Category - Part 1
+- [ ]  Code Sales Report by Category - Part 2
+- [ ]  Code Sales Report by Product
+- [ ]  Test Sales Report on Smartphone
+- [ ]  KeyNotes #16
+- [ ] Code Product Review Module
+    - [ ]  Understand Requirement and Design of Product Review Module
+    - [ ]  Exercise: Code Repository Layer for Review
+    - [ ]  Exercise: Code Review Management for Admin
+    - [ ]  Exercise: Code Review Management for Customer
+    - [ ]  Update Review Count and Average Rating of a Product
+    - [ ]  Show Rating Stars for Products
+    - [ ]  Exercise: Show Reviews in Product Detail Page
+    - [ ]  Exercise: Code Review Listing of a Product
+    - [ ]  Show Review Buttons for Products in Order Details
+    - [ ]  Code Write Review Function - Part 1
+    - [ ]  Code Write Review Function - Part 2
+    - [ ]  Code Write Review Function - Part 3
+    - [ ]  Code Refactor
+    - [ ]  Import Sample Data for Product Reviews
+    - [ ]  Test Product Review on Smartphone
+    - [ ]  KeyNotes #17
+- [ ] Code Review Voting Module
+    - [ ]  Understand Requirement and Design of Review Voting Module
+    - [ ]  Exercise: Code Repository Layer for Review Voting Module
+    - [ ]  Code Service Layer for Review Voting Module
+    - [ ]  Code Controller Layer for Review Voting Module
+    - [ ]  Code View Layer for Review Voting Module
+    - [ ]  Update Voting Status for Signed-in Customer
+    - [ ]  Exercise: Sort Reviews
+    - [ ]  Test Voting Reviews on Smartphone
+    - [ ]  Key Notes #18
+- [ ] Assignment 1: Product Questions Module
+    - [ ]  Understand Requirements of Product Question Module
+    - [ ]  Test Question Module
+- [ ] Assignment 2: Article Management Module
+    - [ ]  Understand Requirements of Article Management Module
+    - [ ]  Test Article Management Module
+- [ ] Assignment 3: Menu Management Module
+    - [ ]  Understand Requirements of Menu Management Module
+    - [ ]  Test Menu Management Module11
+- [ ] Assignment 4: Home Page (Storefront) Customization
+    - [ ]  Understand Requirement of Storefront Customization
+    - [ ]  Test Storefront Customization
+- [ ] Assignment 5: Code Admin Dashboard
+    - [ ]  Understand Requirement of Admin Dashboard
+    - [ ]  Test Admin Dashboard
