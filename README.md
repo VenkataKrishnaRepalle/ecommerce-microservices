@@ -1,5 +1,8 @@
 # Spring Boot Ecommerce
+**References:**
+- https://www.udemy.com/course/spring-boot-e-commerce-ultimate/
 
+## Table of Content
 - [ ] Project Overview (E)
     - [ ] Understand Functional Requirements
     - [ ] Understand Technical Requirements
