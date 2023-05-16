@@ -5,8 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class BrandController {
+
     @GetMapping("hi")
-    public String hello() {
+    public String listAll() {
         return "Hello";
     }
 }

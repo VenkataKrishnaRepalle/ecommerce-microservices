@@ -14,7 +14,9 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping />
+        <datasource-mapping>
+          <factory-entry name="spring6-ecommerce-category" value="247cdda9-ea2e-47d4-b4bb-091cf6d6310e" />
+        </datasource-mapping>
         <naming-strategy-map />
       </configuration>
     </facet>
