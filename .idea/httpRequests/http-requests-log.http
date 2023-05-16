@@ -1,0 +1,19 @@
+GET http://localhost:1001/hi
+Accept: application/json
+
+<> 2023-05-16T165811.200.json
+
+###
+
+GET http://localhost::1001/hi
+Accept: application/json
+
+###
+
+GET http://localhost:1001/hi
+Accept: application/json
+
+<> 2023-05-16T165742.200.json
+
+###
+
