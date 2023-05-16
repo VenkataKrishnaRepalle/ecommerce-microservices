@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.springbootexpert.spring-boot-ecommerce' is invalid and this project uses 'com.springbootexpert.springbootinit' instead.
+* The original package name 'com.spring6.spring-boot-ecommerce' is invalid and this project uses 'com.spring6.ecommerce' instead.
 
 # Getting Started
 

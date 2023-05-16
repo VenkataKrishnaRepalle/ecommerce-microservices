@@ -113,7 +113,7 @@
     - [ ]  Exercise: Make Brands Page Fully Responsive
     - [ ]  Code Refactor
     - [ ]  KeyNotes #5
-- [ ] Code Product Management Module29 lectures
+- [ ] Code Product Management
     - [ ]  Understand Requirement of Product Module
     - [ ]  Understand Technical Design for Product Module
     - [ ]  Code Product Entity and Repository

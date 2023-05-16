@@ -1,13 +1,13 @@
-package com.springbootexpert.springbootecommerce;
+package com.spring6.ecommerce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBootApplication {
+public class EcommerceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootApplication.class, args);
+		SpringApplication.run(EcommerceApplication.class, args);
 	}
 
 }
