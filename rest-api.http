@@ -1,8 +1,10 @@
-GET {{url}}1001/hi
+# Brand API
+###
+GET {{url}}1001/brand/list
 Accept: application/json
 
 ###
 
-# Brand API
+
 # Category API
 # Product API
