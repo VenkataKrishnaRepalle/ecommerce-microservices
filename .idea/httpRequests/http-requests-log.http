@@ -1,3 +1,38 @@
+GET http://localhost:1001/brand/list
+Accept: application/json
+
+<> 2023-05-17T160044.200.json
+
+###
+
+GET http://localhost:1001/brand/list
+Accept: application/json
+
+<> 2023-05-17T155842.500.json
+
+###
+
+GET http://localhost:1001/brand/list
+Accept: application/json
+
+<> 2023-05-17T155657.500.json
+
+###
+
+GET http://localhost:1001/brand/list
+Accept: application/json
+
+<> 2023-05-17T155608.500.json
+
+###
+
+GET http://localhost:1001/brand/list
+Accept: application/json
+
+<> 2023-05-17T155503.404.json
+
+###
+
 GET http://localhost:1001/hi
 Accept: application/json
 
