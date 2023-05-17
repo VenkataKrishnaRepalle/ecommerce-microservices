@@ -9,7 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="spring6-ecommerce-product" />
       </profile>
-      <profile name="Annotation profile for spring6-ecommerce-category" enabled="true">
+      <profile name="Annotation profile for spring6-ecommerce-brand" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />

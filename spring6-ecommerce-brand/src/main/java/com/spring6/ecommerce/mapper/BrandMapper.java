@@ -7,5 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface BrandMapper {
     Brand brandDtoToBrand(BrandDto brandDto);
+
     BrandDto brandToBrandDto(Brand brand);
 }

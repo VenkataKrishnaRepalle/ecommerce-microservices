@@ -17,7 +17,7 @@ public class BootstrapData implements CommandLineRunner {
     }
 
     private void loadBrandData() {
-        if(brandRepository.count() == 0) {
+        if (brandRepository.count() == 0) {
             brandRepository.save(Brand.builder()
                     .name("Acer")
                     .logo("Acer.png")
