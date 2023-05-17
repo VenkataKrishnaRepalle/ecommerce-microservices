@@ -16,7 +16,7 @@
       <imported>true</imported>
       <remarks>Hibernate</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://127.0.0.1:3306/restdb?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC</jdbc-url>
+      <jdbc-url>jdbc:mysql://127.0.0.1:3306/ecommerce_db?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="spring6-ecommerce-brand/Hibernate" uuid="e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd">
