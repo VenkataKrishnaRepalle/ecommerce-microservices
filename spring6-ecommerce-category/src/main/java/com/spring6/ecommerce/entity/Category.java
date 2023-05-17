@@ -30,4 +30,7 @@ public class Category {
     private String image;
 
     private boolean is_enabled;
+
+
+
 }
