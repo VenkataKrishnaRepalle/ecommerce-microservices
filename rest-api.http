@@ -5,6 +5,18 @@ Accept: application/json
 
 ###
 
+POST {{url}}1001/brand/save
+Content-Type: application/json
+
+{
+  "name": "Mac2",
+  "logo": "Mac.png"
+}
+
+###
+
+
+
 
 # Category API
 # Product API

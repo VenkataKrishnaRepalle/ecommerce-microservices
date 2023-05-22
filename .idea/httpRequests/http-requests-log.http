@@ -1,3 +1,74 @@
+POST http://localhost:1001/brand/save
+Content-Type: application/json
+
+{
+  "name": "Mac2",
+  "logo": "Mac.png"
+}
+
+###
+
+POST http://localhost:1001/brand/save
+Content-Type: application/json
+
+{
+  "name": "Mac",
+  "logo": "Mac.png"
+}
+
+<> 2023-05-17T173358.500.json
+
+###
+
+POST http://localhost:1001/brand/save
+Content-Type: application/json
+
+{
+  "name": "Mac",
+  "logo": "Mac.png"
+}
+
+###
+
+POST http://localhost:/brand/save
+Content-Type: application/json
+
+{
+  "name": "Mac",
+  "logo": "Mac.png"
+}
+
+###
+
+POST http://localhost:/brand/save
+Content-Type: application/json
+
+{
+  "name": "Mac",
+  "logo": "Mac.png"
+}
+
+###
+
+POST http://localhost:1001/brand/save
+Content-Type: application/json
+
+{
+  "name": "Mac",
+  "logo": "Mac.png"
+}
+
+<> 2023-05-17T173120.404.json
+
+###
+
+GET http://localhost:1001/brand/list
+Accept: application/json
+
+<> 2023-05-17T172941.200.json
+
+###
+
 GET http://localhost:1001/brand/list
 Accept: application/json
 

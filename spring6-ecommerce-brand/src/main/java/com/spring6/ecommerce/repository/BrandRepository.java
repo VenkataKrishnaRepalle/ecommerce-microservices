@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface BrandRepository extends JpaRepository<Brand, UUID> {
 
+    Long countById(UUID id);
 }
