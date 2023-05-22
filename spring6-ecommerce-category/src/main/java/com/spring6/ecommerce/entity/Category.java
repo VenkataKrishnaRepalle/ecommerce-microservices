@@ -5,8 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -22,6 +27,7 @@ public class Category {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+    @JdbcTypeCode(SqlTypes.CHAR)
     private UUID id;
 
     @Column(length = 128, nullable = false, unique = true)
@@ -33,13 +39,12 @@ public class Category {
     @Column(length = 128, nullable = false)
     private String image;
 
-    private Boolean is_enabled;
+    @Column(name = "is_enabled")
+    private Boolean isEnabled;
 
-    @OneToOne
-    @JoinColumn(name = "parent_id")
-    private ParentCategory parent;
+    @CreationTimestamp
+    private Instant createdOn;
 
-    @OneToMany(mappedBy = "parent")
-    private Set<ChildCategory> children = new HashSet<>();
-
+    @UpdateTimestamp
+    private Instant lastUpdatedOn;
 }

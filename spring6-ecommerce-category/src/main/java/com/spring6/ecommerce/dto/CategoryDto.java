@@ -1,7 +1,6 @@
 package com.spring6.ecommerce.dto;
 
-import com.spring6.ecommerce.entity.ChildCategory;
-import com.spring6.ecommerce.entity.ParentCategory;
+import com.spring6.ecommerce.entity.SubCategory;
 import lombok.Builder;
 import lombok.Data;
 
@@ -23,9 +22,5 @@ public class CategoryDto {
     private String image;
 
     private Boolean is_enabled;
-
-    private ParentCategory parent;
-
-    private Set<ChildCategory> children = new HashSet<>();
 
 }

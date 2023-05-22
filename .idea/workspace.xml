@@ -5,17 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91f139f6-c6cb-4f57-a8be-21c2447f97b2" name="Changes" comment="Brand save and delete done">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values.at" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values.s" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat_i" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/spring6-ecommerce-brand.iml" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/spring6-ecommerce-brand.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/controller/BrandController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/controller/BrandController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/dto/BrandDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/dto/BrandDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/entity/Brand.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/entity/Brand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/bootstrap/Bootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/bootstrap/Bootstrap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/CategoryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/CategoryDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/ChildCategoryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/SubCategoryDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/ParentCategoryDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/ChildCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/SubCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/ParentCategory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/repository/ChildCategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/repository/SubCategoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/repository/ParentCategoryRepository.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +105,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="HTTP Request.rest-api#2">
+  <component name="RunManager" selected="Spring Boot.Spring6EcommerceCategoryApplication">
     <configuration name="rest-api#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/rest-api.http" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -154,17 +159,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Spring6EcommerceCategoryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="spring6-ecommerce-category" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.spring6.ecommerce.Spring6EcommerceCategoryApplication" />
+      <option name="ACTIVE_PROFILES" value="localmysql" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="HTTP Request.rest-api#1" />
       <item itemvalue="HTTP Request.rest-api#2" />
       <item itemvalue="JUnit.BrandRepositoryTest.testCreateBrand" />
       <item itemvalue="JUnit.CategoryRepositoryTest.testCreateRootCategory" />
+      <item itemvalue="Spring Boot.Spring6EcommerceCategoryApplication" />
       <item itemvalue="Spring Boot.Spring6EcommerceBrandApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.rest-api#2" />
         <item itemvalue="Spring Boot.Spring6EcommerceBrandApplication" />
+        <item itemvalue="HTTP Request.rest-api#2" />
         <item itemvalue="HTTP Request.rest-api#1" />
         <item itemvalue="JUnit.CategoryRepositoryTest.testCreateRootCategory" />
         <item itemvalue="JUnit.BrandRepositoryTest.testCreateBrand" />
@@ -189,7 +205,7 @@
       <workItem from="1684411619952" duration="1353000" />
       <workItem from="1684428380296" duration="59000" />
       <workItem from="1684747009159" duration="25000" />
-      <workItem from="1684755372679" duration="331000" />
+      <workItem from="1684755372679" duration="4311000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1684230880381</created>
@@ -240,7 +256,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684332462354</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Brand save and delete done">
+      <created>1684756207159</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1684756207159</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
