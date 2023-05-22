@@ -3,6 +3,7 @@ package com.spring6.ecommerce.controller;
 import com.spring6.ecommerce.dto.BrandDto;
 import com.spring6.ecommerce.service.BrandService;
 import com.spring6.ecommerce.utils.FileUploadUtils;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class BrandController {
     }
 
     @PostMapping("save")
-    public ResponseEntity save(@RequestBody BrandDto brandDto, @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+    public ResponseEntity save(@RequestBody @Valid BrandDto brandDto, @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
 
         if (!multipartFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
