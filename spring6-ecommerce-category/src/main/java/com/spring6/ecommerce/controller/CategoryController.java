@@ -13,10 +13,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("category")
 public class CategoryController {
-    private final CategoryService brandService;
+    private final CategoryService categoryService;
 
     @GetMapping("list")
     public List<CategoryDto> listAll() {
-        return cate.listAll();
+        return categoryService.listAll();
     }
 }

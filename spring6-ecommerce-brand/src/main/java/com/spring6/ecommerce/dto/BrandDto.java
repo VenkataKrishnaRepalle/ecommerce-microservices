@@ -3,6 +3,7 @@ package com.spring6.ecommerce.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -13,7 +14,9 @@ public class BrandDto {
     @NotBlank
     @Size(min = 2, max = 45)
     private String name;
+
     @NotBlank
     private String logo;
+
     private Set<CategoryDto> categories = new HashSet<>();
 }

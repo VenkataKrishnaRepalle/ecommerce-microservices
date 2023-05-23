@@ -4,23 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91f139f6-c6cb-4f57-a8be-21c2447f97b2" name="Changes" comment="Brand save and delete done">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="91f139f6-c6cb-4f57-a8be-21c2447f97b2" name="Changes" comment="Category issue resolved">
+      <change afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/resources/checkstyle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values.s" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values.s" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat_i" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat_i" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/HELP.md" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/HELP.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/spring6-ecommerce-brand.iml" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/spring6-ecommerce-brand.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/entity/Brand.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/entity/Brand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/bootstrap/Bootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/bootstrap/Bootstrap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/CategoryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/CategoryDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/ChildCategoryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/SubCategoryDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/ParentCategoryDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/ChildCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/SubCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/ParentCategory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/repository/ChildCategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/repository/SubCategoryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/repository/ParentCategoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/controller/BrandController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/controller/BrandController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/dto/BrandDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/dto/BrandDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/mapper/BrandMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/mapper/BrandMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/resources/application-localmysql.properties" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/resources/application-localmysql.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/test/java/com/spring6/ecommerce/Spring6EcommerceBrandApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/test/java/com/spring6/ecommerce/Spring6EcommerceBrandApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/controller/CategoryController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +34,8 @@
         <option value="HTTP Public Environment File" />
         <option value="HTTP Private Environment File" />
         <option value="JUnit5 Test Class" />
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -48,6 +49,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/controller/BrandController.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="2Ps0bLhnCQjkpj20JL4zFCBMOgW" />
   <component name="ProjectLevelVcsManager">
@@ -72,23 +76,27 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/resources/checkstyle.xml" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.25273633" />
     <property name="rest.client.default.execution.environment" value="dev" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
+    <property name="settings.editor.selected.configurable" value="org.infernus.idea.checkstyle.CheckStyleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.spring6.ecommerce.service" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\praja\IdeaProjects\spring6-ecommerce\spring6-ecommerce-brand\src\main\resources\checkstyle" />
       <recent name="C:\Users\praja\IdeaProjects\spring6-ecommerce" />
       <recent name="C:\Users\praja\IdeaProjects\spring6-ecommerce\spring6-ecommerce-category\src\main\java\com\spring6\ecommerce" />
       <recent name="C:\Users\praja\IdeaProjects\spring6-ecommerce\spring6-ecommerce-product\src\main\java\com\spring6\ecommerce\service" />
       <recent name="C:\Users\praja\IdeaProjects\spring6-ecommerce\spring6-ecommerce-product\src\main\java\com\spring6\ecommerce\security" />
-      <recent name="C:\Users\praja\IdeaProjects\spring6-ecommerce\spring6-ecommerce-product\src\main\java\com\spring6\ecommerce\repository" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\praja\IdeaProjects\spring6-ecommerce\spring6-ecommerce-brand\src\main\resources" />
       <recent name="C:\Users\praja\IdeaProjects\spring6-ecommerce" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -205,7 +213,11 @@
       <workItem from="1684411619952" duration="1353000" />
       <workItem from="1684428380296" duration="59000" />
       <workItem from="1684747009159" duration="25000" />
-      <workItem from="1684755372679" duration="4311000" />
+      <workItem from="1684755372679" duration="7986000" />
+      <workItem from="1684821955245" duration="80000" />
+      <workItem from="1684823205286" duration="7286000" />
+      <workItem from="1684836264977" duration="1053000" />
+      <workItem from="1684837856534" duration="1258000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1684230880381</created>
@@ -263,7 +275,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684756207159</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Category issue resolved">
+      <created>1684760224345</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1684760224345</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,6 +306,11 @@
     <MESSAGE value="gitignore" />
     <MESSAGE value="category issue resolved" />
     <MESSAGE value="Brand save and delete done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Brand save and delete done" />
+    <MESSAGE value="Category issue resolved" />
+    <option name="LAST_COMMIT_MESSAGE" value="Category issue resolved" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

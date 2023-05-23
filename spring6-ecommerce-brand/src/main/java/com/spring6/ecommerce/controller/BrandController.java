@@ -9,7 +9,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,13 +30,25 @@ public class BrandController {
 
     private final BrandService brandService;
 
+    /**
+     * @return List<BrandDto>
+     */
     @GetMapping("list")
     public List<BrandDto> listAll() {
         return brandService.listAll();
     }
 
+    /**
+     * @param brandDto
+     * @param multipartFile
+     * @return ResponseEntity<HttpHeaders>
+     * @throws IOException
+     */
     @PostMapping("save")
-    public ResponseEntity save(@RequestBody @Valid BrandDto brandDto, @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<HttpHeaders> save(
+            @RequestBody @Valid final BrandDto brandDto,
+            @RequestParam("fileImage") final MultipartFile multipartFile)
+            throws IOException {
 
         if (!multipartFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -46,16 +65,16 @@ public class BrandController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/brand" + savedBrandDto.getId().toString());
 
-        return new ResponseEntity(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @GetMapping("{brandId}")
-    public BrandDto getById(@PathVariable UUID brandId) {
+    public BrandDto getById(@PathVariable final UUID brandId) {
         return brandService.getById(brandId);
     }
 
     @DeleteMapping("{brandId}")
-    public void deleteById(@PathVariable UUID brandId) {
+    public void deleteById(@PathVariable final UUID brandId) {
         brandService.deleteById(brandId);
     }
 
