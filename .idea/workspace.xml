@@ -5,18 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91f139f6-c6cb-4f57-a8be-21c2447f97b2" name="Changes" comment="category firstApi done">
-      <change afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/mapper/CategoryMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/mapper/SubCategoryMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/controller/SubCategoryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/service/SubCategoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/service/SubCategoryServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values.s" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values.s" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat_i" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat_i" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/service/BrandServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/service/BrandServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/controller/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/service/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/service/CategoryServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +25,8 @@
         <option value="HTTP Private Environment File" />
         <option value="JUnit5 Test Class" />
         <option value="HTML File" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -79,6 +74,9 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.spring6.ecommerce.service" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\praja\IdeaProjects\spring6-ecommerce" />
       <recent name="C:\Users\praja\IdeaProjects\spring6-ecommerce\spring6-ecommerce-category\src\main\java\com\spring6\ecommerce" />
@@ -107,27 +105,14 @@
     <configuration name="generated-requests#3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="3" runType="Run single request">
       <method v="2" />
     </configuration>
+    <configuration name="generated-requests#4" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="4" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="rest-api#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/rest-api.http" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="rest-api#2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/rest-api.http" index="2" runType="Run single request">
       <method v="2" />
-    </configuration>
-    <configuration name="CategoryRepositoryTest.testCreateRootCategory" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="spring6-ecommerce-category" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.spring6.ecommerce.repository.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.spring6.ecommerce.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.spring6.ecommerce.repository.CategoryRepositoryTest" />
-      <option name="METHOD_NAME" value="testCreateRootCategory" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration name="Spring6EcommerceBrandApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
       <module name="spring6-ecommerce-brand" />
@@ -157,18 +142,18 @@
     <list>
       <item itemvalue="HTTP Request.rest-api#1" />
       <item itemvalue="HTTP Request.rest-api#2" />
-      <item itemvalue="JUnit.CategoryRepositoryTest.testCreateRootCategory" />
+      <item itemvalue="HTTP Request.generated-requests#3" />
+      <item itemvalue="HTTP Request.generated-requests#4" />
       <item itemvalue="Spring Boot.Spring6EcommerceCategoryApplication" />
       <item itemvalue="Spring Boot.Spring6EcommerceBrandApplication" />
-      <item itemvalue="HTTP Request.generated-requests#3" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.generated-requests#4" />
         <item itemvalue="HTTP Request.generated-requests#3" />
         <item itemvalue="Spring Boot.Spring6EcommerceBrandApplication" />
         <item itemvalue="HTTP Request.rest-api#2" />
         <item itemvalue="HTTP Request.rest-api#1" />
-        <item itemvalue="JUnit.CategoryRepositoryTest.testCreateRootCategory" />
       </list>
     </recent_temporary>
   </component>
@@ -193,7 +178,8 @@
       <workItem from="1684755372679" duration="4311000" />
       <workItem from="1684820736825" duration="2281000" />
       <workItem from="1684823431210" duration="740000" />
-      <workItem from="1684824254820" duration="1889000" />
+      <workItem from="1684824254820" duration="3631000" />
+      <workItem from="1684837140560" duration="587000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1684230880381</created>
@@ -251,7 +237,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684756207159</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="category firstApi done">
+      <created>1684826472157</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1684826472157</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
