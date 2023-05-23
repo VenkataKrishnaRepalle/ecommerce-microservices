@@ -19,7 +19,7 @@ public class SubCategoryDto {
 
     private String image;
 
-    private Boolean is_enabled;
+    private Boolean isEnabled;
 
     private Category category;
 

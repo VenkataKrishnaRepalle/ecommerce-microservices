@@ -4,23 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91f139f6-c6cb-4f57-a8be-21c2447f97b2" name="Changes" comment="Brand save and delete done">
+    <list default="true" id="91f139f6-c6cb-4f57-a8be-21c2447f97b2" name="Changes" comment="category firstApi done">
+      <change afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/mapper/CategoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/mapper/SubCategoryMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values.s" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat.values.s" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat_i" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9b9cf23-7f3a-47b8-aa6a-b893eeb6a2bd/entities/entities.dat_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/spring6-ecommerce-brand.iml" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/spring6-ecommerce-brand.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/entity/Brand.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/entity/Brand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/bootstrap/Bootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/bootstrap/Bootstrap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/CategoryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/CategoryDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/ChildCategoryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/SubCategoryDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/dto/ParentCategoryDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/ChildCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/SubCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/entity/ParentCategory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/repository/ChildCategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/repository/SubCategoryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/repository/ParentCategoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/service/BrandServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-brand/src/main/java/com/spring6/ecommerce/service/BrandServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/service/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring6-ecommerce-category/src/main/java/com/spring6/ecommerce/service/CategoryServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +29,9 @@
         <option value="HTTP Public Environment File" />
         <option value="HTTP Private Environment File" />
         <option value="JUnit5 Test Class" />
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -69,6 +66,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
@@ -78,7 +76,7 @@
     <property name="project.structure.side.proportion" value="0.25273633" />
     <property name="rest.client.default.execution.environment" value="dev" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -106,27 +104,14 @@
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.Spring6EcommerceCategoryApplication">
+    <configuration name="generated-requests#3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="3" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="rest-api#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/rest-api.http" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="rest-api#2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/rest-api.http" index="2" runType="Run single request">
       <method v="2" />
-    </configuration>
-    <configuration name="BrandRepositoryTest.testCreateBrand" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="spring6-ecommerce-brand" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.spring6.ecommerce.repository.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.spring6.ecommerce.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.spring6.ecommerce.repository.BrandRepositoryTest" />
-      <option name="METHOD_NAME" value="testCreateBrand" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration name="CategoryRepositoryTest.testCreateRootCategory" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="spring6-ecommerce-category" />
@@ -172,18 +157,18 @@
     <list>
       <item itemvalue="HTTP Request.rest-api#1" />
       <item itemvalue="HTTP Request.rest-api#2" />
-      <item itemvalue="JUnit.BrandRepositoryTest.testCreateBrand" />
       <item itemvalue="JUnit.CategoryRepositoryTest.testCreateRootCategory" />
       <item itemvalue="Spring Boot.Spring6EcommerceCategoryApplication" />
       <item itemvalue="Spring Boot.Spring6EcommerceBrandApplication" />
+      <item itemvalue="HTTP Request.generated-requests#3" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.generated-requests#3" />
         <item itemvalue="Spring Boot.Spring6EcommerceBrandApplication" />
         <item itemvalue="HTTP Request.rest-api#2" />
         <item itemvalue="HTTP Request.rest-api#1" />
         <item itemvalue="JUnit.CategoryRepositoryTest.testCreateRootCategory" />
-        <item itemvalue="JUnit.BrandRepositoryTest.testCreateBrand" />
       </list>
     </recent_temporary>
   </component>
@@ -206,6 +191,9 @@
       <workItem from="1684428380296" duration="59000" />
       <workItem from="1684747009159" duration="25000" />
       <workItem from="1684755372679" duration="4311000" />
+      <workItem from="1684820736825" duration="2281000" />
+      <workItem from="1684823431210" duration="740000" />
+      <workItem from="1684824254820" duration="1889000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1684230880381</created>
@@ -287,6 +275,7 @@
     <MESSAGE value="gitignore" />
     <MESSAGE value="category issue resolved" />
     <MESSAGE value="Brand save and delete done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Brand save and delete done" />
+    <MESSAGE value="category firstApi done" />
+    <option name="LAST_COMMIT_MESSAGE" value="category firstApi done" />
   </component>
 </project>

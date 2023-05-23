@@ -23,7 +23,7 @@ public class BrandServiceImpl implements BrandService {
         return brandRepository.findAll()
                 .stream()
                 .map(brandMapper::brandToBrandDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

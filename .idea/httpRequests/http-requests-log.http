@@ -1,3 +1,17 @@
+GET http://localhost:1000/category/list
+
+<> 2023-05-23T123601.200.json
+
+###
+
+GET http://localhost:1000/category/list
+
+###
+
+GET http://localhost:1000/category/list
+
+###
+
 POST http://localhost:1001/brand/save
 Content-Type: application/json
 
