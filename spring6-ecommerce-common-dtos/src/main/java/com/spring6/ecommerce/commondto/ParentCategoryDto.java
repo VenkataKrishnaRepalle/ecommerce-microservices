@@ -1,15 +1,11 @@
-package com.spring6.ecommerce.dto;
-
-import com.spring6.ecommerce.entity.Category;
+package com.spring6.ecommerce.commondto;
 import lombok.Builder;
 import lombok.Data;
-
-
 import java.util.UUID;
 
-@Data
 @Builder
-public class SubCategoryDto {
+@Data
+public class ParentCategoryDto {
 
     private UUID id;
 
@@ -20,7 +16,5 @@ public class SubCategoryDto {
     private String image;
 
     private Boolean isEnabled;
-
-    private Category category;
 
 }

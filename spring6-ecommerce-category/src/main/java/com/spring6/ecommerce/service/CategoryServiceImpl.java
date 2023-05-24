@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.dto.CategoryDto;
+import com.spring6.ecommerce.commondto.CategoryDto;
 import com.spring6.ecommerce.mapper.CategoryMapper;
 import com.spring6.ecommerce.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,14 +11,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-    private final CategoryRepository categoryRepository;
-    private final CategoryMapper categoryMapper;
-
+    private final CategoryRepository subCategoryRepository;
+    private final CategoryMapper subCategoryMapper;
 
     public List<CategoryDto> listAll() {
-        return categoryRepository.findAll()
+        return subCategoryRepository.findAll()
                 .stream()
-                .map(categoryMapper::categoryToCategoryDto)
+                .map(subCategoryMapper::subCategoryToSubCategoryDto)
                 .toList();
     }
 }

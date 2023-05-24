@@ -1,9 +1,9 @@
 package com.spring6.ecommerce.bootstrap;
 
+import com.spring6.ecommerce.entity.PatentCategory;
 import com.spring6.ecommerce.entity.Category;
-import com.spring6.ecommerce.entity.SubCategory;
+import com.spring6.ecommerce.repository.ParentCategoryRepository;
 import com.spring6.ecommerce.repository.CategoryRepository;
-import com.spring6.ecommerce.repository.SubCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class Bootstrap implements CommandLineRunner {
+    private final ParentCategoryRepository parentCategoryRepository;
     private final CategoryRepository categoryRepository;
-    private final SubCategoryRepository subCategoryRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -20,14 +20,14 @@ public class Bootstrap implements CommandLineRunner {
     }
 
     private void loadCategoryAndSubCategoryData() {
-        if (categoryRepository.count() == 0) {
-            Category computer = categoryRepository.save(Category.builder()
+        if (parentCategoryRepository.count() == 0) {
+            PatentCategory computer = parentCategoryRepository.save(PatentCategory.builder()
                     .name("Computer")
                     .alias("Computer")
                     .image("Computer.png")
                     .isEnabled(Boolean.TRUE)
                     .build());
-            Category electronics = categoryRepository.save(Category.builder()
+            PatentCategory electronics = parentCategoryRepository.save(PatentCategory.builder()
                     .name("Electronics")
                     .alias("Electronics")
                     .image("Electronics.png")
@@ -35,34 +35,34 @@ public class Bootstrap implements CommandLineRunner {
                     .build());
 
 
-            subCategoryRepository.save(SubCategory.builder()
+            categoryRepository.save(Category.builder()
                     .name("Desktops")
                     .alias("Desktops")
                     .image("Desktops.png")
-                    .category(computer)
+                    .patentCategory(computer)
                     .isEnabled(Boolean.TRUE)
                     .build());
-            subCategoryRepository.save(SubCategory.builder()
+            categoryRepository.save(Category.builder()
                     .name("Laptops")
                     .alias("Laptops")
                     .image("Laptops.png")
-                    .category(computer)
+                    .patentCategory(computer)
                     .isEnabled(Boolean.TRUE)
                     .build());
 
-            subCategoryRepository.save(SubCategory.builder()
+            categoryRepository.save(Category.builder()
                     .name("Cameras")
                     .alias("Cameras")
                     .image("Cameras.png")
-                    .category(electronics)
+                    .patentCategory(electronics)
                     .isEnabled(Boolean.TRUE)
                     .build());
 
-            subCategoryRepository.save(SubCategory.builder()
+            categoryRepository.save(Category.builder()
                     .name("SmartPhones")
                     .alias("Smart Phones")
                     .image("SmartPhones.png")
-                    .category(electronics)
+                    .patentCategory(electronics)
                     .isEnabled(Boolean.TRUE)
                     .build());
         }

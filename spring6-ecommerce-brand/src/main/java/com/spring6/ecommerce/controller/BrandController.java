@@ -1,10 +1,12 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.dto.BrandDto;
+import com.spring6.ecommerce.commondto.BrandDto;
+import com.spring6.ecommerce.feign.CategoryServiceFeignClient;
 import com.spring6.ecommerce.service.BrandService;
 import com.spring6.ecommerce.utils.FileUploadUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +32,15 @@ public class BrandController {
 
     private final BrandService brandService;
 
+    @Autowired
+    private CategoryServiceFeignClient categoryServiceClient;
+
     /**
      * @return List<BrandDto>
      */
     @GetMapping("list")
     public List<BrandDto> listAll() {
+        System.out.println(categoryServiceClient.listAll());
         return brandService.listAll();
     }
 

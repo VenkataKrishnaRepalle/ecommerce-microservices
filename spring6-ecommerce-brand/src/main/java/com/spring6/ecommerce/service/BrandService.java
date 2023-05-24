@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.dto.BrandDto;
+import com.spring6.ecommerce.commondto.BrandDto;
 
 import java.util.List;
 import java.util.UUID;

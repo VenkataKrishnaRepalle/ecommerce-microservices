@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.dto.BrandDto;
+import com.spring6.ecommerce.commondto.BrandDto;
 import com.spring6.ecommerce.entity.Brand;
 import com.spring6.ecommerce.exception.BrandNotFoundException;
 import com.spring6.ecommerce.mapper.BrandMapper;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

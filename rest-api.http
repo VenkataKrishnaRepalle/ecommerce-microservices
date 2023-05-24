@@ -19,4 +19,8 @@ Content-Type: application/json
 
 
 # Category API
+###
+GET {{url}}1000/category/list
+Accept: application/json
+
 # Product API

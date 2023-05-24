@@ -34,6 +34,9 @@ public class Brand {
     @Column(nullable = false, length = 128)
     private String logo;
 
+    @Column(name = "category_id", nullable = false, updatable = false)
+    private UUID categoryId;
+
     @CreationTimestamp
     private Instant createdOn;
 

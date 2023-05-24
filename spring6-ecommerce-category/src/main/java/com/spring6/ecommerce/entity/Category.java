@@ -19,8 +19,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "category")
+@Table(name = "sub_category")
 public class Category {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -40,9 +41,15 @@ public class Category {
     @Column(name = "is_enabled")
     private Boolean isEnabled;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_category_id", nullable = false)
+    private PatentCategory patentCategory;
+
     @CreationTimestamp
     private Instant createdOn;
 
     @UpdateTimestamp
     private Instant lastUpdatedOn;
+
+
 }
