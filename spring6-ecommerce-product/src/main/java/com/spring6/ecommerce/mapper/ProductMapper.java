@@ -1,12 +1,23 @@
 package com.spring6.ecommerce.mapper;
 
-import com.spring6.ecommerce.dto.ProductDto;
+import com.spring6.ecommerce.commondto.ProductFindResponseDto;
+import com.spring6.ecommerce.dto.ProductCreateRequestDto;
+import com.spring6.ecommerce.dto.ProductCreateResponseDto;
+import com.spring6.ecommerce.dto.ProductUpdateRequestDto;
+import com.spring6.ecommerce.dto.ProductUpdateResponseDto;
 import com.spring6.ecommerce.entity.Product;
 import org.mapstruct.Mapper;
 
 @Mapper
 public interface ProductMapper {
-    Product productDtoToProduct(ProductDto productDto);
 
-    ProductDto productToProductDto(Product product);
+    ProductFindResponseDto productToProductFindResponseDto(Product product);
+
+//    Product productCreateRequestDtoToProduct(ProductCreateRequestDto productCreateRequestDto);
+//
+//    ProductCreateResponseDto productToProductCreateResponseDto(Product product);
+//
+//    Product productUpdateRequestDtoToProduct(ProductUpdateRequestDto productUpdateRequestDto);
+//
+//    ProductUpdateResponseDto productToProductUpdateResponseDto(Product product);
 }
