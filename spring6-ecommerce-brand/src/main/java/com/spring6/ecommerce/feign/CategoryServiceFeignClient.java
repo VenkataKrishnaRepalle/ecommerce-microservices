@@ -1,5 +1,6 @@
 package com.spring6.ecommerce.feign;
 
+import com.spring6.ecommerce.commondto.CategoryFindResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -9,5 +10,5 @@ import java.util.List;
 public interface CategoryServiceFeignClient {
 
     @GetMapping("category/list")
-    List<CategoryDto> listAll();
+    List<CategoryFindResponseDto> listAll();
 }

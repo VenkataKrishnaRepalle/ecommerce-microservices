@@ -1,6 +1,10 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.commondto.BrandDto;
+import com.spring6.ecommerce.commondto.BrandFineResponesDto;
+import com.spring6.ecommerce.dto.BrandCreateRequestDto;
+import com.spring6.ecommerce.dto.BrandCreateResponseDto;
+import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
+import com.spring6.ecommerce.dto.BrandUpdateResponseDto;
 import com.spring6.ecommerce.entity.Brand;
 import com.spring6.ecommerce.exception.BrandNotFoundException;
 import com.spring6.ecommerce.mapper.BrandMapper;
@@ -18,28 +22,33 @@ public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
 
-    public List<BrandDto> listAll() {
+    public List<BrandFineResponesDto> listAll() {
         return brandRepository.findAll()
                 .stream()
-                .map(brandMapper::brandToBrandDto)
+                .map(brandMapper::brandToBrandFineResponesDto)
                 .toList();
     }
 
     @Override
-    public BrandDto save(BrandDto brandDto) {
-        return brandMapper.brandToBrandDto(brandRepository.save(brandMapper.brandDtoToBrand(brandDto)));
+    public BrandFineResponesDto getById(UUID id) throws BrandNotFoundException {
+        Optional<Brand> optionalBrand = brandRepository.findById(id);
+
+        if (optionalBrand.isPresent()) {
+            return brandMapper.brandToBrandFineResponesDto(optionalBrand.get());
+        }
+
+        throw new BrandNotFoundException("Could not find any brand with ID : " + id);
+    }
+
+    @Override
+    public BrandCreateResponseDto save(BrandCreateRequestDto brandCreateRequestDto) {
+        return brandMapper.brandToBrandCreateResponseDto(brandRepository.save(brandMapper.brandCreateRequestDtoToBrand(brandCreateRequestDto)));
 
     }
 
     @Override
-    public BrandDto getById(UUID id) throws BrandNotFoundException {
-        Optional<Brand> optionalBrand = brandRepository.findById(id);
-
-        if (optionalBrand.isPresent()) {
-            return brandMapper.brandToBrandDto(optionalBrand.get());
-        }
-
-        throw new BrandNotFoundException("Could not find any brand with ID : " + id);
+    public BrandUpdateResponseDto update(BrandUpdateRequestDto brandCreateRequestDto) {
+        return null;
     }
 
     @Override

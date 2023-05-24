@@ -1,4 +1,4 @@
-package com.spring6.ecommerce.commondto;
+package com.spring6.ecommerce.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class BrandDto {
+public class BrandUpdateRequestDto {
     private UUID id;
     @NotBlank
     @Size(min = 2, max = 45)

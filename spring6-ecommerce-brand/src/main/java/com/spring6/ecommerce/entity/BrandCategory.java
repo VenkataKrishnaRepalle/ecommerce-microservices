@@ -27,6 +27,9 @@ public class BrandCategory {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(nullable = false)
     private UUID brandId;
+
+    @Column(nullable = false)
     private UUID categoryId;
 }

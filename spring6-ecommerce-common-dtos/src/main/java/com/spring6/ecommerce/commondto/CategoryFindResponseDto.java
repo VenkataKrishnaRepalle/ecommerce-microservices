@@ -18,5 +18,5 @@ public class CategoryFindResponseDto {
 
     private Boolean isEnabled;
 
-    private ParentCategoryDto parentCategory;
+    private ParentCategoryFindResponseDto parentCategory;
 }

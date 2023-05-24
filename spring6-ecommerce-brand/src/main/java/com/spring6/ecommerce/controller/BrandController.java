@@ -1,6 +1,10 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.commondto.BrandDto;
+import com.spring6.ecommerce.commondto.BrandFineResponesDto;
+import com.spring6.ecommerce.dto.BrandCreateRequestDto;
+import com.spring6.ecommerce.dto.BrandCreateResponseDto;
+import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
+import com.spring6.ecommerce.dto.BrandUpdateResponseDto;
 import com.spring6.ecommerce.feign.CategoryServiceFeignClient;
 import com.spring6.ecommerce.service.BrandService;
 import com.spring6.ecommerce.utils.FileUploadUtils;
@@ -11,14 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -35,41 +32,33 @@ public class BrandController {
     @Autowired
     private CategoryServiceFeignClient categoryServiceClient;
 
-    /**
-     * @return List<BrandDto>
-     */
     @GetMapping("list")
-    public List<BrandDto> listAll() {
+    public List<BrandFineResponesDto> listAll() {
         System.out.println(categoryServiceClient.listAll());
         return brandService.listAll();
     }
+
     @GetMapping("{brandId}")
-    public BrandDto getById(@PathVariable final UUID brandId) {
+    public BrandFineResponesDto getById(@PathVariable final UUID brandId) {
         return brandService.getById(brandId);
     }
 
-    /**
-     * @param brandDto
-     * @param multipartFile
-     * @return ResponseEntity<HttpHeaders>
-     * @throws IOException
-     */
     @PostMapping("save")
     public ResponseEntity<HttpHeaders> saveBrand(
-            @RequestBody @Valid final BrandDto brandDto,
+            @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto,
             @RequestParam("fileImage") final MultipartFile multipartFile)
             throws IOException {
 
         if (!multipartFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            brandDto.setLogo(fileName);
+            brandCreateRequestDto.setLogo(fileName);
 
             String uploadDir = "../brand-logos";
 
             FileUploadUtils.cleanDir(uploadDir);
             FileUploadUtils.saveFile(uploadDir, fileName, multipartFile);
         }
-        BrandDto savedBrandDto = brandService.save(brandDto);
+        BrandCreateResponseDto savedBrandDto = brandService.save(brandCreateRequestDto);
 
 
         HttpHeaders headers = new HttpHeaders();
@@ -78,11 +67,9 @@ public class BrandController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    public BrandDto update(@RequestBody BrandDto brandDto) {
-        return BrandDto.builder().build();
+    public BrandUpdateResponseDto update(@RequestBody BrandUpdateRequestDto brandDto) {
+        return BrandUpdateResponseDto.builder().build();
     }
-
-
 
     @DeleteMapping("{brandId}")
     public void deleteById(@PathVariable final UUID brandId) {

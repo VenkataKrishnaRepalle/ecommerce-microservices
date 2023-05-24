@@ -1,16 +1,22 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.commondto.BrandDto;
+import com.spring6.ecommerce.commondto.BrandFineResponesDto;
+import com.spring6.ecommerce.dto.BrandCreateRequestDto;
+import com.spring6.ecommerce.dto.BrandCreateResponseDto;
+import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
+import com.spring6.ecommerce.dto.BrandUpdateResponseDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface BrandService {
-    List<BrandDto> listAll();
+    List<BrandFineResponesDto> listAll();
 
-    BrandDto save(BrandDto brandDto);
+    BrandFineResponesDto getById(UUID id);
 
-    BrandDto getById(UUID id);
+    BrandCreateResponseDto save(BrandCreateRequestDto brandCreateRequestDto);
+
+    BrandUpdateResponseDto update(BrandUpdateRequestDto brandCreateRequestDto);
 
     void deleteById(UUID id);
 }
