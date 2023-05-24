@@ -1,6 +1,5 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.commondto.CategoryDto;
 import com.spring6.ecommerce.mapper.CategoryMapper;
 import com.spring6.ecommerce.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;

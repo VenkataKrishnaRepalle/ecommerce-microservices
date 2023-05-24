@@ -3,13 +3,13 @@ package com.spring6.ecommerce.commondto;
 import lombok.Builder;
 import lombok.Data;
 
-
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
 @Builder
-public class CategoryDto {
-
+public class ParentCategoryFindResponseDto {
     private UUID id;
 
     private String name;
@@ -20,6 +20,5 @@ public class CategoryDto {
 
     private Boolean isEnabled;
 
-    private ParentCategoryDto parentCategory;
-
+    private Set<CategoryFindResponseDto> categories = new HashSet<>();
 }

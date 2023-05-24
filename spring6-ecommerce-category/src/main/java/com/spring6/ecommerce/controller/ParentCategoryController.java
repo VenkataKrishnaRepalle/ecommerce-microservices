@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.commondto.ParentCategoryDto;
+import com.spring6.ecommerce.commondto.ParentCategoryFindResponseDto;
 import com.spring6.ecommerce.service.ParentCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +13,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("parent-category")
 public class ParentCategoryController {
-    private final ParentCategoryService categoryService;
+    private final ParentCategoryService parentCategoryService;
 
     @GetMapping("list")
-    public List<ParentCategoryDto> listAll() {
-        return categoryService.listAll();
+    public List<ParentCategoryFindResponseDto> listAll() {
+        return parentCategoryService.listAll();
     }
 }

@@ -1,12 +1,13 @@
 package com.spring6.ecommerce.commondto;
+
 import lombok.Builder;
 import lombok.Data;
+
 import java.util.UUID;
 
-@Builder
 @Data
-public class ParentCategoryDto {
-
+@Builder
+public class CategoryFindResponseDto {
     private UUID id;
 
     private String name;
@@ -17,4 +18,5 @@ public class ParentCategoryDto {
 
     private Boolean isEnabled;
 
+    private ParentCategoryDto parentCategory;
 }

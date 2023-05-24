@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.commondto.ParentCategoryDto;
+import com.spring6.ecommerce.commondto.ParentCategoryFindResponseDto;
 import com.spring6.ecommerce.mapper.ParentCategoryMapper;
 import com.spring6.ecommerce.repository.ParentCategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class ParentCategoryServiceImpl implements ParentCategoryService {
     private final ParentCategoryMapper categoryMapper;
 
 
-    public List<ParentCategoryDto> listAll() {
+    public List<ParentCategoryFindResponseDto> listAll() {
         return categoryRepository.findAll()
                 .stream()
                 .map(categoryMapper::categoryToCategoryDto)

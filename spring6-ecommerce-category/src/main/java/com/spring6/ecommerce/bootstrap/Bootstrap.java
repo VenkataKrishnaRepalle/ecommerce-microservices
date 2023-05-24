@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.bootstrap;
 
-import com.spring6.ecommerce.entity.PatentCategory;
+import com.spring6.ecommerce.entity.ParentCategory;
 import com.spring6.ecommerce.entity.Category;
 import com.spring6.ecommerce.repository.ParentCategoryRepository;
 import com.spring6.ecommerce.repository.CategoryRepository;
@@ -21,13 +21,13 @@ public class Bootstrap implements CommandLineRunner {
 
     private void loadCategoryAndSubCategoryData() {
         if (parentCategoryRepository.count() == 0) {
-            PatentCategory computer = parentCategoryRepository.save(PatentCategory.builder()
+            ParentCategory computer = parentCategoryRepository.save(ParentCategory.builder()
                     .name("Computer")
                     .alias("Computer")
                     .image("Computer.png")
                     .isEnabled(Boolean.TRUE)
                     .build());
-            PatentCategory electronics = parentCategoryRepository.save(PatentCategory.builder()
+            ParentCategory electronics = parentCategoryRepository.save(ParentCategory.builder()
                     .name("Electronics")
                     .alias("Electronics")
                     .image("Electronics.png")
@@ -39,14 +39,14 @@ public class Bootstrap implements CommandLineRunner {
                     .name("Desktops")
                     .alias("Desktops")
                     .image("Desktops.png")
-                    .patentCategory(computer)
+                    .parentCategory(computer)
                     .isEnabled(Boolean.TRUE)
                     .build());
             categoryRepository.save(Category.builder()
                     .name("Laptops")
                     .alias("Laptops")
                     .image("Laptops.png")
-                    .patentCategory(computer)
+                    .parentCategory(computer)
                     .isEnabled(Boolean.TRUE)
                     .build());
 
@@ -54,7 +54,7 @@ public class Bootstrap implements CommandLineRunner {
                     .name("Cameras")
                     .alias("Cameras")
                     .image("Cameras.png")
-                    .patentCategory(electronics)
+                    .parentCategory(electronics)
                     .isEnabled(Boolean.TRUE)
                     .build());
 
@@ -62,7 +62,7 @@ public class Bootstrap implements CommandLineRunner {
                     .name("SmartPhones")
                     .alias("Smart Phones")
                     .image("SmartPhones.png")
-                    .patentCategory(electronics)
+                    .parentCategory(electronics)
                     .isEnabled(Boolean.TRUE)
                     .build());
         }

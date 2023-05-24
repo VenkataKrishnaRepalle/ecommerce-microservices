@@ -1,12 +1,12 @@
 package com.spring6.ecommerce.mapper;
 
-import com.spring6.ecommerce.commondto.ParentCategoryDto;
-import com.spring6.ecommerce.entity.PatentCategory;
+import com.spring6.ecommerce.commondto.ParentCategoryFindResponseDto;
+import com.spring6.ecommerce.entity.ParentCategory;
 import org.mapstruct.Mapper;
 
 @Mapper
 public interface ParentCategoryMapper {
-    PatentCategory categoryDtoToCategory(ParentCategoryDto categoryDto);
+    ParentCategory categoryDtoToCategory(ParentCategoryDto categoryDto);
 
-    ParentCategoryDto categoryToCategoryDto(PatentCategory category);
+    ParentCategoryFindResponseDto parentCategoryToParentCategoryFindResponseDto(ParentCategory category);
 }

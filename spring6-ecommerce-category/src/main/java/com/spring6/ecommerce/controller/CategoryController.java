@@ -1,6 +1,5 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.commondto.CategoryDto;
 import com.spring6.ecommerce.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

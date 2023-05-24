@@ -19,7 +19,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "sub_category")
 public class Category {
 
     @Id
@@ -41,15 +40,15 @@ public class Category {
     @Column(name = "is_enabled")
     private Boolean isEnabled;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_category_id", nullable = false)
-    private PatentCategory patentCategory;
-
     @CreationTimestamp
     private Instant createdOn;
 
     @UpdateTimestamp
     private Instant lastUpdatedOn;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_category_id", nullable = false)
+    private ParentCategory parentCategory;
 
 
 }

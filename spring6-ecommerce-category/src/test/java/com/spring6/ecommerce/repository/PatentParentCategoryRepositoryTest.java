@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.repository;
 
-import com.spring6.ecommerce.entity.PatentCategory;
+import com.spring6.ecommerce.entity.ParentCategory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,7 +16,7 @@ public class PatentParentCategoryRepositoryTest {
     public void testCreateRootCategory() {
 
 
-        PatentCategory savedCategory = categoryRepository.save(PatentCategory.builder()
+        ParentCategory savedCategory = categoryRepository.save(ParentCategory.builder()
                 .name("Computer")
                 .alias("Computer")
                 .image("defalut.png")
