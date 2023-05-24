@@ -16,7 +16,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "brands")
+@Table(name = "brand")
 @Data
 @Builder
 @AllArgsConstructor

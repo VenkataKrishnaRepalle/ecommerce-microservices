@@ -43,6 +43,10 @@ public class BrandController {
         System.out.println(categoryServiceClient.listAll());
         return brandService.listAll();
     }
+    @GetMapping("{brandId}")
+    public BrandDto getById(@PathVariable final UUID brandId) {
+        return brandService.getById(brandId);
+    }
 
     /**
      * @param brandDto
@@ -51,7 +55,7 @@ public class BrandController {
      * @throws IOException
      */
     @PostMapping("save")
-    public ResponseEntity<HttpHeaders> save(
+    public ResponseEntity<HttpHeaders> saveBrand(
             @RequestBody @Valid final BrandDto brandDto,
             @RequestParam("fileImage") final MultipartFile multipartFile)
             throws IOException {
@@ -74,10 +78,11 @@ public class BrandController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @GetMapping("{brandId}")
-    public BrandDto getById(@PathVariable final UUID brandId) {
-        return brandService.getById(brandId);
+    public BrandDto update(@RequestBody BrandDto brandDto) {
+        return BrandDto.builder().build();
     }
+
+
 
     @DeleteMapping("{brandId}")
     public void deleteById(@PathVariable final UUID brandId) {
