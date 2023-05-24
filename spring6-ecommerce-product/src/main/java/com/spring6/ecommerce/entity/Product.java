@@ -11,8 +11,7 @@ import org.hibernate.type.SqlTypes;
 import java.util.Date;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -52,7 +51,13 @@ public class Product {
 
     private Float width;
 
+    private Float weight;
+
     private Float height;
+
+    private UUID categoryId;
+
+    private UUID brandId;
 
     private Boolean isEnabled;
 

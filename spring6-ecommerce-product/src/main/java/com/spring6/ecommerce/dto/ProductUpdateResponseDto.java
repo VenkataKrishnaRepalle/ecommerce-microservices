@@ -1,15 +1,14 @@
 package com.spring6.ecommerce.dto;
 
-
-import com.spring6.ecommerce.entity.Brand;
-import com.spring6.ecommerce.entity.Category;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.UUID;
 
 @Data
-public class ProductDto {
+@Builder
+public class ProductUpdateResponseDto {
 
     private UUID id;
 
@@ -37,9 +36,9 @@ public class ProductDto {
 
     private Float weight;
 
-    private Category category;
+    private UUID categoryId;
 
-    private Brand brand;
+    private UUID brandId;
 
     private Boolean enabled;
 
