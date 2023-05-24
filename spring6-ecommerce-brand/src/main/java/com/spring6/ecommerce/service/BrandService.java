@@ -10,11 +10,12 @@ import java.util.List;
 import java.util.UUID;
 
 public interface BrandService {
-    List<BrandFineResponesDto> listAll();
+    List<BrandFineResponesDto> findAll();
+    List<BrandFineResponesDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
+    BrandFineResponesDto findById(UUID id);
+    Boolean isNameExist(String name);
 
-    BrandFineResponesDto getById(UUID id);
-
-    BrandCreateResponseDto save(BrandCreateRequestDto brandCreateRequestDto);
+    BrandCreateResponseDto create(BrandCreateRequestDto brandCreateRequestDto);
 
     BrandUpdateResponseDto update(BrandUpdateRequestDto brandCreateRequestDto);
 

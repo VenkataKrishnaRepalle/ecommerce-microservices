@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -23,17 +22,14 @@ public class BootstrapData implements CommandLineRunner {
             brandRepository.save(Brand.builder()
                     .name("Acer")
                     .logo("Acer.png")
-                    .categoryId(UUID.randomUUID())
                     .build());
             brandRepository.save(Brand.builder()
                     .name("Samsung")
                     .logo("Samsung.png")
-                    .categoryId(UUID.randomUUID())
                     .build());
             brandRepository.save(Brand.builder()
                     .name("Canon")
                     .logo("Canon.png")
-                    .categoryId(UUID.randomUUID())
                     .build());
         }
     }

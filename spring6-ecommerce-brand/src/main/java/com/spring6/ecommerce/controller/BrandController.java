@@ -5,10 +5,13 @@ import com.spring6.ecommerce.dto.BrandCreateRequestDto;
 import com.spring6.ecommerce.dto.BrandCreateResponseDto;
 import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
 import com.spring6.ecommerce.dto.BrandUpdateResponseDto;
+import com.spring6.ecommerce.exception.BrandNameAlreadyExistException;
 import com.spring6.ecommerce.feign.CategoryServiceFeignClient;
 import com.spring6.ecommerce.service.BrandService;
 import com.spring6.ecommerce.utils.FileUploadUtils;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Null;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -32,22 +35,33 @@ public class BrandController {
     @Autowired
     private CategoryServiceFeignClient categoryServiceClient;
 
+    @GetMapping("page/{pageNumber}")
+    public List<BrandFineResponesDto> findByPage(@PathVariable(name = "pageNumber") int pageNumber,
+                                                 @RequestParam("sortField") String sortField,
+                                                 @RequestParam("sortDir") String sortDir,
+                                                 @RequestParam("keyword") String keyword) {
+        return brandService.findByPage(pageNumber, sortField, sortDir, keyword);
+    }
+
     @GetMapping("list")
-    public List<BrandFineResponesDto> listAll() {
-        System.out.println(categoryServiceClient.listAll());
-        return brandService.listAll();
+    public List<BrandFineResponesDto> findAll() {
+        return brandService.findAll();
     }
 
     @GetMapping("{brandId}")
     public BrandFineResponesDto getById(@PathVariable final UUID brandId) {
-        return brandService.getById(brandId);
+        return brandService.findById(brandId);
     }
 
-    @PostMapping("save")
-    public ResponseEntity<HttpHeaders> saveBrand(
+    @PostMapping("create")
+    public ResponseEntity<HttpHeaders> create(
             @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto,
             @RequestParam("fileImage") final MultipartFile multipartFile)
-            throws IOException {
+            throws IOException, BrandNameAlreadyExistException {
+
+        if (brandService.isNameExist(brandCreateRequestDto.getName())) {
+            throw new BrandNameAlreadyExistException("Brand name :" + brandCreateRequestDto.getName() + " already exist");
+        }
 
         if (!multipartFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -58,7 +72,9 @@ public class BrandController {
             FileUploadUtils.cleanDir(uploadDir);
             FileUploadUtils.saveFile(uploadDir, fileName, multipartFile);
         }
-        BrandCreateResponseDto savedBrandDto = brandService.save(brandCreateRequestDto);
+
+
+        BrandCreateResponseDto savedBrandDto = brandService.create(brandCreateRequestDto);
 
 
         HttpHeaders headers = new HttpHeaders();
@@ -67,7 +83,8 @@ public class BrandController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    public BrandUpdateResponseDto update(@RequestBody BrandUpdateRequestDto brandDto) {
+    @PatchMapping("update/{id}")
+    public BrandUpdateResponseDto update(@PathVariable UUID id, @RequestBody BrandUpdateRequestDto brandDto) {
         return BrandUpdateResponseDto.builder().build();
     }
 
