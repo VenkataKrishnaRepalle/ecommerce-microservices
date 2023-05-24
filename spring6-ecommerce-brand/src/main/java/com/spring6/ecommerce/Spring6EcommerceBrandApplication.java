@@ -8,7 +8,6 @@ import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 
 @SpringBootApplication
 @EnableFeignClients("com.spring6.ecommerce")
-@ImportAutoConfiguration({FeignAutoConfiguration.class})
 public class Spring6EcommerceBrandApplication {
 
     public static void main(String[] args) {
