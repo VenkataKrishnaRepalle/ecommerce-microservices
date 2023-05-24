@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.mapper;
 
-import com.spring6.ecommerce.commondto.ProductFindResponseDto;
+import com.spring6.ecommerce.commonutil.dto.ProductFindResponseDto;
 import com.spring6.ecommerce.entity.Product;
 import org.mapstruct.Mapper;
 

@@ -1,16 +1,8 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.commondto.ProductFindResponseDto;
-import com.spring6.ecommerce.entity.Product;
-import com.spring6.ecommerce.exception.ProductNotFoundException;
-import com.spring6.ecommerce.mapper.ProductMapper;
 import com.spring6.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

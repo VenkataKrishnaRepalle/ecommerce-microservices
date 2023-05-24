@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.commondto.ParentCategoryFindResponseDto;
+import com.spring6.ecommerce.commonutil.dto.ParentCategoryFindResponseDto;
 import com.spring6.ecommerce.service.ParentCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

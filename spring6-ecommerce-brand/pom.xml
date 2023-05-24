@@ -21,7 +21,7 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <springdoc.openapi.version>2.0.4</springdoc.openapi.version>
         <spring-cloud.version>2022.0.1</spring-cloud.version>
-        <common-dtos.version>0.0.1-SNAPSHOT</common-dtos.version>
+        <common-util.version>0.0.1-SNAPSHOT</common-util.version>
         <openfeign.version>4.0.1</openfeign.version>
         <h2.version>2.1.214</h2.version>
 
@@ -71,7 +71,6 @@
             <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
-        <!--		https://springdoc.org/#Introduction-->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -87,17 +86,10 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>${openfeign.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-dependencies</artifactId>-->
-<!--            <version>${spring-cloud.version}</version>-->
-<!--            <type>pom</type>-->
-<!--            <scope>import</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.spring6.ecommerce</groupId>
-            <artifactId>spring6-ecommerce-common-dtos</artifactId>
-            <version>${common-dtos.version}</version>
+            <artifactId>spring6-ecommerce-common-util</artifactId>
+            <version>${common-util.version}</version>
         </dependency>
 
         <dependency>
