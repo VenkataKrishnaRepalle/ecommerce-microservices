@@ -18,13 +18,13 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("list")
-    public List<ProductFindResponseDto> listAllProducts() {
-        return productService.listAll();
-    }
-
-    @GetMapping("getById/{productId}")
-    public ProductFindResponseDto getProductById(@PathVariable UUID productId) {
-        return productService.getProductById(productId);
-    }
+//    @GetMapping("list")
+//    public List<ProductFindResponseDto> listAllProducts() {
+//        return productService.listAll();
+//    }
+//
+//    @GetMapping("getById/{productId}")
+//    public ProductFindResponseDto getProductById(@PathVariable UUID productId) {
+//        return productService.getProductById(productId);
+//    }
 }

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface ProductService {
 
-    List<ProductFindResponseDto> listAll();
-
-    ProductFindResponseDto getProductById(UUID productId);
+//    List<ProductFindResponseDto> listAll();
+//
+//    ProductFindResponseDto getProductById(UUID productId);
 }
