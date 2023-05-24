@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 public class BrandRepositoryTest {
+
     @Autowired
     private BrandRepository brandRepository;
 

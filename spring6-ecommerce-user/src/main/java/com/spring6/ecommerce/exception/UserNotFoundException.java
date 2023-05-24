@@ -4,23 +4,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Value not found!")
-public class BrandNotFoundException extends RuntimeException {
-    public BrandNotFoundException() {
+public class UserNotFoundException extends RuntimeException {
+    public UserNotFoundException() {
     }
 
-    public BrandNotFoundException(String message) {
+    public UserNotFoundException(String message) {
         super(message);
     }
 
-    public BrandNotFoundException(String message, Throwable cause) {
+    public UserNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public BrandNotFoundException(Throwable cause) {
+    public UserNotFoundException(Throwable cause) {
         super(cause);
     }
 
-    public BrandNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public UserNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }
