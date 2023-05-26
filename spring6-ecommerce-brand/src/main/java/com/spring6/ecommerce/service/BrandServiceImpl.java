@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.commondto.BrandFineResponesDto;
+import com.spring6.ecommerce.commonutil.dto.BrandFineResponesDto;
 import com.spring6.ecommerce.dto.BrandCreateRequestDto;
 import com.spring6.ecommerce.dto.BrandCreateResponseDto;
 import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
@@ -9,7 +9,6 @@ import com.spring6.ecommerce.entity.Brand;
 import com.spring6.ecommerce.exception.BrandNotFoundException;
 import com.spring6.ecommerce.mapper.BrandMapper;
 import com.spring6.ecommerce.repository.BrandRepository;
-import com.spring6.ecommerce.utils.FileUploadUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -82,7 +81,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandUpdateResponseDto update(final UUID id, BrandUpdateRequestDto brandCreateRequestDto)
+    public BrandUpdateResponseDto update(final UUID id, BrandUpdateRequestDto brandUpdateRequestDto)
             throws BrandNotFoundException {
         Optional<Brand> optionalBrand = brandRepository.findById(id);
 
@@ -90,7 +89,10 @@ public class BrandServiceImpl implements BrandService {
             throw new BrandNotFoundException("Could not find any brand with ID : " + id);
         }
 
+        Brand brand = brandMapper.brandUpdateRequestDtoToBrand(brandUpdateRequestDto);
+        brand.setId(id);
 
+        return brandMapper.brandToBrandUpdateResponseDto(brandRepository.save(brand));
     }
 
     @Override
@@ -100,9 +102,6 @@ public class BrandServiceImpl implements BrandService {
             throw new BrandNotFoundException("Could not find any brand with ID : " + id);
         }
         brandRepository.deleteById(id);
-
-        String brandDir = "../brand-logos/" + id;
-        FileUploadUtils.removeDir(brandDir);
     }
 
 }

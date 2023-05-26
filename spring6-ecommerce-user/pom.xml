@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.spring6</groupId>
-    <artifactId>spring6-ecommerce-brand</artifactId>
+    <artifactId>spring6-ecommerce-user</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring6-ecommerce-brand</name>
+    <name>spring6-ecommerce-user</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>20</java.version>

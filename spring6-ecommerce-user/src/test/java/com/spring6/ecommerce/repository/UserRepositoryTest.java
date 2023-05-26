@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.repository;
 
-import com.spring6.ecommerce.entity.Brand;
+import com.spring6.ecommerce.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -8,20 +8,19 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class BrandRepositoryTest {
-
+public class UserRepositoryTest {
     @Autowired
-    private BrandRepository brandRepository;
+    private UserRepository userRepository;
 
     @Test
     public void testCreateBrand() {
-        Brand savedBrand = brandRepository.save(Brand.builder()
-                .name("Acer")
-                .logo("Acer.png")
+        User savedUser = userRepository.save(User.builder()
+                .firstName("Acer")
+                .photo("Photo.png")
                 .build());
 
-        assertThat(savedBrand).isNotNull();
-        assertThat(savedBrand.getId()).isNotNull();
+        assertThat(savedUser).isNotNull();
+        assertThat(savedUser.getId()).isNotNull();
 
     }
 

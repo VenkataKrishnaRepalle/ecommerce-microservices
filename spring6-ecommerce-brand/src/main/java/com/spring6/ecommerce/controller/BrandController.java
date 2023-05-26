@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.commondto.BrandFineResponesDto;
+import com.spring6.ecommerce.commonutil.dto.BrandFineResponesDto;
 import com.spring6.ecommerce.dto.BrandCreateRequestDto;
 import com.spring6.ecommerce.dto.BrandCreateResponseDto;
 import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
@@ -10,8 +10,6 @@ import com.spring6.ecommerce.feign.CategoryServiceFeignClient;
 import com.spring6.ecommerce.service.BrandService;
 import com.spring6.ecommerce.utils.FileUploadUtils;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Null;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -88,9 +86,11 @@ public class BrandController {
         return BrandUpdateResponseDto.builder().build();
     }
 
-    @DeleteMapping("{brandId}")
+    @DeleteMapping("delete/{brandId}")
     public void deleteById(@PathVariable final UUID brandId) {
         brandService.deleteById(brandId);
+        String brandDir = "../brand-logos/" + brandId;
+        FileUploadUtils.removeDir(brandDir);
     }
 
 }

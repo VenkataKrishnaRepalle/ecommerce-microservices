@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.mapper;
 
-import com.spring6.ecommerce.commondto.BrandFineResponesDto;
+import com.spring6.ecommerce.commonutil.dto.BrandFineResponesDto;
 import com.spring6.ecommerce.dto.BrandCreateRequestDto;
 import com.spring6.ecommerce.dto.BrandCreateResponseDto;
 import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
