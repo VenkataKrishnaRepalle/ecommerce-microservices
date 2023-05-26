@@ -13,5 +13,5 @@ public class ParentCategoryPaginationResponseDTO {
 
     private Boolean isEnabled;
 
-    private ParentCategoryDto parentCategory;
+//    private ParentCategoryDto parentCategory;
 }

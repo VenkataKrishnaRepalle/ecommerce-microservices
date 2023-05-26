@@ -1,5 +1,6 @@
 package com.spring6.ecommerce.controller;
 
+import com.spring6.ecommerce.commondto.CategoryFindResponseDto;
 import com.spring6.ecommerce.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +13,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("category")
 public class CategoryController {
-    private final CategoryService subCategoryService;
+    private final CategoryService categoryService;
 
     @GetMapping("list")
-    public List<CategoryDto> listAll() {
-        return subCategoryService.listAll();
+    public List<CategoryFindResponseDto> listAll() {
+        return categoryService.listAll();
     }
 }

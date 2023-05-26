@@ -13,5 +13,5 @@ public class CategoryUpdateRequestDto {
 
     private Boolean isEnabled;
 
-    private ParentCategoryDto parentCategory;
+//    private ParentCategoryDto parentCategory;
 }

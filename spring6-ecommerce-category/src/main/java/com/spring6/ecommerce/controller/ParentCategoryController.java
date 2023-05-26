@@ -13,10 +13,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("parent-category")
 public class ParentCategoryController {
-    private final ParentCategoryService parentCategoryService;
-
-    @GetMapping("list")
-    public List<ParentCategoryFindResponseDto> listAll() {
-        return parentCategoryService.listAll();
-    }
+//    private final ParentCategoryService parentCategoryService;
+//
+//    @GetMapping("list")
+//    public List<ParentCategoryFindResponseDto> listAll() {
+//        return parentCategoryService.listAll();
+//    }
 }

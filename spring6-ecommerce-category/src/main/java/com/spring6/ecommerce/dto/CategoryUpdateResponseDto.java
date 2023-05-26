@@ -13,5 +13,5 @@ public class CategoryUpdateResponseDto {
 
     private Boolean isEnabled;
 
-    private ParentCategoryDto parentCategory;
+//    private ParentCategoryDto parentCategory;
 }
