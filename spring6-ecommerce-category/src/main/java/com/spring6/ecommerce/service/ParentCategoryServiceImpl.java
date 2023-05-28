@@ -18,7 +18,7 @@ public class ParentCategoryServiceImpl implements ParentCategoryService {
     public List<ParentCategoryFindResponseDto> listAll() {
         return categoryRepository.findAll()
                 .stream()
-                .map(categoryMapper::categoryToCategoryDto)
+                .map(categoryMapper::parentCategoryToParentCategoryFindResponseDto)
                 .toList();
     }
 }

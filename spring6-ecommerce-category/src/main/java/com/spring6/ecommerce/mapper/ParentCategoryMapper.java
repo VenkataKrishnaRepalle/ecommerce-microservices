@@ -6,5 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface ParentCategoryMapper {
+    ParentCategoryFindResponseDto parentCategoryToParentCategoryFindResponseDto(ParentCategory parentCategory);
 
 }

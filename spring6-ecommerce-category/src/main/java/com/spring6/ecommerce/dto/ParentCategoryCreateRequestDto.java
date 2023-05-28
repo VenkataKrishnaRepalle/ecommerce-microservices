@@ -18,5 +18,4 @@ public class ParentCategoryCreateRequestDto {
 
     private Boolean isEnabled;
 
-//    private Set<CategoryFindResponseDto> categories = new HashSet<>();
 }
