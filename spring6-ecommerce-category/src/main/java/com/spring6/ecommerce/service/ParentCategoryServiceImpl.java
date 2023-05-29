@@ -11,14 +11,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ParentCategoryServiceImpl implements ParentCategoryService {
-    private final ParentCategoryRepository categoryRepository;
-    private final ParentCategoryMapper categoryMapper;
+    private final ParentCategoryRepository parentCategoryRepository;
+    private final ParentCategoryMapper parentCategoryMapper;
 
 
     public List<ParentCategoryFindResponseDto> listAll() {
-        return categoryRepository.findAll()
+        return parentCategoryRepository.findAll()
                 .stream()
-                .map(categoryMapper::parentCategoryToParentCategoryFindResponseDto)
+                .map(parentCategoryMapper::parentCategoryToParentCategoryFindResponseDto)
                 .toList();
     }
 }

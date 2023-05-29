@@ -1,6 +1,10 @@
 package com.spring6.ecommerce.service;
 
 import com.spring6.ecommerce.commonutil.dto.CategoryFindResponseDto;
+import com.spring6.ecommerce.dto.CategoryCreateRequestDto;
+import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
+import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
+import com.spring6.ecommerce.dto.CategoryUpdateResponseDto;
 import com.spring6.ecommerce.entity.Category;
 import com.spring6.ecommerce.exception.CategoryNotFoundException;
 import com.spring6.ecommerce.mapper.CategoryMapper;
@@ -33,6 +37,33 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         throw new CategoryNotFoundException("Category does not exist with ID : " + id);
+    }
+
+    @Override
+    public CategoryUpdateResponseDto updateCategory(final UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto) throws CategoryNotFoundException {
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+        if (!optionalCategory.isPresent()) {
+            throw new CategoryNotFoundException("Category does not exist with ID : " + id);
+        }
+        Category category = categoryMapper.categoryUpdateRequestDtoToCategory(categoryUpdateRequestDto);
+        category.setId(id);
+        return categoryMapper.categoryToCategoryUpdateResponseDto(categoryRepository.save(category));
+    }
+
+    @Override
+    public void deleteCategoryById(UUID categoryId) throws CategoryNotFoundException {
+        Long categoryCountById = categoryRepository.countById(categoryId);
+        if (categoryCountById == 0) {
+            throw new CategoryNotFoundException("Category does not exist with ID : " + categoryId);
+        }
+        categoryRepository.deleteById(categoryId);
+
+    }
+
+    @Override
+    public CategoryCreateResponseDto createCategories(CategoryCreateRequestDto categoryCreateRequestDto) {
+
+        return categoryMapper.categoryToCategoryCreateResponseDto(categoryRepository.save(categoryMapper.categoryCreateRequestDtoToCategory(categoryCreateRequestDto)));
     }
 
 }
