@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class UserFindResponesDto {
+public class UserFindResponseDto {
     private UUID id;
 
     private String firstName;

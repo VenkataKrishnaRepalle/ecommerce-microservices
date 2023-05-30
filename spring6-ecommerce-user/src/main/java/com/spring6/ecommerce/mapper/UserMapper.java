@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface UserMapper {
 
-    UserFindResponesDto userToUserFineResponesDto(User user);
+    UserFindResponseDto userToUserFindResponseDto(User user);
 
     User userCreateRequestDtoToUser(UserCreateRequestDto userCreateRequestDto);
 
