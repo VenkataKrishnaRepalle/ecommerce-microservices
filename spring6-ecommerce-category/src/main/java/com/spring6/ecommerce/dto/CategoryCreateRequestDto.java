@@ -18,6 +18,6 @@ public class CategoryCreateRequestDto {
     private String image;
     @NotNull
     private Boolean isEnabled;
-
-    private ParentCategoryCreateRequestDto parentCategoryCreateRequestDto;
+    @NotNull
+    private UUID parentCategoryUUID;
 }
