@@ -1,28 +1,31 @@
-//package com.spring6.ecommerce;
-//
-//import com.spring6.ecommerce.commondto.BrandDto;
-//import com.spring6.ecommerce.commondto.CategoryDto;
-//import com.spring6.ecommerce.entity.Product;
-//import com.spring6.ecommerce.repository.ProductRepository;
-//import org.assertj.core.api.Assertions;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-//import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-//import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-//import org.springframework.test.annotation.Rollback;
-//
+package com.spring6.ecommerce;
+
+import com.spring6.ecommerce.entity.Product;
+import com.spring6.ecommerce.repository.ProductRepository;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+
+import java.util.UUID;
+
 //@DataJpaTest
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@Rollback(value = false)
-//public class ProductRepositoryTests {
-//
-//    @Autowired
-//    private ProductRepository productRepository;
-//
-//    @Autowired
-//    private TestEntityManager entityManager;
-//
+@ExtendWith(MockitoExtension.class)
+public class ProductRepositoryTests {
+
+    @Mock
+    private ProductRepository productRepository;
+
 //    @Test
 //    public void testCreateProduct() {
 //        BrandDto brandDto = entityManager.find(BrandDto.class, "a3976462-93b7-4303-b504-0e5b0eddb283");
@@ -38,5 +41,20 @@
 //
 //        Assertions.assertThat(savedProduct).isNotNull();
 //    }
-//}
+
+//    @Test
+//    public void testSaveProductImage(){
+//        String productId = "0b1cb4a8-fcf4-4d4f-9350-51e9b03dad9b";
+//        Product product = productRepository.findById(UUID.fromString(productId)).get();
 //
+//        product.setMainImage("main image.jpg");
+//        product.addExtraImage("image -1.jpg");
+//        product.addExtraImage("image-2.jpg");
+//        product.addExtraImage("image-3.jpg");
+//
+//        Product savedProduct = productRepository.save(product);
+//        Assertions.assertThat(savedProduct.getImages().size()).isEqualTo(3);
+//
+//    }
+}
+

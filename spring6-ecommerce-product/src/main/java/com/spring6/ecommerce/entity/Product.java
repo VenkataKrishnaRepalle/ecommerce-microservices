@@ -8,7 +8,10 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
+import java.awt.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -20,7 +23,7 @@ import java.util.UUID;
 public class Product {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID",strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
@@ -55,9 +58,15 @@ public class Product {
 
     private Float height;
 
+    @Column(name = "main_image", nullable = false)
+    private String mainImage;
+
     private UUID categoryId;
 
     private UUID brandId;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<ProductImage> images = new HashSet<>();
 
     private Boolean isEnabled;
 
