@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.commonutil.dto.BrandFineResponesDto;
+import com.spring6.ecommerce.common.dto.BrandFindResponesDto;
 import com.spring6.ecommerce.dto.BrandCreateRequestDto;
 import com.spring6.ecommerce.dto.BrandCreateResponseDto;
 import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
@@ -26,14 +26,14 @@ public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
 
-    public List<BrandFineResponesDto> findAll() {
+    public List<BrandFindResponesDto> findAll() {
         return brandRepository.findAll()
                 .stream()
                 .map(brandMapper::brandToBrandFineResponesDto)
                 .toList();
     }
 
-    public List<BrandFineResponesDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword) {
+    public List<BrandFindResponesDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword) {
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("ASC") ? sort.ascending() : sort.descending();
 
@@ -53,7 +53,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandFineResponesDto findById(UUID id) throws BrandNotFoundException {
+    public BrandFindResponesDto findById(UUID id) throws BrandNotFoundException {
         Optional<Brand> optionalBrand = brandRepository.findById(id);
 
         if (optionalBrand.isPresent()) {
@@ -61,15 +61,6 @@ public class BrandServiceImpl implements BrandService {
         }
 
         throw new BrandNotFoundException("Could not find any brand with ID : " + id);
-    }
-
-    @Override
-    public Boolean isNameExist(String name) {
-        Optional<Brand> optionalBrand = brandRepository.findByName(name);
-        if (optionalBrand.isPresent()) {
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
     }
 
     @Override
@@ -90,7 +81,7 @@ public class BrandServiceImpl implements BrandService {
         }
 
         Brand brand = brandMapper.brandUpdateRequestDtoToBrand(brandUpdateRequestDto);
-        brand.setId(id);
+        brand.setId(optionalBrand.get().getId());
 
         return brandMapper.brandToBrandUpdateResponseDto(brandRepository.save(brand));
     }
@@ -102,6 +93,24 @@ public class BrandServiceImpl implements BrandService {
             throw new BrandNotFoundException("Could not find any brand with ID : " + id);
         }
         brandRepository.deleteById(id);
+    }
+
+    @Override
+    public Boolean isNameExist(String name) {
+        Optional<Brand> optionalBrand = brandRepository.findByName(name);
+        if (optionalBrand.isPresent()) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public Boolean isIdExist(UUID uuid) {
+        Optional<Brand> optionalBrand = brandRepository.findById(uuid);
+        if (optionalBrand.isPresent()) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.commonutil.dto.ParentCategoryFindResponseDto;
+import com.spring6.ecommerce.common.dto.ParentCategoryFindResponseDto;
 import com.spring6.ecommerce.mapper.ParentCategoryMapper;
 import com.spring6.ecommerce.repository.ParentCategoryRepository;
 import lombok.RequiredArgsConstructor;

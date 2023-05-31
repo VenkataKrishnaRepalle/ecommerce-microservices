@@ -1,4 +1,4 @@
-package com.spring6.ecommerce.commonutil.dto;
+package com.spring6.ecommerce.common.dto;
 
 import lombok.Builder;
 import lombok.Data;

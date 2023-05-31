@@ -1,6 +1,7 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.commonutil.dto.BrandFineResponesDto;
+import com.spring6.ecommerce.common.dto.BrandFindResponesDto;
+import com.spring6.ecommerce.common.utils.FileUploadUtils;
 import com.spring6.ecommerce.dto.BrandCreateRequestDto;
 import com.spring6.ecommerce.dto.BrandCreateResponseDto;
 import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
@@ -8,8 +9,9 @@ import com.spring6.ecommerce.dto.BrandUpdateResponseDto;
 import com.spring6.ecommerce.exception.BrandNameAlreadyExistException;
 import com.spring6.ecommerce.feign.CategoryServiceFeignClient;
 import com.spring6.ecommerce.service.BrandService;
-import com.spring6.ecommerce.utils.FileUploadUtils;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +36,7 @@ public class BrandController {
     private CategoryServiceFeignClient categoryServiceClient;
 
     @GetMapping("page/{pageNumber}")
-    public List<BrandFineResponesDto> findByPage(@PathVariable(name = "pageNumber") int pageNumber,
+    public List<BrandFindResponesDto> findByPage(@PathVariable(name = "pageNumber") int pageNumber,
                                                  @RequestParam("sortField") String sortField,
                                                  @RequestParam("sortDir") String sortDir,
                                                  @RequestParam("keyword") String keyword) {
@@ -42,44 +44,55 @@ public class BrandController {
     }
 
     @GetMapping("list")
-    public List<BrandFineResponesDto> findAll() {
+    public List<BrandFindResponesDto> findAll() {
         return brandService.findAll();
     }
 
     @GetMapping("{brandId}")
-    public BrandFineResponesDto getById(@PathVariable final UUID brandId) {
+    public BrandFindResponesDto getById(@PathVariable final UUID brandId) {
         return brandService.findById(brandId);
     }
 
-    @PostMapping("create")
-    public ResponseEntity<HttpHeaders> create(
-            @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto,
-            @RequestParam("fileImage") final MultipartFile multipartFile)
-            throws IOException, BrandNameAlreadyExistException {
+    @PostMapping(value = "create")
+    public ResponseEntity<HttpStatus> create(
+            @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto)
+            throws BrandNameAlreadyExistException {
 
         if (brandService.isNameExist(brandCreateRequestDto.getName())) {
             throw new BrandNameAlreadyExistException("Brand name :" + brandCreateRequestDto.getName() + " already exist");
         }
 
-        if (!multipartFile.isEmpty()) {
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            brandCreateRequestDto.setLogo(fileName);
-
-            String uploadDir = "../brand-logos";
-
-            FileUploadUtils.cleanDir(uploadDir);
-            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile);
-        }
-
-
         BrandCreateResponseDto savedBrandDto = brandService.create(brandCreateRequestDto);
 
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/brand" + savedBrandDto.getId().toString());
-
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PostMapping("/upload-image")
+    public ResponseEntity<?> uploadImage(
+            @RequestParam @NotNull final UUID brandId,
+            @RequestParam(name = "fileImage", required = true, value = "fileImage") final MultipartFile multipartFile)
+            throws IOException, BrandNameAlreadyExistException {
+
+        if (brandService.isIdExist(brandId)) {
+            throw new BrandNameAlreadyExistException("Brand Not found for brandId :" + brandId);
+        }
+
+        if (!multipartFile.isEmpty()) {
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+            String uploadDir = "spring6-ecommerce-brand/brand-logos";
+
+            FileUploadUtils.cleanDir(uploadDir);
+            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
+//            update file name to brand table
+            //            brandCreateRequestDto.setLogo(fileName);
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
 
     @PatchMapping("update/{id}")
     public BrandUpdateResponseDto update(@PathVariable UUID id, @RequestBody BrandUpdateRequestDto brandDto) {
@@ -89,8 +102,8 @@ public class BrandController {
     @DeleteMapping("delete/{brandId}")
     public void deleteById(@PathVariable final UUID brandId) {
         brandService.deleteById(brandId);
-        String brandDir = "../brand-logos/" + brandId;
-        FileUploadUtils.removeDir(brandDir);
+        String dir = "../brand-logos/" + brandId;
+        FileUploadUtils.removeDir(dir);
     }
 
 }

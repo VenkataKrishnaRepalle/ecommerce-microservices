@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.commonutil.dto.ProductFindResponseDto;
+import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
 import com.spring6.ecommerce.dto.ProductCreateRequestDto;
 import com.spring6.ecommerce.dto.ProductCreateResponseDto;
 import com.spring6.ecommerce.entity.Product;

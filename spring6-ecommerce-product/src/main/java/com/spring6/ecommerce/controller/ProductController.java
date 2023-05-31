@@ -1,10 +1,10 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.commonutil.dto.ProductFindResponseDto;
+import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
+import com.spring6.ecommerce.common.utils.FileUploadUtils;
 import com.spring6.ecommerce.dto.ProductCreateRequestDto;
 import com.spring6.ecommerce.dto.ProductCreateResponseDto;
 import com.spring6.ecommerce.service.ProductService;
-import com.spring6.ecommerce.utils.FileUploadUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -69,7 +68,8 @@ public class ProductController {
             String uploadDir = "../brand-logos";
 
             FileUploadUtils.cleanDir(uploadDir);
-            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile);
+
+            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
         }
         ProductCreateResponseDto savedProduct =
                 productService.addProduct(productCreateRequestDto);

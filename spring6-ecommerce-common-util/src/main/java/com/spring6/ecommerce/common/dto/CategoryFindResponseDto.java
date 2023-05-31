@@ -1,15 +1,13 @@
-package com.spring6.ecommerce.commonutil.dto;
+package com.spring6.ecommerce.common.dto;
 
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Data
 @Builder
-public class ParentCategoryFindResponseDto {
+public class CategoryFindResponseDto {
     private UUID id;
 
     private String name;
@@ -20,5 +18,5 @@ public class ParentCategoryFindResponseDto {
 
     private Boolean isEnabled;
 
-    private Set<CategoryFindResponseDto> categories = new HashSet<>();
+    private ParentCategoryFindResponseDto parentCategory;
 }

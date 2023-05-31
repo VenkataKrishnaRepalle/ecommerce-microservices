@@ -18,5 +18,4 @@ public class BrandUpdateRequestDto {
     @NotBlank
     private String logo;
 
-    private UUID categoryId;
 }

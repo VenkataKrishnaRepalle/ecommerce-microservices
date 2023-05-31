@@ -3,7 +3,7 @@ package com.spring6.ecommerce.controller;
 import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.exception.UsernameAlreadyExistException;
 import com.spring6.ecommerce.service.UserService;
-import com.spring6.ecommerce.utils.FileUploadUtils;
+import com.spring6.ecommerce.common.utils.FileUploadUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -61,7 +61,7 @@ public class UserController {
             String uploadDir = "../brand-logos";
 
             FileUploadUtils.cleanDir(uploadDir);
-            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile);
+            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
         }
 
 
