@@ -1,5 +1,6 @@
 package com.spring6.ecommerce.dto;
 
+import com.spring6.ecommerce.entity.ProductImage;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -25,8 +27,10 @@ public class ProductCreateRequestDto {
     @Size(min = 2, max = 50)
     private String alias;
 
+    @NotNull
     private String shortDescription;
 
+    @NotNull
     private String fullDescription;
 
     @NotNull
@@ -52,11 +56,16 @@ public class ProductCreateRequestDto {
     @NotNull
     private Float weight;
 
+    @Column(nullable = false)
+    private String mainImage;
+
     @NotNull
     private UUID categoryId;
 
     @NotNull
     private UUID brandId;
+
+    private Set<ProductImageDto> images;
 
     @NotNull
     private Boolean enabled;
@@ -65,5 +74,9 @@ public class ProductCreateRequestDto {
     private Date createdTime;
 
     private Date updatedTime;
+
+    public void addExtraImage(String imageName) {
+        this.images.add(new ProductImageDto(imageName, this));
+    }
 
 }

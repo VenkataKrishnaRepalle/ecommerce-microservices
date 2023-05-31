@@ -45,14 +45,13 @@ POST http://localhost:1002/product/addProduct
 Content-Type: application/json
 
 {
-  "name": "Note 5",
-  "alias": "A123",
+  "name": "Note 7",
+  "alias": "A455",
   "shortDescription": "String",
   "fullDescription": "String",
   "inStock": true,
   "cost":12569.0 ,
-  "price": 25698,
-  "discountPercent": 0.0,
+  "price": 12000,
   "length": 1.2,
   "width": 1.5,
   "height": 5.9,
@@ -61,3 +60,11 @@ Content-Type: application/json
   "brandId": "a3976462-93b7-4303-b504-0e5b0eddb283",
   "enabled": true
 }
+
+
+###
+PUT http://localhost:1002/product/update/bb4ff010-fade-41ee-b49b-d1bda72a82bc/enabled/false
+Accept: application/json
+
+###
+DELETE http://localhost:1002/product/delete/bb4ff010-fade-41ee-b49b-d1bda72a82bc
