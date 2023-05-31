@@ -19,9 +19,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    public static final int COUNT_PER_PAGE = 2;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    @Override
     public List<UserFindResponseDto> findAll() {
         return userRepository.findAll()
                 .stream()
@@ -30,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean isUserNameExist(String username) {
+    public Boolean isUsernameExist(String username) {
         Optional<User> optionaluser = userRepository.findByUsername(username);
         if (optionaluser.isPresent()) {
             return Boolean.TRUE;
@@ -46,17 +48,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public static final int COUNT_PER_PAGE = 2;
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
-
-    public List<UserFindResponseDto> findAll() {
-        return userRepository.findAll()
-                .stream()
-                .map(userMapper::userToUserFindResponesDto)
-                .toList();
-    }
-
+    @Override
     public List<UserFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword) {
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("ASC") ? sort.ascending() : sort.descending();
@@ -66,12 +58,12 @@ public class UserServiceImpl implements UserService {
         if (keyword != null) {
             return userRepository.findAll(keyword, pageable)
                     .stream()
-                    .map(userMapper::userToUserFindResponesDto)
+                    .map(userMapper::userToUserFindResponseDto)
                     .toList();
         }
         return userRepository.findAll(pageable)
                 .stream()
-                .map(userMapper::userToUserFindResponesDto)
+                .map(userMapper::userToUserFindResponseDto)
                 .toList();
 
     }
@@ -81,18 +73,14 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (optionalUser.isPresent()) {
-            return userMapper.userToUserFindResponesDto(optionalUser.get());
+            return userMapper.userToUserFindResponseDto(optionalUser.get());
         }
 
         throw new UserNotFoundException("Could not find any user with ID : " + id);
     }
 
-
-
-
-
     @Override
-    public UserUpdateResponseDto update(final UUID id, UserUpdateRequestDto userCreateRequestDto)
+    public UserUpdateResponseDto update(final UUID id, UserUpdateRequestDto userUpdateRequestDto)
             throws UserNotFoundException {
         Optional<User> optionalUser = userRepository.findById(id);
 
@@ -100,7 +88,11 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException("Could not find any user with ID : " + id);
         }
 
+        User user = userMapper.userUpdateRequestDtoToUser(userUpdateRequestDto);
+        user.setId(optionalUser.get().getId());
 
+        User userSaved = userRepository.save(user);
+        return userMapper.userToUserUpdateResponseDto(userSaved);
     }
 
     @Override

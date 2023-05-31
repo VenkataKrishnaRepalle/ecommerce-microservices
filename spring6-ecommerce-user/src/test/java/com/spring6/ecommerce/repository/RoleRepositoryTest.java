@@ -1,7 +1,7 @@
 package com.spring6.ecommerce.repository;
 
 import com.spring6.ecommerce.entity.Role;
-import com.spring6.ecommerce.enums.RoleType;
+import com.spring6.ecommerce.entity.RoleType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

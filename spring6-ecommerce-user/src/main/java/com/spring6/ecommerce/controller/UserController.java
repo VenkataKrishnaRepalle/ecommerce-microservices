@@ -1,8 +1,6 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.dto.UserCreateRequestDto;
-import com.spring6.ecommerce.dto.UserCreateResponseDto;
-import com.spring6.ecommerce.dto.UserFindResponseDto;
+import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.exception.UsernameAlreadyExistException;
 import com.spring6.ecommerce.service.UserService;
 import com.spring6.ecommerce.utils.FileUploadUtils;
@@ -17,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,25 +24,25 @@ public class UserController {
 
     private final UserService userService;
 
-//
-//    @GetMapping("page/{pageNumber}")
-//    public List<BrandFineResponesDto> findByPage(@PathVariable(name = "pageNumber") int pageNumber,
-//                                                 @RequestParam("sortField") String sortField,
-//                                                 @RequestParam("sortDir") String sortDir,
-//                                                 @RequestParam("keyword") String keyword) {
-//        return userService.findByPage(pageNumber, sortField, sortDir, keyword);
-//    }
-//
+
+    @GetMapping("page/{pageNumber}")
+    public List<UserFindResponseDto> findByPage(@PathVariable(name = "pageNumber") int pageNumber,
+                                                @RequestParam("sortField") String sortField,
+                                                @RequestParam("sortDir") String sortDir,
+                                                @RequestParam("keyword") String keyword) {
+        return userService.findByPage(pageNumber, sortField, sortDir, keyword);
+    }
+
     @GetMapping("list")
     public List<UserFindResponseDto> findAll() {
         return userService.findAll();
     }
-//
-//    @GetMapping("{brandId}")
-//    public BrandFineResponesDto getById(@PathVariable final UUID brandId) {
-//        return userService.findById(brandId);
-//    }
-//
+
+    @GetMapping("{userId}")
+    public UserFindResponseDto getById(@PathVariable final UUID userId) {
+        return userService.findById(userId);
+    }
+
     @PostMapping("create")
     public ResponseEntity<HttpHeaders> create(
             @RequestBody @Valid final UserCreateRequestDto userCreateRequestDto,
@@ -74,17 +73,17 @@ public class UserController {
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
-//
-//    @PatchMapping("update/{id}")
-//    public UserUpdateResponseDto update(@PathVariable UUID id, @RequestBody UserUpdateRequestDto brandDto) {
-//        return UserUpdateResponseDto.builder().build();
-//    }
-//
-//    @DeleteMapping("delete/{brandId}")
-//    public void deleteById(@PathVariable final UUID brandId) {
-//        userService.deleteById(brandId);
-//        String brandDir = "../brand-logos/" + brandId;
-//        FileUploadUtils.removeDir(brandDir);
-//    }
+
+    @PatchMapping("update/{id}")
+    public UserUpdateResponseDto update(@PathVariable UUID id, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        return UserUpdateResponseDto.builder().build();
+    }
+
+    @DeleteMapping("delete/{userId}")
+    public void deleteById(@PathVariable final UUID userId) {
+        userService.deleteById(userId);
+        String brandDir = "../brand-logos/" + userId;
+        FileUploadUtils.removeDir(brandDir);
+    }
 
 }

@@ -1,7 +1,7 @@
 package com.spring6.ecommerce.bootstrap;
 
 import com.spring6.ecommerce.entity.Role;
-import com.spring6.ecommerce.enums.RoleType;
+import com.spring6.ecommerce.entity.RoleType;
 import com.spring6.ecommerce.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

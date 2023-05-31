@@ -1,6 +1,5 @@
 package com.spring6.ecommerce.entity;
 
-import com.spring6.ecommerce.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,6 +57,12 @@ public class User {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 }
