@@ -17,9 +17,6 @@ public class BrandCreateRequestDto {
     @Size(min = 2, max = 45)
     private String name;
 
-    @NotBlank
-    private String logo;
-
     @NotNull
     @NotEmpty
     private List<BrandCategoryDto> brandCategories;
