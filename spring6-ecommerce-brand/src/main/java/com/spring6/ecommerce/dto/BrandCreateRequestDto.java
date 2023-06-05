@@ -1,6 +1,5 @@
 package com.spring6.ecommerce.dto;
 
-import com.spring6.ecommerce.entity.BrandCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +13,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class BrandCreateRequestDto {
-    private UUID id;
     @NotBlank
     @Size(min = 2, max = 45)
     private String name;
@@ -24,5 +22,5 @@ public class BrandCreateRequestDto {
 
     @NotNull
     @NotEmpty
-    private List<BrandCategory> brandCategories;
+    private List<BrandCategoryDto> brandCategories;
 }

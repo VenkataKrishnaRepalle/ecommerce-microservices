@@ -1,4 +1,4 @@
-package com.spring6.ecommerce.enums;
+package com.spring6.ecommerce.entity;
 
 public enum RoleType {
     ADMIN, SALES_PERSON, EDITOR, SHIPPER, ASSISTANT

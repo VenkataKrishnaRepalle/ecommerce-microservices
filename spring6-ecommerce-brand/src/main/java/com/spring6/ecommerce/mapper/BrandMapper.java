@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.mapper;
 
-import com.spring6.ecommerce.commonutil.dto.BrandFineResponesDto;
+import com.spring6.ecommerce.common.dto.BrandFindResponesDto;
 import com.spring6.ecommerce.dto.BrandCreateRequestDto;
 import com.spring6.ecommerce.dto.BrandCreateResponseDto;
 import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
@@ -11,7 +11,7 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface BrandMapper {
 
-    BrandFineResponesDto brandToBrandFineResponesDto(Brand brand);
+    BrandFindResponesDto brandToBrandFineResponesDto(Brand brand);
 
     Brand brandCreateRequestDtoToBrand(BrandCreateRequestDto brandCreateRequestDto);
 
