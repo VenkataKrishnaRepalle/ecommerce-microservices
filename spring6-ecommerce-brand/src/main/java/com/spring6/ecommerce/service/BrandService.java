@@ -26,4 +26,6 @@ public interface BrandService {
     Boolean isNameExist(String name);
 
     Boolean isIdExist(UUID uuid);
+
+    void updateImageName(UUID brandId, String fileName);
 }

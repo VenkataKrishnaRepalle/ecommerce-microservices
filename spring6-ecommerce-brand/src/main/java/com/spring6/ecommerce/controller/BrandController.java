@@ -70,7 +70,7 @@ public class BrandController {
     @PostMapping("/upload-image")
     public ResponseEntity<?> uploadImage(
             @RequestParam @NotNull final UUID brandId,
-            @RequestParam(name = "fileImage", required = true, value = "fileImage") final MultipartFile multipartFile)
+            @NotNull @RequestParam(name = "fileImage", required = true, value = "fileImage") final MultipartFile multipartFile)
             throws IOException, BrandNameAlreadyExistException {
 
         if (brandService.isIdExist(brandId)) {
@@ -84,8 +84,8 @@ public class BrandController {
 
             FileUploadUtils.cleanDir(uploadDir);
             FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
-//            update file name to brand table
-            //            brandCreateRequestDto.setLogo(fileName);
+
+            brandService.updateImageName(brandId, fileName);
 
         }
 

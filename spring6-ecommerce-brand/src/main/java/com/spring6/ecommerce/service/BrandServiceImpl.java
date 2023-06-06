@@ -113,4 +113,18 @@ public class BrandServiceImpl implements BrandService {
         return Boolean.FALSE;
     }
 
+    @Override
+    public void updateImageName(UUID brandId, String fileName) {
+        Optional<Brand> optionalBrand = brandRepository.findById(brandId);
+
+        if (!optionalBrand.isPresent()) {
+            throw new BrandNotFoundException("Could not find any brand with ID : " + brandId);
+        }
+
+        Brand brand = optionalBrand.get();
+        brand.setLogo(fileName);
+
+        brandRepository.save(brand);
+    }
+
 }
