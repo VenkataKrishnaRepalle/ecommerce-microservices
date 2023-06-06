@@ -1,6 +1,5 @@
 package com.spring6.ecommerce.service;
-
-import com.spring6.ecommerce.commonutil.dto.CategoryFindResponseDto;
+import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
 import com.spring6.ecommerce.dto.CategoryCreateRequestDto;
 import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
 import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
@@ -45,8 +44,11 @@ public class CategoryServiceImpl implements CategoryService {
         if (!optionalCategory.isPresent()) {
             throw new CategoryNotFoundException("Category does not exist with ID : " + id);
         }
+
+
         Category category = categoryMapper.categoryUpdateRequestDtoToCategory(categoryUpdateRequestDto);
         category.setId(id);
+        category.setParentCategory(optionalCategory.get().getParentCategory());
         return categoryMapper.categoryToCategoryUpdateResponseDto(categoryRepository.save(category));
     }
 
@@ -61,9 +63,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryCreateResponseDto createCategories(CategoryCreateRequestDto categoryCreateRequestDto) {
-
+    public CategoryCreateResponseDto createCategories(final UUID id,CategoryCreateRequestDto categoryCreateRequestDto)
+    {
+        Category category = categoryMapper.categoryCreateRequestDtoToCategory(categoryCreateRequestDto);
         return categoryMapper.categoryToCategoryCreateResponseDto(categoryRepository.save(categoryMapper.categoryCreateRequestDtoToCategory(categoryCreateRequestDto)));
     }
+
+    @Override
+    public Boolean isNameExist(String name) {
+        Optional<Category> optionalCategory = categoryRepository.findByName(name);
+        if (optionalCategory.isPresent()) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;    }
 
 }

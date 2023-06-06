@@ -21,6 +21,7 @@
         <springdoc.openapi.version>2.0.4</springdoc.openapi.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <springdoc.openapi>2.0.4</springdoc.openapi>
+        <common-util.version>0.0.1-SNAPSHOT</common-util.version>
     </properties>
     <dependencies>
         <dependency>
@@ -80,6 +81,12 @@
             <groupId>com.spring6.ecommerce</groupId>
             <artifactId>spring6-ecommerce-common-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.spring6.ecommerce</groupId>
+            <artifactId>spring6-ecommerce-common-util</artifactId>
+            <version>${common-util.version}</version>
         </dependency>
 
         <dependency>

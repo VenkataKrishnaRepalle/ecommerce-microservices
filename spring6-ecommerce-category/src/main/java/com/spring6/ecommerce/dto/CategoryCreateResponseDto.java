@@ -13,5 +13,5 @@ public class CategoryCreateResponseDto {
     private String alias;
     private String image;
     private Boolean isEnabled;
-//    private UUID parentCategoryId;
+    private UUID parentCategoryId;
 }

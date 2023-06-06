@@ -1,5 +1,5 @@
 package com.spring6.ecommerce.service;
-import com.spring6.ecommerce.commonutil.dto.CategoryFindResponseDto;
+import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
 import com.spring6.ecommerce.dto.CategoryCreateRequestDto;
 import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
 import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
@@ -12,8 +12,7 @@ public interface CategoryService {
     List<CategoryFindResponseDto> listAll();
     CategoryFindResponseDto findCategoryById(UUID id);
     CategoryUpdateResponseDto updateCategory(UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto);
-
     void deleteCategoryById(UUID categoryId);
-
-    CategoryCreateResponseDto createCategories(CategoryCreateRequestDto categoryCreateRequestDto);
+    CategoryCreateResponseDto createCategories(UUID id,CategoryCreateRequestDto categoryCreateRequestDto);
+    Boolean isNameExist(String name);
 }

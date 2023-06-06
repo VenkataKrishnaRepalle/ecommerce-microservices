@@ -9,7 +9,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class CategoryUpdateRequestDto {
-    private UUID id;
     @NotBlank
     private String name;
     @NotBlank

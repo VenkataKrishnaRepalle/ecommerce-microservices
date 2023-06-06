@@ -1,10 +1,11 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.commonutil.dto.CategoryFindResponseDto;
+import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
 import com.spring6.ecommerce.dto.CategoryCreateRequestDto;
 import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
 import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
 import com.spring6.ecommerce.dto.CategoryUpdateResponseDto;
+import com.spring6.ecommerce.exception.CategoryNameAlreadyExistException;
 import com.spring6.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,14 @@ import java.util.UUID;
 @RequestMapping("category")
 public class CategoryController {
     private final CategoryService categoryService;
+
     @PostMapping("addCategory")
-    public ResponseEntity<HttpHeaders> createCategory(@RequestBody @Valid final CategoryCreateRequestDto categoryCreateRequestDto) {
-        CategoryCreateResponseDto saveCategory = categoryService.createCategories(categoryCreateRequestDto);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Location","/brand"+saveCategory.getId().toString());
-        return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
+    public ResponseEntity<HttpStatus> createCategory(@PathVariable UUID id,@RequestBody @Valid final CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
+        if (categoryService.isNameExist(categoryCreateRequestDto.getName())) {
+            throw new CategoryNameAlreadyExistException("Category name :" + categoryCreateRequestDto.getName() + " already exist");
+        }
+        CategoryCreateResponseDto saveCategory = categoryService.createCategories(id,categoryCreateRequestDto);
+        return new ResponseEntity( HttpStatus.CREATED);
     }
 
     @GetMapping("listCategory")
@@ -37,13 +40,14 @@ public class CategoryController {
     public CategoryFindResponseDto getCategoryById(@PathVariable final UUID categoryId){
         return categoryService.findCategoryById(categoryId);
     }
-    @PatchMapping("update/{id}")
+    @PutMapping("update/{id}")
     public  CategoryUpdateResponseDto updateCategory(@PathVariable UUID id, @RequestBody CategoryUpdateRequestDto categoryDto){
         return categoryService.updateCategory(id, categoryDto);
     }
     @DeleteMapping("delete/{categoryId}")
-    public void deleteById(@PathVariable final UUID categoryId) {
+    public ResponseEntity<HttpStatus>  deleteById(@PathVariable final UUID categoryId) {
         categoryService.deleteCategoryById(categoryId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
