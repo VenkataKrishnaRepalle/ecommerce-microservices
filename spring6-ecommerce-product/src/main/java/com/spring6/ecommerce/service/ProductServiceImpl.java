@@ -3,9 +3,15 @@ package com.spring6.ecommerce.service;
 import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
 import com.spring6.ecommerce.dto.ProductCreateRequestDto;
 import com.spring6.ecommerce.dto.ProductCreateResponseDto;
+import com.spring6.ecommerce.dto.ProductImageCreateRequestDto;
+import com.spring6.ecommerce.dto.ProductImageFindResponseDto;
 import com.spring6.ecommerce.entity.Product;
+import com.spring6.ecommerce.entity.ProductImage;
+import com.spring6.ecommerce.exception.ProductImageAlreaydFoundException;
 import com.spring6.ecommerce.exception.ProductNotFoundException;
+import com.spring6.ecommerce.mapper.ProductImageMapper;
 import com.spring6.ecommerce.mapper.ProductMapper;
+import com.spring6.ecommerce.repository.ProductImageRepository;
 import com.spring6.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +26,11 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+    private final ProductImageRepository productImageRepository;
+
     private final ProductMapper productMapper;
+
+    private final ProductImageMapper productImageMapper;
 
     public List<ProductFindResponseDto> listAll() {
         System.out.println(productRepository.findAll().get(0));
@@ -67,5 +77,72 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(productId);
     }
 
+    @Override
+    public boolean isProductNameExists(String productName) {
+        Product OptionalProduct = productRepository.findByName(productName);
 
+        if(OptionalProduct != null) {
+            return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
+
+    }
+
+    @Override
+    public boolean isProductExists(UUID productId) {
+        Optional<Product> optionalProduct= Optional.of(productRepository.getById(productId));
+
+        if(optionalProduct.isPresent())
+        {
+            return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public void updateImageName(UUID productId, String fileName) {
+        Optional<Product> optionalProduct= Optional.of(productRepository.getById(productId));
+        Product product = optionalProduct.get();
+
+        if(!optionalProduct.isPresent())
+        {
+            throw new ProductNotFoundException("could not find the product with id " +productId);
+        }
+
+        boolean isProductImageExists = isProductImageExists(fileName);
+        boolean isProductMainImageExists = isProductMainImageExists(fileName);
+        if (isProductImageExists == true || isProductMainImageExists == true) {
+            throw new ProductImageAlreaydFoundException("Already Image Exists with Name " + fileName);
+        }
+        if(product.getMainImage().isEmpty()) {
+            product.setMainImage(fileName);
+            productRepository.save(product);
+        }
+        else {
+            ProductImageCreateRequestDto productImageCreateRequestDto = new ProductImageCreateRequestDto();
+            productImageCreateRequestDto.setName(fileName);
+            productImageCreateRequestDto.setProductId(productId);
+            productImageRepository.save(productImageMapper.ProductImageCreateRequestDtoToProductImage(productImageCreateRequestDto));
+        }
+    }
+
+    public boolean isProductImageExists(String fileName)
+    {
+        ProductImageFindResponseDto productImageFindResponseDto = productImageMapper.ProductImageToProductImageFindResponseDto(productImageRepository.isProductImageNameExists(fileName));
+        if(productImageFindResponseDto == null) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
+    public boolean isProductMainImageExists(String fileName) {
+        ProductFindResponseDto product = productMapper.productToProductFindResponseDto(productRepository.isProductMainImageExists(fileName));
+
+        if(product == null) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
 }

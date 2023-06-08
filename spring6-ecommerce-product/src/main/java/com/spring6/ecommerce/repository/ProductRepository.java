@@ -20,4 +20,10 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     @Query("select count(p) from Product p where p.id = :productId")
     public long countById(@Param("productId") UUID productId);
 
+    @Query("select p from Product p where p.name = :productName")
+    public Product findByName(@Param("productName") String productName);
+
+    @Query("select p from Product p where p.mainImage = :fileName")
+    public Product isProductMainImageExists(@Param("fileName") String fileName);
+
 }

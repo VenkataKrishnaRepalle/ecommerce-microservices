@@ -18,4 +18,10 @@ public interface ProductService {
     void updateProductEnabledStatus(UUID productId, boolean status);
 
     void deleteProductById(UUID productId);
+
+    boolean isProductNameExists(String productName);
+
+    boolean isProductExists(UUID productId);
+
+    void updateImageName(UUID productId, String fileName);
 }

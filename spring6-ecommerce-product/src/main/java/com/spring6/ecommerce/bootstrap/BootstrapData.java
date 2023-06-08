@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class BootstrapData implements CommandLineRunner {
@@ -33,6 +35,10 @@ public class BootstrapData implements CommandLineRunner {
                     .length(3.5f)
                     .width(1.2f)
                     .height(6.2f)
+                    .weight(12.5f)
+                    .mainImage("11.jpg")
+                    .categoryId(UUID.fromString("3540536f-5468-42d4-92ff-9a576c3e7747"))
+                    .brandId(UUID.fromString("a3976462-93b7-4303-b504-0e5b0eddb283"))
                     .isEnabled(Boolean.TRUE)
                     .build());
             productRepository.save(Product.builder()
@@ -47,6 +53,10 @@ public class BootstrapData implements CommandLineRunner {
                     .length(3.5f)
                     .width(1.2f)
                     .height(6.2f)
+                    .weight(12.5f)
+                    .mainImage("11.jpg")
+                    .categoryId(UUID.fromString("3540536f-5468-42d4-92ff-9a576c3e7747"))
+                    .brandId(UUID.fromString("a3976462-93b7-4303-b504-0e5b0eddb283"))
                     .isEnabled(Boolean.TRUE)
                     .build());
             productRepository.save(Product.builder()
@@ -61,6 +71,10 @@ public class BootstrapData implements CommandLineRunner {
                     .length(3.5f)
                     .width(1.2f)
                     .height(6.2f)
+                    .weight(12.5f)
+                    .mainImage("11.jpg")
+                    .categoryId(UUID.fromString("3540536f-5468-42d4-92ff-9a576c3e7747"))
+                    .brandId(UUID.fromString("a3976462-93b7-4303-b504-0e5b0eddb283"))
                     .isEnabled(Boolean.TRUE)
                     .build());
         }

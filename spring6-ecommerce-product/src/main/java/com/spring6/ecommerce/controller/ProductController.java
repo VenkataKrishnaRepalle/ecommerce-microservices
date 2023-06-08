@@ -4,9 +4,12 @@ import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
 import com.spring6.ecommerce.common.utils.FileUploadUtils;
 import com.spring6.ecommerce.dto.ProductCreateRequestDto;
 import com.spring6.ecommerce.dto.ProductCreateResponseDto;
+import com.spring6.ecommerce.exception.ProductAlreadyPresentException;
+import com.spring6.ecommerce.exception.ProductNotFoundException;
 import com.spring6.ecommerce.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,15 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -52,31 +47,40 @@ public class ProductController {
     }
 
     @Operation(summary = "Insert Product", description = "Add Product", tags = "Product")
-    @PostMapping(value = "addProduct", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
+    @PostMapping(value = "addProduct")
     public ResponseEntity<HttpHeaders> createProduct(@RequestBody @Valid
-            final ProductCreateRequestDto productCreateRequestDto,
-            @RequestPart("FileImage") final MultipartFile multipartFile)
-            throws IOException {
+            final ProductCreateRequestDto productCreateRequestDto) {
+        if(productService.isProductNameExists(productCreateRequestDto.getName())) {
+                throw new ProductAlreadyPresentException("Product Already present with name "+productCreateRequestDto.getName());
+        }
+        ProductCreateResponseDto savedProduct = productService.addProduct(productCreateRequestDto);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Location", "/brand" + savedProduct.getId().toString());
+        return new ResponseEntity(savedProduct, httpHeaders, HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Insert Product Images", description = "Add Product Image", tags = "Product")
+    @PostMapping(value = "addProductImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<HttpStatus> addProductImage (@RequestParam @NotNull final UUID productId,
+                                              @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
+                                                throws IOException , ProductNotFoundException {
+        if(!productService.isProductExists(productId))
+        {
+            throw new ProductNotFoundException("Couldn't found product with id "+ productId);
+        }
+
         if (!multipartFile.isEmpty()) {
-            String fileName = StringUtils.cleanPath(
-                    multipartFile.getOriginalFilename());
-            productCreateRequestDto.setMainImage(fileName);
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
-            ProductCreateResponseDto savedProduct =
-                    productService.addProduct(productCreateRequestDto);
-
-            String uploadDir = "../brand-logos";
+            String uploadDir = "spring6-ecommerce-product/product-images";
 
             FileUploadUtils.cleanDir(uploadDir);
-
             FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
+
+            productService.updateImageName(productId, fileName);
         }
-        ProductCreateResponseDto savedProduct =
-                productService.addProduct(productCreateRequestDto);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Content-Type","multipart/form-data; charset=utf-8");
-        httpHeaders.add("Location", "/brand" + savedProduct.getId().toString());
-        return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
     }
 
     @Operation(summary = "Update existing Product Status by uuid", description = "Update Product Status by its uuid ", tags = "Product")

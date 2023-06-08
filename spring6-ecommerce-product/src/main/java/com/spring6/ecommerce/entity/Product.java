@@ -1,6 +1,7 @@
 package com.spring6.ecommerce.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -8,7 +9,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
-import java.awt.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,15 +58,16 @@ public class Product {
 
     private Float height;
 
-    @Column(name = "main_image", nullable = false)
+    @Column(name = "main_image")
     private String mainImage;
 
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(columnDefinition = "varchar(36)", nullable = false)
     private UUID categoryId;
 
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(columnDefinition = "varchar(36)",nullable = false)
     private UUID brandId;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<ProductImage> images = new HashSet<>();
 
     private Boolean isEnabled;
 
