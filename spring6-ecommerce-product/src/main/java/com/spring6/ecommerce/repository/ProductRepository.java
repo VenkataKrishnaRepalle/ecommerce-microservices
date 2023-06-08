@@ -13,17 +13,17 @@ import java.util.UUID;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
 
-    @Query("update Product p set p.isEnabled = :status where p.id = :productId")
+    @Query("UPDATE Product p SET p.isEnabled = :status WHERE p.id = :productId")
     @Modifying
     public void updateEnabledStatus(@Param("status") boolean status, @Param("productId") UUID productId);
 
-    @Query("select count(p) from Product p where p.id = :productId")
+    @Query("SELECT count(p) FROM Product p WHERE p.id = :productId")
     public long countById(@Param("productId") UUID productId);
 
-    @Query("select p from Product p where p.name = :productName")
+    @Query("SELECT p FROM Product p WHERE p.name = :productName")
     public Product findByName(@Param("productName") String productName);
 
-    @Query("select p from Product p where p.mainImage = :fileName")
-    public Product isProductMainImageExists(@Param("fileName") String fileName);
+    @Query("SELECT CASE WHEN EXISTS (SELECT p FROM Product p WHERE p.mainImage = :fileName)THEN CAST(true As boolean ) ELSE CAST(false as boolean) END")
+    public boolean isProductMainImageExists(@Param("fileName") String fileName);
 
 }

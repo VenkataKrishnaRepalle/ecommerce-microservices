@@ -4,9 +4,7 @@ import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
 import com.spring6.ecommerce.dto.ProductCreateRequestDto;
 import com.spring6.ecommerce.dto.ProductCreateResponseDto;
 import com.spring6.ecommerce.dto.ProductImageCreateRequestDto;
-import com.spring6.ecommerce.dto.ProductImageFindResponseDto;
 import com.spring6.ecommerce.entity.Product;
-import com.spring6.ecommerce.entity.ProductImage;
 import com.spring6.ecommerce.exception.ProductImageAlreaydFoundException;
 import com.spring6.ecommerce.exception.ProductNotFoundException;
 import com.spring6.ecommerce.mapper.ProductImageMapper;
@@ -113,9 +111,11 @@ public class ProductServiceImpl implements ProductService {
 
         boolean isProductImageExists = isProductImageExists(fileName);
         boolean isProductMainImageExists = isProductMainImageExists(fileName);
+
         if (isProductImageExists == true || isProductMainImageExists == true) {
             throw new ProductImageAlreaydFoundException("Already Image Exists with Name " + fileName);
         }
+
         if(product.getMainImage().isEmpty()) {
             product.setMainImage(fileName);
             productRepository.save(product);
@@ -130,17 +130,14 @@ public class ProductServiceImpl implements ProductService {
 
     public boolean isProductImageExists(String fileName)
     {
-        ProductImageFindResponseDto productImageFindResponseDto = productImageMapper.ProductImageToProductImageFindResponseDto(productImageRepository.isProductImageNameExists(fileName));
-        if(productImageFindResponseDto == null) {
+        if(productImageRepository.isProductImageNameExists(fileName) == false) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
     }
 
     public boolean isProductMainImageExists(String fileName) {
-        ProductFindResponseDto product = productMapper.productToProductFindResponseDto(productRepository.isProductMainImageExists(fileName));
-
-        if(product == null) {
+        if(productRepository.isProductMainImageExists(fileName) == false) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;

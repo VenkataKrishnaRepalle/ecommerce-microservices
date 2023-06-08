@@ -9,6 +9,6 @@ import java.util.UUID;
 
 public interface ProductImageRepository extends JpaRepository<ProductImage, UUID> {
 
-    @Query("select pi from ProductImage pi where pi.name = :fileName")
-    public ProductImage isProductImageNameExists(@Param("fileName") String fileName);
+    @Query("SELECT CASE WHEN EXISTS (SELECT p FROM ProductImage p WHERE p.name = :fileName)THEN CAST(true As boolean ) ELSE CAST(false as boolean) END")
+    public boolean isProductImageNameExists(@Param("fileName") String fileName);
 }

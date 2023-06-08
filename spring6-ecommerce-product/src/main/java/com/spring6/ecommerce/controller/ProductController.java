@@ -74,7 +74,6 @@ public class ProductController {
 
             String uploadDir = "spring6-ecommerce-product/product-images";
 
-            FileUploadUtils.cleanDir(uploadDir);
             FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
 
             productService.updateImageName(productId, fileName);
