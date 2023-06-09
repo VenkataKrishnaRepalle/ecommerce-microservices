@@ -1,5 +1,6 @@
 package com.spring6.ecommerce.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,40 +11,52 @@ import java.util.UUID;
 @Builder
 public class ProductUpdateResponseDto {
 
+    @NotNull
     private UUID id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String alias;
 
+    @NotNull
     private String shortDescription;
 
+    @NotNull
     private String fullDescription;
 
+    @NotNull
     private Boolean inStock;
 
+    @NotNull
     private Float cost;
 
+    @NotNull
     private Float price;
 
+    @NotNull
     private Float discountPercent;
 
+    @NotNull
     private Float length;
 
+    @NotNull
     private Float width;
 
-    private Float height;
-
+    @NotNull
     private Float weight;
 
+    @NotNull
+    private Float height;
+
+    @NotNull
     private UUID categoryId;
 
+    @NotNull
     private UUID brandId;
 
-    private Boolean enabled;
-
-    private Date createdTime;
-
-    private Date updatedTime;
+    @NotNull
+    private Boolean isEnabled;
 
 }

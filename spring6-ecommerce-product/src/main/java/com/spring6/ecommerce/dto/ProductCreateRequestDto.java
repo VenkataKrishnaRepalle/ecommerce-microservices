@@ -1,16 +1,9 @@
 package com.spring6.ecommerce.dto;
 
-import com.spring6.ecommerce.entity.ProductImage;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -50,8 +43,6 @@ public class ProductCreateRequestDto {
 
     @NotNull
     private Float height;
-
-    private String mainImage;
 
     @NotNull
     private UUID categoryId;

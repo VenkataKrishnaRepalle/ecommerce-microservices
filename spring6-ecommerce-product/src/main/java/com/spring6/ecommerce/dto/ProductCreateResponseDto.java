@@ -57,8 +57,6 @@ public class ProductCreateResponseDto {
     @NotNull
     private Float height;
 
-    private String mainImage;
-
     @NotNull
     private UUID categoryId;
 

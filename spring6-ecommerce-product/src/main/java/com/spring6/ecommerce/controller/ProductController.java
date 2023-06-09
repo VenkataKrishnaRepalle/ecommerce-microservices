@@ -1,9 +1,11 @@
 package com.spring6.ecommerce.controller;
 
+import com.spring6.ecommerce.common.dto.ProductDetailsFindResponseDto;
 import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
 import com.spring6.ecommerce.common.utils.FileUploadUtils;
-import com.spring6.ecommerce.dto.ProductCreateRequestDto;
-import com.spring6.ecommerce.dto.ProductCreateResponseDto;
+import com.spring6.ecommerce.dto.*;
+import com.spring6.ecommerce.entity.ProductDetails;
+import com.spring6.ecommerce.entity.ProductImage;
 import com.spring6.ecommerce.exception.ProductAlreadyPresentException;
 import com.spring6.ecommerce.exception.ProductNotFoundException;
 import com.spring6.ecommerce.service.ProductService;
@@ -59,7 +61,7 @@ public class ProductController {
         return new ResponseEntity(savedProduct, httpHeaders, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Insert Product Images", description = "Add Product Image", tags = "Product")
+    @Operation(summary = "Insert Product Images", description = "Add Product Image", tags = "Product Image")
     @PostMapping(value = "addProductImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<HttpStatus> addProductImage (@RequestParam @NotNull final UUID productId,
                                               @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
@@ -73,7 +75,6 @@ public class ProductController {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
             String uploadDir = "spring6-ecommerce-product/product-images";
-
             FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
 
             productService.updateImageName(productId, fileName);
@@ -81,6 +82,25 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
+
+    @Operation(summary = "Add Product Details", description = "Add Product Details", tags = "Product Details")
+    @PostMapping("/addProductDetails")
+    public ResponseEntity<List<ProductDetailsFindResponseDto>> addProductDetails(@RequestParam("productId") UUID productId,
+                                                                                 @RequestParam("detailNames") String[] detailNames,
+                                                                                 @RequestParam("detailValue") String[] detailValues) {
+        List<ProductDetailsFindResponseDto> productDetailsCreateResponseDtoList= productService.addProductDetails(productId, detailNames, detailValues);
+        return new ResponseEntity<>(productDetailsCreateResponseDtoList, HttpStatus.CREATED);
+
+    }
+
+    @Operation(summary = "Update Product", description = "Update Product", tags = "Product")
+    @PutMapping("/updateProduct/{productId}")
+    public ResponseEntity<ProductUpdateResponseDto> updateProduct(@PathVariable("productId") UUID productId,
+                                                                  @RequestBody ProductUpdateRequestDto productUpdateRequestDto) {
+        ProductUpdateResponseDto product = productService.updateProduct(productId, productUpdateRequestDto);
+        return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
+    }
+
 
     @Operation(summary = "Update existing Product Status by uuid", description = "Update Product Status by its uuid ", tags = "Product")
     @PutMapping("update/{productId}/enabled/{status}")
