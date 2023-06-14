@@ -49,6 +49,7 @@ public class User {
     @Column(nullable = false, length = 128)
     private String photo;
 
+    @Column(nullable = false)
     private Boolean isEnabled;
 
     @CreationTimestamp

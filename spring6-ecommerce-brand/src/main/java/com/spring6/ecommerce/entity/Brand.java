@@ -38,6 +38,9 @@ public class Brand {
     @Column(nullable = false, length = 128)
     private String logo;
 
+    @Column(nullable = false)
+    private Boolean isEnabled;
+
     @CreationTimestamp
     private Instant createdOn;
 

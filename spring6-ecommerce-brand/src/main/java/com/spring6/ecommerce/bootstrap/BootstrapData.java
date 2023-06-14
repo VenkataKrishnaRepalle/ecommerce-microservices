@@ -22,14 +22,17 @@ public class BootstrapData implements CommandLineRunner {
             brandRepository.save(Brand.builder()
                     .name("Acer")
                     .logo("Acer.png")
+                    .isEnabled(Boolean.TRUE)
                     .build());
             brandRepository.save(Brand.builder()
                     .name("Samsung")
                     .logo("Samsung.png")
+                    .isEnabled(Boolean.TRUE)
                     .build());
             brandRepository.save(Brand.builder()
                     .name("Canon")
                     .logo("Canon.png")
+                    .isEnabled(Boolean.TRUE)
                     .build());
         }
     }

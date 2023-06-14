@@ -6,13 +6,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 public class FileUploadUtils {
+
+
     public static void cleanDir(String dir) {
-        Path dirPath = Paths.get(dir);
+        Path directoryPath = Paths.get(dir);
 
         try {
-            Files.list(dirPath).forEach(file -> {
+            Files.list(directoryPath).forEach(file -> {
                 if (!Files.isDirectory(file)) {
                     try {
                         Files.delete(file);
@@ -61,4 +64,11 @@ public class FileUploadUtils {
             System.out.println("Could not list directory");
         }
     }
+
+    public static Optional<String> getExtensionByString(String filename) {
+        return Optional.ofNullable(filename)
+                .filter(f -> f.contains("."))
+                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
+    }
+
 }

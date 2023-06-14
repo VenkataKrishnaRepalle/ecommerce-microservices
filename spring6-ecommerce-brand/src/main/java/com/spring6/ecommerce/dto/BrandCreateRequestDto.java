@@ -20,4 +20,7 @@ public class BrandCreateRequestDto {
     @NotNull
     @NotEmpty
     private List<BrandCategoryDto> brandCategories;
+
+    @NotNull
+    private Boolean isEnabled;
 }
