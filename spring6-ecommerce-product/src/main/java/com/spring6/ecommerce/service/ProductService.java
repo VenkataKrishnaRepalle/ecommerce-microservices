@@ -32,4 +32,6 @@ public interface ProductService {
 
     ProductUpdateResponseDto updateProduct(UUID productId, ProductUpdateRequestDto productUpdateRequestDto);
 
+    List<ProductFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
+
 }

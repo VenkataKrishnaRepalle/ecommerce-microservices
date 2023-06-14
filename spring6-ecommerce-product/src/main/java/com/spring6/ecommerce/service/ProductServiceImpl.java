@@ -4,7 +4,6 @@ import com.spring6.ecommerce.common.dto.ProductDetailsFindResponseDto;
 import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
 import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.entity.Product;
-import com.spring6.ecommerce.entity.ProductDetails;
 import com.spring6.ecommerce.exception.ProductImageAlreaydFoundException;
 import com.spring6.ecommerce.exception.ProductNotFoundException;
 import com.spring6.ecommerce.mapper.ProductDetailsMapper;
@@ -14,13 +13,19 @@ import com.spring6.ecommerce.repository.ProductDetailsRepository;
 import com.spring6.ecommerce.repository.ProductImageRepository;
 import com.spring6.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
+
+    private static final int PRODUCT_PER_PAGE = 5;
 
     private final ProductRepository productRepository;
 
@@ -57,6 +62,9 @@ public class ProductServiceImpl implements ProductService {
         Float cost = productCreateRequestDto.getCost();
         Float price = productCreateRequestDto.getPrice();
         Float discountedPercent = ((cost - price) / cost) * 100;
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        discountedPercent = Float.valueOf(decimalFormat.format(discountedPercent));
 
         productCreateRequestDto.setDiscountPercent(discountedPercent);
 
@@ -171,10 +179,32 @@ public class ProductServiceImpl implements ProductService {
         Float price = productUpdateRequestDto.getPrice();
         Float discountedPercent = ((cost - price) / cost) * 100;
 
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        discountedPercent = Float.valueOf(decimalFormat.format(discountedPercent));
+
         product.setId(productId);
         product.setDiscountPercent(discountedPercent);
 
         return productMapper.productToProductUpdateResponseDto(productRepository.save(product));
+    }
+
+    @Override
+    public List<ProductFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword) {
+        Sort sort = Sort.by(sortField);
+        sort = sortDir.equals("ASC") ? sort.ascending() : sort.descending();
+
+        Pageable pageable = PageRequest.of(pageNumber - 1, PRODUCT_PER_PAGE, sort);
+
+        if(keyword != null) {
+            return productRepository.findByPage(keyword, (java.awt.print.Pageable) pageable)
+                    .stream()
+                    .map(productMapper::productToProductFindResponseDto)
+                    .toList();
+        }
+        return productRepository.findAll()
+                .stream()
+                .map(productMapper::productToProductFindResponseDto)
+                .toList();
     }
 
 //    public ProductDetailsFindResponseDto isProductDetailsExists(UUID productId, String detailName, String detailValue) {

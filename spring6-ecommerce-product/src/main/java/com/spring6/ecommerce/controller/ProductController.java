@@ -44,16 +44,15 @@ public class ProductController {
     @Operation(summary = "Get Product by uuid", description = "Product by uuid", tags = "Product")
     @GetMapping("getById/{productId}")
     public ProductFindResponseDto getProductById(@PathVariable final
-                                                     UUID productId) {
+                                                 UUID productId) {
         return productService.getProductById(productId);
     }
 
     @Operation(summary = "Insert Product", description = "Add Product", tags = "Product")
     @PostMapping(value = "addProduct")
-    public ResponseEntity<HttpHeaders> createProduct(@RequestBody @Valid
-            final ProductCreateRequestDto productCreateRequestDto) {
-        if(productService.isProductNameExists(productCreateRequestDto.getName())) {
-                throw new ProductAlreadyPresentException("Product Already present with name "+productCreateRequestDto.getName());
+    public ResponseEntity<HttpHeaders> createProduct(@RequestBody @Valid final ProductCreateRequestDto productCreateRequestDto) {
+        if (productService.isProductNameExists(productCreateRequestDto.getName())) {
+            throw new ProductAlreadyPresentException("Product Already present with name " + productCreateRequestDto.getName());
         }
         ProductCreateResponseDto savedProduct = productService.addProduct(productCreateRequestDto);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -63,12 +62,11 @@ public class ProductController {
 
     @Operation(summary = "Insert Product Images", description = "Add Product Image", tags = "Product Image")
     @PostMapping(value = "addProductImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<HttpStatus> addProductImage (@RequestParam @NotNull final UUID productId,
-                                              @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
-                                                throws IOException , ProductNotFoundException {
-        if(!productService.isProductExists(productId))
-        {
-            throw new ProductNotFoundException("Couldn't found product with id "+ productId);
+    public ResponseEntity<HttpStatus> addProductImage(@RequestParam @NotNull final UUID productId,
+                                                      @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
+            throws IOException, ProductNotFoundException {
+        if (!productService.isProductExists(productId)) {
+            throw new ProductNotFoundException("Couldn't found product with id " + productId);
         }
 
         if (!multipartFile.isEmpty()) {
@@ -88,7 +86,7 @@ public class ProductController {
     public ResponseEntity<List<ProductDetailsFindResponseDto>> addProductDetails(@RequestParam("productId") UUID productId,
                                                                                  @RequestParam("detailNames") String[] detailNames,
                                                                                  @RequestParam("detailValue") String[] detailValues) {
-        List<ProductDetailsFindResponseDto> productDetailsCreateResponseDtoList= productService.addProductDetails(productId, detailNames, detailValues);
+        List<ProductDetailsFindResponseDto> productDetailsCreateResponseDtoList = productService.addProductDetails(productId, detailNames, detailValues);
         return new ResponseEntity<>(productDetailsCreateResponseDtoList, HttpStatus.CREATED);
 
     }
@@ -110,6 +108,17 @@ public class ProductController {
         productService.updateProductEnabledStatus(productId, status);
         String message = "The Product Id " + productId + " has been " + status;
         return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
+    }
+
+    @Operation(summary = "Sort & Filter for Products Listing Page", description = "Filter Products Listing Page", tags = "Product")
+    @GetMapping("findByPage/{pageNumber}")
+    public List<ProductFindResponseDto> findByPage(@PathVariable("pageNumber") int pageNumber,
+                                                   @RequestParam("sortField") String sortField,
+                                                   @RequestParam("sortDir") String sortDir,
+                                                   @RequestParam("keyword") String keyword) {
+
+        return productService.findByPage(pageNumber, sortField, sortDir, keyword);
+
     }
 
     @Operation(summary = "Delete existing Product by its uuid", description = "Delete Product by uuid", tags = "Product")

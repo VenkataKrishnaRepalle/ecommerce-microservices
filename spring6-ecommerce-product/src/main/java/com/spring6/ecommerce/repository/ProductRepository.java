@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
+import java.util.List;
 import java.util.UUID;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
@@ -25,5 +27,8 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     @Query("SELECT CASE WHEN EXISTS (SELECT p FROM Product p WHERE p.mainImage = :fileName)THEN CAST(true As boolean ) ELSE CAST(false as boolean) END")
     public boolean isProductMainImageExists(@Param("fileName") String fileName);
+
+    @Query("SELECT p FROM Product p WHERE p.name LIKE '%:keyword'")
+    public List<Product> findByPage(@Param("keyword") String keyword, Pageable pageable);
 
 }
