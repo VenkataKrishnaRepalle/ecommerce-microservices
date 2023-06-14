@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface ParentCategoryRepository extends JpaRepository<ParentCategory, UUID> {
 
+    Long countById(UUID id);
 }

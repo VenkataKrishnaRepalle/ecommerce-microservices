@@ -35,6 +35,8 @@ public class ProductFindResponseDto {
 
     private Float height;
 
+    private String mainImage;
+
     private UUID categoryId;
 
     private UUID brandId;

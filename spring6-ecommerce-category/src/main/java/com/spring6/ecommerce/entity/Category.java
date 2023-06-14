@@ -46,7 +46,7 @@ public class Category {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "parent_category_id", nullable = false)
     private ParentCategory parentCategory;
 

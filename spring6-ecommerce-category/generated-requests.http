@@ -1,0 +1,9 @@
+###
+GET http://localhost:1000/category/listCategory
+
+<> 2023-05-26T175525.200.json
+
+###
+GET http://localhost:1000/category/639a8455-d2c0-4c4d-a28f-05002c0749eb
+
+<> 2023-05-26T175837.200.json

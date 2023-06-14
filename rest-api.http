@@ -45,8 +45,8 @@ POST http://localhost:1002/product/addProduct
 Content-Type: application/json
 
 {
-  "name": "Note 7",
-  "alias": "A455",
+  "name": "Note 11",
+  "alias": "A400",
   "shortDescription": "String",
   "fullDescription": "String",
   "inStock": true,

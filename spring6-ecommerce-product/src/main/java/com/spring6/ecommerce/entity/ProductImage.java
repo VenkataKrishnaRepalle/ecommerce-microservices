@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +31,7 @@ public class ProductImage {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    public ProductImage(String name, Product product) {
-        this.name = name;
-        this.product = product;
-    }
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(columnDefinition = "varchar(36)", nullable = false)
+    private UUID productId;
 }

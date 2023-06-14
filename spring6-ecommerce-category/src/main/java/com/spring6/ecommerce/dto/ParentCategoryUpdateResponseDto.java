@@ -6,9 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
+
 @Data
 @Builder
-public class CategoryCreateRequestDto {
+public class ParentCategoryUpdateResponseDto {
+    private UUID id;
     @NotBlank
     private String name;
     @NotBlank
@@ -17,6 +19,5 @@ public class CategoryCreateRequestDto {
     private String image;
     @NotNull
     private Boolean isEnabled;
-    @NotNull
-    private UUID parentCategoryUUID;
+
 }

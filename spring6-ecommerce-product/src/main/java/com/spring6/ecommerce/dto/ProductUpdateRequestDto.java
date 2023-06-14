@@ -14,22 +14,16 @@ import java.util.UUID;
 @Builder
 public class ProductUpdateRequestDto {
 
-    private UUID id;
-
-    @NotBlank
-    @Size(min = 2, max = 256)
+    @NotNull
     private String name;
 
-    @NotBlank
-    @Size(min = 2, max = 256)
+    @NotNull
     private String alias;
 
     @NotNull
-    @Size(min = 2, max = 512)
     private String shortDescription;
 
     @NotNull
-    @Size(min = 2, max = 4096)
     private String fullDescription;
 
     @NotNull
@@ -50,20 +44,17 @@ public class ProductUpdateRequestDto {
     private Float width;
 
     @NotNull
+    private Float weight;
+
+    @NotNull
     private Float height;
 
     @NotNull
-    private Float weight;
-
     private UUID categoryId;
 
+    @NotNull
     private UUID brandId;
 
     @NotNull
-    private Boolean enabled;
-
-    @Column(updatable = false)
-    private Date createdTime;
-
-    private Date updatedTime;
+    private Boolean isEnabled;
 }
