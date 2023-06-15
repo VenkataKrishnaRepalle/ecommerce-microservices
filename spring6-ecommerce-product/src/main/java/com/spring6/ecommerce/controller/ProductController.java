@@ -102,9 +102,8 @@ public class ProductController {
 
     @Operation(summary = "Update existing Product Status by uuid", description = "Update Product Status by its uuid ", tags = "Product")
     @PutMapping("update/{productId}/enabled/{status}")
-    public ResponseEntity<String> updateCategoryEnabledStatus(
-            @PathVariable final UUID productId,
-            @PathVariable final boolean status) {
+    public ResponseEntity<String> updateCategoryEnabledStatus(@PathVariable final UUID productId,
+                                                              @PathVariable final boolean status) {
         productService.updateProductEnabledStatus(productId, status);
         String message = "The Product Id " + productId + " has been " + status;
         return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
