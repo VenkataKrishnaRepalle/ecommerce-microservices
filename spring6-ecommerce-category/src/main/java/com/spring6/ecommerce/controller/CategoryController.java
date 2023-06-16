@@ -24,12 +24,12 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("addCategory")
-    public ResponseEntity<HttpStatus> createCategory(@PathVariable UUID id,@RequestBody @Valid final CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
+    public ResponseEntity<HttpStatus> createCategory(@RequestBody @Valid final CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
         if (categoryService.isNameExist(categoryCreateRequestDto.getName())) {
             throw new CategoryNameAlreadyExistException("Category name :" + categoryCreateRequestDto.getName() + " already exist");
         }
-        CategoryCreateResponseDto saveCategory = categoryService.createCategories(id,categoryCreateRequestDto);
-        return new ResponseEntity( HttpStatus.CREATED);
+        CategoryCreateResponseDto saveCategory = categoryService.createCategories(categoryCreateRequestDto);
+        return new ResponseEntity(saveCategory, HttpStatus.CREATED);
     }
 
     @GetMapping("listCategory")

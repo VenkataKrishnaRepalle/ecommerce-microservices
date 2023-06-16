@@ -49,4 +49,11 @@ public class ParentCategory {
 
     @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
     private Set<Category> categories = new HashSet<>();
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
 }

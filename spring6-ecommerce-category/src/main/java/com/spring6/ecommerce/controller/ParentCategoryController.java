@@ -1,10 +1,9 @@
 package com.spring6.ecommerce.controller;
 import com.spring6.ecommerce.common.dto.ParentCategoryFindResponseDto;
-import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
-import com.spring6.ecommerce.dto.CategoryUpdateResponseDto;
-import com.spring6.ecommerce.dto.ParentCategoryUpdateRequestDto;
-import com.spring6.ecommerce.dto.ParentCategoryUpdateResponseDto;
+import com.spring6.ecommerce.dto.*;
+import com.spring6.ecommerce.exception.ParentCategoryNameAlreadyExistException;
 import com.spring6.ecommerce.service.ParentCategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,15 @@ import java.util.UUID;
 @RequestMapping("parent-category")
 public class ParentCategoryController {
     private final ParentCategoryService parentCategoryService;
+
+    @PostMapping("addParentCategory")
+    public ResponseEntity<HttpStatus> createParentCategory(@RequestBody @Valid final ParentCategoryCreateRequestDto parentCategoryCreateRequestDto) throws ParentCategoryNameAlreadyExistException {
+        if (parentCategoryService.isNameExist(parentCategoryCreateRequestDto.getName())) {
+            throw new ParentCategoryNameAlreadyExistException("Parent Category name :" + parentCategoryCreateRequestDto.getName() + " already exist");
+        }
+        ParentCategoryCreateResponseDto saveParentCategory = parentCategoryService.createParentCategories(parentCategoryCreateRequestDto);
+        return new ResponseEntity(saveParentCategory, HttpStatus.CREATED);
+    }
 
     @GetMapping("getList")
     public List<ParentCategoryFindResponseDto> listAll() {

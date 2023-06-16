@@ -5,9 +5,12 @@ import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
 import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
 import com.spring6.ecommerce.dto.CategoryUpdateResponseDto;
 import com.spring6.ecommerce.entity.Category;
+import com.spring6.ecommerce.entity.ParentCategory;
 import com.spring6.ecommerce.exception.CategoryNotFoundException;
+import com.spring6.ecommerce.exception.parentCategoryNotFoundException;
 import com.spring6.ecommerce.mapper.CategoryMapper;
 import com.spring6.ecommerce.repository.CategoryRepository;
+import com.spring6.ecommerce.repository.ParentCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import java.util.UUID;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final ParentCategoryRepository parentCategoryRepository;
 
     public List<CategoryFindResponseDto> listAll() {
         return categoryRepository.findAll()
@@ -63,10 +67,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryCreateResponseDto createCategories(final UUID id,CategoryCreateRequestDto categoryCreateRequestDto)
+    public CategoryCreateResponseDto createCategories(CategoryCreateRequestDto categoryCreateRequestDto)
     {
         Category category = categoryMapper.categoryCreateRequestDtoToCategory(categoryCreateRequestDto);
-        return categoryMapper.categoryToCategoryCreateResponseDto(categoryRepository.save(categoryMapper.categoryCreateRequestDtoToCategory(categoryCreateRequestDto)));
+        UUID parentCategoryId =  categoryCreateRequestDto.getParentCategoryUUID();
+        ParentCategory parentCategory = parentCategoryRepository.findById(parentCategoryId).orElseThrow(()-> new parentCategoryNotFoundException("Parent Category does not exist"));
+        category.setParentCategory(parentCategory);
+        Category savedCategory = categoryRepository.save(category);
+        CategoryCreateResponseDto responseDto = categoryMapper.categoryToCategoryCreateResponseDto(savedCategory);
+        responseDto.setParentCategoryId(parentCategoryId);
+        return responseDto;
     }
 
     @Override
@@ -76,5 +86,10 @@ public class CategoryServiceImpl implements CategoryService {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;    }
+
+    @Override
+    public List<Category> findByParentCategory(ParentCategory parentCategory) {
+        return categoryRepository.findByParentCategory(parentCategory);
+    }
 
 }

@@ -1,14 +1,12 @@
 package com.spring6.ecommerce.service;
-
 import com.spring6.ecommerce.common.dto.ParentCategoryFindResponseDto;
-import com.spring6.ecommerce.dto.CategoryUpdateResponseDto;
-import com.spring6.ecommerce.dto.ParentCategoryUpdateRequestDto;
-import com.spring6.ecommerce.dto.ParentCategoryUpdateResponseDto;
+import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.entity.Category;
 import com.spring6.ecommerce.entity.ParentCategory;
 import com.spring6.ecommerce.exception.CategoryNotFoundException;
 import com.spring6.ecommerce.exception.parentCategoryNotFoundException;
 import com.spring6.ecommerce.mapper.ParentCategoryMapper;
+import com.spring6.ecommerce.repository.CategoryRepository;
 import com.spring6.ecommerce.repository.ParentCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +20,10 @@ import java.util.UUID;
 public class ParentCategoryServiceImpl implements ParentCategoryService {
     private final ParentCategoryRepository parentCategoryRepository;
     private final ParentCategoryMapper parentCategoryMapper;
+    private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
+
+
 
 
     public List<ParentCategoryFindResponseDto> listAll() {
@@ -56,12 +58,39 @@ public class ParentCategoryServiceImpl implements ParentCategoryService {
 
     @Override
     public void deleteById(UUID id) throws parentCategoryNotFoundException {
-        Long parentCategoryCountById = parentCategoryRepository.countById(id);
-        if (parentCategoryCountById == 0) {
-            throw new CategoryNotFoundException("Category does not exist with ID : " + id);
+
+        Optional<ParentCategory> optionalParentCategory = parentCategoryRepository.findById(id);
+        if (optionalParentCategory.isEmpty()) {
+            throw new parentCategoryNotFoundException("Parent Category does not exist with ID : " + id);
         }
+
+
+        ParentCategory parentCategory = optionalParentCategory.get();
+        List<Category> associatedCategories = categoryService.findByParentCategory(parentCategory);
+        for (Category category : associatedCategories){
+            category.setParentCategory(null);
+
+        }
+//        categoryRepository.saveAll(associatedCategories);
+
         parentCategoryRepository.deleteById(id);
 
+    }
+
+    @Override
+    public Boolean isNameExist(String name) {
+        Optional<ParentCategory> optionalParentCategory = parentCategoryRepository.findByName(name);
+        if (optionalParentCategory.isPresent()){
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public ParentCategoryCreateResponseDto createParentCategories(ParentCategoryCreateRequestDto parentCategoryCreateRequestDto) {
+        parentCategoryMapper.parentCategoryCreateRequestDtoToParentCategory(parentCategoryCreateRequestDto);
+
+        return parentCategoryMapper.parentCategoryToParentCategoryCreateResponseDto(parentCategoryRepository.save(parentCategoryMapper.parentCategoryCreateRequestDtoToParentCategory(parentCategoryCreateRequestDto)));
     }
 
 

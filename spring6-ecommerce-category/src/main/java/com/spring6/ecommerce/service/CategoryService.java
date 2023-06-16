@@ -4,6 +4,8 @@ import com.spring6.ecommerce.dto.CategoryCreateRequestDto;
 import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
 import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
 import com.spring6.ecommerce.dto.CategoryUpdateResponseDto;
+import com.spring6.ecommerce.entity.Category;
+import com.spring6.ecommerce.entity.ParentCategory;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +15,7 @@ public interface CategoryService {
     CategoryFindResponseDto findCategoryById(UUID id);
     CategoryUpdateResponseDto updateCategory(UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto);
     void deleteCategoryById(UUID categoryId);
-    CategoryCreateResponseDto createCategories(UUID id,CategoryCreateRequestDto categoryCreateRequestDto);
+    CategoryCreateResponseDto createCategories(CategoryCreateRequestDto categoryCreateRequestDto);
     Boolean isNameExist(String name);
+    List<Category> findByParentCategory(ParentCategory parentCategory);
 }

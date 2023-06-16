@@ -1,6 +1,8 @@
 package com.spring6.ecommerce.mapper;
 
 import com.spring6.ecommerce.common.dto.ParentCategoryFindResponseDto;
+import com.spring6.ecommerce.dto.ParentCategoryCreateRequestDto;
+import com.spring6.ecommerce.dto.ParentCategoryCreateResponseDto;
 import com.spring6.ecommerce.dto.ParentCategoryUpdateRequestDto;
 import com.spring6.ecommerce.dto.ParentCategoryUpdateResponseDto;
 import com.spring6.ecommerce.entity.ParentCategory;
@@ -11,5 +13,7 @@ public interface ParentCategoryMapper {
     ParentCategoryFindResponseDto parentCategoryToParentCategoryFindResponseDto(ParentCategory parentCategory);
     ParentCategory parentCategoryUpdateRequestDtoToParentCategory(ParentCategoryUpdateRequestDto parentCategoryUpdateRequestDto);
     ParentCategoryUpdateResponseDto parentCategoryToParentCategoryUpdateResponseDto(ParentCategory parentCategory);
+    ParentCategoryCreateResponseDto parentCategoryToParentCategoryCreateResponseDto(ParentCategory parentCategory);
+    ParentCategory parentCategoryCreateRequestDtoToParentCategory(ParentCategoryCreateRequestDto parentCategoryCreateRequestDto);
 
 }

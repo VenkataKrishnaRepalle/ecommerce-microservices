@@ -5,13 +5,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Data
 @Builder
-public class ParentCategoryCreateRequestDto {
+public class ParentCategoryCreateResponseDto {
+    @NotNull
+    private UUID id;
     @NotBlank
     private String name;
     @NotBlank
