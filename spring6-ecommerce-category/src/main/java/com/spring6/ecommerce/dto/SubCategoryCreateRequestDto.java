@@ -1,17 +1,15 @@
 package com.spring6.ecommerce.dto;
 
+import com.spring6.ecommerce.common.enumeration.SubCategoryEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
-
 @Data
 @Builder
-public class ParentCategoryCreateRequestDto {
+public class SubCategoryCreateRequestDto {
     @NotBlank
     private String name;
     @NotBlank
@@ -19,6 +17,7 @@ public class ParentCategoryCreateRequestDto {
     @NotBlank
     private String image;
     @NotNull
-    private Boolean isEnabled;
-
+    private SubCategoryEnum status;
+    @NotNull
+    private UUID categoryUUID;
 }

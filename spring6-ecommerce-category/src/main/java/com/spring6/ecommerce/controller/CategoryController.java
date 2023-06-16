@@ -1,15 +1,10 @@
 package com.spring6.ecommerce.controller;
-
 import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
-import com.spring6.ecommerce.dto.CategoryCreateRequestDto;
-import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
-import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
-import com.spring6.ecommerce.dto.CategoryUpdateResponseDto;
+import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.exception.CategoryNameAlreadyExistException;
 import com.spring6.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,31 +18,32 @@ import java.util.UUID;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @PostMapping("addCategory")
-    public ResponseEntity<HttpStatus> createCategory(@RequestBody @Valid final CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
+    @PostMapping("addParentCategory")
+    public ResponseEntity<HttpStatus> createParentCategory(@RequestBody @Valid final CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
         if (categoryService.isNameExist(categoryCreateRequestDto.getName())) {
-            throw new CategoryNameAlreadyExistException("Category name :" + categoryCreateRequestDto.getName() + " already exist");
+            throw new CategoryNameAlreadyExistException("Parent Category name :" + categoryCreateRequestDto.getName() + " already exist");
         }
-        CategoryCreateResponseDto saveCategory = categoryService.createCategories(categoryCreateRequestDto);
-        return new ResponseEntity(saveCategory, HttpStatus.CREATED);
+        CategoryCreateResponseDto saveParentCategory = categoryService.createParentCategories(categoryCreateRequestDto);
+        return new ResponseEntity(saveParentCategory, HttpStatus.CREATED);
     }
 
-    @GetMapping("listCategory")
-    public List<CategoryFindResponseDto> listAllCategories() {
+    @GetMapping("getList")
+    public List<CategoryFindResponseDto> listAll() {
         return categoryService.listAll();
     }
-    @GetMapping("{categoryId}")
-    public CategoryFindResponseDto getCategoryById(@PathVariable final UUID categoryId){
-        return categoryService.findCategoryById(categoryId);
+
+    @GetMapping("{parentCategoryId}")
+    public CategoryFindResponseDto getParentCategoryById(@PathVariable final UUID parentCategoryId){
+        return categoryService.findCategoryById(parentCategoryId);
     }
     @PutMapping("update/{id}")
-    public  CategoryUpdateResponseDto updateCategory(@PathVariable UUID id, @RequestBody CategoryUpdateRequestDto categoryDto){
-        return categoryService.updateCategory(id, categoryDto);
+    public CategoryUpdateResponseDto updateParentCategory(@PathVariable UUID id, @RequestBody CategoryUpdateRequestDto categoryUpdateRequestDto){
+        return categoryService.updateParentCategory(id, categoryUpdateRequestDto);
+
     }
-    @DeleteMapping("delete/{categoryId}")
-    public ResponseEntity<HttpStatus>  deleteById(@PathVariable final UUID categoryId) {
-        categoryService.deleteCategoryById(categoryId);
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<HttpStatus> deleteById(@PathVariable final UUID id) {
+        categoryService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }

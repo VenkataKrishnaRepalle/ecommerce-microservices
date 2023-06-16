@@ -1,5 +1,6 @@
 package com.spring6.ecommerce.entity;
 
+import com.spring6.ecommerce.common.enumeration.CategoryEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -20,7 +23,6 @@ import java.util.UUID;
 @Builder
 @Entity
 public class Category {
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -37,8 +39,8 @@ public class Category {
     @Column(length = 128, nullable = false)
     private String image;
 
-    @Column(name = "is_enabled")
-    private Boolean isEnabled;
+    @Column(name = "status")
+    private CategoryEnum status;
 
     @CreationTimestamp
     private Instant createdOn;
@@ -46,11 +48,8 @@ public class Category {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "parent_category_id", nullable = false)
-    private ParentCategory parentCategory;
-
-
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
+    private Set<SubCategory> categories = new HashSet<>();
 
 
 }

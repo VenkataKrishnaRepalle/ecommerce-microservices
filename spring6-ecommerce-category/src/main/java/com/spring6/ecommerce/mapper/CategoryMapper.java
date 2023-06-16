@@ -1,4 +1,5 @@
 package com.spring6.ecommerce.mapper;
+
 import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
 import com.spring6.ecommerce.dto.CategoryCreateRequestDto;
 import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
@@ -9,10 +10,10 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface CategoryMapper {
-    CategoryFindResponseDto categoryToCategoryFindResponseDto(Category category);
-    Category categoryUpdateRequestDtoToCategory(CategoryUpdateRequestDto categoryUpdateRequestDto);
-    CategoryUpdateResponseDto categoryToCategoryUpdateResponseDto(Category category);
-    CategoryCreateResponseDto categoryToCategoryCreateResponseDto(Category category);
+    CategoryFindResponseDto parentCategoryToParentCategoryFindResponseDto(Category category);
+    Category parentCategoryUpdateRequestDtoToParentCategory(CategoryUpdateRequestDto categoryUpdateRequestDto);
+    CategoryUpdateResponseDto parentCategoryToParentCategoryUpdateResponseDto(Category category);
+    CategoryCreateResponseDto parentCategoryToParentCategoryCreateResponseDto(Category category);
+    Category parentCategoryCreateRequestDtoToParentCategory(CategoryCreateRequestDto categoryCreateRequestDto);
 
-    Category categoryCreateRequestDtoToCategory(CategoryCreateRequestDto categoryCreateRequestDto);
 }

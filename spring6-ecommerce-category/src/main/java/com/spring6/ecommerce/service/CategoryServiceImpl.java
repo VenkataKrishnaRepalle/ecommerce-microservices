@@ -1,16 +1,12 @@
 package com.spring6.ecommerce.service;
 import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
-import com.spring6.ecommerce.dto.CategoryCreateRequestDto;
-import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
-import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
-import com.spring6.ecommerce.dto.CategoryUpdateResponseDto;
+import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.entity.Category;
-import com.spring6.ecommerce.entity.ParentCategory;
+import com.spring6.ecommerce.exception.SubCategoryNotFoundException;
 import com.spring6.ecommerce.exception.CategoryNotFoundException;
-import com.spring6.ecommerce.exception.parentCategoryNotFoundException;
 import com.spring6.ecommerce.mapper.CategoryMapper;
+import com.spring6.ecommerce.repository.SubCategoryRepository;
 import com.spring6.ecommerce.repository.CategoryRepository;
-import com.spring6.ecommerce.repository.ParentCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,73 +19,73 @@ import java.util.UUID;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    private final ParentCategoryRepository parentCategoryRepository;
+    private final SubCategoryService subCategoryService;
+    private final SubCategoryRepository subCategoryRepository;
+
+
+
 
     public List<CategoryFindResponseDto> listAll() {
         return categoryRepository.findAll()
                 .stream()
-                .map(categoryMapper::categoryToCategoryFindResponseDto)
+                .map(categoryMapper::parentCategoryToParentCategoryFindResponseDto)
                 .toList();
     }
 
     @Override
-    public CategoryFindResponseDto findCategoryById(UUID id) throws CategoryNotFoundException {
-        Optional<Category> category = categoryRepository.findById(id);
-        if (category.isPresent()) {
-            return categoryMapper.categoryToCategoryFindResponseDto(category.get());
+    public CategoryFindResponseDto findCategoryById(UUID parentCategoryId) {
+        Optional<Category> parentCategory = categoryRepository.findById(parentCategoryId);
+        if (parentCategory.isPresent()) {
+            return categoryMapper.parentCategoryToParentCategoryFindResponseDto(parentCategory.get());
         }
 
-        throw new CategoryNotFoundException("Category does not exist with ID : " + id);
+        throw new CategoryNotFoundException("Parent Category does not exist with ID : " + parentCategoryId);
     }
 
     @Override
-    public CategoryUpdateResponseDto updateCategory(final UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto) throws CategoryNotFoundException {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (!optionalCategory.isPresent()) {
-            throw new CategoryNotFoundException("Category does not exist with ID : " + id);
+    public CategoryUpdateResponseDto updateParentCategory(UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto) {
+        Optional<Category> optionalParentCategory = categoryRepository.findById(id);
+        if (!optionalParentCategory.isPresent()) {
+            throw new SubCategoryNotFoundException("Parent Category does not exist with ID : " + id);
         }
 
 
-        Category category = categoryMapper.categoryUpdateRequestDtoToCategory(categoryUpdateRequestDto);
-        category.setId(id);
-        category.setParentCategory(optionalCategory.get().getParentCategory());
-        return categoryMapper.categoryToCategoryUpdateResponseDto(categoryRepository.save(category));
+        Category category = categoryMapper.parentCategoryUpdateRequestDtoToParentCategory(categoryUpdateRequestDto);
+        category.setId(optionalParentCategory.get().getId());
+        return categoryMapper.parentCategoryToParentCategoryUpdateResponseDto(categoryRepository.save(category));
     }
 
     @Override
-    public void deleteCategoryById(UUID categoryId) throws CategoryNotFoundException {
-        Long categoryCountById = categoryRepository.countById(categoryId);
-        if (categoryCountById == 0) {
-            throw new CategoryNotFoundException("Category does not exist with ID : " + categoryId);
+    public void deleteById(UUID id) throws CategoryNotFoundException {
+
+        Optional<Category> optionalParentCategory = categoryRepository.findById(id);
+        if (optionalParentCategory.isEmpty()) {
+            throw new CategoryNotFoundException("Parent Category does not exist with ID : " + id);
         }
-        categoryRepository.deleteById(categoryId);
 
-    }
+        Category category = optionalParentCategory.get();
+        categoryRepository.deleteById(category.getId());
 
-    @Override
-    public CategoryCreateResponseDto createCategories(CategoryCreateRequestDto categoryCreateRequestDto)
-    {
-        Category category = categoryMapper.categoryCreateRequestDtoToCategory(categoryCreateRequestDto);
-        UUID parentCategoryId =  categoryCreateRequestDto.getParentCategoryUUID();
-        ParentCategory parentCategory = parentCategoryRepository.findById(parentCategoryId).orElseThrow(()-> new parentCategoryNotFoundException("Parent Category does not exist"));
-        category.setParentCategory(parentCategory);
-        Category savedCategory = categoryRepository.save(category);
-        CategoryCreateResponseDto responseDto = categoryMapper.categoryToCategoryCreateResponseDto(savedCategory);
-        responseDto.setParentCategoryId(parentCategoryId);
-        return responseDto;
     }
 
     @Override
     public Boolean isNameExist(String name) {
-        Optional<Category> optionalCategory = categoryRepository.findByName(name);
-        if (optionalCategory.isPresent()) {
+        Optional<Category> optionalParentCategory = categoryRepository.findByName(name);
+        if (optionalParentCategory.isPresent()){
             return Boolean.TRUE;
         }
-        return Boolean.FALSE;    }
+        return Boolean.FALSE;
+    }
 
     @Override
-    public List<Category> findByParentCategory(ParentCategory parentCategory) {
-        return categoryRepository.findByParentCategory(parentCategory);
-    }
+    public CategoryCreateResponseDto createParentCategories(CategoryCreateRequestDto categoryCreateRequestDto) {
+       Category category = categoryMapper.parentCategoryCreateRequestDtoToParentCategory(categoryCreateRequestDto);
+       Category savedCategory = categoryRepository.save(category);
+       CategoryCreateResponseDto responseDto = categoryMapper.parentCategoryToParentCategoryCreateResponseDto(savedCategory);
+       return responseDto;
+
+//        return parentCategoryMapper.parentCategoryToParentCategoryCreateResponseDto(parentCategoryRepository.save(parentCategoryMapper.parentCategoryCreateRequestDtoToParentCategory(parentCategoryCreateRequestDto)));
+   }
+
 
 }
