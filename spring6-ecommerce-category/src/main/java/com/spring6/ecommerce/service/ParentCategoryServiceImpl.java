@@ -88,10 +88,13 @@ public class ParentCategoryServiceImpl implements ParentCategoryService {
 
     @Override
     public ParentCategoryCreateResponseDto createParentCategories(ParentCategoryCreateRequestDto parentCategoryCreateRequestDto) {
-        parentCategoryMapper.parentCategoryCreateRequestDtoToParentCategory(parentCategoryCreateRequestDto);
+       ParentCategory parentCategory= parentCategoryMapper.parentCategoryCreateRequestDtoToParentCategory(parentCategoryCreateRequestDto);
+       ParentCategory savedParentCategory = parentCategoryRepository.save(parentCategory);
+       ParentCategoryCreateResponseDto responseDto = parentCategoryMapper.parentCategoryToParentCategoryCreateResponseDto(savedParentCategory);
+       return responseDto;
 
-        return parentCategoryMapper.parentCategoryToParentCategoryCreateResponseDto(parentCategoryRepository.save(parentCategoryMapper.parentCategoryCreateRequestDtoToParentCategory(parentCategoryCreateRequestDto)));
-    }
+//        return parentCategoryMapper.parentCategoryToParentCategoryCreateResponseDto(parentCategoryRepository.save(parentCategoryMapper.parentCategoryCreateRequestDtoToParentCategory(parentCategoryCreateRequestDto)));
+   }
 
 
 }

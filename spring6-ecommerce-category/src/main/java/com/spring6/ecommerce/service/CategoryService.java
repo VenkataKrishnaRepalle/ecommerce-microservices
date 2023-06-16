@@ -18,4 +18,10 @@ public interface CategoryService {
     CategoryCreateResponseDto createCategories(CategoryCreateRequestDto categoryCreateRequestDto);
     Boolean isNameExist(String name);
     List<Category> findByParentCategory(ParentCategory parentCategory);
+
+    List<CategoryFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
+
+    boolean isCategoryExist(UUID categoryId);
+
+    void updateImageFile(UUID categoryId, String fileName);
 }

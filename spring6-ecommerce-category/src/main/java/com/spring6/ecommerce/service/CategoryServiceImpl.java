@@ -12,6 +12,9 @@ import com.spring6.ecommerce.mapper.CategoryMapper;
 import com.spring6.ecommerce.repository.CategoryRepository;
 import com.spring6.ecommerce.repository.ParentCategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
+    private static final int CATEGORY_PER_PAGE = 5;
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final ParentCategoryRepository parentCategoryRepository;
@@ -91,5 +95,52 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findByParentCategory(ParentCategory parentCategory) {
         return categoryRepository.findByParentCategory(parentCategory);
     }
+
+    @Override
+    public List<CategoryFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword) {
+        Sort sort = Sort.by(sortField);
+        sort = sortDir.equals("ASC") ? sort.ascending() : sort.descending();
+
+        Pageable pageable = PageRequest.of(pageNumber - 1, CATEGORY_PER_PAGE, sort);
+
+        if(keyword != null) {
+            return categoryRepository.findByPage(keyword, (java.awt.print.Pageable) pageable)
+                    .stream()
+                    .map(categoryMapper::categoryToCategoryFindResponseDto)
+                    .toList();
+        }
+        return categoryRepository.findAll()
+                .stream()
+                .map(categoryMapper::categoryToCategoryFindResponseDto)
+                .toList();
+
+    }
+
+    @Override
+    public boolean isCategoryExist(UUID categoryId) {
+        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
+
+        if (optionalCategory.isPresent()) {
+            return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public void updateImageFile(UUID categoryId, String fileName) {
+        Optional<Category> optionalCategory= categoryRepository.findById(categoryId);
+
+        if (!optionalCategory.isPresent()) {
+            throw new CategoryNotFoundException("Could not find any category with ID : " + categoryId);
+        }
+
+        Category category = optionalCategory.get();
+        category.setImage(fileName);
+
+        categoryRepository.save(category);
+    }
+
+
 
 }
