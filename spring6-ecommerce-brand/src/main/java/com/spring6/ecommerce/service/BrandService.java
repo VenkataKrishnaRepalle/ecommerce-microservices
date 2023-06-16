@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface BrandService {
     List<BrandFindResponesDto> findAll();
 
-    List<BrandFindResponesDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
+    List<BrandFindResponesDto> findByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, String keyword);
 
     BrandFindResponesDto findById(UUID id);
 

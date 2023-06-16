@@ -13,5 +13,7 @@ public class BrandFindResponesDto {
 
     private String logo;
 
-    private UUID categoryId;
+    private
+
+    private UUID subcategoryId;
 }

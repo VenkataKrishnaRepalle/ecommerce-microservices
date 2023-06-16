@@ -33,11 +33,15 @@ public class BrandServiceImpl implements BrandService {
                 .toList();
     }
 
-    public List<BrandFindResponesDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword) {
+    public List<BrandFindResponesDto> findByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, String keyword) {
+        if(sortField.isBlank()) {
+            sortField = "name";
+
+        }
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("ASC") ? sort.ascending() : sort.descending();
 
-        Pageable pageable = PageRequest.of(pageNumber - 1, BRANDS_PER_PAGE, sort);
+        Pageable pageable = PageRequest.of(pageNumber - 1, perPageCount, sort);
 
         if (keyword != null) {
             return brandRepository.findAll(keyword, pageable)

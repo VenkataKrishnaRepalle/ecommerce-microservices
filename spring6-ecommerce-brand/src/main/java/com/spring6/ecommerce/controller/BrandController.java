@@ -10,6 +10,11 @@ import com.spring6.ecommerce.exception.BrandNameAlreadyExistException;
 import com.spring6.ecommerce.feign.CategoryServiceFeignClient;
 import com.spring6.ecommerce.service.BrandService;
 import com.spring6.ecommerce.validations.ValidImageExtension;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +38,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("brand")
+@RequestMapping("api/brand")
 public class BrandController {
 
     private final BrandService brandService;
@@ -43,12 +48,73 @@ public class BrandController {
     @Autowired
     private CategoryServiceFeignClient categoryServiceClient;
 
-    @GetMapping("page/{pageNumber}")
-    public List<BrandFindResponesDto> findByPage(@PathVariable(name = "pageNumber") int pageNumber,
+
+    @Operation(
+            summary = "Create a Brand",
+            description = "Create a Brand",
+            tags = "Brand"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Create a Brand",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = BrandCreateRequestDto.class))
+                    }
+            ),
+
+            @ApiResponse(responseCode = "500",
+                    description = "Internal Server error",
+                    content = @Content)
+    })
+
+    @PostMapping(value = "create")
+    public ResponseEntity<HttpStatus> create(
+            @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto)
+            throws BrandNameAlreadyExistException {
+
+        if (brandService.isNameExist(brandCreateRequestDto.getName())) {
+            throw new BrandNameAlreadyExistException("Brand name :" + brandCreateRequestDto.getName() + " already exist");
+        }
+
+        BrandCreateResponseDto savedBrandDto = brandService.create(brandCreateRequestDto);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/upload-image")
+    public ResponseEntity<?> uploadImage(
+            @RequestParam @NotNull final UUID brandId,
+            @NotNull @ValidImageExtension @RequestParam(name = "fileImage", required = true, value = "fileImage") final MultipartFile multipartFile)
+            throws IOException, BrandNameAlreadyExistException {
+
+        if (brandService.isIdExist(brandId)) {
+            throw new BrandNameAlreadyExistException("Brand Not found for brandId :" + brandId);
+        }
+
+        if (!multipartFile.isEmpty()) {
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+            String uploadDir = "spring6-ecommerce-brand/brand-logos";
+
+            FileUploadUtils.cleanDir(uploadDir);
+            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
+
+            brandService.updateImageName(brandId, fileName);
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("page")
+    public List<BrandFindResponesDto> findByPage(@RequestParam(name = "pageNumber") Integer pageNumber,
+                                                 @RequestParam("perPageCount") Integer perPageCount,
                                                  @RequestParam("sortField") String sortField,
                                                  @RequestParam("sortDir") String sortDir,
                                                  @RequestParam("keyword") String keyword) {
-        return brandService.findByPage(pageNumber, sortField, sortDir, keyword);
+        return brandService.findByPage(pageNumber,perPageCount, sortField, sortDir, keyword);
     }
 
     @GetMapping("image/{id}")
@@ -103,46 +169,6 @@ public class BrandController {
     public BrandFindResponesDto getById(@PathVariable final UUID brandId) {
         return brandService.findById(brandId);
     }
-
-    @PostMapping(value = "create")
-    public ResponseEntity<HttpStatus> create(
-            @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto)
-            throws BrandNameAlreadyExistException {
-
-        if (brandService.isNameExist(brandCreateRequestDto.getName())) {
-            throw new BrandNameAlreadyExistException("Brand name :" + brandCreateRequestDto.getName() + " already exist");
-        }
-
-        BrandCreateResponseDto savedBrandDto = brandService.create(brandCreateRequestDto);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @PostMapping("/upload-image")
-    public ResponseEntity<?> uploadImage(
-            @RequestParam @NotNull final UUID brandId,
-            @NotNull @ValidImageExtension @RequestParam(name = "fileImage", required = true, value = "fileImage") final MultipartFile multipartFile)
-            throws IOException, BrandNameAlreadyExistException {
-
-        if (brandService.isIdExist(brandId)) {
-            throw new BrandNameAlreadyExistException("Brand Not found for brandId :" + brandId);
-        }
-
-        if (!multipartFile.isEmpty()) {
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-
-            String uploadDir = "spring6-ecommerce-brand/brand-logos";
-
-            FileUploadUtils.cleanDir(uploadDir);
-            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
-
-            brandService.updateImageName(brandId, fileName);
-
-        }
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
 
 
     @PatchMapping("update/{id}")

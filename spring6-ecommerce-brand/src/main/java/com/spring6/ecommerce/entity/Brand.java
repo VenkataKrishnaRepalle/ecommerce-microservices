@@ -39,12 +39,15 @@ public class Brand {
     private String logo;
 
     @Column(nullable = false)
-    private Boolean isEnabled;
+    private BrandStatusEnum status;
 
     @CreationTimestamp
     private Instant createdOn;
 
     @UpdateTimestamp
     private Instant lastUpdatedOn;
+
+    @Column(nullable = false)
+    private UUID subcategoryId;
 
 }

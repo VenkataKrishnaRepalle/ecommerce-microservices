@@ -15,5 +15,5 @@ public class BrandUpdateResponseDto {
 
     private String logo;
 
-    private UUID categoryId;
+    private UUID subcategoryId;
 }

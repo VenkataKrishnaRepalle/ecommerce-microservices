@@ -1,5 +1,6 @@
 package com.spring6.ecommerce.dto;
 
+import com.spring6.ecommerce.entity.BrandStatusEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -19,8 +20,8 @@ public class BrandCreateRequestDto {
 
     @NotNull
     @NotEmpty
-    private List<BrandCategoryDto> brandCategories;
+    private UUID subcategoryId;
 
     @NotNull
-    private Boolean isEnabled;
+    private BrandStatusEnum status;
 }
