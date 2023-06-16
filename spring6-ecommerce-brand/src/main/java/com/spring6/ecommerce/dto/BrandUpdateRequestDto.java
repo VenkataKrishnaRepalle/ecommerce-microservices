@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.dto;
 
-import com.spring6.ecommerce.entity.BrandStatusEnum;
+import com.spring6.ecommerce.common.dto.brand.BrandStatusEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

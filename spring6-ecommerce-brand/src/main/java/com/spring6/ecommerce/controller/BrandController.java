@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.common.dto.BrandFindResponesDto;
+import com.spring6.ecommerce.common.dto.brand.BrandFindResponesDto;
 import com.spring6.ecommerce.common.utils.FileUploadUtils;
 import com.spring6.ecommerce.dto.BrandCreateRequestDto;
 import com.spring6.ecommerce.dto.BrandCreateResponseDto;

@@ -1,7 +1,7 @@
 package com.spring6.ecommerce.bootstrap;
 
 import com.spring6.ecommerce.entity.Brand;
-import com.spring6.ecommerce.entity.BrandStatusEnum;
+import com.spring6.ecommerce.common.dto.brand.BrandStatusEnum;
 import com.spring6.ecommerce.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

@@ -1,4 +1,4 @@
-package com.spring6.ecommerce.entity;
+package com.spring6.ecommerce.common.dto.brand;
 
 public enum BrandStatusEnum {
     ACTIVE, INACTIVE
