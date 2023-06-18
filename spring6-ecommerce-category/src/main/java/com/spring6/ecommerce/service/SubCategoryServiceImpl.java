@@ -25,7 +25,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class SubCategoryServiceImpl implements SubCategoryService {
-    private static final int CATEGORY_PER_PAGE = 5;
+    private static final int SUB_CATEGORY_PER_PAGE = 5;
     private final SubCategoryRepository subCategoryRepository;
     private final SubCategoryMapper subCategoryMapper;
     private final CategoryRepository categoryRepository;
@@ -107,7 +107,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("ASC") ? sort.ascending() : sort.descending();
 
-        Pageable pageable = PageRequest.of(pageNumber - 1, CATEGORY_PER_PAGE, sort);
+        Pageable pageable = PageRequest.of(pageNumber - 1, SUB_CATEGORY_PER_PAGE, sort);
 
         if (keyword != null) {
             return subCategoryRepository.findByPage(keyword, (java.awt.print.Pageable) pageable)
@@ -124,9 +124,9 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
     @Override
     public boolean isSubCategoryExistById(UUID id) {
-        Optional<SubCategory> optionalCategory = subCategoryRepository.findById(id);
+        Optional<SubCategory> optionalSubCategory = subCategoryRepository.findById(id);
 
-        if (optionalCategory.isPresent()) {
+        if (optionalSubCategory.isPresent()) {
             return Boolean.TRUE;
         }
 
@@ -134,14 +134,14 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-    public void updateFileNameById(UUID categoryId, String fileName) {
-        Optional<SubCategory> optionalCategory = subCategoryRepository.findById(categoryId);
+    public void updateFileNameById(UUID id, String fileName) {
+        Optional<SubCategory> optionalSubCategory = subCategoryRepository.findById(id);
 
-        if (!optionalCategory.isPresent()) {
-            throw new SubCategoryNotFoundException("Could not find any category with ID : " + categoryId);
+        if (optionalSubCategory.isEmpty()) {
+            throw new SubCategoryNotFoundException("Could not find any sub-category with ID : " + id);
         }
 
-        SubCategory subCategory = optionalCategory.get();
+        SubCategory subCategory = optionalSubCategory.get();
         subCategory.setImage(fileName);
 
         subCategoryRepository.save(subCategory);

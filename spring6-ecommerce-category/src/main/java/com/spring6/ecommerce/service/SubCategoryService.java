@@ -5,7 +5,6 @@ import com.spring6.ecommerce.dto.SubCategoryCreateRequestDto;
 import com.spring6.ecommerce.dto.SubCategoryCreateResponseDto;
 import com.spring6.ecommerce.dto.SubCategoryUpdateRequestDto;
 import com.spring6.ecommerce.dto.SubCategoryUpdateResponseDto;
-import com.spring6.ecommerce.entity.SubCategory;
 
 import java.util.List;
 import java.util.UUID;
