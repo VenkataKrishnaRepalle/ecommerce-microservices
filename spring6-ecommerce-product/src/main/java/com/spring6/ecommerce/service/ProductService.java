@@ -12,26 +12,21 @@ public interface ProductService {
 
     List<ProductFindResponseDto> listAll();
 
-    ProductFindResponseDto getProductById(UUID productId);
+    ProductFindResponseDto getProductById(UUID id);
 
-    ProductCreateResponseDto addProduct(ProductCreateRequestDto productCreateRequestDto);
+    ProductCreateResponseDto create(ProductCreateRequestDto productCreateRequestDto);
 
-    void updateProductEnabledStatus(UUID productId, boolean status);
+    void updateProductStatusById(UUID id, boolean status);
 
-    void deleteProductById(UUID productId);
+    void deleteProductById(UUID id);
 
     boolean isProductNameExists(String productName);
 
-    boolean isProductExists(UUID productId);
+    boolean isProductExists(UUID id);
 
-    void updateImageName(UUID productId, String fileName);
+    void uploadImage(UUID id, String fileName);
 
-    List<ProductDetailsFindResponseDto> addProductDetails(UUID productId, String[] detailNames, String[] detailValues);
-
-//    ProductDetailsFindResponseDto isProductDetailsExists(UUID productId, String detailName, String detailvalue);
-
-    ProductUpdateResponseDto updateProduct(UUID productId, ProductUpdateRequestDto productUpdateRequestDto);
+    ProductUpdateResponseDto update(UUID id, ProductUpdateRequestDto productUpdateRequestDto);
 
     List<ProductFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
-
 }
