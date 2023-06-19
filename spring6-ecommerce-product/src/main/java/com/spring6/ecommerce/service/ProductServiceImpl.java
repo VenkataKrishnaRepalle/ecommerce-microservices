@@ -154,4 +154,36 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
     }
 
+    public List<ProductFindResponseDto> getByCategoryId(UUID categoryId) {
+        if(productRepository.getByCategoryId(categoryId).isEmpty()){
+            throw new ProductNotFoundException("Could not found Products with Category Id: "+ categoryId);
+        }
+        return productRepository.getByCategoryId(categoryId)
+                .stream()
+                .map(productMapper::productToProductFindResponseDto)
+                .toList();
+    }
+
+    @Override
+    public List<ProductFindResponseDto> getByBrandId(UUID brandId) {
+        if(productRepository.getByBrandId(brandId).isEmpty()) {
+            throw new ProductNotFoundException("Could not found any Product with Brand Id: " + brandId );
+        }
+        return productRepository.getByBrandId(brandId)
+                .stream()
+                .map(productMapper::productToProductFindResponseDto)
+                .toList();
+    }
+
+    @Override
+    public List<ProductFindResponseDto> getByCategoryIdAndBrandId(UUID categoryId, UUID brandId) {
+        if(productRepository.getByCategoryIdAndBrandId(categoryId,brandId).isEmpty()) {
+            throw new ProductNotFoundException("Could not found any product with Category Id : " + categoryId + " and Brand Id : " + brandId);
+        }
+        return productRepository.getByCategoryIdAndBrandId(categoryId, brandId)
+                .stream()
+                .map(productMapper::productToProductFindResponseDto)
+                .toList();
+    }
+
 }

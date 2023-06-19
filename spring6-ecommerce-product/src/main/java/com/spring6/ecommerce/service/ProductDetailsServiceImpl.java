@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,7 +25,7 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
 
     private final ProductDetailsMapper productDetailsMapper;
 
-    public List<ProductDetailsFindResponseDto> addProductDetails(final UUID id, final String[] detailNames, final String[] detailValues) {
+    public List<ProductDetailsFindResponseDto> create(final UUID id, final String[] detailNames, final String[] detailValues) {
         List<ProductDetailsCreateRequestDto> productDetails = new ArrayList<>();
 
         for (int count = 0; count < detailNames.length; count++) {
@@ -50,7 +51,7 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
         return productDetailsFindResponseDtoList;
     }
 
-    public List<ProductDetailsFindResponseDto> updateProductDetails(UUID id, String[] detailName, String[] detailValue) {
+    public List<ProductDetailsFindResponseDto> update(UUID id, String[] detailName, String[] detailValue) {
 
         List<ProductDetails> listProductDetails = new ArrayList<>();
 
@@ -92,6 +93,16 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
             productDetailsFindResponseDtoList.add(finalProductDetails);
         }
         return productDetailsFindResponseDtoList;
+    }
+
+    @Override
+    public List<ProductDetailsFindResponseDto> getByProductId(UUID id) {
+        if(!isProductDetailsExitsWithProductId(id)){
+            throw new ProductNotFoundException("Could not found ProductDetails with product id: "+ id);
+        }
+        return productDetailsRepository.getByProductId(id)
+                .stream()
+                .map(productDetailsMapper::productDetailsToProductDetailsFindResponseDto).toList();
     }
 
     public boolean isProductDetailsExitsWithProductId(UUID productId) {

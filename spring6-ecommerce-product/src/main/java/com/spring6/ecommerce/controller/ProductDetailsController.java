@@ -21,22 +21,28 @@ public class ProductDetailsController {
 
     @Autowired
     private ProductDetailsService productDetailsService;
+
+    @Operation(summary = "Get Product Details by Product Id", description = "View Product Details by Product Id", tags = "Product Details")
+    @GetMapping("{id}")
+    public ResponseEntity<List<ProductDetailsFindResponseDto>> getByProductId(@PathVariable("id") UUID id) {
+        return new ResponseEntity<>(productDetailsService.getByProductId(id), HttpStatus.OK);
+    }
     @Operation(summary = "Add Product Details", description = "Add Product Details", tags = "Product Details")
-    @PostMapping("/addProductDetails/{id}")
-    public ResponseEntity<List<ProductDetailsFindResponseDto>> addProductDetails(@PathVariable("id") UUID id,
+    @PostMapping("/create/{id}")
+    public ResponseEntity<List<ProductDetailsFindResponseDto>> create(@PathVariable("id") UUID id,
                                                                                  @RequestParam("detailNames") String[] detailNames,
                                                                                  @RequestParam("detailValue") String[] detailValues) {
-        List<ProductDetailsFindResponseDto> productDetailsCreateResponseDtoList = productDetailsService.addProductDetails(id, detailNames, detailValues);
+        List<ProductDetailsFindResponseDto> productDetailsCreateResponseDtoList = productDetailsService.create(id, detailNames, detailValues);
         return new ResponseEntity<>(productDetailsCreateResponseDtoList, HttpStatus.CREATED);
 
     }
 
     @Operation(summary = "Update Product Details", description = "Update Product Details", tags = "Product Details")
-    @PutMapping("/updateProductDetails/{id}")
-    public ResponseEntity<List<ProductDetailsFindResponseDto>> updateProductDetails(@PathVariable("id") UUID id,
+    @PutMapping("/update/{id}")
+    public ResponseEntity<List<ProductDetailsFindResponseDto>> update(@PathVariable("id") UUID id,
                                                                                     @RequestParam("detailName") String[] detailName,
                                                                                     @RequestParam("detailValue") String[] detailValue) {
-        return new ResponseEntity<>(productDetailsService.updateProductDetails(id, detailName,detailValue), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(productDetailsService.update(id, detailName,detailValue), HttpStatus.ACCEPTED);
     };
 
 }

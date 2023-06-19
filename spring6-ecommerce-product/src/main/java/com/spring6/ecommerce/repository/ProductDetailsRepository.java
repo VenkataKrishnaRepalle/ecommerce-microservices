@@ -15,4 +15,7 @@ public interface ProductDetailsRepository extends JpaRepository<ProductDetails, 
 
     @Query("SELECT CASE WHEN EXISTS (SELECT pd FROM ProductDetails pd WHERE pd.productId = :productId)THEN CAST(true As boolean ) ELSE CAST(false as boolean) END")
     boolean isProductDetailsExistsWithProductId(@Param("productId") UUID productId);
+
+    @Query("SELECT pd FROM ProductDetails pd WHERE pd.productId = :id")
+    List<ProductDetails> getByProductId(@Param("id") UUID id);
 }

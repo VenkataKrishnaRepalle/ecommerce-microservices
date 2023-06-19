@@ -56,7 +56,7 @@ public class ProductController {
         }
         ProductCreateResponseDto savedProduct = productService.create(productCreateRequestDto);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Location", "/brand" + savedProduct.getId().toString());
+        httpHeaders.add("Location", "/brand" + savedProduct.getId());
         return new ResponseEntity(savedProduct, httpHeaders, HttpStatus.CREATED);
     }
 
@@ -73,7 +73,7 @@ public class ProductController {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
             String uploadDir = "spring6-ecommerce-product/product-images";
-            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
+            FileUploadUtils.saveFile(uploadDir, fileName+"_"+id, multipartFile.getInputStream());
 
             productService.uploadImage(id, fileName);
         }
@@ -114,5 +114,23 @@ public class ProductController {
             @PathVariable final UUID id) {
         productService.deleteProductById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Operation(summary = "Get Products by Category Id", description = "Get Products by Category Id", tags = "Product")
+    @GetMapping("getByCategoryId/{categoryId}")
+    public ResponseEntity<List<ProductFindResponseDto>> getByCategoryId(@PathVariable("categoryId") UUID categoryId) {
+        return new ResponseEntity<>(productService.getByCategoryId(categoryId),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get Products By Brand Id", description = "Get Products By Brand Id", tags = "Product")
+    @GetMapping("getByBrandId/{brandId}")
+    public ResponseEntity<List<ProductFindResponseDto>> getByBrandId(@PathVariable UUID brandId) {
+        return new ResponseEntity<>(productService.getByBrandId(brandId), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get Products By Category Id and Brand Id", description = "Get Products By Category Id and Brand Id", tags = "Product")
+    @GetMapping("getByCategoryId/{categoryId}/byBrandId/{brandId}")
+    public ResponseEntity<List<ProductFindResponseDto>> getByCategoryIdAndBrandId(@PathVariable UUID categoryId,@PathVariable UUID brandId) {
+        return new ResponseEntity<>(productService.getByCategoryIdAndBrandId(categoryId, brandId), HttpStatus.OK);
     }
 }

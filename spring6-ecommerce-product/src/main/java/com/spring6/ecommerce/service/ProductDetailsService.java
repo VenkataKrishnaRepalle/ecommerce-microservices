@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProductDetailsService {
-    List<ProductDetailsFindResponseDto> addProductDetails(UUID id, String[] detailNames, String[] detailValues);
+    List<ProductDetailsFindResponseDto> create(UUID id, String[] detailNames, String[] detailValues);
 
-    List<ProductDetailsFindResponseDto> updateProductDetails(UUID id, String[] detailName, String[] detailValue);
+    List<ProductDetailsFindResponseDto> update(UUID id, String[] detailName, String[] detailValue);
+
+    List<ProductDetailsFindResponseDto> getByProductId(UUID id);
 }

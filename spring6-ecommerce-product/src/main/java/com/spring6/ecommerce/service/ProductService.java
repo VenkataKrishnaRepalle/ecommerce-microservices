@@ -16,6 +16,8 @@ public interface ProductService {
 
     ProductCreateResponseDto create(ProductCreateRequestDto productCreateRequestDto);
 
+    ProductUpdateResponseDto update(UUID id, ProductUpdateRequestDto productUpdateRequestDto);
+
     void updateProductStatusById(UUID id, boolean status);
 
     void deleteProductById(UUID id);
@@ -26,7 +28,12 @@ public interface ProductService {
 
     void uploadImage(UUID id, String fileName);
 
-    ProductUpdateResponseDto update(UUID id, ProductUpdateRequestDto productUpdateRequestDto);
-
     List<ProductFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
+
+    List<ProductFindResponseDto> getByCategoryId(UUID categoryId);
+
+    List<ProductFindResponseDto> getByBrandId(UUID brandId);
+
+    List<ProductFindResponseDto> getByCategoryIdAndBrandId(UUID categoryId, UUID brandId);
+
 }
