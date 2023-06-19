@@ -1,53 +1,100 @@
 package com.spring6.ecommerce.controller;
 
 import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
-import com.spring6.ecommerce.dto.CategoryCreateRequestDto;
-import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
-import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
-import com.spring6.ecommerce.dto.CategoryUpdateResponseDto;
+import com.spring6.ecommerce.common.dto.SubCategoryFindResponseDto;
+import com.spring6.ecommerce.common.utils.FileUploadUtils;
+import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.exception.CategoryNameAlreadyExistException;
+import com.spring6.ecommerce.exception.CategoryNotFoundException;
+import com.spring6.ecommerce.exception.SubCategoryNotFoundException;
 import com.spring6.ecommerce.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("category")
+@Tag(name = "Category")
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @PostMapping("addCategory")
-    public ResponseEntity<HttpStatus> createCategory(@PathVariable UUID id,@RequestBody @Valid final CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
-        if (categoryService.isNameExist(categoryCreateRequestDto.getName())) {
+    @Operation(summary = "Create new Category")
+    @PostMapping("create")
+    public ResponseEntity<HttpStatus> create(@RequestBody @Valid final CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
+        if (categoryService.isCategoryExistByName(categoryCreateRequestDto.getName())) {
             throw new CategoryNameAlreadyExistException("Category name :" + categoryCreateRequestDto.getName() + " already exist");
         }
-        CategoryCreateResponseDto saveCategory = categoryService.createCategories(id,categoryCreateRequestDto);
-        return new ResponseEntity( HttpStatus.CREATED);
+        CategoryCreateResponseDto savedCategory = categoryService.create(categoryCreateRequestDto);
+        return new ResponseEntity(savedCategory, HttpStatus.CREATED);
     }
 
-    @GetMapping("listCategory")
-    public List<CategoryFindResponseDto> listAllCategories() {
-        return categoryService.listAll();
+    @Operation(summary = "List all categories")
+    @GetMapping("list")
+    public List<CategoryFindResponseDto> findAll() {
+        return categoryService.findAll();
     }
-    @GetMapping("{categoryId}")
-    public CategoryFindResponseDto getCategoryById(@PathVariable final UUID categoryId){
-        return categoryService.findCategoryById(categoryId);
+
+    @Operation(summary = "List category by id")
+    @GetMapping("{id}")
+    public CategoryFindResponseDto findById(@PathVariable final UUID id) {
+        return categoryService.findById(id);
     }
+
+    @Operation(summary = "Update category by id")
     @PutMapping("update/{id}")
-    public  CategoryUpdateResponseDto updateCategory(@PathVariable UUID id, @RequestBody CategoryUpdateRequestDto categoryDto){
-        return categoryService.updateCategory(id, categoryDto);
+    public CategoryUpdateResponseDto update(@PathVariable UUID id, @RequestBody CategoryUpdateRequestDto categoryUpdateRequestDto) {
+        return categoryService.update(id, categoryUpdateRequestDto);
+
     }
-    @DeleteMapping("delete/{categoryId}")
-    public ResponseEntity<HttpStatus>  deleteById(@PathVariable final UUID categoryId) {
-        categoryService.deleteCategoryById(categoryId);
+
+    @Operation(summary = "delete category by id")
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<HttpStatus> deleteById(@PathVariable final UUID id) {
+        categoryService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @Operation(summary = "Sort and Filter for Category list page")
+    @GetMapping("findByPage/{pageNumber}")
+    public List<CategoryFindResponseDto> findByPage(@PathVariable("pageNumber") int pageNumber,
+                                                       @RequestParam("sortField") String sortField,
+                                                       @RequestParam("sortDir") String sortDir,
+                                                       @RequestParam("keyword") String keyword) {
+
+        return categoryService.findByPage(pageNumber, sortField, sortDir, keyword);
+
+    }
+    @Operation(summary = "Upload Image of Category ")
+    @PostMapping(value = "/upload-image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<HttpStatus> uploadImage(@RequestParam @NotNull final UUID id,
+                                                  @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
+            throws IOException, SubCategoryNotFoundException {
+        if (!categoryService.isCategoryExistById(id)) {
+            throw new CategoryNotFoundException("Category does not exist  with id " + id);
+        }
+
+        if (!multipartFile.isEmpty()) {
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+            String uploadDir = "spring6-ecommerce-category/category-images";
+            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
+
+            categoryService.updateFileNameById(id, fileName);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
     }
 
 }

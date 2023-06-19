@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.common.dto.BrandFindResponesDto;
+import com.spring6.ecommerce.common.dto.brand.BrandFindResponesDto;
 import com.spring6.ecommerce.dto.BrandCreateRequestDto;
 import com.spring6.ecommerce.dto.BrandCreateResponseDto;
 import com.spring6.ecommerce.dto.BrandUpdateRequestDto;
@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface BrandService {
     List<BrandFindResponesDto> findAll();
 
-    List<BrandFindResponesDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
+    List<BrandFindResponesDto> findByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, String keyword);
 
     BrandFindResponesDto findById(UUID id);
 

@@ -1,4 +1,4 @@
-package com.spring6.ecommerce.common.dto;
+package com.spring6.ecommerce.common.dto.brand;
 
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +13,7 @@ public class BrandFindResponesDto {
 
     private String logo;
 
-    private UUID categoryId;
+    private BrandStatusEnum status;
+
+    private UUID subcategoryId;
 }

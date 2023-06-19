@@ -51,12 +51,15 @@ public class User {
 
     @Column(nullable = false)
     private Boolean isEnabled;
+    @Column(nullable = false)
+    private UserStatus status;
 
     @CreationTimestamp
     private Instant createdOn;
 
     @UpdateTimestamp
     private Instant lastUpdatedOn;
+
 
     @ManyToMany
     @JoinTable(

@@ -1,6 +1,9 @@
 package com.spring6.ecommerce.dto;
 
+import com.spring6.ecommerce.common.dto.brand.BrandStatusEnum;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +20,13 @@ public class BrandUpdateRequestDto {
 
     @NotBlank
     private String logo;
+
+    @NotNull
+    @NotEmpty
+    private UUID subcategoryId;
+
+    @NotNull
+    private BrandStatusEnum status;
+
 
 }

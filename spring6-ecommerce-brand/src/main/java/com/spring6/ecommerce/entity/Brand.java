@@ -1,5 +1,6 @@
 package com.spring6.ecommerce.entity;
 
+import com.spring6.ecommerce.common.dto.brand.BrandStatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,12 +40,15 @@ public class Brand {
     private String logo;
 
     @Column(nullable = false)
-    private Boolean isEnabled;
+    private BrandStatusEnum status;
 
     @CreationTimestamp
     private Instant createdOn;
 
     @UpdateTimestamp
     private Instant lastUpdatedOn;
+
+    @Column(nullable = false)
+    private UUID subcategoryId;
 
 }
