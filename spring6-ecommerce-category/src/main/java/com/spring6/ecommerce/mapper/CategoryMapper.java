@@ -10,10 +10,10 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface CategoryMapper {
-    CategoryFindResponseDto parentCategoryToParentCategoryFindResponseDto(Category category);
-    Category parentCategoryUpdateRequestDtoToParentCategory(CategoryUpdateRequestDto categoryUpdateRequestDto);
-    CategoryUpdateResponseDto parentCategoryToParentCategoryUpdateResponseDto(Category category);
-    CategoryCreateResponseDto parentCategoryToParentCategoryCreateResponseDto(Category category);
-    Category parentCategoryCreateRequestDtoToParentCategory(CategoryCreateRequestDto categoryCreateRequestDto);
+    CategoryFindResponseDto categoryToCategoryFindResponseDto(Category category);
+    Category categoryUpdateRequestDtoToCategory(CategoryUpdateRequestDto categoryUpdateRequestDto);
+    CategoryUpdateResponseDto categoryToCategoryUpdateResponseDto(Category category);
+    CategoryCreateResponseDto categoryToCategoryCreateResponseDto(Category category);
+    Category categoryCreateRequestDtoToCategory(CategoryCreateRequestDto categoryCreateRequestDto);
 
 }

@@ -7,10 +7,21 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CategoryService {
-    List<CategoryFindResponseDto> listAll();
-    CategoryFindResponseDto findCategoryById(UUID parentCategoryId);
-    CategoryUpdateResponseDto updateParentCategory(UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto);
+    CategoryCreateResponseDto create(CategoryCreateRequestDto categoryCreateRequestDto);
+
+    List<CategoryFindResponseDto> findAll();
+
+    CategoryFindResponseDto findById(UUID id);
+
+    CategoryUpdateResponseDto update(UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto);
+
     void deleteById(UUID id);
-    Boolean isNameExist(String name);
-    CategoryCreateResponseDto createParentCategories(CategoryCreateRequestDto categoryCreateRequestDto);
+
+    Boolean isCategoryExistByName(String name);
+    boolean isCategoryExistById(UUID id);
+
+
+    List<CategoryFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
+
+    void updateFileNameById(UUID id, String fileName);
 }

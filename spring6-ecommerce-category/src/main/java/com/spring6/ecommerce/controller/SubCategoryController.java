@@ -11,6 +11,7 @@ import com.spring6.ecommerce.exception.SubCategoryNameAlreadyExistException;
 import com.spring6.ecommerce.exception.SubCategoryNotFoundException;
 import com.spring6.ecommerce.service.SubCategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,11 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("sub-category")
+@Tag(name = "SubCategory")
 public class SubCategoryController {
     private final SubCategoryService subCategoryService;
 
-    @Operation(summary = "Create new sub-category", description = " Add new sub-category", tags = "Sub-Category")
+    @Operation(summary = "Create new sub-category")
     @PostMapping("create")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid final SubCategoryCreateRequestDto subCategoryCreateRequestDto) throws SubCategoryNameAlreadyExistException {
         if (subCategoryService.isSubCategoryExistByName(subCategoryCreateRequestDto.getName())) {
@@ -43,32 +45,32 @@ public class SubCategoryController {
         return new ResponseEntity(saveCategory, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "List all sub-category", description = " List All", tags = "Sub-Category")
+    @Operation(summary = "List all sub-category")
     @GetMapping("list")
     public List<SubCategoryFindResponseDto> findAll() {
         return subCategoryService.findAll();
     }
 
-    @Operation(summary = "List sub-category by id", description = " List sub-category with id", tags = "Sub-Category")
+    @Operation(summary = "List sub-category by id")
     @GetMapping("{id}")
     public SubCategoryFindResponseDto findById(@PathVariable final UUID id) {
         return subCategoryService.findById(id);
     }
 
-    @Operation(summary = "Update sub-category", description = " Update sub-category", tags = "Sub-Category")
+    @Operation(summary = "Update sub-category")
     @PutMapping("update/{id}")
     public SubCategoryUpdateResponseDto update(@PathVariable UUID id, @RequestBody SubCategoryUpdateRequestDto categoryDto) {
         return subCategoryService.update(id, categoryDto);
     }
 
-    @Operation(summary = "delete sub-category", description = " delete sub-category by id", tags = "Sub-Category")
+    @Operation(summary = "delete sub-category")
     @DeleteMapping("delete/{id}")
     public ResponseEntity<HttpStatus> deleteById(@PathVariable final UUID id) {
         subCategoryService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Operation(summary = "Sort and Filter for sub-category list page", description = " sort and filter sub-category", tags = "Sub-Category")
+    @Operation(summary = "Sort and Filter for sub-category list page")
     @GetMapping("findByPage/{pageNumber}")
     public List<SubCategoryFindResponseDto> findByPage(@PathVariable("pageNumber") int pageNumber,
                                                        @RequestParam("sortField") String sortField,
@@ -79,7 +81,7 @@ public class SubCategoryController {
 
     }
 
-    @Operation(summary = "Upload Image of sub-category ", description = " Upload image of sub-category", tags = "Sub-Category")
+    @Operation(summary = "Upload Image of sub-category ")
     @PostMapping(value = "/upload-image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<HttpStatus> uploadImage(@RequestParam @NotNull final UUID id,
                                                   @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
@@ -99,10 +101,10 @@ public class SubCategoryController {
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
-
-//    @GetMapping("{categoryId}")
-//    public List<SubCategoryFindResponseDto> getSubCategoriesByCategoryId(@PathVariable final UUID categoryId) {
-//        return subCategoryService.findByCategoryId(categoryId);
-//    }
+    @Operation(summary = "Get all sub-categories associated with One categoryId ")
+    @GetMapping(value = "{categoryId}",produces = "application/json")
+    public List<SubCategoryFindResponseDto> getSubCategoriesByCategoryId(@PathVariable final UUID categoryId) {
+        return subCategoryService.findByCategoryId(categoryId);
+    }
 
 }
