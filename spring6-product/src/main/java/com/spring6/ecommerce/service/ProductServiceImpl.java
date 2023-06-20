@@ -1,6 +1,7 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
+import com.spring6.common.dto.ProductFindResponseDto;
+import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.entity.Product;
 import com.spring6.ecommerce.exception.ProductNotFoundException;
 import com.spring6.ecommerce.mapper.ProductImageMapper;
@@ -113,7 +114,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
     
-    public ProductUpdateResponseDto update(final UUID id,final ProductUpdateRequestDto productUpdateRequestDto) {
+    public ProductUpdateResponseDto update(final UUID id, final ProductUpdateRequestDto productUpdateRequestDto) {
         Optional<Product> existingProduct = Optional.of(productRepository.getReferenceById(id));
 
         if(existingProduct.isEmpty()) {
