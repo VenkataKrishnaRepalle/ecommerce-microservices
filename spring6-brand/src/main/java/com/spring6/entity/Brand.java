@@ -36,8 +36,8 @@ public class Brand {
     private UUID id;
     @Column(nullable = false, length = 45, unique = true)
     private String name;
-    @Column(nullable = false, length = 128)
-    private String logo;
+    @Column(length = 128)
+    private String imageName;
 
     @Column(nullable = false)
     private BrandStatusEnum status;

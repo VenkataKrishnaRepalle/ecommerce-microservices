@@ -17,7 +17,7 @@ public class BrandRepositoryTest {
     public void testCreateBrand() {
         Brand savedBrand = brandRepository.save(Brand.builder()
                 .name("Acer")
-                .logo("Acer.png")
+                .imageName("Acer.png")
                 .build());
 
         assertThat(savedBrand).isNotNull();

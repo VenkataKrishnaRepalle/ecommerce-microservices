@@ -65,7 +65,7 @@ public class BrandServiceImpl implements BrandService {
             return brandMapper.brandToBrandFindResponesDto(optionalBrand.get());
         }
 
-        throw new BrandNotFoundException("Could not find any brand with ID : " + id);
+        throw new BrandNotFoundException("E0010","Could not find any brand with ID : " + id);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class BrandServiceImpl implements BrandService {
         Optional<Brand> optionalBrand = brandRepository.findById(id);
 
         if (!optionalBrand.isPresent()) {
-            throw new BrandNotFoundException("Could not find any brand with ID : " + id);
+            throw new BrandNotFoundException("E0011","Could not find any brand with ID : " + id);
         }
 
         Brand brand = brandMapper.brandUpdateRequestDtoToBrand(brandUpdateRequestDto);
@@ -95,7 +95,7 @@ public class BrandServiceImpl implements BrandService {
     public void deleteById(UUID id) throws BrandNotFoundException {
         Long brandCountById = brandRepository.countById(id);
         if (brandCountById == 0) {
-            throw new BrandNotFoundException("Could not find any brand with ID : " + id);
+            throw new BrandNotFoundException("E0012","Could not find any brand with ID : " + id);
         }
         brandRepository.deleteById(id);
     }
@@ -123,11 +123,11 @@ public class BrandServiceImpl implements BrandService {
         Optional<Brand> optionalBrand = brandRepository.findById(brandId);
 
         if (!optionalBrand.isPresent()) {
-            throw new BrandNotFoundException("Could not find any brand with ID : " + brandId);
+            throw new BrandNotFoundException("E0013","Could not find any brand with ID : " + brandId);
         }
 
         Brand brand = optionalBrand.get();
-        brand.setLogo(fileName);
+        brand.setImageName(fileName);
 
         brandRepository.save(brand);
     }

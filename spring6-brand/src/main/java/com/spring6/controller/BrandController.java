@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -40,7 +41,8 @@ public class BrandController {
 
     private final BrandService brandService;
 
-    private final String IMAGE_UPLOAD_DIRECTORY = "spring6-ecommerce-brand/brand-logos/";
+    @Value("${file.upload-directory}")
+    private String IMAGE_UPLOAD_DIRECTORY;
 
     @Autowired
     private CategoryServiceFeignClient categoryServiceClient;
@@ -52,7 +54,7 @@ public class BrandController {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
                     description = "Create a Brand",
                     content = {
                             @Content(
@@ -60,6 +62,11 @@ public class BrandController {
                                     schema = @Schema(implementation = BrandCreateRequestDto.class)
                             )
                     }
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Some data already exist",
+                    content = @Content
             ),
             @ApiResponse(
                     responseCode = "500",
@@ -87,7 +94,6 @@ public class BrandController {
             @RequestParam @NotNull final UUID brandId,
             @NotNull @ValidImageExtension @RequestParam(
                     name = "fileImage",
-                    required = true,
                     value = "fileImage") final MultipartFile multipartFile)
             throws IOException, BrandNameAlreadyExistException {
 
@@ -98,10 +104,8 @@ public class BrandController {
         if (!multipartFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
-            String uploadDir = "spring6-ecommerce-brand/brand-logos";
-
-            FileUploadUtils.cleanDir(uploadDir);
-            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile.getInputStream());
+            FileUploadUtils.cleanDir(IMAGE_UPLOAD_DIRECTORY);
+            FileUploadUtils.saveFile(IMAGE_UPLOAD_DIRECTORY, fileName, multipartFile.getInputStream());
 
             brandService.updateImageName(brandId, fileName);
 
@@ -180,7 +184,7 @@ public class BrandController {
 
     @PatchMapping("update/{id}")
     public BrandUpdateResponseDto update(@PathVariable UUID id, @RequestBody BrandUpdateRequestDto brandDto) {
-        return BrandUpdateResponseDto.builder().build();
+        return brandService.update(id, brandDto);
     }
 
     @DeleteMapping("delete/{brandId}")

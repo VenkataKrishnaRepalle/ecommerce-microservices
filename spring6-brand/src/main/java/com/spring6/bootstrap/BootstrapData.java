@@ -24,84 +24,84 @@ public class BootstrapData implements CommandLineRunner {
         if (brandRepository.count() == 0) {
             brandRepository.save(Brand.builder()
                     .name("Acer")
-                    .logo("Acer.png")
+                    .imageName("Acer.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("Samsung")
-                    .logo("Samsung.png")
+                    .imageName("Samsung.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("Canon")
-                    .logo("Canon.png")
+                    .imageName("Canon.png")
                     .status(BrandStatusEnum.INACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("TVS")
-                    .logo("tvs.png")
+                    .imageName("tvs.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("Honda")
-                    .logo("honda.png")
+                    .imageName("honda.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("Apple")
-                    .logo("apple.png")
+                    .imageName("apple.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("Xiomi")
-                    .logo("xiomi.png")
+                    .imageName("xiomi.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("mi")
-                    .logo("mi.png")
+                    .imageName("mi.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("Philips")
-                    .logo("philps.png")
+                    .imageName("philps.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("Voltas")
-                    .logo("voltas.png")
+                    .imageName("voltas.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("Pixma")
-                    .logo("pixma.png")
+                    .imageName("pixma.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
 
             brandRepository.save(Brand.builder()
                     .name("Singer")
-                    .logo("singer.png")
+                    .imageName("singer.png")
                     .status(BrandStatusEnum.ACTIVE)
                     .subcategoryId(UUID.randomUUID())
                     .build());
