@@ -1,4 +1,4 @@
-package com.spring6.spring6customerregistration;
+package com.spring6;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
