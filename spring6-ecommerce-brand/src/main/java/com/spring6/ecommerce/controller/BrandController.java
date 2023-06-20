@@ -28,7 +28,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
@@ -48,24 +47,27 @@ public class BrandController {
     @Autowired
     private CategoryServiceFeignClient categoryServiceClient;
 
-
     @Operation(
             summary = "Create a Brand",
             description = "Create a Brand",
             tags = "Brand"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(
+                    responseCode = "200",
                     description = "Create a Brand",
                     content = {
-                            @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = BrandCreateRequestDto.class))
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = BrandCreateRequestDto.class)
+                            )
                     }
             ),
-
-            @ApiResponse(responseCode = "500",
+            @ApiResponse(
+                    responseCode = "500",
                     description = "Internal Server error",
-                    content = @Content)
+                    content = @Content
+            )
     })
 
     @PostMapping(value = "create")
@@ -85,7 +87,10 @@ public class BrandController {
     @PostMapping("/upload-image")
     public ResponseEntity<?> uploadImage(
             @RequestParam @NotNull final UUID brandId,
-            @NotNull @ValidImageExtension @RequestParam(name = "fileImage", required = true, value = "fileImage") final MultipartFile multipartFile)
+            @NotNull @ValidImageExtension @RequestParam(
+                    name = "fileImage",
+                    required = true,
+                    value = "fileImage") final MultipartFile multipartFile)
             throws IOException, BrandNameAlreadyExistException {
 
         if (brandService.isIdExist(brandId)) {
@@ -114,12 +119,13 @@ public class BrandController {
                                                  @RequestParam("sortField") String sortField,
                                                  @RequestParam("sortDir") String sortDir,
                                                  @RequestParam("keyword") String keyword) {
-        return brandService.findByPage(pageNumber,perPageCount, sortField, sortDir, keyword);
+        return brandService.findByPage(pageNumber, perPageCount, sortField, sortDir, keyword);
     }
 
     @GetMapping("image/{id}")
     @ResponseBody
-    public ResponseEntity<Resource> getImageById(@PathVariable("id") UUID id) throws MalformedURLException {
+    public ResponseEntity<Resource> getImageById(
+            @PathVariable("id") UUID id) throws MalformedURLException {
 
         BrandFindResponesDto brandDto = brandService.findById(id);
         String imageDirectory = IMAGE_UPLOAD_DIRECTORY + brandDto.getLogo();
@@ -149,9 +155,11 @@ public class BrandController {
         // Check if the image file exists
         if (imageResource.exists()) {
             // Return the image for download
-            return ResponseEntity.ok()
+            return ResponseEntity
+                    .ok()
                     .contentType(MediaType.parseMediaType("application/octet-stream"))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + brandDto.getLogo() + "\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + brandDto.getLogo() + "\"")
                     .body(imageResource);
         } else {
             // Return an error response if the image file is not found
