@@ -3,7 +3,6 @@ package com.spring6.ecommerce.controller;
 import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
 import com.spring6.ecommerce.common.dto.SubCategoryFindResponseDto;
 import com.spring6.ecommerce.common.utils.FileUploadUtils;
-import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.exception.CategoryNameAlreadyExistException;
 import com.spring6.ecommerce.exception.CategoryNotFoundException;
 import com.spring6.ecommerce.exception.SubCategoryNotFoundException;

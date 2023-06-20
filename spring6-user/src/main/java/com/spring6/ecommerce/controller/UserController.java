@@ -1,6 +1,5 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.exception.UsernameAlreadyExistException;
 import com.spring6.ecommerce.service.UserService;
 import com.spring6.ecommerce.common.utils.FileUploadUtils;

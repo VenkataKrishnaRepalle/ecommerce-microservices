@@ -1,7 +1,6 @@
 package com.spring6.ecommerce.service;
 
 import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
-import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.entity.Category;
 import com.spring6.ecommerce.entity.SubCategory;
 import com.spring6.ecommerce.exception.SubCategoryNotFoundException;

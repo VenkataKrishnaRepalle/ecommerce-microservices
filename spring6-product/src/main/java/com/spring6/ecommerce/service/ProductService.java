@@ -2,7 +2,6 @@ package com.spring6.ecommerce.service;
 
 import com.spring6.ecommerce.common.dto.ProductDetailsFindResponseDto;
 import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
-import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.entity.ProductDetails;
 
 import java.util.List;

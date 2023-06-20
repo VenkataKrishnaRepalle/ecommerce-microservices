@@ -1,7 +1,6 @@
 package com.spring6.ecommerce.service;
 
 import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
-import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.entity.Product;
 import com.spring6.ecommerce.exception.ProductNotFoundException;
 import com.spring6.ecommerce.mapper.ProductImageMapper;
