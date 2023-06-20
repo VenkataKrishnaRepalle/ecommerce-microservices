@@ -1,7 +1,7 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
-import com.spring6.ecommerce.common.utils.FileUploadUtils;
+import com.spring6.common.dto.ProductFindResponseDto;
+import com.spring6.common.utils.FileUploadUtils;
 import com.spring6.ecommerce.dto.ProductCreateRequestDto;
 import com.spring6.ecommerce.dto.ProductCreateResponseDto;
 import com.spring6.ecommerce.dto.ProductUpdateRequestDto;

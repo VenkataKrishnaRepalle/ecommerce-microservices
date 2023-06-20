@@ -1,8 +1,7 @@
 package com.spring6.ecommerce.controller;
 
-import com.spring6.ecommerce.common.dto.ProductDetailsFindResponseDto;
+import com.spring6.common.dto.ProductDetailsFindResponseDto;
 import com.spring6.ecommerce.service.ProductDetailsService;
-import com.spring6.ecommerce.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

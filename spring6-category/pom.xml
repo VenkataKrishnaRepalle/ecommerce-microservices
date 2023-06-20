@@ -78,14 +78,14 @@
             <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.spring6.ecommerce</groupId>
-            <artifactId>spring6-ecommerce-common-util</artifactId>
+            <groupId>com.spring6</groupId>
+            <artifactId>spring6-common-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>com.spring6.ecommerce</groupId>
-            <artifactId>spring6-ecommerce-common-util</artifactId>
+            <groupId>com.spring6</groupId>
+            <artifactId>spring6-common-util</artifactId>
             <version>${common-util.version}</version>
         </dependency>
 

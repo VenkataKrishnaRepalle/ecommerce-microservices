@@ -1,8 +1,10 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.common.dto.ProductDetailsFindResponseDto;
-import com.spring6.ecommerce.common.dto.ProductFindResponseDto;
-import com.spring6.ecommerce.entity.ProductDetails;
+import com.spring6.common.dto.ProductFindResponseDto;
+import com.spring6.ecommerce.dto.ProductCreateRequestDto;
+import com.spring6.ecommerce.dto.ProductCreateResponseDto;
+import com.spring6.ecommerce.dto.ProductUpdateRequestDto;
+import com.spring6.ecommerce.dto.ProductUpdateResponseDto;
 
 import java.util.List;
 import java.util.UUID;
