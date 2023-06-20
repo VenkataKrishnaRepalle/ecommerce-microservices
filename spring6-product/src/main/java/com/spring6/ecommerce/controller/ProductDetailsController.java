@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RestController
 @Transactional(propagation = Propagation.REQUIRED)
-@RequestMapping("productDetails")
+@RequestMapping("api/productDetails")
 public class ProductDetailsController {
 
     @Autowired

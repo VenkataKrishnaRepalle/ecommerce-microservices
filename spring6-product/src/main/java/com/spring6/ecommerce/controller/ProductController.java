@@ -29,7 +29,7 @@ import java.util.UUID;
 
 @RestController
 @Transactional(propagation = Propagation.REQUIRED)
-@RequestMapping("product")
+@RequestMapping("api/product")
 public class ProductController {
 
     @Autowired
