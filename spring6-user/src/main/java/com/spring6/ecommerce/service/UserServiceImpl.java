@@ -1,6 +1,5 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.dto.*;
 import com.spring6.ecommerce.entity.User;
 import com.spring6.ecommerce.exception.UserNotFoundException;
 import com.spring6.ecommerce.mapper.UserMapper;

@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.spring6</groupId>
-    <artifactId>spring6-ecommerce-brand</artifactId>
+    <artifactId>spring6-brand</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring6-ecommerce-brand</name>
+    <name>spring6-brand</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>20</java.version>
@@ -87,8 +87,8 @@
             <version>${openfeign.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.spring6.ecommerce</groupId>
-            <artifactId>spring6-ecommerce-common-util</artifactId>
+            <groupId>com.spring6</groupId>
+            <artifactId>spring6-common-util</artifactId>
             <version>${common-util.version}</version>
         </dependency>
         <dependency>
@@ -102,6 +102,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.spring6.ecommerce</groupId>
+            <artifactId>spring6-ecommerce-common-util</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

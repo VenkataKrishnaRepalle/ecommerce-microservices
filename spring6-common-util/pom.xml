@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.spring6.ecommerce</groupId>
-    <artifactId>spring6-ecommerce-common-util</artifactId>
+    <groupId>com.spring6</groupId>
+    <artifactId>spring6-common-util</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring6-ecommerce-common-util</name>
+    <name>spring6-common-util</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
