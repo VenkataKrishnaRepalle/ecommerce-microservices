@@ -26,15 +26,15 @@ public class GlobalExceptionHandler {
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
         ValidationErrorResponse errorResponse = new ValidationErrorResponse();
-        errorResponse.setMessage("Validation failed");
+        errorResponse.setErrorCode(ErrorCode.FORM_VALIDATION.getCode());
+        errorResponse.setErrorMessage(ErrorCode.FORM_VALIDATION.getMessage());
 
         List<ErrorResponse> errorResponses = new ArrayList<>();
         for (FieldError fieldError : fieldErrors) {
-            String errorMessage = messageSource.getMessage(fieldError.getDefaultMessage(), new Object[]{fieldError.getField()}, LocaleContextHolder.getLocale());
 
             errorResponses.add(ErrorResponse.builder()
                     .errorCode(fieldError.getDefaultMessage())
-                    .errorMessage(fieldError.getDefaultMessage())
+                    .errorMessage(messageSource.getMessage(fieldError.getDefaultMessage(), new Object[]{fieldError.getField()}, LocaleContextHolder.getLocale()))
                     .build());
         }
         errorResponse.setErrors(errorResponses);

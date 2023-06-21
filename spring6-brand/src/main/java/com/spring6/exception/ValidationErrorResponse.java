@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class ValidationErrorResponse {
-    private String code;
-    private String message;
+    private String errorCode;
+    private String errorMessage;
     private List<ErrorResponse> errors;
 }

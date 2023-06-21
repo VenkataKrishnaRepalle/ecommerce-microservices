@@ -76,7 +76,7 @@ public class BrandController {
     })
 
     @PostMapping(value = "create")
-    public ResponseEntity<HttpStatus> create(
+    public ResponseEntity<HttpStatus> createBrand(
             @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto)
             throws BrandNameAlreadyExistException {
 
@@ -89,8 +89,41 @@ public class BrandController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping("/upload-image")
-    public ResponseEntity<?> uploadImage(
+    @GetMapping("{brandId}")
+    public BrandFindResponesDto getBrandById(@PathVariable final UUID brandId) {
+        return brandService.findById(brandId);
+    }
+
+    @GetMapping("list")
+    public List<BrandFindResponesDto> getAllBrands() {
+        return brandService.findAll();
+    }
+
+    @PatchMapping("update/{id}")
+    public BrandUpdateResponseDto updateBrand(@PathVariable UUID id, @RequestBody BrandUpdateRequestDto brandDto) {
+        return brandService.update(id, brandDto);
+    }
+
+    @DeleteMapping("delete/{brandId}")
+    public void deleteById(@PathVariable final UUID brandId) {
+        brandService.deleteById(brandId);
+        String dir = "../brand-logos/" + brandId;
+        FileUploadUtils.removeDir(dir);
+    }
+
+
+
+    @GetMapping("page")
+    public List<BrandFindResponesDto> getBrandsByPage(@RequestParam(name = "pageNumber") Integer pageNumber,
+                                                 @RequestParam("perPageCount") Integer perPageCount,
+                                                 @RequestParam("sortField") String sortField,
+                                                 @RequestParam("sortDirection") String sortDir,
+                                                 @RequestParam("searchField") BrandSearchKeywordEnum searchField,
+                                                 @RequestParam("searchKeyword") String searchKeyword) {
+        return brandService.findByPage(pageNumber, perPageCount, sortField, sortDir,searchField, searchKeyword);
+    }
+    @PostMapping("upload-image")
+    public ResponseEntity<?> uploadBrandImage(
             @RequestParam @NotNull final UUID brandId,
             @NotNull @ValidImageExtension @RequestParam(
                     name = "fileImage",
@@ -114,20 +147,9 @@ public class BrandController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
-    @GetMapping("page")
-    public List<BrandFindResponesDto> findByPage(@RequestParam(name = "pageNumber") Integer pageNumber,
-                                                 @RequestParam("perPageCount") Integer perPageCount,
-                                                 @RequestParam("sortField") String sortField,
-                                                 @RequestParam("sortDirection") String sortDir,
-                                                 @RequestParam("searchField") BrandSearchKeywordEnum searchField,
-                                                 @RequestParam("searchKeyword") String searchKeyword) {
-        return brandService.findByPage(pageNumber, perPageCount, sortField, sortDir,searchField, searchKeyword);
-    }
-
     @GetMapping("image/{id}")
     @ResponseBody
-    public ResponseEntity<Resource> getImageById(
+    public ResponseEntity<Resource> getBrandImageById(
             @PathVariable("id") UUID id) throws MalformedURLException {
 
         BrandFindResponesDto brandDto = brandService.findById(id);
@@ -171,27 +193,7 @@ public class BrandController {
 
     }
 
-    @GetMapping("list")
-    public List<BrandFindResponesDto> findAll() {
-        return brandService.findAll();
-    }
-
-    @GetMapping("{brandId}")
-    public BrandFindResponesDto getById(@PathVariable final UUID brandId) {
-        return brandService.findById(brandId);
-    }
 
 
-    @PatchMapping("update/{id}")
-    public BrandUpdateResponseDto update(@PathVariable UUID id, @RequestBody BrandUpdateRequestDto brandDto) {
-        return brandService.update(id, brandDto);
-    }
-
-    @DeleteMapping("delete/{brandId}")
-    public void deleteById(@PathVariable final UUID brandId) {
-        brandService.deleteById(brandId);
-        String dir = "../brand-logos/" + brandId;
-        FileUploadUtils.removeDir(dir);
-    }
 
 }

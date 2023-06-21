@@ -13,11 +13,11 @@ import java.util.UUID;
 @Data
 @Builder
 public class BrandCreateRequestDto {
-    @NotBlank(message = "{E1000}")
-    @Size(min = 2, max = 45, message = "{E1001}")
+    @NotBlank(message = "E0001")
+    @Size(min = 2, max = 45, message = "E0002")
     private String name;
 
-    @NotNull(message = "{E1002}")
+    @NotNull(message = "{E0003}")
     private UUID subcategoryId;
 
     @NotNull
