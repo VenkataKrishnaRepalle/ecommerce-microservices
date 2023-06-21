@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
-@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Value not found!")
+//@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Value not found!")
 public class BrandNotFoundException extends RuntimeException {
     private final String errorCode;
     private final String dynamicValue;

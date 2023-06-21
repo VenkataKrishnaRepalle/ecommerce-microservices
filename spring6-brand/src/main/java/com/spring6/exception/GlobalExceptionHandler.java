@@ -43,19 +43,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
-//
-//        String errorMessage = messageSource.getMessage("error.general", null, LocaleContextHolder.getLocale());
-//
-//        ErrorResponse errorResponse = ErrorResponse.builder()
-//                .errors(new ArrayList<>(Arrays.asList(
-//                        ErrorFormat.builder()
-//                                .code("GENERAL_ERROR")
-//                                .message(errorMessage)
-//                                .build())))
-//                .build();
-//
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-//    }
+    @ExceptionHandler(BrandNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(BrandNotFoundException exception) {
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .errors(new ArrayList<>(Arrays.asList(
+                        ErrorFormat.builder()
+                                .code(exception.getErrorCode())
+                                .message(MessageFormat.format(ErrorCode.valueOf(exception.getErrorCode()).getMessage(), exception.getDynamicValue()))
+                                .build())))
+                .build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
 }

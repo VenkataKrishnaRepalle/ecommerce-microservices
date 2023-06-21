@@ -89,9 +89,9 @@ public class BrandController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("{brandId}")
-    public BrandFindResponesDto getBrandById(@PathVariable final UUID brandId) {
-        return brandService.findById(brandId);
+    @GetMapping("{id}")
+    public BrandFindResponesDto getBrandById(@PathVariable final UUID id) {
+        return brandService.findById(id);
     }
 
     @GetMapping("list")
@@ -104,10 +104,10 @@ public class BrandController {
         return brandService.update(id, brandDto);
     }
 
-    @DeleteMapping("delete/{brandId}")
-    public void deleteById(@PathVariable final UUID brandId) {
-        brandService.deleteById(brandId);
-        String dir = "../brand-logos/" + brandId;
+    @DeleteMapping("delete/{id}")
+    public void deleteById(@PathVariable final UUID id) {
+        brandService.deleteById(id);
+        String dir = "../brand-logos/" + id;
         FileUploadUtils.removeDir(dir);
     }
 

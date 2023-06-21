@@ -8,6 +8,7 @@ import com.spring6.dto.BrandUpdateResponseDto;
 import com.spring6.entity.Brand;
 import com.spring6.enums.BrandSearchKeywordEnum;
 import com.spring6.exception.BrandNotFoundException;
+import com.spring6.exception.ErrorCode;
 import com.spring6.mapper.BrandMapper;
 import com.spring6.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +66,7 @@ public class BrandServiceImpl implements BrandService {
             return brandMapper.brandToBrandFindResponesDto(optionalBrand.get());
         }
 
-        throw new BrandNotFoundException("E0010","Could not find any brand with ID : " + id);
+        throw new BrandNotFoundException(ErrorCode.E0501.getCode(), id.toString());
     }
 
     @Override
@@ -82,7 +83,7 @@ public class BrandServiceImpl implements BrandService {
         Optional<Brand> optionalBrand = brandRepository.findById(id);
 
         if (!optionalBrand.isPresent()) {
-            throw new BrandNotFoundException("E0011","Could not find any brand with ID : " + id);
+            throw new BrandNotFoundException(ErrorCode.E0502.getCode(), id.toString());
         }
 
         Brand brand = brandMapper.brandUpdateRequestDtoToBrand(brandUpdateRequestDto);
