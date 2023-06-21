@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum ErrorCode {
-    FORM_VALIDATION("E5000", "Validation Failed"),
-    INVALID_VALUE("E5000", "Invalid value");
+    E0001("E0001", "Field {0} is required."),
+    E0002("E0002", "Invalid value for field : {0}");
 
     private final String code;
     private final String message;

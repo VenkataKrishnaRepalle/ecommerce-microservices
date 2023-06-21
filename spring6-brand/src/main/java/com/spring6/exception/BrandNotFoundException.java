@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Value not found!")
 public class BrandNotFoundException extends RuntimeException {
     private final String errorCode;
-    private final String errorMessage;
+    private final String dynamicValue;
 
-    public BrandNotFoundException(String errorCode, String errorMessage) {
-        super(String.format("%s : %s", errorCode, errorMessage));
+    public BrandNotFoundException(String errorCode, String dynamicValue) {
+        super(String.format("%s : %s", errorCode, dynamicValue));
+
         this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
+        this.dynamicValue = dynamicValue;
     }
 
 }

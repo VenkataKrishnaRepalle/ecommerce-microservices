@@ -11,45 +11,51 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
-    private final MessageSource messageSource;
-
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<ValidationErrorResponse> handleValidationException(BindException ex) {
+    public ResponseEntity<ErrorResponse> handleValidationException(BindException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
-        ValidationErrorResponse errorResponse = new ValidationErrorResponse();
-        errorResponse.setErrorCode(ErrorCode.FORM_VALIDATION.getCode());
-        errorResponse.setErrorMessage(ErrorCode.FORM_VALIDATION.getMessage());
-
-        List<ErrorResponse> errorResponses = new ArrayList<>();
+        List<ErrorFormat> errors = new ArrayList<>();
         for (FieldError fieldError : fieldErrors) {
 
-            errorResponses.add(ErrorResponse.builder()
-                    .errorCode(fieldError.getDefaultMessage())
-                    .errorMessage(messageSource.getMessage(fieldError.getDefaultMessage(), new Object[]{fieldError.getField()}, LocaleContextHolder.getLocale()))
+            errors.add(ErrorFormat.builder()
+                    .code(fieldError.getDefaultMessage())
+                    .message(MessageFormat.format(ErrorCode.valueOf(fieldError.getDefaultMessage()).getMessage(), fieldError.getField()))
                     .build());
         }
-        errorResponse.setErrors(errorResponses);
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .errors(errors)
+                .build();
+
+        errorResponse.setErrors(errors);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
-        String errorMessage = messageSource.getMessage("error.general", null, LocaleContextHolder.getLocale());
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorResponse.builder()
-                .errorCode("GENERAL_ERROR")
-                .errorMessage(errorMessage)
-                .build()
-        );
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+//
+//        String errorMessage = messageSource.getMessage("error.general", null, LocaleContextHolder.getLocale());
+//
+//        ErrorResponse errorResponse = ErrorResponse.builder()
+//                .errors(new ArrayList<>(Arrays.asList(
+//                        ErrorFormat.builder()
+//                                .code("GENERAL_ERROR")
+//                                .message(errorMessage)
+//                                .build())))
+//                .build();
+//
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+//    }
 }
