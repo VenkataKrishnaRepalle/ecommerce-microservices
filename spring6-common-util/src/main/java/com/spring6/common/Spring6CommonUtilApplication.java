@@ -1,0 +1,14 @@
+package com.spring6.common;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Spring6CommonUtilApplication {
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(Spring6CommonUtilApplication.class, args);
+    }
+
+}
