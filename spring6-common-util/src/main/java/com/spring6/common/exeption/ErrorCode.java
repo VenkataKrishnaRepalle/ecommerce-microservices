@@ -17,6 +17,7 @@ public enum ErrorCode {
     E0504("E0504", "Could not find any brand with ID : {0}"),
     E0505("E0505", "Could not find any brand with ID : {0}"),
     E0506("E0506", "Brand name : {0} already exist"),
+    E0507("E0507", "Brand name already exist with id : {0}"),
     E0500("E0500", "Internal Server Error - {0}");
 
     private final String code;

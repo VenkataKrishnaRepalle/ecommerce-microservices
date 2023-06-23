@@ -1,9 +1,7 @@
 package com.spring6.brand.exception;
 
-import com.spring6.common.exeption.ErrorCode;
+import com.spring6.common.exeption.*;
 import com.spring6.common.exeption.Error;
-import com.spring6.common.exeption.ErrorListResponse;
-import com.spring6.common.exeption.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -45,27 +43,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BrandNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleBrandNotFoundException(BrandNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(getErrorResponse(exception.getErrorCode(), exception.getDynamicValue()));
+                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
     }
 
     @ExceptionHandler(BrandNameAlreadyExistException.class)
     public ResponseEntity<ErrorResponse> handleBrandNameAlreadyExistException(BrandNameAlreadyExistException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(getErrorResponse(exception.getErrorCode(), exception.getDynamicValue()));
+                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(getErrorResponse(ErrorCode.E0500.getCode(), exception.getMessage()));
-    }
-
-    private ErrorResponse getErrorResponse(String errorCode, String dynamicValue) {
-        return ErrorResponse.builder()
-                .error(Error.builder()
-                        .code(errorCode)
-                        .message(MessageFormat.format(ErrorCode.valueOf(errorCode).getMessage(), dynamicValue))
-                        .build())
-                .build();
+                .body(ErrorMessage.errorResponse(ErrorCode.E0500.getCode(), exception.getMessage()));
     }
 }
