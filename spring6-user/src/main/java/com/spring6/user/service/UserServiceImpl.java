@@ -1,21 +1,10 @@
-package com.spring6.brand.service;
+package com.spring6.user.service;
 
-import com.spring6.brand.dto.BrandCreateRequestDto;
-import com.spring6.brand.dto.BrandCreateResponseDto;
-import com.spring6.brand.dto.BrandUpdateRequestDto;
-import com.spring6.brand.dto.BrandUpdateResponseDto;
-import com.spring6.brand.entity.Brand;
-import com.spring6.brand.exception.BrandNameAlreadyExistException;
-import com.spring6.brand.mapper.BrandMapper;
 import com.spring6.common.dto.BrandFindResponseDto;
 import com.spring6.common.exeption.ErrorCodes;
-import com.spring6.brand.enums.BrandSearchKeywordEnum;
-import com.spring6.brand.exception.BrandNotFoundException;
-import com.spring6.brand.repository.BrandRepository;
 import com.spring6.common.exeption.ErrorMessage;
 import com.spring6.common.utils.TraceIdHolder;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,10 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Slf4j
-@RequiredArgsConstructor
 @Service
-public class BrandServiceImpl implements BrandService {
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
 
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
@@ -209,5 +197,4 @@ public class BrandServiceImpl implements BrandService {
         }
         return Boolean.FALSE;
     }
-
 }

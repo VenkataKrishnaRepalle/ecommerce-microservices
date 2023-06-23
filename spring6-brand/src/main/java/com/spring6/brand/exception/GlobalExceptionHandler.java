@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
 
             errors.add(Error.builder()
                     .code(fieldError.getDefaultMessage())
-                    .message(MessageFormat.format(ErrorCode.valueOf(fieldError.getDefaultMessage()).getMessage(), fieldError.getField()))
+                    .message(MessageFormat.format(ErrorCodes.valueOf(fieldError.getDefaultMessage()).getMessage(), fieldError.getField()))
                     .build());
         }
 
@@ -55,6 +55,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ErrorMessage.errorResponse(ErrorCode.E0500.getCode(), exception.getMessage()));
+                .body(ErrorMessage.errorResponse(ErrorCodes.E0500.getCode(), exception.getMessage()));
     }
 }
