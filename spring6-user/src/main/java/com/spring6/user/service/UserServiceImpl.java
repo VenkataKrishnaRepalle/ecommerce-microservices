@@ -1,10 +1,16 @@
 package com.spring6.user.service;
 
-import com.spring6.common.dto.BrandFindResponseDto;
 import com.spring6.common.exeption.ErrorCodes;
 import com.spring6.common.exeption.ErrorMessage;
 import com.spring6.common.utils.TraceIdHolder;
+import com.spring6.user.dto.*;
+import com.spring6.user.entity.User;
+import com.spring6.user.exception.UserNameAlreadyExistException;
+import com.spring6.user.exception.UserNotFoundException;
+import com.spring6.user.mapper.UserMapper;
+import com.spring6.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,31 +21,32 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final BrandRepository brandRepository;
-    private final BrandMapper brandMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public List<BrandFindResponseDto> findAll() {
-        log.info("BrandService:findAll execution started.");
-        log.debug("BrandService:findAll traceId: {}", TraceIdHolder.traceId);
+    public List<UserFindResponseDto> findAll() {
+        log.info("UserService:findAll execution started.");
+        log.debug("UserService:findAll traceId: {}", TraceIdHolder.traceId);
 
-        List<BrandFindResponseDto> brandFindResponseDtoList = brandRepository.findAll()
+        List<UserFindResponseDto> userFindResponseDtoList = userRepository.findAll()
                 .stream()
-                .map(brandMapper::brandToBrandFindResponesDto)
+                .map(userMapper::userToUserFindResponesDto)
                 .toList();
 
-        log.debug("BrandService:findAll traceId: {}, response {} ", TraceIdHolder.traceId, brandFindResponseDtoList);
-        log.info("BrandService:findAll execution ended.");
+        log.debug("UserService:findAll traceId: {}, response {} ", TraceIdHolder.traceId, userFindResponseDtoList);
+        log.info("UserService:findAll execution ended.");
 
-        return brandFindResponseDtoList;
+        return userFindResponseDtoList;
     }
 
-    public List<BrandFindResponseDto> findByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDirectory, BrandSearchKeywordEnum searchField, String searchKeyword) {
-        log.info("BrandService:findByPage execution started.");
-        log.debug("BrandService:findByPage traceId: {},  pageNumber: {}, perPageCount: {}, sortField: {}, sortDirectory: {}, searchField: {}, searchKeyword: {}", TraceIdHolder.traceId, pageNumber, perPageCount, sortField, sortDirectory, searchField, searchKeyword);
+    public List<UserFindResponseDto> findByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDirectory, UserSearchKeywordEnum searchField, String searchKeyword) {
+        log.info("UserService:findByPage execution started.");
+        log.debug("UserService:findByPage traceId: {},  pageNumber: {}, perPageCount: {}, sortField: {}, sortDirectory: {}, searchField: {}, searchKeyword: {}", TraceIdHolder.traceId, pageNumber, perPageCount, sortField, sortDirectory, searchField, searchKeyword);
 
         if (sortField.isBlank()) {
             sortField = "name";
@@ -50,137 +57,137 @@ public class UserServiceImpl implements UserService {
 
         Pageable pageable = PageRequest.of(pageNumber - 1, perPageCount, sort);
 
-        Page<Brand> brandList;
+        Page<User> userList;
 
-        if (searchKeyword != null && searchField.equals(BrandSearchKeywordEnum.BRAND_NAME)) {
-            brandList =  brandRepository.findAllByName(searchKeyword, pageable);
+        if (searchKeyword != null && searchField.equals(UserSearchKeywordEnum.BRAND_NAME)) {
+            userList =  userRepository.findAllByName(searchKeyword, pageable);
 
         } else {
-            brandList =  brandRepository.findAll(pageable);
+            userList =  userRepository.findAll(pageable);
         }
 
-        List<BrandFindResponseDto> brandFindResponseDtoList = brandList.stream()
-                .map(brandMapper::brandToBrandFindResponesDto)
+        List<UserFindResponseDto> userFindResponseDtoList = userList.stream()
+                .map(userMapper::userToUserFindResponesDto)
                 .toList();
 
-        log.debug("BrandService:findByPage traceId: {}", TraceIdHolder.traceId);
-        log.info("BrandService:findByPage execution ended.");
+        log.debug("UserService:findByPage traceId: {}", TraceIdHolder.traceId);
+        log.info("UserService:findByPage execution ended.");
 
-        return brandFindResponseDtoList;
-
-    }
-
-    @Override
-    public BrandFindResponseDto findById(UUID id) throws BrandNotFoundException {
-        log.info("BrandService:findById execution started.");
-        log.debug("BrandService:findById traceId: {}, id: {}", TraceIdHolder.traceId, id);
-
-        Optional<Brand> optionalBrand = brandRepository.findById(id);
-
-        if (!optionalBrand.isPresent()) {
-            log.error("BrandService:findByPage traceId: {}, errorMessage: Brand Not found", TraceIdHolder.traceId);
-            log.info("BrandService:findByPage execution ended.");
-            throw new BrandNotFoundException(ErrorCodes.E0501.getCode(), id.toString());
-        }
-
-        BrandFindResponseDto brandFindResponesDto = brandMapper.brandToBrandFindResponesDto(optionalBrand.get());
-
-        log.debug("BrandService:findByPage traceId: {}, response: {}", TraceIdHolder.traceId, brandFindResponesDto);
-        log.info("BrandService:findByPage execution ended.");
-
-        return brandFindResponesDto;
-    }
-
-    @Override
-    public BrandCreateResponseDto create(BrandCreateRequestDto brandCreateRequestDto) {
-        log.info("BrandService:create execution started.");
-        log.debug("BrandService:create traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.traceId, brandCreateRequestDto);
-
-        if (isNameExist(brandCreateRequestDto.getName())) {
-            log.error("BrandService:create traceId: {}, errorMessage: {}", TraceIdHolder.traceId, ErrorMessage.message(ErrorCodes.E0506.getCode(), brandCreateRequestDto.getName()));
-            throw new BrandNameAlreadyExistException(ErrorCodes.E0506.getCode(), brandCreateRequestDto.getName());
-        }
-
-        Brand brand = brandMapper.brandCreateRequestDtoToBrand(brandCreateRequestDto);
-        Brand brandCreated = brandRepository.save(brand);
-        BrandCreateResponseDto brandCreateResponseDto = brandMapper.brandToBrandCreateResponseDto(brandCreated);
-
-        log.debug("BrandService:create traceId: {}, response: {}", TraceIdHolder.traceId, brandCreateResponseDto);
-        log.info("BrandService:create execution ended.");
-
-        return brandCreateResponseDto;
+        return userFindResponseDtoList;
 
     }
 
     @Override
-    public BrandUpdateResponseDto update(final UUID id, BrandUpdateRequestDto brandUpdateRequestDto)
-            throws BrandNotFoundException {
-        log.info("BrandService:update execution started.");
-        log.debug("BrandService:create traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.traceId, id, brandUpdateRequestDto);
+    public UserFindResponseDto findById(UUID id) throws UserNotFoundException {
+        log.info("UserService:findById execution started.");
+        log.debug("UserService:findById traceId: {}, id: {}", TraceIdHolder.traceId, id);
 
+        Optional<User> optionalUser = userRepository.findById(id);
 
-        Optional<Brand> optionalBrand = brandRepository.findById(id);
-
-        if (!optionalBrand.isPresent()) {
-            throw new BrandNotFoundException(ErrorCodes.E0502.getCode(), id.toString());
+        if (!optionalUser.isPresent()) {
+            log.error("UserService:findByPage traceId: {}, errorMessage: User Not found", TraceIdHolder.traceId);
+            log.info("UserService:findByPage execution ended.");
+            throw new UserNotFoundException(ErrorCodes.E0501.getCode(), id.toString());
         }
 
-        Brand brand = brandMapper.brandUpdateRequestDtoToBrand(brandUpdateRequestDto);
-        brand.setId(optionalBrand.get().getId());
+        UserFindResponseDto userFindResponesDto = userMapper.userToUserFindResponesDto(optionalUser.get());
 
-        Brand brandUpdated = brandRepository.save(brand);
-        BrandUpdateResponseDto brandUpdateResponseDto = brandMapper.brandToBrandUpdateResponseDto(brandUpdated);
+        log.debug("UserService:findByPage traceId: {}, response: {}", TraceIdHolder.traceId, userFindResponesDto);
+        log.info("UserService:findByPage execution ended.");
 
-        log.debug("BrandService:update traceId: {}, response: {}", TraceIdHolder.traceId, brandUpdateResponseDto);
-        log.info("BrandService:update execution ended.");
-
-        return brandUpdateResponseDto;
+        return userFindResponesDto;
     }
 
     @Override
-    public void deleteById(UUID id) throws BrandNotFoundException {
-        log.info("BrandService:deleteById execution started.");
-        log.debug("BrandService:deleteById traceId: {}, id: {}", TraceIdHolder.traceId, id);
+    public UserCreateResponseDto create(UserCreateRequestDto userCreateRequestDto) {
+        log.info("UserService:create execution started.");
+        log.debug("UserService:create traceId: {} , userCreateRequestDto: {}", TraceIdHolder.traceId, userCreateRequestDto);
 
-        Long brandCountById = brandRepository.countById(id);
-        if (brandCountById == 0) {
-            log.error("BrandService:deleteById traceId: {}, errorMessage: {}", TraceIdHolder.traceId, ErrorMessage.message(ErrorCodes.E0503.getCode(), id.toString()));
-            throw new BrandNotFoundException(ErrorCodes.E0503.getCode(), id.toString());
+        if (isNameExist(userCreateRequestDto.getName())) {
+            log.error("UserService:create traceId: {}, errorMessage: {}", TraceIdHolder.traceId, ErrorMessage.message(ErrorCodes.E0506.getCode(), userCreateRequestDto.getName()));
+            throw new UserNameAlreadyExistException(ErrorCodes.E0506.getCode(), userCreateRequestDto.getName());
         }
 
-        brandRepository.deleteById(id);
-        log.info("BrandService:deleteById execution ended.");
+        User user = userMapper.userCreateRequestDtoToUser(userCreateRequestDto);
+        User userCreated = userRepository.save(user);
+        UserCreateResponseDto userCreateResponseDto = userMapper.userToUserCreateResponseDto(userCreated);
+
+        log.debug("UserService:create traceId: {}, response: {}", TraceIdHolder.traceId, userCreateResponseDto);
+        log.info("UserService:create execution ended.");
+
+        return userCreateResponseDto;
 
     }
 
     @Override
-    public String updateImageName(UUID brandId, String fileName) {
-        log.info("BrandService:updateImageName execution started.");
-        log.debug("BrandService:updateImageName traceId: {}, brandId:{}, fileName: {}", TraceIdHolder.traceId, brandId, fileName);
+    public UserUpdateResponseDto update(final UUID id, UserUpdateRequestDto userUpdateRequestDto)
+            throws UserNotFoundException {
+        log.info("UserService:update execution started.");
+        log.debug("UserService:create traceId: {}, id: {}, userCreateRequestDto: {}", TraceIdHolder.traceId, id, userUpdateRequestDto);
 
-        Optional<Brand> optionalBrand = brandRepository.findById(brandId);
 
-        if (!optionalBrand.isPresent()) {
-            log.error("BrandService:updateImageName traceId: {}, errorMessage:{}", TraceIdHolder.traceId, ErrorMessage.message(ErrorCodes.E0504.getCode(), brandId.toString()));
-            throw new BrandNotFoundException(ErrorCodes.E0504.getCode(), brandId.toString());
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (!optionalUser.isPresent()) {
+            throw new UserNotFoundException(ErrorCodes.E0502.getCode(), id.toString());
         }
 
-        Brand brand = optionalBrand.get();
-        brand.setImageName(fileName);
+        User user = userMapper.userUpdateRequestDtoToUser(userUpdateRequestDto);
+        user.setId(optionalUser.get().getId());
 
-        Brand brandUpdated = brandRepository.save(brand);
+        User userUpdated = userRepository.save(user);
+        UserUpdateResponseDto userUpdateResponseDto = userMapper.userToUserUpdateResponseDto(userUpdated);
 
-        log.debug("BrandService:updateImageName traceId: {}, updatedImageName: {}", TraceIdHolder.traceId, brandUpdated.getImageName());
-        log.info("BrandService:updateImageName execution ended.");
+        log.debug("UserService:update traceId: {}, response: {}", TraceIdHolder.traceId, userUpdateResponseDto);
+        log.info("UserService:update execution ended.");
 
-        return brandUpdated.getImageName();
+        return userUpdateResponseDto;
+    }
+
+    @Override
+    public void deleteById(UUID id) throws UserNotFoundException {
+        log.info("UserService:deleteById execution started.");
+        log.debug("UserService:deleteById traceId: {}, id: {}", TraceIdHolder.traceId, id);
+
+        Long userCountById = userRepository.countById(id);
+        if (userCountById == 0) {
+            log.error("UserService:deleteById traceId: {}, errorMessage: {}", TraceIdHolder.traceId, ErrorMessage.message(ErrorCodes.E0503.getCode(), id.toString()));
+            throw new UserNotFoundException(ErrorCodes.E0503.getCode(), id.toString());
+        }
+
+        userRepository.deleteById(id);
+        log.info("UserService:deleteById execution ended.");
+
+    }
+
+    @Override
+    public String updateImageName(UUID userId, String fileName) {
+        log.info("UserService:updateImageName execution started.");
+        log.debug("UserService:updateImageName traceId: {}, userId:{}, fileName: {}", TraceIdHolder.traceId, userId, fileName);
+
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (!optionalUser.isPresent()) {
+            log.error("UserService:updateImageName traceId: {}, errorMessage:{}", TraceIdHolder.traceId, ErrorMessage.message(ErrorCodes.E0504.getCode(), userId.toString()));
+            throw new UserNotFoundException(ErrorCodes.E0504.getCode(), userId.toString());
+        }
+
+        User user = optionalUser.get();
+        user.setImageName(fileName);
+
+        User userUpdated = userRepository.save(user);
+
+        log.debug("UserService:updateImageName traceId: {}, updatedImageName: {}", TraceIdHolder.traceId, userUpdated.getImageName());
+        log.info("UserService:updateImageName execution ended.");
+
+        return userUpdated.getImageName();
     }
     @Override
     public Boolean isNameExist(String name) {
-        log.info("BrandService:isNameExist execution started. traceId: {}", TraceIdHolder.traceId);
+        log.info("UserService:isNameExist execution started. traceId: {}", TraceIdHolder.traceId);
 
-        Optional<Brand> optionalBrand = brandRepository.findByName(name);
-        if (optionalBrand.isPresent()) {
+        Optional<User> optionalUser = userRepository.findByName(name);
+        if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
@@ -188,11 +195,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean isIdExist(UUID uuid) {
-        log.info("BrandService:isIdExist execution started. traceId: {}", TraceIdHolder.traceId);
-        log.debug("BrandService:isIdExist traceId: {}, id: {}", TraceIdHolder.traceId, uuid);
+        log.info("UserService:isIdExist execution started. traceId: {}", TraceIdHolder.traceId);
+        log.debug("UserService:isIdExist traceId: {}, id: {}", TraceIdHolder.traceId, uuid);
 
-        Optional<Brand> optionalBrand = brandRepository.findById(uuid);
-        if (optionalBrand.isPresent()) {
+        Optional<User> optionalUser = userRepository.findById(uuid);
+        if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;

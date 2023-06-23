@@ -1,26 +1,28 @@
 package com.spring6.user.service;
 
-import com.spring6.common.dto.BrandFindResponseDto;
+import com.spring6.common.dto.UserFindResponseDto;
+import com.spring6.user.dto.*;
+import com.spring6.user.exception.UserNotFoundException;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-    List<BrandFindResponseDto> findAll();
+    List<UserFindResponseDto> findAll();
 
-    List<BrandFindResponseDto> findByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, BrandSearchKeywordEnum searchField, String searchKeyword);
+    List<UserFindResponseDto> findByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, UserSearchKeywordEnum searchField, String searchKeyword);
 
-    BrandFindResponseDto findById(UUID id);
+    UserFindResponseDto findById(UUID id) throws UserNotFoundException;
 
-    BrandCreateResponseDto create(BrandCreateRequestDto brandCreateRequestDto);
+    UserCreateResponseDto create(UserCreateRequestDto userCreateRequestDto);
 
-    BrandUpdateResponseDto update(UUID id, BrandUpdateRequestDto brandCreateRequestDto) throws BrandNotFoundException;
+    UserUpdateResponseDto update(UUID id, UserUpdateRequestDto userCreateRequestDto) throws UserNotFoundException;
 
-    void deleteById(UUID id) throws BrandNotFoundException;
+    void deleteById(UUID id) throws UserNotFoundException;
 
     Boolean isNameExist(String name);
 
     Boolean isIdExist(UUID uuid);
 
-    String updateImageName(UUID brandId, String fileName);
+    String updateImageName(UUID userId, String fileName);
 }

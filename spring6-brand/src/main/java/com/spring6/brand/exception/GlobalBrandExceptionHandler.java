@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalBrandExceptionHandler {
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ErrorListResponse> handleValidationException(BindException bindException) {
