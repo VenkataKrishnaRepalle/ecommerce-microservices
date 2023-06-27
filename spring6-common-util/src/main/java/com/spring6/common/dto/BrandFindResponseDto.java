@@ -11,10 +11,6 @@ import java.util.UUID;
 public class BrandFindResponseDto {
     private UUID id;
     private String name;
-
-    private String logo;
-
     private BrandStatusEnum status;
-
     private UUID subcategoryId;
 }

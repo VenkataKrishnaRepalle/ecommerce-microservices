@@ -25,10 +25,10 @@ public class Role {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(length = 40, unique = true, nullable = false)
     private RoleType name;
 
-    @Column(nullable = false)
+    @Column(length = 150, nullable = false)
     private String description;
 
     @ManyToMany

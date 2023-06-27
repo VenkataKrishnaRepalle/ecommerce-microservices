@@ -12,21 +12,23 @@ import java.util.List;
 import java.util.UUID;
 
 public interface BrandService {
-    List<BrandFindResponseDto> findAll();
+    List<BrandFindResponseDto> getAllBrands();
 
-    List<BrandFindResponseDto> findByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, BrandSearchKeywordEnum searchField, String searchKeyword);
+    List<BrandFindResponseDto> getBrandsByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, BrandSearchKeywordEnum searchField, String searchKeyword);
 
-    BrandFindResponseDto findById(UUID id);
+    BrandFindResponseDto getBrandById(UUID id);
 
-    BrandCreateResponseDto create(BrandCreateRequestDto brandCreateRequestDto);
+    BrandCreateResponseDto createBrand(BrandCreateRequestDto brandCreateRequestDto);
 
-    BrandUpdateResponseDto update(UUID id, BrandUpdateRequestDto brandCreateRequestDto) throws BrandNotFoundException;
+    BrandUpdateResponseDto updateBrand(UUID id, BrandUpdateRequestDto brandCreateRequestDto) throws BrandNotFoundException;
 
-    void deleteById(UUID id) throws BrandNotFoundException;
+    void deleteBrandById(UUID id) throws BrandNotFoundException;
 
     Boolean isNameExist(String name);
 
     Boolean isIdExist(UUID uuid);
 
     String updateImageName(UUID brandId, String fileName);
+
+    String getBrandImageNameById(UUID id);
 }

@@ -15,14 +15,16 @@ class RoleRepositoryTest {
     private RoleRepository roleRepository;
 
     @Test
-    public void testCreateBrand() {
-        Role role = roleRepository.save(Role.builder()
-                .name(RoleType.ADMIN)
-                .description("Manage Everything")
-                .build());
+    public void testCreateRole() {
+        Role role = roleRepository.save(getRole());
 
         assertThat(role).isNotNull();
         assertThat(role.getId()).isNotNull();
-
+    }
+    private Role getRole() {
+        return Role.builder()
+                .name(RoleType.ADMIN)
+                .description("Manage Everything")
+                .build();
     }
 }

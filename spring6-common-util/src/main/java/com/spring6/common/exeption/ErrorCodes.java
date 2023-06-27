@@ -18,6 +18,7 @@ public enum ErrorCodes {
     E0505("E0505", "Could not find any brand with ID : {0}"),
     E0506("E0506", "Brand name : {0} already exist"),
     E0507("E0507", "Brand name already exist with id : {0}"),
+    E0508("E0508", "Could not find any brand with ID : {0}"),
     E1001("E1001", "Field {0} is required."),
     E0500("E0500", "Internal Server Error - {0}");
 

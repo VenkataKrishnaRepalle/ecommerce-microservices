@@ -1,5 +1,6 @@
 package com.spring6.brand.filter;
 
+import com.spring6.brand.utils.TraceIdHolder;
 import com.spring6.common.utils.GlobalConstants;
 import jakarta.servlet.*;
 import org.slf4j.MDC;
@@ -15,26 +16,13 @@ public class TraceIdFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        String traceId = generateTraceId();
-        setTraceIdInMdc(traceId);
-
+        TraceIdHolder.generateTraceId();
         try {
             chain.doFilter(request, response);
         } finally {
-            clearTraceIdFromMdc();
+            TraceIdHolder.clearTraceId();
         }
     }
 
-    private String generateTraceId() {
-        return UUID.randomUUID().toString();
-    }
-
-    private void setTraceIdInMdc(String traceId) {
-        MDC.put(GlobalConstants.TRACE_ID, traceId);
-    }
-
-    private void clearTraceIdFromMdc() {
-        MDC.remove(GlobalConstants.TRACE_ID);
-    }
 
 }

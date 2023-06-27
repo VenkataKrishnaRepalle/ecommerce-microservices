@@ -9,6 +9,7 @@ import com.spring6.common.utils.GlobalConstants;
 import com.spring6.common.utils.HttpStatusCodes;
 import com.spring6.common.utils.TraceIdHolder;
 import com.spring6.user.dto.*;
+import com.spring6.user.enums.UserSearchKeywordEnum;
 import com.spring6.user.exception.UserNameAlreadyExistException;
 import com.spring6.user.exception.UserNotFoundException;
 import com.spring6.user.service.UserService;
@@ -64,7 +65,7 @@ public class UserController {
         log.info("UserController:createUser execution started.");
         log.debug("UserController:createUser traceId: {} request payload: {}", TraceIdHolder.traceId, userCreateRequestDto);
 
-        UserCreateResponseDto savedUserDto = userService.create(userCreateRequestDto);
+        UserCreateResponseDto savedUserDto = userService.createUser(userCreateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
@@ -92,7 +93,7 @@ public class UserController {
         log.info("UserController:getUserById execution started.");
         log.info("UserController:getUserById traceId: {} request id: {}", TraceIdHolder.traceId, id);
 
-        UserFindResponseDto userFindResponseDto = userService.findById(id);
+        UserFindResponseDto userFindResponseDto = userService.getUserById(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
@@ -115,7 +116,7 @@ public class UserController {
     public ResponseEntity<List<UserFindResponseDto>> getAllUsers() {
         log.info("UserController:getAllUsers started.");
         log.info("UserController:getAllUsers traceId: {}", TraceIdHolder.traceId);
-        List<UserFindResponseDto> userFindResponseDtoList = userService.findAll();
+        List<UserFindResponseDto> userFindResponseDtoList = userService.getAllUsers();
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
@@ -141,7 +142,7 @@ public class UserController {
         log.info("UserController:updateUser started.");
         log.info("UserController:updateUser traceId: {} request id: {} payload: {}", TraceIdHolder.traceId, id, userUpdateRequestDto);
 
-        UserUpdateResponseDto userUpdateResponseDto = userService.update(id, userUpdateRequestDto);
+        UserUpdateResponseDto userUpdateResponseDto = userService.updateUser(id, userUpdateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
@@ -167,7 +168,7 @@ public class UserController {
         log.info("UserController:deleteById started.");
         log.info("UserController:deleteById traceId: {} request id: {}", TraceIdHolder.traceId, id);
 
-        userService.deleteById(id);
+        userService.deleteUserById(id);
         String dir = "../user-logos/" + id;
         FileUploadUtils.removeDir(dir);
 
@@ -197,7 +198,7 @@ public class UserController {
         log.info("UserController:getUsersByPage started.");
         log.info("UserController:getUsersByPage traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.traceId, pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
-        List<UserFindResponseDto> userFindResponseDtoList = userService.findByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
+        List<UserFindResponseDto> userFindResponseDtoList = userService.getUsersByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
@@ -229,7 +230,7 @@ public class UserController {
             throw new UserNotFoundException(ErrorCodes.E0507.getCode(), userId.toString());
         }
 
-        if (!multipartFile.isEmpty()) {
+        if (!multipartFile.isEmpty() && multipartFile.getOriginalFilename() != null) {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
             FileUploadUtils.cleanDir(IMAGE_UPLOAD_DIRECTORY);
@@ -264,9 +265,9 @@ public class UserController {
         log.info("UserController:getUserImageById started.");
         log.info("UserController:getUserImageById traceId: {} request id: {}", TraceIdHolder.traceId, id);
 
-        UserFindResponseDto userDto = userService.findById(id);
+        UserFindResponseDto userDto = userService.getUserById(id);
 
-        Path imagePath = Paths.get(IMAGE_UPLOAD_DIRECTORY, userDto.getLogo());
+        Path imagePath = Paths.get(IMAGE_UPLOAD_DIRECTORY, userDto.getPhoto());
         Resource imageResource = new UrlResource(imagePath.toUri());
 
         HttpHeaders headers = new HttpHeaders();
@@ -280,7 +281,7 @@ public class UserController {
 
         }
         headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + userDto.getLogo() + "\"");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + userDto.getPhoto() + "\"");
 
         log.info("UserController:getUserImageById traceId: {} id: {}", TraceIdHolder.traceId, id);
         log.info("UserController:getUserImageById ended.");

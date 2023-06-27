@@ -1,26 +1,26 @@
 package com.spring6.user.service;
 
-import com.spring6.common.dto.UserFindResponseDto;
 import com.spring6.user.dto.*;
+import com.spring6.user.enums.UserSearchKeywordEnum;
 import com.spring6.user.exception.UserNotFoundException;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-    List<UserFindResponseDto> findAll();
+    List<UserFindResponseDto> getAllUsers();
 
-    List<UserFindResponseDto> findByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, UserSearchKeywordEnum searchField, String searchKeyword);
+    List<UserFindResponseDto> getUsersByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, UserSearchKeywordEnum searchField, String searchKeyword);
 
-    UserFindResponseDto findById(UUID id) throws UserNotFoundException;
+    UserFindResponseDto getUserById(UUID id) throws UserNotFoundException;
 
-    UserCreateResponseDto create(UserCreateRequestDto userCreateRequestDto);
+    UserCreateResponseDto createUser(UserCreateRequestDto userCreateRequestDto);
 
-    UserUpdateResponseDto update(UUID id, UserUpdateRequestDto userCreateRequestDto) throws UserNotFoundException;
+    UserUpdateResponseDto updateUser(UUID id, UserUpdateRequestDto userCreateRequestDto) throws UserNotFoundException;
 
-    void deleteById(UUID id) throws UserNotFoundException;
+    void deleteUserById(UUID id) throws UserNotFoundException;
 
-    Boolean isNameExist(String name);
+    Boolean isUserNameExist(String name);
 
     Boolean isIdExist(UUID uuid);
 
