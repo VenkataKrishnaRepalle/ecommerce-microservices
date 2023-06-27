@@ -1,7 +1,6 @@
 package com.spring6.ecommerce.bootstrap;
 
 import com.spring6.ecommerce.entity.Product;
-import com.spring6.ecommerce.mapper.ProductMapper;
 import com.spring6.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

@@ -7,7 +7,6 @@ import com.spring6.ecommerce.dto.ProductCreateResponseDto;
 import com.spring6.ecommerce.dto.ProductUpdateRequestDto;
 import com.spring6.ecommerce.dto.ProductUpdateResponseDto;
 import com.spring6.ecommerce.exception.ErrorCode;
-import com.spring6.ecommerce.exception.ProductAlreadyPresentException;
 import com.spring6.ecommerce.exception.ProductNotFoundException;
 import com.spring6.ecommerce.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
