@@ -5,6 +5,7 @@ import com.spring6.common.exeption.ErrorMessage;
 import com.spring6.common.utils.TraceIdHolder;
 import com.spring6.user.dto.*;
 import com.spring6.user.entity.User;
+import com.spring6.user.enums.UserSearchKeywordEnum;
 import com.spring6.user.exception.UserNameAlreadyExistException;
 import com.spring6.user.exception.UserNotFoundException;
 import com.spring6.user.mapper.UserMapper;
@@ -29,13 +30,13 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public List<UserFindResponseDto> findAll() {
-        log.info("UserService:findAll execution started.");
-        log.debug("UserService:findAll traceId: {}", TraceIdHolder.traceId);
+    public List<UserFindResponseDto> getAllUsers() {
+        log.info("UserService:getAllUsers execution started.");
+        log.debug("UserService:getAllUsers traceId: {}", TraceIdHolder.traceId);
 
         List<UserFindResponseDto> userFindResponseDtoList = userRepository.findAll()
                 .stream()
-                .map(userMapper::userToUserFindResponesDto)
+                .map(userMapper::userToUserFindResponseDto)
                 .toList();
 
         log.debug("UserService:findAll traceId: {}, response {} ", TraceIdHolder.traceId, userFindResponseDtoList);
@@ -44,12 +45,12 @@ public class UserServiceImpl implements UserService {
         return userFindResponseDtoList;
     }
 
-    public List<UserFindResponseDto> findByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDirectory, UserSearchKeywordEnum searchField, String searchKeyword) {
-        log.info("UserService:findByPage execution started.");
-        log.debug("UserService:findByPage traceId: {},  pageNumber: {}, perPageCount: {}, sortField: {}, sortDirectory: {}, searchField: {}, searchKeyword: {}", TraceIdHolder.traceId, pageNumber, perPageCount, sortField, sortDirectory, searchField, searchKeyword);
+    public List<UserFindResponseDto> getUsersByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDirectory, UserSearchKeywordEnum searchField, String searchKeyword) {
+        log.info("UserService:getUsersByPage execution started.");
+        log.debug("UserService:getUsersByPage traceId: {},  pageNumber: {}, perPageCount: {}, sortField: {}, sortDirectory: {}, searchField: {}, searchKeyword: {}", TraceIdHolder.traceId, pageNumber, perPageCount, sortField, sortDirectory, searchField, searchKeyword);
 
         if (sortField.isBlank()) {
-            sortField = "name";
+            sortField = "first_name";
 
         }
         Sort sort = Sort.by(sortField);
@@ -59,71 +60,71 @@ public class UserServiceImpl implements UserService {
 
         Page<User> userList;
 
-        if (searchKeyword != null && searchField.equals(UserSearchKeywordEnum.BRAND_NAME)) {
-            userList =  userRepository.findAllByName(searchKeyword, pageable);
+        if (searchKeyword != null && searchField.equals(UserSearchKeywordEnum.FIRST_NAME)) {
+            userList =  userRepository.findAllByFirstName(searchKeyword, pageable);
 
         } else {
             userList =  userRepository.findAll(pageable);
         }
 
         List<UserFindResponseDto> userFindResponseDtoList = userList.stream()
-                .map(userMapper::userToUserFindResponesDto)
+                .map(userMapper::userToUserFindResponseDto)
                 .toList();
 
-        log.debug("UserService:findByPage traceId: {}", TraceIdHolder.traceId);
-        log.info("UserService:findByPage execution ended.");
+        log.debug("UserService:getUsersByPage traceId: {}", TraceIdHolder.traceId);
+        log.info("UserService:getUsersByPage execution ended.");
 
         return userFindResponseDtoList;
 
     }
 
     @Override
-    public UserFindResponseDto findById(UUID id) throws UserNotFoundException {
-        log.info("UserService:findById execution started.");
-        log.debug("UserService:findById traceId: {}, id: {}", TraceIdHolder.traceId, id);
+    public UserFindResponseDto getUserById(UUID id) throws UserNotFoundException {
+        log.info("UserService:getUserById execution started.");
+        log.debug("UserService:getUserById traceId: {}, id: {}", TraceIdHolder.traceId, id);
 
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
-            log.error("UserService:findByPage traceId: {}, errorMessage: User Not found", TraceIdHolder.traceId);
-            log.info("UserService:findByPage execution ended.");
+            log.error("UserService:getUserById traceId: {}, errorMessage: User Not found", TraceIdHolder.traceId);
+            log.info("UserService:getUserById execution ended.");
             throw new UserNotFoundException(ErrorCodes.E0501.getCode(), id.toString());
         }
 
-        UserFindResponseDto userFindResponesDto = userMapper.userToUserFindResponesDto(optionalUser.get());
+        UserFindResponseDto userFindResponesDto = userMapper.userToUserFindResponseDto(optionalUser.get());
 
-        log.debug("UserService:findByPage traceId: {}, response: {}", TraceIdHolder.traceId, userFindResponesDto);
-        log.info("UserService:findByPage execution ended.");
+        log.debug("UserService:getUserById traceId: {}, response: {}", TraceIdHolder.traceId, userFindResponesDto);
+        log.info("UserService:getUserById execution ended.");
 
         return userFindResponesDto;
     }
 
     @Override
-    public UserCreateResponseDto create(UserCreateRequestDto userCreateRequestDto) {
-        log.info("UserService:create execution started.");
-        log.debug("UserService:create traceId: {} , userCreateRequestDto: {}", TraceIdHolder.traceId, userCreateRequestDto);
+    public UserCreateResponseDto createUser(UserCreateRequestDto userCreateRequestDto) {
+        log.info("UserService:createUser execution started.");
+        log.debug("UserService:createUser traceId: {} , userCreateRequestDto: {}", TraceIdHolder.traceId, userCreateRequestDto);
 
-        if (isNameExist(userCreateRequestDto.getName())) {
-            log.error("UserService:create traceId: {}, errorMessage: {}", TraceIdHolder.traceId, ErrorMessage.message(ErrorCodes.E0506.getCode(), userCreateRequestDto.getName()));
-            throw new UserNameAlreadyExistException(ErrorCodes.E0506.getCode(), userCreateRequestDto.getName());
+        if (isUserNameExist(userCreateRequestDto.getUsername())) {
+            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.traceId, ErrorMessage.message(ErrorCodes.E0506.getCode(), userCreateRequestDto.getUsername()));
+            throw new UserNameAlreadyExistException(ErrorCodes.E0506.getCode(), userCreateRequestDto.getUsername());
         }
 
         User user = userMapper.userCreateRequestDtoToUser(userCreateRequestDto);
         User userCreated = userRepository.save(user);
         UserCreateResponseDto userCreateResponseDto = userMapper.userToUserCreateResponseDto(userCreated);
 
-        log.debug("UserService:create traceId: {}, response: {}", TraceIdHolder.traceId, userCreateResponseDto);
-        log.info("UserService:create execution ended.");
+        log.debug("UserService:createUser traceId: {}, response: {}", TraceIdHolder.traceId, userCreateResponseDto);
+        log.info("UserService:createUser execution ended.");
 
         return userCreateResponseDto;
 
     }
 
     @Override
-    public UserUpdateResponseDto update(final UUID id, UserUpdateRequestDto userUpdateRequestDto)
+    public UserUpdateResponseDto updateUser(final UUID id, UserUpdateRequestDto userUpdateRequestDto)
             throws UserNotFoundException {
-        log.info("UserService:update execution started.");
-        log.debug("UserService:create traceId: {}, id: {}, userCreateRequestDto: {}", TraceIdHolder.traceId, id, userUpdateRequestDto);
+        log.info("UserService:updateUser execution started.");
+        log.debug("UserService:updateUser traceId: {}, id: {}, userCreateRequestDto: {}", TraceIdHolder.traceId, id, userUpdateRequestDto);
 
 
         Optional<User> optionalUser = userRepository.findById(id);
@@ -138,25 +139,25 @@ public class UserServiceImpl implements UserService {
         User userUpdated = userRepository.save(user);
         UserUpdateResponseDto userUpdateResponseDto = userMapper.userToUserUpdateResponseDto(userUpdated);
 
-        log.debug("UserService:update traceId: {}, response: {}", TraceIdHolder.traceId, userUpdateResponseDto);
-        log.info("UserService:update execution ended.");
+        log.debug("UserService:updateUser traceId: {}, response: {}", TraceIdHolder.traceId, userUpdateResponseDto);
+        log.info("UserService:updateUser execution ended.");
 
         return userUpdateResponseDto;
     }
 
     @Override
-    public void deleteById(UUID id) throws UserNotFoundException {
-        log.info("UserService:deleteById execution started.");
-        log.debug("UserService:deleteById traceId: {}, id: {}", TraceIdHolder.traceId, id);
+    public void deleteUserById(UUID id) throws UserNotFoundException {
+        log.info("UserService:deleteUserById execution started.");
+        log.debug("UserService:deleteUserById traceId: {}, id: {}", TraceIdHolder.traceId, id);
 
         Long userCountById = userRepository.countById(id);
         if (userCountById == 0) {
-            log.error("UserService:deleteById traceId: {}, errorMessage: {}", TraceIdHolder.traceId, ErrorMessage.message(ErrorCodes.E0503.getCode(), id.toString()));
+            log.error("UserService:deleteUserById traceId: {}, errorMessage: {}", TraceIdHolder.traceId, ErrorMessage.message(ErrorCodes.E0503.getCode(), id.toString()));
             throw new UserNotFoundException(ErrorCodes.E0503.getCode(), id.toString());
         }
 
         userRepository.deleteById(id);
-        log.info("UserService:deleteById execution ended.");
+        log.info("UserService:deleteUserById execution ended.");
 
     }
 
@@ -173,20 +174,20 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = optionalUser.get();
-        user.setImageName(fileName);
+        user.setPhoto(fileName);
 
         User userUpdated = userRepository.save(user);
 
-        log.debug("UserService:updateImageName traceId: {}, updatedImageName: {}", TraceIdHolder.traceId, userUpdated.getImageName());
+        log.debug("UserService:updateImageName traceId: {}, updatedImageName: {}", TraceIdHolder.traceId, userUpdated.getPhoto());
         log.info("UserService:updateImageName execution ended.");
 
-        return userUpdated.getImageName();
+        return userUpdated.getPhoto();
     }
     @Override
-    public Boolean isNameExist(String name) {
+    public Boolean isUserNameExist(String username) {
         log.info("UserService:isNameExist execution started. traceId: {}", TraceIdHolder.traceId);
 
-        Optional<User> optionalUser = userRepository.findByName(name);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }

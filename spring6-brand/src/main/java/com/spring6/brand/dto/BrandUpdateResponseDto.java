@@ -1,6 +1,7 @@
 package com.spring6.brand.dto;
 
 
+import com.spring6.common.enums.BrandStatusEnum;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,10 +11,7 @@ import java.util.UUID;
 @Builder
 public class BrandUpdateResponseDto {
     private UUID id;
-
     private String name;
-
-    private String logo;
-
     private UUID subcategoryId;
+    private BrandStatusEnum status;
 }

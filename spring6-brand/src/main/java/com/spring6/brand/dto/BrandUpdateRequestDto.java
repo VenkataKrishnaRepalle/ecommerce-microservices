@@ -1,6 +1,7 @@
 package com.spring6.brand.dto;
 
 import com.spring6.common.enums.BrandStatusEnum;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -17,14 +18,12 @@ public class BrandUpdateRequestDto {
     @Size(min = 2, max = 45)
     private String name;
 
-    @NotBlank
-    private String logo;
-
     @NotNull
     @NotEmpty
     private UUID subcategoryId;
 
     @NotNull
+    @Enumerated
     private BrandStatusEnum status;
 
 }
