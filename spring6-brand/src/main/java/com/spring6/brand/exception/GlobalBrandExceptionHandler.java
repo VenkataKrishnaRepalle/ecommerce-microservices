@@ -21,31 +21,26 @@ import java.util.List;
 public class GlobalBrandExceptionHandler {
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<ErrorListResponse> handleValidationException(BindException bindException) {
+    public ResponseEntity<FieldErrorListResponse> handleValidationException(BindException bindException) {
         BindingResult bindingResult = bindException.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
-        List<Error> errors = new ArrayList<>();
+        List<ErrorField> errors = new ArrayList<>();
         for (FieldError fieldError : fieldErrors) {
 
-            errors.add(Error.builder()
+            errors.add(ErrorField.builder()
                     .code(fieldError.getDefaultMessage())
                     .message(MessageFormat.format(ErrorCodes.valueOf(fieldError.getDefaultMessage()).getMessage(), fieldError.getField()))
+                    .fieldName(fieldError.getField())
                     .build());
         }
-
-        ErrorListResponse errorResponse = ErrorListResponse.builder()
-                .errors(errors)
-                .build();
-
-        errorResponse.setErrors(errors);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .headers(headers)
-                .body(errorResponse);
+                .body(FieldErrorListResponse.builder().errors(errors).build());
     }
 
     @ExceptionHandler(BrandNotFoundException.class)
