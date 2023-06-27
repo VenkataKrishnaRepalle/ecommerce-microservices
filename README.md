@@ -102,7 +102,7 @@
     - [ ]  Code Refactor
     - [ ]  KeyNotes #4
 - [ ] Code Brand Management Module (P)
-    - [ ]  Understand Requirement of Brand Module
+    - [ ]  Understand Reqrement of Brand Module
     - [ ]  Understand Technical Design for Brand Module
     - [ ]  Code Brand Entity and Repository
     - [ ]  Exercise: Code Unit Tests for Brand Repository

@@ -1,6 +1,7 @@
 package com.spring6.ecommerce.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,39 +10,50 @@ import java.util.UUID;
 @Data
 @Builder
 public class ProductCreateRequestDto {
+
     @NotNull
+    @NotBlank
     private String name;
 
     @NotNull
+    @NotBlank
     private String alias;
 
     @NotNull
+    @NotBlank
     private String shortDescription;
 
     @NotNull
+    @NotBlank
     private String fullDescription;
 
     @NotNull
     private Boolean inStock;
 
     @NotNull
+    @PositiveOrZero
     private Float cost;
 
     @NotNull
+    @PositiveOrZero
     private Float price;
 
     private Float discountPercent;
 
     @NotNull
+    @Positive
     private Float length;
 
     @NotNull
+    @Positive
     private Float width;
 
     @NotNull
+    @Positive
     private Float weight;
 
     @NotNull
+    @Positive
     private Float height;
 
     @NotNull
@@ -51,5 +63,6 @@ public class ProductCreateRequestDto {
     private UUID brandId;
 
     @NotNull
+    @Enumerated
     private Boolean isEnabled;
 }
