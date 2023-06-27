@@ -1,8 +1,14 @@
 package com.spring6.ecommerce.service;
 
 import com.spring6.common.dto.ProductFindResponseDto;
-import com.spring6.ecommerce.dto.*;
+import com.spring6.ecommerce.dto.ProductCreateRequestDto;
+import com.spring6.ecommerce.dto.ProductCreateResponseDto;
+import com.spring6.ecommerce.dto.ProductImageCreateRequestDto;
+import com.spring6.ecommerce.dto.ProductUpdateRequestDto;
+import com.spring6.ecommerce.dto.ProductUpdateResponseDto;
 import com.spring6.ecommerce.entity.Product;
+import com.spring6.ecommerce.exception.ErrorCode;
+import com.spring6.ecommerce.exception.ProductAlreadyPresentException;
 import com.spring6.ecommerce.exception.ProductNotFoundException;
 import com.spring6.ecommerce.mapper.ProductImageMapper;
 import com.spring6.ecommerce.mapper.ProductMapper;
@@ -15,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.*;
 
 @Service
@@ -35,22 +42,25 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(productMapper::productToProductFindResponseDto).toList();
     }
-    
+
     public ProductFindResponseDto getProductById(final UUID id) throws ProductNotFoundException {
         Optional<Product> product = productRepository.findById(id);
 
         if (product.isPresent()) {
             return productMapper.productToProductFindResponseDto(product.get());
         }
+        throw new ProductNotFoundException(ErrorCode.E1501.getCode(), String.valueOf(id));
 
-        throw new ProductNotFoundException("Could not find any Product with Id " + id);
-    }
+}
 
     public ProductCreateResponseDto create(final ProductCreateRequestDto productCreateRequestDto) {
+        if(isProductNameExists(productCreateRequestDto.getName())) {
+            throw new ProductAlreadyPresentException(ErrorCode.E1502.getCode(), productCreateRequestDto.getName());
+        }
         Float cost = productCreateRequestDto.getCost();
         Float price = productCreateRequestDto.getPrice();
-        Float discountedPercent = ((cost - price) / cost) * 100;
-
+        Float discountedPercent = null;
+        if (cost > 0 && price > 0 && cost > price)  discountedPercent = ((cost - price) / cost) * 100; else  discountedPercent = 0.0f;
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         discountedPercent = Float.valueOf(decimalFormat.format(discountedPercent));
 
@@ -68,8 +78,8 @@ public class ProductServiceImpl implements ProductService {
         long countById = productRepository.countById(id);
 
         if (countById == 0) {
-            throw new ProductNotFoundException("couldn't find any product with id " + id);
-        }
+            throw new ProductNotFoundException(ErrorCode.E1501.getCode(), String.valueOf(id));
+    }
         productRepository.deleteById(id);
     }
 
@@ -99,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = optionalProduct.get();
 
         if (!optionalProduct.isPresent()) {
-            throw new ProductNotFoundException("could not find the product with id " + id);
+            throw new ProductNotFoundException(ErrorCode.E1501.getCode(), String.valueOf(id));
         }
 
         if (product.getMainImage().isEmpty()) {
@@ -118,7 +128,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> existingProduct = Optional.of(productRepository.getReferenceById(id));
 
         if(existingProduct.isEmpty()) {
-            throw new ProductNotFoundException("Product with id is not present " + id);
+            throw new ProductNotFoundException(ErrorCode.E1501.getCode(), String.valueOf(id));
         }
 
         Product product = productMapper.productUpdateRequestDtoToProduct(productUpdateRequestDto);
@@ -156,7 +166,7 @@ public class ProductServiceImpl implements ProductService {
 
     public List<ProductFindResponseDto> getByCategoryId(UUID categoryId) {
         if(productRepository.getByCategoryId(categoryId).isEmpty()){
-            throw new ProductNotFoundException("Could not found Products with Category Id: "+ categoryId);
+            throw new ProductNotFoundException(ErrorCode.E1501.getCode(), String.valueOf(categoryId));
         }
         return productRepository.getByCategoryId(categoryId)
                 .stream()
@@ -167,8 +177,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductFindResponseDto> getByBrandId(UUID brandId) {
         if(productRepository.getByBrandId(brandId).isEmpty()) {
-            throw new ProductNotFoundException("Could not found any Product with Brand Id: " + brandId );
+            throw new ProductNotFoundException(ErrorCode.E1501.getCode(), String.valueOf(brandId));
         }
+
         return productRepository.getByBrandId(brandId)
                 .stream()
                 .map(productMapper::productToProductFindResponseDto)
@@ -177,8 +188,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductFindResponseDto> getByCategoryIdAndBrandId(UUID categoryId, UUID brandId) {
-        if(productRepository.getByCategoryIdAndBrandId(categoryId,brandId).isEmpty()) {
-            throw new ProductNotFoundException("Could not found any product with Category Id : " + categoryId + " and Brand Id : " + brandId);
+        if(productRepository.getByCategoryId(categoryId).isEmpty()) {
+            throw new ProductNotFoundException(ErrorCode.E1501.getCode(), String.valueOf(categoryId));
+        } else if (productRepository.getByBrandId(brandId).isEmpty()) {
+            throw new ProductNotFoundException(ErrorCode.E1501.getCode(), String.valueOf(brandId));
         }
         return productRepository.getByCategoryIdAndBrandId(categoryId, brandId)
                 .stream()

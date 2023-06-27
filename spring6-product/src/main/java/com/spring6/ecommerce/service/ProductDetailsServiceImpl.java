@@ -4,6 +4,7 @@ import com.spring6.common.dto.ProductDetailsFindResponseDto;
 import com.spring6.ecommerce.dto.ProductDetailsCreateRequestDto;
 import com.spring6.ecommerce.dto.ProductDetailsUpdateRequestDto;
 import com.spring6.ecommerce.entity.ProductDetails;
+import com.spring6.ecommerce.exception.ErrorCode;
 import com.spring6.ecommerce.exception.InvalidInputDetailsException;
 import com.spring6.ecommerce.exception.ProductAlreadyPresentException;
 import com.spring6.ecommerce.exception.ProductNotFoundException;
@@ -12,6 +13,7 @@ import com.spring6.ecommerce.repository.ProductDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +33,8 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
         for (int count = 0; count < detailNames.length; count++) {
             if (!detailNames[count].isEmpty() && !detailValues[count].isEmpty()) {
                 ProductDetailsCreateRequestDto isProductDetailsExists = productDetailsMapper.ProductDetailsToProductDetailsCreateRequestDto(productDetailsRepository.isProductDetailsExists(id, detailNames[count]));
-                if(isProductDetailsExists != null){
-                    throw new ProductAlreadyPresentException("Product Details of name "+ detailNames[count] + " with product id " + id + " is Already Exists");
+                if (isProductDetailsExists != null) {
+                    throw new ProductAlreadyPresentException(ErrorCode.E1503.getCode(), detailNames[count]);
                 }
                 ProductDetailsCreateRequestDto productDetailsRequestDto = new ProductDetailsCreateRequestDto();
                 productDetailsRequestDto.setName(detailNames[count]);
@@ -57,11 +59,11 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
 
         boolean isProductDetailsExists = isProductDetailsExitsWithProductId(id);
 
-        if(isProductDetailsExists) {
-            for(int index=0; index < detailName.length ; index++) {
-                if(!detailName[index].isEmpty() && !detailValue[index].isEmpty()) {
+        if (isProductDetailsExists) {
+            for (int index = 0; index < detailName.length; index++) {
+                if (!detailName[index].isEmpty() && !detailValue[index].isEmpty()) {
                     ProductDetails productDetails = productDetailsRepository.isProductDetailsExists(id, detailName[index]);
-                    if(productDetails == null) {
+                    if (productDetails == null) {
                         ProductDetailsUpdateRequestDto productDetails1 = new ProductDetailsUpdateRequestDto();
                         productDetails1.setProductId(id);
                         productDetails1.setName(detailName[index]);
@@ -70,20 +72,17 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
                         ProductDetails pd = productDetailsRepository.save(productDetailsMapper.ProductDetailsUpdateRequestDtoToProductDetails(productDetails1));
 
                         listProductDetails.add(pd);
-                    }
-                    else {
+                    } else {
                         productDetails.setValue(detailValue[index]);
                         productDetailsRepository.save(productDetails);
                         listProductDetails.add(productDetails);
                     }
-                }
-                else {
-                    throw new InvalidInputDetailsException("Invalid Input Details");
+                } else if(detailName[index].isEmpty()){
+                    throw new InvalidInputDetailsException(ErrorCode.E1002.getCode(), String.valueOf(detailName));
                 }
             }
-        }
-        else {
-            throw new ProductNotFoundException("Couldn't found the product with Id: "+id);
+        } else {
+            throw new ProductNotFoundException(ErrorCode.E1501.getCode(), String.valueOf(id));
         }
 
         List<ProductDetailsFindResponseDto> productDetailsFindResponseDtoList = new ArrayList<>();
@@ -97,8 +96,8 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
 
     @Override
     public List<ProductDetailsFindResponseDto> getByProductId(UUID id) {
-        if(!isProductDetailsExitsWithProductId(id)){
-            throw new ProductNotFoundException("Could not found ProductDetails with product id: "+ id);
+        if (!isProductDetailsExitsWithProductId(id)) {
+            throw new ProductNotFoundException(ErrorCode.E1501.getCode(),String.valueOf(id));
         }
         return productDetailsRepository.getByProductId(id)
                 .stream()
@@ -106,7 +105,7 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
     }
 
     public boolean isProductDetailsExitsWithProductId(UUID productId) {
-        if(!productDetailsRepository.isProductDetailsExistsWithProductId(productId)) {
+        if (!productDetailsRepository.isProductDetailsExistsWithProductId(productId)) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;

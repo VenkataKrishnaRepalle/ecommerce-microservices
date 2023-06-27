@@ -66,7 +66,7 @@ public class BrandServiceImpl implements BrandService {
             return brandMapper.brandToBrandFindResponesDto(optionalBrand.get());
         }
 
-        throw new BrandNotFoundException(ErrorCode.E0501.getCode(), id.toString());
+        throw new BrandNotFoundException(ErrorCode.E1501.getCode(), id.toString());
     }
 
     @Override
