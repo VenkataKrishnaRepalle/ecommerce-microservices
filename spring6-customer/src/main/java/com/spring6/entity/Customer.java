@@ -1,9 +1,6 @@
 package com.spring6.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -57,13 +54,13 @@ public class Customer {
     private String state;
 
     @Column(nullable = false)
-    private Integer country;
+    private String country;
 
     @Column(length = 10, nullable = false)
     private String postalCode;
 
-    @Column(nullable = false)
-    private Boolean isEnabled;
+    @Enumerated
+    private EnabledStatus isEnabled;
 
     @Column(length = 64)
     private String verificationCode;
