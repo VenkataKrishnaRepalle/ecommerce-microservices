@@ -7,12 +7,12 @@ import com.spring6.common.exeption.ErrorResponse;
 import com.spring6.common.utils.FileUploadUtils;
 import com.spring6.common.utils.GlobalConstants;
 import com.spring6.common.utils.HttpStatusCodes;
-import com.spring6.common.utils.TraceIdHolder;
 import com.spring6.user.dto.*;
 import com.spring6.user.enums.UserSearchKeywordEnum;
 import com.spring6.user.exception.UserNameAlreadyExistException;
 import com.spring6.user.exception.UserNotFoundException;
 import com.spring6.user.service.UserService;
+import com.spring6.user.utils.TraceIdHolder;
 import com.spring6.user.validations.ValidImageExtension;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,6 +30,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,19 +59,20 @@ public class UserController {
             @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(value = "create")
     public ResponseEntity<UserCreateResponseDto> createUser(
             @RequestBody @Valid final UserCreateRequestDto userCreateRequestDto)
             throws UserNameAlreadyExistException {
         log.info("UserController:createUser execution started.");
-        log.debug("UserController:createUser traceId: {} request payload: {}", TraceIdHolder.traceId, userCreateRequestDto);
+        log.debug("UserController:createUser traceId: {} request payload: {}", TraceIdHolder.getTraceId(), userCreateRequestDto);
 
         UserCreateResponseDto savedUserDto = userService.createUser(userCreateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.debug("UserController:createUser traceId: {} response: {}", TraceIdHolder.traceId, savedUserDto);
+        log.debug("UserController:createUser traceId: {} response: {}", TraceIdHolder.getTraceId(), savedUserDto);
         log.info("UserController:createUser execution ended.");
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -78,11 +80,7 @@ public class UserController {
                 .body(savedUserDto);
     }
 
-    @Operation(tags = "User",
-            summary = "Get User By Id",
-            description = "Get User by id"
-
-    )
+    @Operation(tags = "User", summary = "Get User By Id", description = "Get User by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get User Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserFindResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
@@ -91,14 +89,14 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<UserFindResponseDto> getUserById(@PathVariable @Valid final UUID id) {
         log.info("UserController:getUserById execution started.");
-        log.info("UserController:getUserById traceId: {} request id: {}", TraceIdHolder.traceId, id);
+        log.info("UserController:getUserById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         UserFindResponseDto userFindResponseDto = userService.getUserById(id);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("UserController:getUserById traceId: {} response : {}", TraceIdHolder.traceId, userFindResponseDto);
+        log.info("UserController:getUserById traceId: {} response : {}", TraceIdHolder.getTraceId(), userFindResponseDto);
         log.info("UserController:getUserById execution ended.");
 
         return ResponseEntity.ok()
@@ -115,13 +113,13 @@ public class UserController {
     @GetMapping("list")
     public ResponseEntity<List<UserFindResponseDto>> getAllUsers() {
         log.info("UserController:getAllUsers started.");
-        log.info("UserController:getAllUsers traceId: {}", TraceIdHolder.traceId);
+        log.info("UserController:getAllUsers traceId: {}", TraceIdHolder.getTraceId());
         List<UserFindResponseDto> userFindResponseDtoList = userService.getAllUsers();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("UserController:getAllUsers traceId: {} response: {}", TraceIdHolder.traceId, userFindResponseDtoList);
+        log.info("UserController:getAllUsers traceId: {} response: {}", TraceIdHolder.getTraceId(), userFindResponseDtoList);
         log.info("UserController:getAllUsers execution ended.");
 
         return ResponseEntity.ok()
@@ -140,14 +138,14 @@ public class UserController {
     public ResponseEntity<UserUpdateResponseDto> updateUser(@PathVariable UUID id, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
 
         log.info("UserController:updateUser started.");
-        log.info("UserController:updateUser traceId: {} request id: {} payload: {}", TraceIdHolder.traceId, id, userUpdateRequestDto);
+        log.info("UserController:updateUser traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, userUpdateRequestDto);
 
         UserUpdateResponseDto userUpdateResponseDto = userService.updateUser(id, userUpdateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("UserController:updateUser traceId: {} response: {}", TraceIdHolder.traceId, userUpdateResponseDto);
+        log.info("UserController:updateUser traceId: {} response: {}", TraceIdHolder.getTraceId(), userUpdateResponseDto);
         log.info("UserController:updateUser ended.");
 
         return ResponseEntity.ok()
@@ -166,16 +164,16 @@ public class UserController {
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable final UUID id) {
         log.info("UserController:deleteById started.");
-        log.info("UserController:deleteById traceId: {} request id: {}", TraceIdHolder.traceId, id);
+        log.info("UserController:deleteById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         userService.deleteUserById(id);
         String dir = "../user-logos/" + id;
         FileUploadUtils.removeDir(dir);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("UserController:deleteById traceId: {}", TraceIdHolder.traceId);
+        log.info("UserController:deleteById traceId: {}", TraceIdHolder.getTraceId());
         log.info("UserController:deleteById ended.");
 
         return ResponseEntity.noContent()
@@ -196,14 +194,14 @@ public class UserController {
                                                                       @RequestParam("searchField") UserSearchKeywordEnum searchField,
                                                                       @RequestParam("searchKeyword") String searchKeyword) {
         log.info("UserController:getUsersByPage started.");
-        log.info("UserController:getUsersByPage traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.traceId, pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
+        log.info("UserController:getUsersByPage traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
         List<UserFindResponseDto> userFindResponseDtoList = userService.getUsersByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("UserController:getUsersByPage traceId: {} response: {}", TraceIdHolder.traceId, userFindResponseDtoList);
+        log.info("UserController:getUsersByPage traceId: {} response: {}", TraceIdHolder.getTraceId(), userFindResponseDtoList);
         log.info("UserController:getUsersByPage ended.");
 
         return ResponseEntity.ok()
@@ -223,10 +221,10 @@ public class UserController {
             @NotNull @ValidImageExtension @RequestParam("fileImage") final MultipartFile multipartFile)
             throws IOException, UserNameAlreadyExistException {
         log.info("UserController:uploadUserImage started.");
-        log.info("UserController:uploadUserImage traceId: {} request id: {}", TraceIdHolder.traceId, userId);
+        log.info("UserController:uploadUserImage traceId: {} request id: {}", TraceIdHolder.getTraceId(), userId);
 
         if (userService.isIdExist(userId)) {
-            log.error("UserController:uploadUserImage traceId: {} User Not Found id: {}", TraceIdHolder.traceId, userId);
+            log.error("UserController:uploadUserImage traceId: {} User Not Found id: {}", TraceIdHolder.getTraceId(), userId);
             throw new UserNotFoundException(ErrorCodes.E0507.getCode(), userId.toString());
         }
 
@@ -239,13 +237,13 @@ public class UserController {
             userService.updateImageName(userId, fileName);
 
         } else {
-            log.error("UserController:uploadUserImage traceId: {} File Not Found id: {}", TraceIdHolder.traceId, userId);
+            log.error("UserController:uploadUserImage traceId: {} File Not Found id: {}", TraceIdHolder.getTraceId(), userId);
         }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("UserController:uploadUserImage traceId: {}", TraceIdHolder.traceId);
+        log.info("UserController:uploadUserImage traceId: {}", TraceIdHolder.getTraceId());
         log.info("UserController:uploadUserImage ended.");
 
         return ResponseEntity.ok()
@@ -263,7 +261,7 @@ public class UserController {
     public ResponseEntity<Resource> getUserImageById(
             @PathVariable("id") UUID id) throws MalformedURLException {
         log.info("UserController:getUserImageById started.");
-        log.info("UserController:getUserImageById traceId: {} request id: {}", TraceIdHolder.traceId, id);
+        log.info("UserController:getUserImageById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         UserFindResponseDto userDto = userService.getUserById(id);
 
@@ -271,10 +269,10 @@ public class UserController {
         Resource imageResource = new UrlResource(imagePath.toUri());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.traceId);
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
         if (!imageResource.exists()) {
-            log.error("UserController:getUserImageById traceId: {} id: {} Image source not found", TraceIdHolder.traceId, id);
+            log.error("UserController:getUserImageById traceId: {} id: {} Image source not found", TraceIdHolder.getTraceId(), id);
             log.error("UserController:getUserImageById ended.");
             return ResponseEntity.notFound()
                     .headers(headers).build();
@@ -283,7 +281,7 @@ public class UserController {
         headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + userDto.getPhoto() + "\"");
 
-        log.info("UserController:getUserImageById traceId: {} id: {}", TraceIdHolder.traceId, id);
+        log.info("UserController:getUserImageById traceId: {} id: {}", TraceIdHolder.getTraceId(), id);
         log.info("UserController:getUserImageById ended.");
 
         return ResponseEntity.ok()
@@ -292,4 +290,28 @@ public class UserController {
                 .body(imageResource);
 
     }
+
+    @Operation(tags = "User", summary = "Find the duplicate Email", description = "Find the duplicate email while register the user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get User Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("duplicate-email/{email}")
+    public ResponseEntity<Boolean> isUserEmailExist(@PathVariable @Valid final String email) {
+        log.info("UserController:isUserEmailExist execution started.");
+        log.info("UserController:isUserEmailExist traceId: {} request email: {}", TraceIdHolder.getTraceId(), email);
+
+        Boolean userEmailExist = userService.isUserEmailExist(email);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        log.info("UserController:isUserEmailExist traceId: {} response : {}", TraceIdHolder.getTraceId(), userEmailExist);
+        log.info("UserController:isUserEmailExist execution ended.");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(userEmailExist);
+    }
+
 }

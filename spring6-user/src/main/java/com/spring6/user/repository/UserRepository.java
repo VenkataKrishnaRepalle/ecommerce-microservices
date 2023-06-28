@@ -16,11 +16,13 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Long countById(UUID id);
 
-    Optional<User> findByUsername(String username);
-
     @Query("SELECT b FROM User b WHERE b.username LIKE %?1%")
     Page<User> findAll(String keyword, Pageable pageable);
 
     @Query("SELECT b FROM User b WHERE b.firstName LIKE %?1%")
     Page<User> findAllByFirstName(String searchKeyword, Pageable pageable);
+
+    Optional<User> findByUsername(String username);
+
+    Optional<User> findByEmail(String email);
 }

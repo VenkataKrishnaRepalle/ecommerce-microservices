@@ -1,16 +1,13 @@
 package com.spring6.user.dto;
 
-import com.spring6.common.exeption.ErrorCodes;
 import com.spring6.user.entity.Role;
 import com.spring6.user.entity.UserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-
-import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.UUID;
 
 
 @Data
@@ -26,17 +23,17 @@ public class UserCreateRequestDto {
     @Email
     private String email;
 
+    @NotBlank
     private String username;
 
+    @NotBlank
     private String password;
 
     private String photo;
 
+    @NotNull
     private UserStatus status;
 
-    private Instant createdOn;
-
-    private Instant lastUpdatedOn;
-
-    private Set<Role> roles = new HashSet<>();
+    @NotNull
+    private UUID roleId;
 }

@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.feign;
 
-import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
+import com.spring6.common.dto.CategoryFindResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

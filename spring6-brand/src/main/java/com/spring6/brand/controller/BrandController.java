@@ -67,9 +67,8 @@ public class BrandController {
     public ResponseEntity<BrandCreateResponseDto> createBrand(
             @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto)
             throws BrandNameAlreadyExistException {
-        String trace =  MDC.get(GlobalConstants.TRACE_ID);
         log.info("BrandController:createBrand execution started.");
-        log.debug("BrandController:createBrand traceId: {} request payload: {}", trace, brandCreateRequestDto);
+        log.debug("BrandController:createBrand traceId: {} request payload: {}", TraceIdHolder.getTraceId(), brandCreateRequestDto);
 
         BrandCreateResponseDto savedBrandDto = brandService.createBrand(brandCreateRequestDto);
 

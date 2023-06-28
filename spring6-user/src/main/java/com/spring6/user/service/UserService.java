@@ -25,4 +25,6 @@ public interface UserService {
     Boolean isIdExist(UUID uuid);
 
     String updateImageName(UUID userId, String fileName);
+
+    Boolean isUserEmailExist(String email);
 }
