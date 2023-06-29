@@ -29,6 +29,7 @@ public final class ErrorCodes {
 
 
     public static final String E1001 = "E1001-Field {0} is required.";
+
     //  user - 4001 to 5000 errors
     public static final String E4001 =  "E4001-Field {0} is required.";
     public static final String E4002 =  "E4002-Field {0} is required.";
@@ -38,7 +39,25 @@ public final class ErrorCodes {
     public static final String E4006 =  "E4006-Field {0} is required.";
     public static final String E4007 =  "E4007-Field {0} is required.";
     public static final String E4008 =  "E4008-Password not matched with confirm password.";
-    public static final String E4009 =  "E4009-Field {0} is required.";
+    public static final String E4009 =  "E4009-Invalid value.";
     public static final String E4010 =  "E4010-Field {0} is required.";
+    public static final String E4011 =  "E4011-Field {0} is required.";
+
+    public static final String E4501 = "E0501-Could not find any user with ID : {0}";
+    public static final String E4502 = "E0502-Could not find any user with ID : {0}";
+    public static final String E4503 = "E0503-Could not find any user with ID : {0}";
+    public static final String E4504 = "E0504-Could not find any user with ID : {0}";
+    public static final String E4505 = "E0505-Could not find any user with ID : {0}";
+    public static final String E4506 = "E0506-User name : {0} already exist";
+    public static final String E4507 = "E4507-Could not find any user with ID : {0}";
+    public static final String E4508 = "E0508-Could not find any user with ID : {0}";
+    public static final String E4509 = "E4509-User email already registered with us";
+    public static final String E4510 = "E4510-User email already registered with us";
+    public static final String E4511 = "E4511-User name already registered with us";
+    public static final String E4512 = "E4512-Could not find any user with ID : {0}";
+    public static final String E4513 = "E4513-Could not find any user with ID : {0}";
+    public static final String E4514 = "E4514-Could not find any user photo with ID : {0}";
+
+
     public static final String E0500 =  "E0500-Internal Server Error - {0}";
 }

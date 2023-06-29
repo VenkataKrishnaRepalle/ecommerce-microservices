@@ -1,6 +1,5 @@
 package com.spring6.user.controller;
 
-
 import com.spring6.common.exeption.ErrorCodes;
 import com.spring6.common.exeption.ErrorListResponse;
 import com.spring6.common.exeption.ErrorResponse;
@@ -8,10 +7,15 @@ import com.spring6.common.utils.FileUploadUtils;
 import com.spring6.common.utils.GlobalConstants;
 import com.spring6.common.utils.HttpStatusCodes;
 import com.spring6.user.dto.*;
+import com.spring6.user.entity.UserStatus;
+import com.spring6.user.enums.SortOrderDirectionEnum;
 import com.spring6.user.enums.UserSearchKeywordEnum;
+import com.spring6.user.enums.UserSortFieldEnum;
+import com.spring6.user.exception.PasswordMismatchException;
 import com.spring6.user.exception.UserNameAlreadyExistException;
 import com.spring6.user.exception.UserNotFoundException;
 import com.spring6.user.service.UserService;
+import com.spring6.common.utils.FileNameUtil;
 import com.spring6.user.utils.TraceIdHolder;
 import com.spring6.user.validations.ValidImageExtension;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +34,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,7 +70,12 @@ public class UserController {
         log.info("UserController:createUser execution started.");
         log.debug("UserController:createUser traceId: {} request payload: {}", TraceIdHolder.getTraceId(), userCreateRequestDto);
 
-        UserCreateResponseDto savedUserDto = userService.createUser(userCreateRequestDto);
+        if (!userCreateRequestDto.getPassword().equals(userCreateRequestDto.getConfirmPassword())) {
+            log.error("UserController:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorCodes.E4008);
+            throw new PasswordMismatchException(ErrorCodes.E4008);
+        }
+
+        UserCreateResponseDto savedUserDto = userService.create(userCreateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -91,7 +99,7 @@ public class UserController {
         log.info("UserController:getUserById execution started.");
         log.info("UserController:getUserById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
-        UserFindResponseDto userFindResponseDto = userService.getUserById(id);
+        UserFindResponseDto userFindResponseDto = userService.getById(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -114,7 +122,7 @@ public class UserController {
     public ResponseEntity<List<UserFindResponseDto>> getAllUsers() {
         log.info("UserController:getAllUsers started.");
         log.info("UserController:getAllUsers traceId: {}", TraceIdHolder.getTraceId());
-        List<UserFindResponseDto> userFindResponseDtoList = userService.getAllUsers();
+        List<UserFindResponseDto> userFindResponseDtoList = userService.getAll();
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -126,6 +134,146 @@ public class UserController {
                 .headers(headers)
                 .body(userFindResponseDtoList);
     }
+
+    @Operation(tags = "User", summary = "Get User Image By Id", description = "Get user by passing user id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Success", content = {@Content(mediaType = "application/octet-stream")}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Image Not found"),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("{id}/image")
+    public ResponseEntity<Resource> getUserImageById(
+            @PathVariable("id") UUID id) throws MalformedURLException {
+        log.info("UserController:getUserImageById started.");
+        log.info("UserController:getUserImageById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+
+        String imageName = userService.getPhotoById(id);
+
+        Path imagePath = Paths.get(IMAGE_UPLOAD_DIRECTORY).resolve(imageName).normalize();
+        Resource imageResource = new UrlResource(imagePath.toUri());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        if (!imageResource.exists()) {
+            log.error("UserController:getUserImageById traceId: {} id: {} Image source not found", TraceIdHolder.getTraceId(), id);
+            log.error("UserController:getUserImageById ended.");
+            return ResponseEntity.notFound()
+                    .headers(headers).build();
+
+        }
+        String extension = FileNameUtil.getFileExtension(imageName);
+
+        if (extension.equals("png")) {
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE);
+
+        } else if (extension.equals("jpg") || extension.equals("jpeg")) {
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
+        } else {
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        }
+
+        log.info("UserController:getUserImageById traceId: {} id: {}", TraceIdHolder.getTraceId(), id);
+        log.info("UserController:getUserImageById ended.");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(imageResource);
+
+    }
+
+
+    @Operation(tags = "User", summary = "Download User Profile Image By Id", description = "Download user profile image by passing user id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Success", content = {@Content(mediaType = "application/octet-stream")}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Image Not found"),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("{id}/image/download")
+    public ResponseEntity<Resource> downloadUserImageById(
+            @PathVariable("id") UUID id) throws MalformedURLException {
+        log.info("UserController:downloadUserImageById started.");
+        log.info("UserController:downloadUserImageById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+
+        String imageName = userService.getPhotoById(id);
+
+        Path imagePath = Paths.get(IMAGE_UPLOAD_DIRECTORY, imageName);
+        Resource imageResource = new UrlResource(imagePath.toUri());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        if (!imageResource.exists()) {
+            log.error("UserController:downloadUserImageById traceId: {} id: {} Image source not found", TraceIdHolder.getTraceId(), id);
+            log.error("UserController:downloadUserImageById ended.");
+            return ResponseEntity.notFound()
+                    .headers(headers).build();
+
+        }
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageName+ "\"");
+
+        log.info("UserController:downloadUserImageById traceId: {} id: {}", TraceIdHolder.getTraceId(), id);
+        log.info("UserController:downloadUserImageById ended.");
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .headers(headers)
+                .body(imageResource);
+
+    }
+
+    @Operation(tags = "User", summary = "Find the duplicate Email", description = "Find the duplicate email while register the user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get User Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("duplicate-email/{email}")
+    public ResponseEntity<Boolean> isUserEmailExist(@PathVariable @Valid final String email) {
+        log.info("UserController:isUserEmailExist execution started.");
+        log.info("UserController:isUserEmailExist traceId: {} request email: {}", TraceIdHolder.getTraceId(), email);
+
+        Boolean userEmailExist = userService.isEmailExist(email);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        log.info("UserController:isUserEmailExist traceId: {} response : {}", TraceIdHolder.getTraceId(), userEmailExist);
+        log.info("UserController:isUserEmailExist execution ended.");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(userEmailExist);
+    }
+
+    @Operation(tags = "User", summary = "Get Users By Pagination", description = "Get users by pagination by passing pagination attributes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Users", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserFindResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("page")
+    public ResponseEntity<List<UserFindResponseDto>> getUsersByPage(@RequestParam(value = "pageNumber", required = true) Integer pageNumber,
+                                                                    @RequestParam(value = "perPageCount", required = true) Integer perPageCount,
+                                                                    @RequestParam(value = "sortField", required = false) UserSortFieldEnum sortField,
+                                                                    @RequestParam(value = "sortDirection", required = false) SortOrderDirectionEnum sortDirection,
+                                                                    @RequestParam(value = "searchField", required = false) UserSearchKeywordEnum searchField,
+                                                                    @RequestParam(value = "searchKeyword", required = false) String searchKeyword) {
+        log.info("UserController:getUsersByPage started.");
+        log.info("UserController:getUsersByPage traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
+
+        List<UserFindResponseDto> userFindResponseDtoList = userService.getByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        log.info("UserController:getUsersByPage traceId: {} response: {}", TraceIdHolder.getTraceId(), userFindResponseDtoList);
+        log.info("UserController:getUsersByPage ended.");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(userFindResponseDtoList);
+    }
+
 
     @Operation(tags = "User", summary = "Update User", description = "Update user by passing user id and user request body")
     @ApiResponses(value = {
@@ -140,7 +288,7 @@ public class UserController {
         log.info("UserController:updateUser started.");
         log.info("UserController:updateUser traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, userUpdateRequestDto);
 
-        UserUpdateResponseDto userUpdateResponseDto = userService.updateUser(id, userUpdateRequestDto);
+        UserUpdateResponseDto userUpdateResponseDto = userService.update(id, userUpdateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -151,6 +299,32 @@ public class UserController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(userUpdateResponseDto);
+
+    }
+
+    @Operation(tags = "User", summary = "Update User Enabled Status", description = "Update user status by passing user id and user status")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a User", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PatchMapping("update/{id}/status/{status}")
+    public ResponseEntity<Boolean> updateUserStatus(@PathVariable UUID id, @PathVariable UserStatus status) {
+
+        log.info("UserController:updateUser started.");
+        log.info("UserController:updateUser traceId: {} request id: {} user status: {}", TraceIdHolder.getTraceId(), id, status);
+
+        Boolean isUserStatusUpdated = userService.updateUserStatus(id, status);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        log.info("UserController:updateUser traceId: {} response: {}", TraceIdHolder.getTraceId(), isUserStatusUpdated);
+        log.info("UserController:updateUser ended.");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(isUserStatusUpdated);
 
     }
 
@@ -166,7 +340,7 @@ public class UserController {
         log.info("UserController:deleteById started.");
         log.info("UserController:deleteById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
-        userService.deleteUserById(id);
+        userService.deleteById(id);
         String dir = "../user-logos/" + id;
         FileUploadUtils.removeDir(dir);
 
@@ -181,51 +355,23 @@ public class UserController {
                 .build();
     }
 
-    @Operation(tags = "User", summary = "Get Users By Pagination", description = "Get users by pagination by passing pagination attributes")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Users", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserFindResponseDto.class))}),
-            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @GetMapping("page")
-    public ResponseEntity<List<UserFindResponseDto>> getUsersByPage(@RequestParam(name = "pageNumber") Integer pageNumber,
-                                                                      @RequestParam("perPageCount") Integer perPageCount,
-                                                                      @RequestParam("sortField") String sortField,
-                                                                      @RequestParam("sortDirection") String sortDirection,
-                                                                      @RequestParam("searchField") UserSearchKeywordEnum searchField,
-                                                                      @RequestParam("searchKeyword") String searchKeyword) {
-        log.info("UserController:getUsersByPage started.");
-        log.info("UserController:getUsersByPage traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
-
-        List<UserFindResponseDto> userFindResponseDtoList = userService.getUsersByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-
-        log.info("UserController:getUsersByPage traceId: {} response: {}", TraceIdHolder.getTraceId(), userFindResponseDtoList);
-        log.info("UserController:getUsersByPage ended.");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(userFindResponseDtoList);
-    }
-
     @Operation(tags = "User", summary = "Upload User Image", description = "Upload user image by passing user id and user image")
     @ApiResponses(value = {
             @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Image uploaded success"),
             @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @PostMapping("upload-image")
+    @PostMapping(value = "upload-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> uploadUserImage(
             @RequestParam @NotNull final UUID userId,
-            @NotNull @ValidImageExtension @RequestParam("fileImage") final MultipartFile multipartFile)
-            throws IOException, UserNameAlreadyExistException {
+            @RequestPart("fileImage") @NotNull @ValidImageExtension final MultipartFile multipartFile)
+            throws IOException {
         log.info("UserController:uploadUserImage started.");
         log.info("UserController:uploadUserImage traceId: {} request id: {}", TraceIdHolder.getTraceId(), userId);
 
-        if (userService.isIdExist(userId)) {
+        if (!userService.isIdExist(userId)) {
             log.error("UserController:uploadUserImage traceId: {} User Not Found id: {}", TraceIdHolder.getTraceId(), userId);
-            throw new UserNotFoundException(ErrorCodes.E0507, userId.toString());
+            throw new UserNotFoundException(ErrorCodes.E4507, userId.toString());
         }
 
         if (!multipartFile.isEmpty() && multipartFile.getOriginalFilename() != null) {
@@ -251,67 +397,5 @@ public class UserController {
                 .build();
     }
 
-    @Operation(tags = "User", summary = "Get User Image By Id", description = "Get user by passing user id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Success", content = {@Content(mediaType = "application/octet-stream")}),
-            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Image Not found"),
-            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @GetMapping("image/{id}")
-    public ResponseEntity<Resource> getUserImageById(
-            @PathVariable("id") UUID id) throws MalformedURLException {
-        log.info("UserController:getUserImageById started.");
-        log.info("UserController:getUserImageById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
-
-        UserFindResponseDto userDto = userService.getUserById(id);
-
-        Path imagePath = Paths.get(IMAGE_UPLOAD_DIRECTORY, userDto.getPhoto());
-        Resource imageResource = new UrlResource(imagePath.toUri());
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-
-        if (!imageResource.exists()) {
-            log.error("UserController:getUserImageById traceId: {} id: {} Image source not found", TraceIdHolder.getTraceId(), id);
-            log.error("UserController:getUserImageById ended.");
-            return ResponseEntity.notFound()
-                    .headers(headers).build();
-
-        }
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + userDto.getPhoto() + "\"");
-
-        log.info("UserController:getUserImageById traceId: {} id: {}", TraceIdHolder.getTraceId(), id);
-        log.info("UserController:getUserImageById ended.");
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .headers(headers)
-                .body(imageResource);
-
-    }
-
-    @Operation(tags = "User", summary = "Find the duplicate Email", description = "Find the duplicate email while register the user")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get User Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class))}),
-            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @GetMapping("duplicate-email/{email}")
-    public ResponseEntity<Boolean> isUserEmailExist(@PathVariable @Valid final String email) {
-        log.info("UserController:isUserEmailExist execution started.");
-        log.info("UserController:isUserEmailExist traceId: {} request email: {}", TraceIdHolder.getTraceId(), email);
-
-        Boolean userEmailExist = userService.isUserEmailExist(email);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-
-        log.info("UserController:isUserEmailExist traceId: {} response : {}", TraceIdHolder.getTraceId(), userEmailExist);
-        log.info("UserController:isUserEmailExist execution ended.");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(userEmailExist);
-    }
 
 }

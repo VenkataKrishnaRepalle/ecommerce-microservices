@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 
 public class ErrorMessage {
     public static String message(String error, String dynamicValue) {
-        return MessageFormat.format(error.split("-")[1], dynamicValue);
+        return MessageFormat.format(error, dynamicValue);
     }
 
     public static ErrorResponse errorResponse(String error, String dynamicValue) {

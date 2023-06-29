@@ -1,11 +1,11 @@
 package com.spring6.user.dto;
 
 import com.spring6.user.entity.Role;
+import com.spring6.user.entity.UserStatus;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,15 +22,11 @@ public class UserFindResponseDto {
 
     private String username;
 
-    private String password;
+    private String imageUrl;
 
-    private String photo;
-
-    private Boolean isEnabled;
+    private UserStatus status;
 
     private Instant createdOn;
 
     private Instant lastUpdatedOn;
-
-    private Set<Role> roles = new HashSet<>();
 }

@@ -34,7 +34,7 @@ public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
 
-    public List<BrandFindResponseDto> getAllBrands() {
+    public List<BrandFindResponseDto> getAll() {
         log.info("BrandService:getAllBrands execution started.");
         log.debug("BrandService:getAllBrands traceId: {}", TraceIdHolder.getTraceId());
 
@@ -49,7 +49,7 @@ public class BrandServiceImpl implements BrandService {
         return brandFindResponseDtoList;
     }
 
-    public List<BrandFindResponseDto> getBrandsByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDirectory, BrandSearchKeywordEnum searchField, String searchKeyword) {
+    public List<BrandFindResponseDto> getByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDirectory, BrandSearchKeywordEnum searchField, String searchKeyword) {
         log.info("BrandService:getBrandsByPage execution started.");
         log.debug("BrandService:getBrandsByPage traceId: {},  pageNumber: {}, perPageCount: {}, sortField: {}, sortDirectory: {}, searchField: {}, searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirectory, searchField, searchKeyword);
 
@@ -83,7 +83,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandFindResponseDto getBrandById(UUID id) throws BrandNotFoundException {
+    public BrandFindResponseDto getById(UUID id) throws BrandNotFoundException {
         log.info("BrandService:getBrandById execution started.");
         log.debug("BrandService:getBrandById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
@@ -104,7 +104,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandCreateResponseDto createBrand(BrandCreateRequestDto brandCreateRequestDto) {
+    public BrandCreateResponseDto create(BrandCreateRequestDto brandCreateRequestDto) {
         log.info("BrandService:createBrand execution started.");
         log.debug("BrandService:createBrand traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), brandCreateRequestDto);
 
@@ -125,7 +125,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandUpdateResponseDto updateBrand(final UUID id, BrandUpdateRequestDto brandUpdateRequestDto)
+    public BrandUpdateResponseDto update(final UUID id, BrandUpdateRequestDto brandUpdateRequestDto)
             throws BrandNotFoundException {
         log.info("BrandService:updateBrand execution started.");
         log.debug("BrandService:updateBrand traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, brandUpdateRequestDto);
@@ -150,7 +150,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public void deleteBrandById(UUID id) throws BrandNotFoundException {
+    public void deleteById(UUID id) throws BrandNotFoundException {
         log.info("BrandService:deleteBrandById execution started.");
         log.debug("BrandService:deleteBrandById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
@@ -189,7 +189,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public String getBrandImageNameById(UUID id) {
+    public String getImageNameById(UUID id) {
         log.info("BrandService:getBrandImageNameById execution started.");
         log.debug("BrandService:getBrandImageNameById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
