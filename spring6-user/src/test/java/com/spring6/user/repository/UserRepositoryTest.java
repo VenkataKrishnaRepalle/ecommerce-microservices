@@ -40,8 +40,8 @@ public class UserRepositoryTest {
     private Set<Role> getRoles() {
         Set<Role> roles = new HashSet<>();
 
-        roles.add(Role.builder().name(RoleType.ADMIN).description("Manage Everything").privileges(getPrivileges()).build());
-        roles.add(Role.builder().name(RoleType.SALES_PERSON).description("Manage Sales and Report").privileges(getPrivileges()).build());
+        roles.add(Role.builder().name(RoleType.ADMIN).description("Manage Everything").build());
+        roles.add(Role.builder().name(RoleType.SALES_PERSON).description("Manage Sales and Report").build());
         return roles;
     }
 

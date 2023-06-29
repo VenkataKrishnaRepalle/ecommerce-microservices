@@ -1,6 +1,7 @@
 package com.spring6.brand.dto;
 
 import com.spring6.common.enums.BrandStatusEnum;
+import com.spring6.common.exeption.ErrorCodes;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,14 +13,14 @@ import java.util.UUID;
 @Data
 @Builder
 public class BrandCreateRequestDto {
-    @NotBlank(message = "E0001")
-    @Size(min = 2, max = 45, message = "E0002")
+    @NotBlank(message = ErrorCodes.E0001)
+    @Size(min = 2, max = 45, message = ErrorCodes.E0002)
     private String name;
 
-    @NotNull(message = "E0003")
+    @NotNull(message = ErrorCodes.E0003)
     private UUID subcategoryId;
 
-    @NotNull(message = "E0004")
+    @NotNull(message = ErrorCodes.E0004)
     @Enumerated
     private BrandStatusEnum status;
 }

@@ -25,18 +25,19 @@ public class Role {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(length = 40, unique = true, nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(length = 40, unique = true, nullable = false, columnDefinition = "ENUM('ADMIN', 'SALES_PERSON', 'EDITOR', 'SHIPPER', 'ASSISTANT')")
     private RoleType name;
 
     @Column(length = 150, nullable = false)
     private String description;
 
-    @ManyToMany
-    @JoinTable(
-            name = "roles_privileges",
-            joinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "privilege_id", referencedColumnName = "id"))
-    private Collection<Privilege> privileges;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "roles_privileges",
+//            joinColumns = @JoinColumn(
+//                    name = "role_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "privilege_id", referencedColumnName = "id"))
+//    private Collection<Privilege> privileges;
 }

@@ -225,7 +225,7 @@ public class UserController {
 
         if (userService.isIdExist(userId)) {
             log.error("UserController:uploadUserImage traceId: {} User Not Found id: {}", TraceIdHolder.getTraceId(), userId);
-            throw new UserNotFoundException(ErrorCodes.E0507.getCode(), userId.toString());
+            throw new UserNotFoundException(ErrorCodes.E0507, userId.toString());
         }
 
         if (!multipartFile.isEmpty() && multipartFile.getOriginalFilename() != null) {

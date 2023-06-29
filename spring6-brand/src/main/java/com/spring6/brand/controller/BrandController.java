@@ -232,7 +232,7 @@ public class BrandController {
 
         if (brandService.isIdExist(brandId)) {
             log.error("BrandController:uploadBrandImage traceId: {} Brand Not Found id: {}", TraceIdHolder.getTraceId(), brandId);
-            throw new BrandNotFoundException(ErrorCodes.E0507.getCode(), brandId.toString());
+            throw new BrandNotFoundException(ErrorCodes.E0507, brandId.toString());
         }
 
         if (!multipartFile.isEmpty() && multipartFile.getOriginalFilename() != null) {

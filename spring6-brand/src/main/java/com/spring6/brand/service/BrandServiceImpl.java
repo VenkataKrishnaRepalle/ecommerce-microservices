@@ -92,7 +92,7 @@ public class BrandServiceImpl implements BrandService {
         if (!optionalBrand.isPresent()) {
             log.error("BrandService:getBrandById traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
             log.info("BrandService:getBrandById execution ended.");
-            throw new BrandNotFoundException(ErrorCodes.E0501.getCode(), id.toString());
+            throw new BrandNotFoundException(ErrorCodes.E0501, id.toString());
         }
 
         BrandFindResponseDto brandFindResponseDto = brandMapper.brandToBrandFindResponesDto(optionalBrand.get());
@@ -109,8 +109,8 @@ public class BrandServiceImpl implements BrandService {
         log.debug("BrandService:createBrand traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), brandCreateRequestDto);
 
         if (isNameExist(brandCreateRequestDto.getName())) {
-            log.error("BrandService:createBrand traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0506.getCode(), brandCreateRequestDto.getName()));
-            throw new BrandNameAlreadyExistException(ErrorCodes.E0506.getCode(), brandCreateRequestDto.getName());
+            log.error("BrandService:createBrand traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0506, brandCreateRequestDto.getName()));
+            throw new BrandNameAlreadyExistException(ErrorCodes.E0506, brandCreateRequestDto.getName());
         }
 
         Brand brand = brandMapper.brandCreateRequestDtoToBrand(brandCreateRequestDto);
@@ -134,7 +134,7 @@ public class BrandServiceImpl implements BrandService {
         Optional<Brand> optionalBrand = brandRepository.findById(id);
 
         if (!optionalBrand.isPresent()) {
-            throw new BrandNotFoundException(ErrorCodes.E0502.getCode(), id.toString());
+            throw new BrandNotFoundException(ErrorCodes.E0502, id.toString());
         }
 
         Brand brand = brandMapper.brandUpdateRequestDtoToBrand(brandUpdateRequestDto);
@@ -156,8 +156,8 @@ public class BrandServiceImpl implements BrandService {
 
         Long brandCountById = brandRepository.countById(id);
         if (brandCountById == 0) {
-            log.error("BrandService:deleteBrandById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0503.getCode(), id.toString()));
-            throw new BrandNotFoundException(ErrorCodes.E0503.getCode(), id.toString());
+            log.error("BrandService:deleteBrandById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0503, id.toString()));
+            throw new BrandNotFoundException(ErrorCodes.E0503, id.toString());
         }
 
         brandRepository.deleteById(id);
@@ -173,8 +173,8 @@ public class BrandServiceImpl implements BrandService {
         Optional<Brand> optionalBrand = brandRepository.findById(brandId);
 
         if (!optionalBrand.isPresent()) {
-            log.error("BrandService:updateImageName traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0504.getCode(), brandId.toString()));
-            throw new BrandNotFoundException(ErrorCodes.E0504.getCode(), brandId.toString());
+            log.error("BrandService:updateImageName traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0504, brandId.toString()));
+            throw new BrandNotFoundException(ErrorCodes.E0504, brandId.toString());
         }
 
         Brand brand = optionalBrand.get();
@@ -198,7 +198,7 @@ public class BrandServiceImpl implements BrandService {
         if (!optionalBrand.isPresent()) {
             log.error("BrandService:getBrandImageNameById traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
             log.info("BrandService:getBrandImageNameById execution ended.");
-            throw new BrandNotFoundException(ErrorCodes.E0508.getCode(), id.toString());
+            throw new BrandNotFoundException(ErrorCodes.E0508, id.toString());
         }
 
         String imageName =  optionalBrand.get().getImageName();

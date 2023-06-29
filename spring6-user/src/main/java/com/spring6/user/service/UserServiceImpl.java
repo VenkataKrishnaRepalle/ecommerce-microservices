@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         if (!optionalUser.isPresent()) {
             log.error("UserService:getUserById traceId: {}, errorMessage: User Not found", TraceIdHolder.getTraceId());
             log.info("UserService:getUserById execution ended.");
-            throw new UserNotFoundException(ErrorCodes.E0501.getCode(), id.toString());
+            throw new UserNotFoundException(ErrorCodes.E0501, id.toString());
         }
 
         UserFindResponseDto userFindResponesDto = userMapper.userToUserFindResponseDto(optionalUser.get());
@@ -111,8 +111,8 @@ public class UserServiceImpl implements UserService {
         log.debug("UserService:createUser traceId: {} , userCreateRequestDto: {}", TraceIdHolder.getTraceId(), userCreateRequestDto);
 
         if (isUserNameExist(userCreateRequestDto.getUsername())) {
-            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0506.getCode(), userCreateRequestDto.getUsername()));
-            throw new UserNameAlreadyExistException(ErrorCodes.E0506.getCode(), userCreateRequestDto.getUsername());
+            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0506, userCreateRequestDto.getUsername()));
+            throw new UserNameAlreadyExistException(ErrorCodes.E0506, userCreateRequestDto.getUsername());
         }
 
         User user = userMapper.userCreateRequestDtoToUser(userCreateRequestDto);
@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
-            throw new UserNotFoundException(ErrorCodes.E0502.getCode(), id.toString());
+            throw new UserNotFoundException(ErrorCodes.E0502, id.toString());
         }
 
         User user = userMapper.userUpdateRequestDtoToUser(userUpdateRequestDto);
@@ -160,8 +160,8 @@ public class UserServiceImpl implements UserService {
 
         Long userCountById = userRepository.countById(id);
         if (userCountById == 0) {
-            log.error("UserService:deleteUserById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0503.getCode(), id.toString()));
-            throw new UserNotFoundException(ErrorCodes.E0503.getCode(), id.toString());
+            log.error("UserService:deleteUserById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0503, id.toString()));
+            throw new UserNotFoundException(ErrorCodes.E0503, id.toString());
         }
 
         userRepository.deleteById(id);
@@ -177,8 +177,8 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findById(userId);
 
         if (!optionalUser.isPresent()) {
-            log.error("UserService:updateImageName traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0504.getCode(), userId.toString()));
-            throw new UserNotFoundException(ErrorCodes.E0504.getCode(), userId.toString());
+            log.error("UserService:updateImageName traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0504, userId.toString()));
+            throw new UserNotFoundException(ErrorCodes.E0504, userId.toString());
         }
 
         User user = optionalUser.get();

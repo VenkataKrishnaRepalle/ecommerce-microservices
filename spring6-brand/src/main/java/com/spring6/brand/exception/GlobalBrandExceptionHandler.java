@@ -2,7 +2,6 @@ package com.spring6.brand.exception;
 
 import com.spring6.brand.utils.TraceIdHolder;
 import com.spring6.common.exeption.*;
-import com.spring6.common.exeption.Error;
 import com.spring6.common.utils.GlobalConstants;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,10 +26,13 @@ public class GlobalBrandExceptionHandler {
 
         List<ErrorField> errors = new ArrayList<>();
         for (FieldError fieldError : fieldErrors) {
+            String[] errorCodeAndMessage = fieldError.getDefaultMessage().split("-");
+            String errorCode = errorCodeAndMessage[0];
+            String errorMessage = errorCodeAndMessage[1];
 
             errors.add(ErrorField.builder()
-                    .code(fieldError.getDefaultMessage())
-                    .message(MessageFormat.format(ErrorCodes.valueOf(fieldError.getDefaultMessage()).getMessage(), fieldError.getField()))
+                    .code(errorCode)
+                    .message(MessageFormat.format(errorMessage, fieldError.getField()))
                     .fieldName(fieldError.getField())
                     .build());
         }
@@ -69,6 +71,6 @@ public class GlobalBrandExceptionHandler {
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .headers(headers)
-                .body(ErrorMessage.errorResponse(ErrorCodes.E0500.getCode(), exception.getMessage()));
+                .body(ErrorMessage.errorResponse(ErrorCodes.E0500, exception.getMessage()));
     }
 }

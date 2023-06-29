@@ -24,5 +24,4 @@ public class TraceIdFilter implements Filter {
         }
     }
 
-
 }
