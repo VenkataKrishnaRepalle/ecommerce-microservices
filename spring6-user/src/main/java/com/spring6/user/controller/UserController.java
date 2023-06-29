@@ -17,12 +17,14 @@ import com.spring6.user.exception.UserNotFoundException;
 import com.spring6.user.service.UserService;
 import com.spring6.common.utils.FileNameUtil;
 import com.spring6.user.utils.TraceIdHolder;
+import com.spring6.user.utils.UserCSVExporter;
 import com.spring6.user.validations.ValidImageExtension;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +53,7 @@ import java.util.UUID;
 @RequestMapping("api/user")
 public class UserController {
     private final UserService userService;
+    private final UserCSVExporter userCSVExporter;
 
     @Value("${file.upload-directory}")
     private String IMAGE_UPLOAD_DIRECTORY;
@@ -397,5 +400,25 @@ public class UserController {
                 .build();
     }
 
+    @Operation(tags = "User", summary = "Export All Users to CSV", description = "Export all users to csv format.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get User Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserFindResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("export/csv")
+    public void exportAllUsersToCSV(HttpServletResponse response) throws IOException {
+        log.info("UserController:exportAllUsersToCSV started.");
+        log.info("UserController:exportAllUsersToCSV traceId: {}", TraceIdHolder.getTraceId());
+        List<UserFindResponseDto> userFindResponseDtoList = userService.getAll();
+
+        userCSVExporter.export(userFindResponseDtoList, response);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        log.info("UserController:exportAllUsersToCSV traceId: {} response: {}", TraceIdHolder.getTraceId(), userFindResponseDtoList);
+        log.info("UserController:exportAllUsersToCSV execution ended.");
+    }
 
 }

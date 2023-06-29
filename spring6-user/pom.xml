@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.spring6</groupId>
-    <artifactId>spring6-ecommerce-user</artifactId>
+    <artifactId>spring6-user</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring6-ecommerce-user</name>
+    <name>spring6-user</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>20</java.version>
@@ -90,6 +90,11 @@
             <groupId>com.spring6</groupId>
             <artifactId>spring6-common-util</artifactId>
             <version>${common-util.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.supercsv</groupId>
+            <artifactId>super-csv</artifactId>
+            <version>2.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
