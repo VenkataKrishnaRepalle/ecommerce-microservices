@@ -11,6 +11,12 @@ public final class ErrorCodes {
     public static final String E0002 = "E0002-Field {0} should be 2 to 45 characters in length";
     public static final String E0003 = "E0003-Field {0} is required.";
     public static final String E0004 = "E0004-Field {0} is required.";
+    public static final String E0005 = "E0005-Field {0} is required.";
+    public static final String E0006 = "E0006-Field {0} should be 2 to 45 characters in length";
+    public static final String E0007 = "E0007-Field {0} is required.";
+    public static final String E0008 = "E0007-Field {0} is required.";
+    public static final String E0009 = "E0008-Field {0} is required.";
+
     public static final String E0501 = "E0501-Could not find any brand with ID : {0}";
     public static final String E0502 = "E0502-Could not find any brand with ID : {0}";
     public static final String E0503 = "E0503-Could not find any brand with ID : {0}";
@@ -19,6 +25,8 @@ public final class ErrorCodes {
     public static final String E0506 = "E0506-Brand name : {0} already exist";
     public static final String E0507 = "E0507-Brand name already exist with id : {0}";
     public static final String E0508 = "E0508-Could not find any brand with ID : {0}";
+
+
 
     public static final String E1001 = "E1001-Field {0} is required.";
     //  user - 4001 to 5000 errors
