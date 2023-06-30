@@ -1,12 +1,10 @@
 package com.spring6.user.dto;
 
-import com.spring6.user.entity.Role;
 import com.spring6.user.entity.UserStatus;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.Set;
 import java.util.UUID;
 
 @Data

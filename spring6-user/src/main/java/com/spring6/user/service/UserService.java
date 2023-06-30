@@ -16,6 +16,7 @@ public interface UserService {
     List<UserFindResponseDto> getByPage(Integer pageNumber, Integer perPageCount, UserSortFieldEnum sortField, SortOrderDirectionEnum sortDir, UserSearchKeywordEnum searchField, String searchKeyword);
 
     UserFindResponseDto getById(UUID id) throws UserNotFoundException;
+
     String getPhotoById(UUID id) throws UserNotFoundException;
 
     UserCreateResponseDto create(UserCreateRequestDto userCreateRequestDto);

@@ -3,6 +3,7 @@ package com.spring6.user.controller;
 import com.spring6.common.exeption.ErrorCodes;
 import com.spring6.common.exeption.ErrorListResponse;
 import com.spring6.common.exeption.ErrorResponse;
+import com.spring6.common.utils.FileNameUtil;
 import com.spring6.common.utils.FileUploadUtils;
 import com.spring6.common.utils.GlobalConstants;
 import com.spring6.common.utils.HttpStatusCodes;
@@ -14,10 +15,11 @@ import com.spring6.user.enums.UserSortFieldEnum;
 import com.spring6.user.exception.PasswordMismatchException;
 import com.spring6.user.exception.UserNameAlreadyExistException;
 import com.spring6.user.exception.UserNotFoundException;
+import com.spring6.user.export.UserCSVExporter;
+import com.spring6.user.export.UserExcelExporter;
+import com.spring6.user.export.UserPDFExporter;
 import com.spring6.user.service.UserService;
-import com.spring6.common.utils.FileNameUtil;
 import com.spring6.user.utils.TraceIdHolder;
-import com.spring6.user.utils.UserCSVExporter;
 import com.spring6.user.validations.ValidImageExtension;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -54,6 +56,8 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
     private final UserCSVExporter userCSVExporter;
+    private final UserExcelExporter userExcelExporter;
+    private final UserPDFExporter userPDFExporter;
 
     @Value("${file.upload-directory}")
     private String IMAGE_UPLOAD_DIRECTORY;
@@ -214,7 +218,7 @@ public class UserController {
 
         }
         headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageName+ "\"");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageName + "\"");
 
         log.info("UserController:downloadUserImageById traceId: {} id: {}", TraceIdHolder.getTraceId(), id);
         log.info("UserController:downloadUserImageById ended.");
@@ -414,11 +418,41 @@ public class UserController {
 
         userCSVExporter.export(userFindResponseDtoList, response);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-
-        log.info("UserController:exportAllUsersToCSV traceId: {} response: {}", TraceIdHolder.getTraceId(), userFindResponseDtoList);
         log.info("UserController:exportAllUsersToCSV execution ended.");
+    }
+
+    @Operation(tags = "User", summary = "Export All Users to Excel", description = "Export all users to xlsx format.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get User Response"),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("export/excel")
+    public void exportAllUsersToExcel(HttpServletResponse response) throws IOException {
+        log.info("UserController:exportAllUsersToExcel started.");
+        log.info("UserController:exportAllUsersToExcel traceId: {}", TraceIdHolder.getTraceId());
+        List<UserFindResponseDto> userFindResponseDtoList = userService.getAll();
+
+        userExcelExporter.export(userFindResponseDtoList, response);
+
+        log.info("UserController:exportAllUsersToExcel execution ended.");
+    }
+
+    @Operation(tags = "User", summary = "Export All Users to PDF", description = "Export all users to pdf format.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get User Response"),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("export/pdf")
+    public void exportAllUsersToPdf(HttpServletResponse response) throws IOException {
+        log.info("UserController:exportAllUsersToExcel started.");
+        log.info("UserController:exportAllUsersToExcel traceId: {}", TraceIdHolder.getTraceId());
+        List<UserFindResponseDto> userFindResponseDtoList = userService.getAll();
+
+        userPDFExporter.export(userFindResponseDtoList, response);
+
+        log.info("UserController:exportAllUsersToExcel execution ended.");
     }
 
 }

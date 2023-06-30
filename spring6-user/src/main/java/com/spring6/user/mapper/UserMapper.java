@@ -24,6 +24,6 @@ public interface UserMapper {
     UserUpdateResponseDto userToUserUpdateResponseDto(User user);
 
     default String getImageUrl(String requestUrl, UUID userId) {
-        return requestUrl + "/api/user/" + userId +  "/image";
+        return requestUrl + "/api/user/" + userId + "/image";
     }
 }
