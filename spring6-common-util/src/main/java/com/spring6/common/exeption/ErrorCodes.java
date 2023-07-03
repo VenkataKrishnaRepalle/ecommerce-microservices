@@ -29,6 +29,45 @@ public final class ErrorCodes {
 
 
     public static final String E1001 = "E1001-Field {0} is required.";
+    public static final String E1002 = "E1002-Field {0} should be 2 to 45 characters in length.";
+    public static final String E1003 = "E1003-Field {0} is required.";
+    public static final String E1004 = "E1004-Field {0} is required.";
+    public static final String E1005 = "E1005-Field {0} is required.";
+    public static final String E1006 = "E1006-Field {0} is required.";
+    public static final String E1007 = "E1007-Field {0} should be 2 to 45 characters in length.";
+    public static final String E1008 = "E1008-Field {0} is required.";
+    public static final String E1009 = "E1009-Field {0} is required.";
+    public static final String E1010 = "E1010-Field {0} is required.";
+    public static final String E1011 = "E1011-Field {0} is required.";
+    public static final String E1012 = "E1012-Field {0} should be 2 to 45 characters in length.";
+    public static final String E1013 = "E1013-Field {0} is required.";
+    public static final String E1014 = "E1014-Field {0} is required.";
+    public static final String E1015 = "E1015-Field {0} is required.";
+    public static final String E1016 = "E1016-Field {0} is required.";
+    public static final String E1017 = "E1017-Field {0} is required.";
+    public static final String E1018 = "E1018-Field {0} should be 2 to 45 characters in length.";
+    public static final String E1019 = "E1019-Field {0} is required.";
+    public static final String E1020 = "E1020-Field {0} is required.";
+    public static final String E1021 = "E1020-Field {0} is required.";
+    public static final String E1501 = "E1501-Category Name : {0} already exist";
+    public static final String E1502 = "E1502-Could not find any Category with ID : {0}";
+    public static final String E1503 = "E1503-Could not find any Category with ID : {0}";
+    public static final String E1504 = "E1504-Could not find any Category with ID : {0}";
+    public static final String E1505 = "E1505-Could not find any Category with ID : {0}";
+    public static final String E1506 = "E1506-Could not find any Category with ID : {0}";
+    public static final String E1507 = "E1507-Could not find any Category with ID : {0}";
+
+    public static final String E1508 = "E1508-SubCategory Name : {0} already exist";
+    public static final String E1509 = "E1509-Could not find any SubCategory with ID : {0}";
+    public static final String E1510 = "E1510-Could not find any SubCategory with ID : {0}";
+    public static final String E1511 = "E1511-Could not find any SubCategory with ID : {0}";
+    public static final String E1512 = "E1512-Could not find any SubCategory with ID : {0}";
+    public static final String E1513 = "E1513-Could not find any SubCategory with ID : {0}";
+    public static final String E1514 = "E1514-Could not find any SubCategory with ID : {0}";
+
+
+
+
     //  user - 4001 to 5000 errors
     public static final String E4001 =  "E4001-Field {0} is required.";
     public static final String E4002 =  "E4002-Field {0} is required.";

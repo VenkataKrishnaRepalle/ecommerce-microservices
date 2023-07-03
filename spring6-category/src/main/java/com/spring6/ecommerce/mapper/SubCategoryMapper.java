@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.mapper;
 
-import com.spring6.ecommerce.common.dto.SubCategoryFindResponseDto;
+import com.spring6.common.dto.SubCategoryFindResponseDto;
 import com.spring6.ecommerce.dto.SubCategoryCreateRequestDto;
 import com.spring6.ecommerce.dto.SubCategoryCreateResponseDto;
 import com.spring6.ecommerce.dto.SubCategoryUpdateRequestDto;

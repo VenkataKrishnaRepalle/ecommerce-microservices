@@ -1,26 +1,17 @@
 package com.spring6.ecommerce.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Value not found!")
+import lombok.Getter;
+
+@Getter
 public class CategoryNotFoundException extends RuntimeException {
-    public CategoryNotFoundException() {
-    }
+    private final String errorCode;
+    private final String dynamicValue;
 
-    public CategoryNotFoundException(String message) {
-        super(message);
-    }
+    public CategoryNotFoundException(String errorCode, String dynamicValue) {
+        super(String.format("%s : %s", errorCode, dynamicValue));
 
-    public CategoryNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public CategoryNotFoundException(Throwable cause) {
-        super(cause);
-    }
-
-    public CategoryNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+        this.errorCode = errorCode;
+        this.dynamicValue = dynamicValue;
     }
 }
