@@ -64,6 +64,25 @@ public class GlobalExceptionHandler {
                 .headers(headers)
                 .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
     }
+    @ExceptionHandler(SubCategoryNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(SubCategoryNotFoundException exception) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .headers(headers)
+                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
+    }
+
+    @ExceptionHandler(SubCategoryNameAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleBrandNameAlreadyExistException(SubCategoryNameAlreadyExistException exception) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .headers(headers)
+                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
