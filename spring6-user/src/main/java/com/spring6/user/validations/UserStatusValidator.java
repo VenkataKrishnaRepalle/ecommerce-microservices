@@ -1,6 +1,6 @@
 package com.spring6.user.validations;
 
-import com.spring6.user.entity.UserStatus;
+import com.spring6.user.enums.UserStatus;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.EnumUtils;

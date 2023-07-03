@@ -1,11 +1,11 @@
-package com.spring6.user.bootstrap;
+package com.spring6.auth.bootstrap;
 
-import com.spring6.user.entity.Role;
-import com.spring6.user.entity.RoleType;
-import com.spring6.user.entity.User;
-import com.spring6.user.entity.UserStatus;
-import com.spring6.user.repository.RoleRepository;
-import com.spring6.user.repository.UserRepository;
+import com.spring6.auth.entity.Role;
+import com.spring6.auth.entity.User;
+import com.spring6.auth.enums.RoleType;
+import com.spring6.auth.enums.UserStatus;
+import com.spring6.auth.repository.RoleRepository;
+import com.spring6.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,11 +13,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 public class BootstrapData implements CommandLineRunner {
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -81,7 +82,6 @@ public class BootstrapData implements CommandLineRunner {
             userList.add(User.builder().email("mikegates2012@gmail.com").firstName("Mike").lastName("Gates").password(passwordEncoder.encode("mike2020")).photo("Mike Gates.png").username("mike2020").status(UserStatus.ACTIVE).build());
             userList.add(User.builder().email("pedroquintero67@gmail.com").firstName("Pedro").lastName("Quintero").password(passwordEncoder.encode("pedro2020")).photo("Pedro Quintero.png").username("pedro2020").status(UserStatus.ACTIVE).build());
             userList.add(User.builder().email("amina.elshal2@yahoo.com").firstName("Amina").lastName("Elshal").password(passwordEncoder.encode("amina2020")).photo("Amina Elshal.png").username("amina2020").status(UserStatus.ACTIVE).build());
-
 
             userRepository.saveAll(userList);
         }

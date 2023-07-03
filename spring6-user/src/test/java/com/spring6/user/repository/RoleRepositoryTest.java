@@ -1,7 +1,8 @@
 package com.spring6.user.repository;
 
+
 import com.spring6.user.entity.Role;
-import com.spring6.user.entity.RoleType;
+import com.spring6.user.enums.RoleType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

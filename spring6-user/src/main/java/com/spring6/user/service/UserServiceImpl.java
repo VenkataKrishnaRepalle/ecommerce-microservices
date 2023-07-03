@@ -4,10 +4,10 @@ import com.spring6.common.exeption.ErrorCodes;
 import com.spring6.common.exeption.ErrorMessage;
 import com.spring6.user.dto.*;
 import com.spring6.user.entity.User;
-import com.spring6.user.entity.UserStatus;
 import com.spring6.user.enums.SortOrderDirectionEnum;
 import com.spring6.user.enums.UserSearchKeywordEnum;
 import com.spring6.user.enums.UserSortFieldEnum;
+import com.spring6.user.enums.UserStatus;
 import com.spring6.user.exception.UserEmailAlreadyExistException;
 import com.spring6.user.exception.UserNameAlreadyExistException;
 import com.spring6.user.exception.UserNotFoundException;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
     private final HttpServletRequest request;
 
     public List<UserFindResponseDto> getAll() {
@@ -157,7 +157,6 @@ public class UserServiceImpl implements UserService {
         return user.getPhoto();
     }
 
-
     @Override
     public UserCreateResponseDto create(UserCreateRequestDto userCreateRequestDto) {
         log.info("UserService:createUser execution started.");
@@ -175,7 +174,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userMapper.userCreateRequestDtoToUser(userCreateRequestDto);
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User userCreated = userRepository.save(user);
         UserCreateResponseDto userCreateResponseDto = userMapper.userToUserCreateResponseDto(userCreated);
 

@@ -1,17 +1,19 @@
 package com.spring6.user.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -22,7 +24,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Privilege {
+public class Permission {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -33,6 +35,12 @@ public class Privilege {
 
     private String name;
 
-//    @ManyToMany(mappedBy = "privileges")
-//    private Set<Role> roles = new HashSet<>();
+    @CreationTimestamp
+    private Instant createdOn;
+
+    @UpdateTimestamp
+    private Instant lastUpdatedOn;
+
+    @ManyToMany(mappedBy = "permissions")
+    private Set<Role> roles = new HashSet<>();
 }

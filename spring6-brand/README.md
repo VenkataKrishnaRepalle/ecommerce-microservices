@@ -21,7 +21,8 @@
   - check style
   - sonar qube
   - feign (optional)
-  - 
+  - registration captcha validation
+  - rate limiting service
 
 ## controller and service methods
  - createResource()

@@ -1,4 +1,4 @@
-package com.spring6.user.entity;
+package com.spring6.user.enums;
 
 public enum UserStatus {
     ACTIVE,
