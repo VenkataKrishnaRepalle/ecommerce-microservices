@@ -2,13 +2,18 @@ package com.spring6.controller;
 
 import com.spring6.dto.CustomerCreateRequestDto;
 import com.spring6.dto.CustomerCreateResponseDto;
+import com.spring6.dto.LoginDto;
+import com.spring6.entity.EnabledStatus;
 import com.spring6.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @Transactional(propagation = Propagation.REQUIRED)
@@ -23,6 +28,27 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.register(customerCreateRequestDto), HttpStatus.CREATED);
     }
 
-//    @GetMapping("login")
-//    public ResponseEntity
+    @PostMapping("login")
+    public ResponseEntity<HttpStatus> login(@RequestBody @Valid LoginDto loginDto) throws Exception {
+        customerService.login(loginDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("isEnabledStatus/{id}")
+    public Enum<EnabledStatus> getIsEnabledStatus(@PathVariable UUID id) {
+        return customerService.getIsEnabledStatus(id);
+    }
+
+    @GetMapping("OTPValidation/{id}")
+    public ResponseEntity<HttpStatus> OTPValidation(@PathVariable UUID id, @RequestParam String OTP) {
+        customerService.OTPValidation(id,OTP);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("forgotPasswod/{email}")
+    public ResponseEntity<HttpStatus> forgotPassword(@PathVariable String email,
+                                                     @RequestParam("password") String password) {
+        customerService.forgotPassword(email,password);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

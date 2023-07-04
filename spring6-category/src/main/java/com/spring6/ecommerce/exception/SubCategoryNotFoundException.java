@@ -1,26 +1,17 @@
 package com.spring6.ecommerce.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Value not found!")
+import lombok.Getter;
+
+@Getter
 public class SubCategoryNotFoundException extends RuntimeException {
-    public SubCategoryNotFoundException() {
-    }
+    private final String errorCode;
+    private final String dynamicValue;
 
-    public SubCategoryNotFoundException(String message) {
-        super(message);
-    }
+    public SubCategoryNotFoundException(String errorCode, String dynamicValue) {
+        super(String.format("%s : %s", errorCode, dynamicValue));
 
-    public SubCategoryNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public SubCategoryNotFoundException(Throwable cause) {
-        super(cause);
-    }
-
-    public SubCategoryNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+        this.errorCode = errorCode;
+        this.dynamicValue = dynamicValue;
     }
 }

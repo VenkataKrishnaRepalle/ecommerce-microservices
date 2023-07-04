@@ -70,13 +70,13 @@ public class BootstrapData implements CommandLineRunner {
         }
         if(countryRepository.count() == 0){
             countryRepository.save(Country.builder().name("India")
-                    .code(1).build());
+                    .code("+91").build());
 
             countryRepository.save(Country.builder().name("America")
-                    .code(2).build());
+                    .code("+1").build());
 
             countryRepository.save(Country.builder().name("China")
-                    .code(3).build());
+                    .code("+86").build());
         }
     }
 }

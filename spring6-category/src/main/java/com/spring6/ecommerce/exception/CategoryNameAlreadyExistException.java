@@ -1,26 +1,18 @@
 package com.spring6.ecommerce.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Category Name already exist")
+import lombok.Getter;
+
+@Getter
 public class CategoryNameAlreadyExistException extends RuntimeException {
-    public CategoryNameAlreadyExistException() {
+    private final String errorCode;
+    private final String dynamicValue;
+
+    public CategoryNameAlreadyExistException(String errorCode, String dynamicValue) {
+        super(String.format("%s : %s", errorCode, dynamicValue));
+
+        this.errorCode = errorCode;
+        this.dynamicValue = dynamicValue;
     }
 
-    public CategoryNameAlreadyExistException(String message) {
-        super(message);
-    }
-
-    public CategoryNameAlreadyExistException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public CategoryNameAlreadyExistException(Throwable cause) {
-        super(cause);
-    }
-
-    public CategoryNameAlreadyExistException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

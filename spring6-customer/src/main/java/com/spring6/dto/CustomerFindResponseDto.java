@@ -50,8 +50,11 @@ public class CustomerFindResponseDto {
     @NotNull
     private EnabledStatus isEnabled;
 
-    private String verificationCode;
+    @NotNull
+    private String oneTimePassword;
 
+    @NotNull
+    private Date otpRequestedTime;
     @NotNull
     private Date createdTime;
 

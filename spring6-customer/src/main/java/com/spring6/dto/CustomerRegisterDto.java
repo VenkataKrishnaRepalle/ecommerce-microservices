@@ -1,18 +1,15 @@
 package com.spring6.dto;
 
-import com.spring6.entity.Country;
 import com.spring6.entity.EnabledStatus;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Data
 @Builder
-public class CustomerCreateRequestDto {
+public class CustomerRegisterDto {
 
     @NotNull
     private String email;
@@ -48,4 +45,10 @@ public class CustomerCreateRequestDto {
 
     @NotNull
     private EnabledStatus isEnabled;
+
+    @NotNull
+    private String oneTimePassword;
+
+    @NotNull
+    private Date otpRequestedTime;
 }

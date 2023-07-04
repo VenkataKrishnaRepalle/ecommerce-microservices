@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.entity;
 
-import com.spring6.ecommerce.common.enumeration.CategoryEnum;
+import com.spring6.common.enums.CategoryEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
