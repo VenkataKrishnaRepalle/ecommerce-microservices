@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CountryFindResponseDto {
+public class LoginDto {
 
     @NotNull
-    private String code;
+    private String email;
 
     @NotNull
-    private String name;
+    private String password;
 }

@@ -62,8 +62,11 @@ public class Customer {
     @Enumerated
     private EnabledStatus isEnabled;
 
-    @Column(length = 64)
-    private String verificationCode;
+    @Column(length = 64, name = "one_time_password")
+    private String oneTimePassword;
+
+    @Column(name = "otp_requested_time")
+    private Date otpRequestedTime;
 
     @CreationTimestamp
     @Column(name = "creation_time", updatable = false)
