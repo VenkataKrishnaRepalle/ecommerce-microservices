@@ -16,7 +16,7 @@ import com.spring6.user.exception.PasswordMismatchException;
 import com.spring6.user.exception.UserNameAlreadyExistException;
 import com.spring6.user.exception.UserNotFoundException;
 import com.spring6.user.service.UserService;
-import com.spring6.user.utils.TraceIdHolder;
+import com.spring6.user.filter.TraceIdHolder;
 import com.spring6.user.validations.ValidImageExtension;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -56,38 +56,38 @@ public class UserController {
     @Value("${file.upload-directory}")
     private String IMAGE_UPLOAD_DIRECTORY;
 
-    @Operation(tags = "User", summary = "Create User", description = "Create a new User by entering user details")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a User", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserCreateResponseDto.class))}),
-            @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
-            @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
-    })
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping(value = "create")
-    public ResponseEntity<UserCreateResponseDto> createUser(
-            @RequestBody @Valid final UserCreateRequestDto userCreateRequestDto)
-            throws UserNameAlreadyExistException {
-        log.info("UserController:createUser execution started.");
-        log.debug("UserController:createUser traceId: {} request payload: {}", TraceIdHolder.getTraceId(), userCreateRequestDto);
-
-        if (!userCreateRequestDto.getPassword().equals(userCreateRequestDto.getConfirmPassword())) {
-            log.error("UserController:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorCodes.E4008);
-            throw new PasswordMismatchException(ErrorCodes.E4008);
-        }
-
-        UserCreateResponseDto savedUserDto = userService.create(userCreateRequestDto);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-
-        log.debug("UserController:createUser traceId: {} response: {}", TraceIdHolder.getTraceId(), savedUserDto);
-        log.info("UserController:createUser execution ended.");
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .headers(headers)
-                .body(savedUserDto);
-    }
+//    @Operation(tags = "User", summary = "Create User", description = "Create a new User by entering user details")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a User", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserCreateResponseDto.class))}),
+//            @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
+//            @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+//            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+//    })
+//
+//    @PostMapping(value = "create")
+//    public ResponseEntity<UserCreateResponseDto> createUser(
+//            @RequestBody @Valid final UserCreateRequestDto userCreateRequestDto)
+//            throws UserNameAlreadyExistException {
+//        log.info("UserController:createUser execution started.");
+//        log.debug("UserController:createUser traceId: {} request payload: {}", TraceIdHolder.getTraceId(), userCreateRequestDto);
+//
+//        if (!userCreateRequestDto.getPassword().equals(userCreateRequestDto.getConfirmPassword())) {
+//            log.error("UserController:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorCodes.E4008);
+//            throw new PasswordMismatchException(ErrorCodes.E4008);
+//        }
+//
+//        UserCreateResponseDto savedUserDto = userService.create(userCreateRequestDto);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+//
+//        log.debug("UserController:createUser traceId: {} response: {}", TraceIdHolder.getTraceId(), savedUserDto);
+//        log.info("UserController:createUser execution ended.");
+//
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//                .headers(headers)
+//                .body(savedUserDto);
+//    }
 
     @Operation(tags = "User", summary = "Get User By Id", description = "Get User by id")
     @ApiResponses(value = {

@@ -42,6 +42,9 @@ public final class ErrorCodes {
     public static final String E4009 =  "E4009-Invalid value.";
     public static final String E4010 =  "E4010-Field {0} is required.";
     public static final String E4011 =  "E4011-Field {0} is required.";
+    public static final String E4012 =  "E4012-Username is already taken.";
+    public static final String E4013 =  "E4013-Email is already registered.";
+
 
     public static final String E4501 = "E0501-Could not find any user with ID : {0}";
     public static final String E4502 = "E0502-Could not find any user with ID : {0}";

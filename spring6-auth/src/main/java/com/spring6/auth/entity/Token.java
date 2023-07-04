@@ -1,15 +1,7 @@
 package com.spring6.auth.entity;
 
 import com.spring6.auth.enums.TokenType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,31 +22,31 @@ import java.util.UUID;
 @Entity
 public class Token {
 
-  @Id
-  @GeneratedValue(generator = "UUID")
-  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-  @JdbcTypeCode(SqlTypes.VARCHAR)
-  @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
-  private UUID id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+    private UUID id;
 
-  @Column(unique = true)
-  public String token;
+    @Column(unique = true)
+    public String token;
 
-  @Enumerated(EnumType.STRING)
-  public TokenType tokenType = TokenType.BEARER;
+    @Enumerated(EnumType.STRING)
+    public TokenType tokenType = TokenType.BEARER;
 
-  public boolean revoked;
+    public boolean revoked;
 
-  public boolean expired;
+    public boolean expired;
 
-  @CreationTimestamp
-  private Instant createdOn;
+    @CreationTimestamp
+    private Instant createdOn;
 
-  @UpdateTimestamp
-  private Instant lastUpdatedOn;
+    @UpdateTimestamp
+    private Instant lastUpdatedOn;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  public User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    public User user;
 
 }

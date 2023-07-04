@@ -1,9 +1,8 @@
-package com.spring6.user.exception;
+package com.spring6.auth.exception;
 
-import com.spring6.common.exeption.Error;
+import com.spring6.auth.filter.traceid.TraceIdHolder;
 import com.spring6.common.exeption.*;
 import com.spring6.common.utils.GlobalConstants;
-import com.spring6.user.filter.TraceIdHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class GlobalUserExceptionHandler {
+public class GlobalAuthExceptionHandler {
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<FieldErrorListResponse> handleValidationException(BindException bindException) {
@@ -50,26 +49,6 @@ public class GlobalUserExceptionHandler {
     }
 
 
-    @ExceptionHandler(PasswordMismatchException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(PasswordMismatchException exception) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-
-        String[] errorCodeAndMessage = exception.getError().split("-");
-        String errorCode = errorCodeAndMessage[0];
-        String errorMessage = errorCodeAndMessage[1];
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .headers(headers)
-                .body(ErrorResponse.builder()
-                        .error(Error.builder()
-                                .code(errorCode)
-                                .message(errorMessage)
-                                .build())
-                        .build());
-    }
-
-
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleBrandNotFoundException(UserNotFoundException exception) {
         HttpHeaders headers = new HttpHeaders();
@@ -80,8 +59,8 @@ public class GlobalUserExceptionHandler {
                 .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
     }
 
-    @ExceptionHandler(UserPhotoNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(UserPhotoNotFoundException exception) {
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(InvalidTokenException exception) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
@@ -89,7 +68,6 @@ public class GlobalUserExceptionHandler {
                 .headers(headers)
                 .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
     }
-
 
     @ExceptionHandler(UserNameAlreadyExistException.class)
     public ResponseEntity<ErrorResponse> handleBrandNameAlreadyExistException(UserNameAlreadyExistException exception) {

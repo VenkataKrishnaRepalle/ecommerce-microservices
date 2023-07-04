@@ -1,6 +1,9 @@
 package com.spring6.auth.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +15,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
-/**
- * READ, WRITE, DELETE
- */
 @Entity
 @Data
 @Builder
@@ -33,6 +31,7 @@ public class Permission {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(length = 40, unique = true, nullable = false)
     private String name;
 
     @CreationTimestamp
@@ -41,6 +40,6 @@ public class Permission {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-    @ManyToMany(mappedBy = "permissions")
-    private Set<Role> roles = new HashSet<>();
+//    @ManyToMany(mappedBy = "permissions")
+//    private Set<Role> roles = new HashSet<>();
 }

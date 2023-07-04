@@ -19,8 +19,6 @@ public interface UserService {
 
     String getPhotoById(UUID id) throws UserNotFoundException;
 
-    UserCreateResponseDto create(UserCreateRequestDto userCreateRequestDto);
-
     UserUpdateResponseDto update(UUID id, UserUpdateRequestDto userCreateRequestDto) throws UserNotFoundException;
 
     void deleteById(UUID id) throws UserNotFoundException;

@@ -1,4 +1,4 @@
-package com.spring6.user.filter;
+package com.spring6.auth.filter.traceid;
 
 import jakarta.servlet.*;
 import org.springframework.stereotype.Component;

@@ -13,7 +13,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -45,14 +44,14 @@ public class Role {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+//    @ManyToMany(mappedBy = "roles")
+//    private Set<User> users = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "role_privilege",
+            name = "role_permission",
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id")
+            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id")
     )
     private Set<Permission> permissions = new HashSet<>();
 

@@ -14,7 +14,7 @@ import com.spring6.user.exception.UserNotFoundException;
 import com.spring6.user.exception.UserPhotoNotFoundException;
 import com.spring6.user.mapper.UserMapper;
 import com.spring6.user.repository.UserRepository;
-import com.spring6.user.utils.TraceIdHolder;
+import com.spring6.user.filter.TraceIdHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +35,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-//    private final PasswordEncoder passwordEncoder;
     private final HttpServletRequest request;
 
     public List<UserFindResponseDto> getAll() {
@@ -155,34 +153,6 @@ public class UserServiceImpl implements UserService {
         log.debug("UserService:getPhotoById traceId: {}, photo : {}", TraceIdHolder.getTraceId(), user.getPhoto());
         log.info("UserService:getPhotoById execution ended.");
         return user.getPhoto();
-    }
-
-    @Override
-    public UserCreateResponseDto create(UserCreateRequestDto userCreateRequestDto) {
-        log.info("UserService:createUser execution started.");
-        log.debug("UserService:createUser traceId: {} , userCreateRequestDto: {}", TraceIdHolder.getTraceId(), userCreateRequestDto);
-
-        if (isUsernameExist(userCreateRequestDto.getUsername())) {
-            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4506, userCreateRequestDto.getUsername()));
-            throw new UserNameAlreadyExistException(ErrorCodes.E4506, userCreateRequestDto.getUsername());
-        }
-
-        if (isEmailExist(userCreateRequestDto.getEmail())) {
-            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4509, userCreateRequestDto.getEmail()));
-            throw new UserEmailAlreadyExistException(ErrorCodes.E4509, userCreateRequestDto.getEmail());
-        }
-
-        User user = userMapper.userCreateRequestDtoToUser(userCreateRequestDto);
-
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User userCreated = userRepository.save(user);
-        UserCreateResponseDto userCreateResponseDto = userMapper.userToUserCreateResponseDto(userCreated);
-
-        log.debug("UserService:createUser traceId: {}, response: {}", TraceIdHolder.getTraceId(), userCreateResponseDto);
-        log.info("UserService:createUser execution ended.");
-
-        return userCreateResponseDto;
-
     }
 
     @Override

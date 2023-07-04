@@ -7,7 +7,7 @@ import com.spring6.user.export.UserCSVExporter;
 import com.spring6.user.export.UserExcelExporter;
 import com.spring6.user.export.UserPDFExporter;
 import com.spring6.user.service.UserService;
-import com.spring6.user.utils.TraceIdHolder;
+import com.spring6.user.filter.TraceIdHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

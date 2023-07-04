@@ -19,13 +19,12 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
-@Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User  implements UserDetails {
+@Entity
+public class User {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -62,8 +61,8 @@ public class User  implements UserDetails {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Token> tokens = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -72,46 +71,5 @@ public class User  implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<Role> roles = new HashSet<>();
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        for (Role role : roles) {
-            authorities.addAll(role.getPermissions().stream()
-                    .map(permission -> new SimpleGrantedAuthority(permission.getName()))
-                    .collect(Collectors.toList()));
-        }
-        return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 
 }

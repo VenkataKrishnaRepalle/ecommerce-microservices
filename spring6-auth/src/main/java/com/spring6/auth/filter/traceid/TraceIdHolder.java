@@ -1,4 +1,4 @@
-package com.spring6.user.utils;
+package com.spring6.auth.filter.traceid;
 
 import com.spring6.common.utils.GlobalConstants;
 import org.slf4j.MDC;
