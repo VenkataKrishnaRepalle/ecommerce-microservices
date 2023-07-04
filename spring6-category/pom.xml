@@ -9,21 +9,31 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.spring6</groupId>
-    <artifactId>spring6-ecommerce-subCategory</artifactId>
+    <artifactId>spring6-Category</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring6-ecommerce-subCategory</name>
+    <name>spring6-Category</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>20</java.version>
         <spring.version>3.0.5</spring.version>
+        <spring.cloud.version>2022.0.3</spring.cloud.version>
         <mysql.version>8.0.32</mysql.version>
+        <lombok.mapstruct.binding>0.2.0</lombok.mapstruct.binding>
         <lombok.version>1.18.26</lombok.version>
         <springdoc.openapi.version>2.0.4</springdoc.openapi.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <spring-cloud.version>2022.0.1</spring-cloud.version>
         <springdoc.openapi>2.0.4</springdoc.openapi>
         <common-util.version>0.0.1-SNAPSHOT</common-util.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring.cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -49,6 +59,13 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>${mysql.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>${spring.version}</version>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>

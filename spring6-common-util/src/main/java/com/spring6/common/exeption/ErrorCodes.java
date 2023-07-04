@@ -5,23 +5,98 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public enum ErrorCodes {
-    //    brand - 1 to 1000 errors
-    E0001("E0001", "Field {0} is required."),
-    E0002("E0002", "Field {0} should be 2 to 45 characters in length"),
-    E0003("E0003", "Field {0} is required."),
-    E0004("E0004", "Field {0} is required."),
-    E0501("E0501", "Could not find any brand with ID : {0}"),
-    E0502("E0502", "Could not find any brand with ID : {0}"),
-    E0503("E0503", "Could not find any brand with ID : {0}"),
-    E0504("E0504", "Could not find any brand with ID : {0}"),
-    E0505("E0505", "Could not find any brand with ID : {0}"),
-    E0506("E0506", "Brand name : {0} already exist"),
-    E0507("E0507", "Brand name already exist with id : {0}"),
-    E0508("E0508", "Could not find any brand with ID : {0}"),
-    E1001("E1001", "Field {0} is required."),
-    E0500("E0500", "Internal Server Error - {0}");
+public final class ErrorCodes {
+    //  brand - 1 to 1000 errors
+    public static final String E0001 = "E0001-Field {0} is required.";
+    public static final String E0002 = "E0002-Field {0} should be 2 to 45 characters in length";
+    public static final String E0003 = "E0003-Field {0} is required.";
+    public static final String E0004 = "E0004-Field {0} is required.";
+    public static final String E0005 = "E0005-Field {0} is required.";
+    public static final String E0006 = "E0006-Field {0} should be 2 to 45 characters in length";
+    public static final String E0007 = "E0007-Field {0} is required.";
+    public static final String E0008 = "E0007-Field {0} is required.";
+    public static final String E0009 = "E0008-Field {0} is required.";
 
-    private final String code;
-    private final String message;
+    public static final String E0501 = "E0501-Could not find any brand with ID : {0}";
+    public static final String E0502 = "E0502-Could not find any brand with ID : {0}";
+    public static final String E0503 = "E0503-Could not find any brand with ID : {0}";
+    public static final String E0504 = "E0504-Could not find any brand with ID : {0}";
+    public static final String E0505 = "E0505-Could not find any brand with ID : {0}";
+    public static final String E0506 = "E0506-Brand name : {0} already exist";
+    public static final String E0507 = "E0507-Brand name already exist with id : {0}";
+    public static final String E0508 = "E0508-Could not find any brand with ID : {0}";
+
+
+
+    public static final String E1001 = "E1001-Field {0} is required.";
+    public static final String E1002 = "E1002-Field {0} should be 2 to 45 characters in length.";
+    public static final String E1003 = "E1003-Field {0} is required.";
+    public static final String E1004 = "E1004-Field {0} is required.";
+    public static final String E1005 = "E1005-Field {0} is required.";
+    public static final String E1006 = "E1006-Field {0} is required.";
+    public static final String E1007 = "E1007-Field {0} should be 2 to 45 characters in length.";
+    public static final String E1008 = "E1008-Field {0} is required.";
+    public static final String E1009 = "E1009-Field {0} is required.";
+    public static final String E1010 = "E1010-Field {0} is required.";
+    public static final String E1011 = "E1011-Field {0} is required.";
+    public static final String E1012 = "E1012-Field {0} should be 2 to 45 characters in length.";
+    public static final String E1013 = "E1013-Field {0} is required.";
+    public static final String E1014 = "E1014-Field {0} is required.";
+    public static final String E1015 = "E1015-Field {0} is required.";
+    public static final String E1016 = "E1016-Field {0} is required.";
+    public static final String E1017 = "E1017-Field {0} is required.";
+    public static final String E1018 = "E1018-Field {0} should be 2 to 45 characters in length.";
+    public static final String E1019 = "E1019-Field {0} is required.";
+    public static final String E1020 = "E1020-Field {0} is required.";
+    public static final String E1021 = "E1020-Field {0} is required.";
+    public static final String E1501 = "E1501-Category Name : {0} already exist";
+    public static final String E1502 = "E1502-Could not find any Category with ID : {0}";
+    public static final String E1503 = "E1503-Could not find any Category with ID : {0}";
+    public static final String E1504 = "E1504-Could not find any Category with ID : {0}";
+    public static final String E1505 = "E1505-Could not find any Category with ID : {0}";
+    public static final String E1506 = "E1506-Could not find any Category with ID : {0}";
+    public static final String E1507 = "E1507-Could not find any Category with ID : {0}";
+
+    public static final String E1508 = "E1508-SubCategory Name : {0} already exist";
+    public static final String E1509 = "E1509-Could not find any SubCategory with ID : {0}";
+    public static final String E1510 = "E1510-Could not find any SubCategory with ID : {0}";
+    public static final String E1511 = "E1511-Could not find any SubCategory with ID : {0}";
+    public static final String E1512 = "E1512-Could not find any SubCategory with ID : {0}";
+    public static final String E1513 = "E1513-Could not find any SubCategory with ID : {0}";
+    public static final String E1514 = "E1514-Could not find any SubCategory with ID : {0}";
+
+
+
+
+
+    //  user - 4001 to 5000 errors
+    public static final String E4001 =  "E4001-Field {0} is required.";
+    public static final String E4002 =  "E4002-Field {0} is required.";
+    public static final String E4003 =  "E4003-Field {0} is required.";
+    public static final String E4004 =  "E4004-Invalid {0}.";
+    public static final String E4005 =  "E4005-Field {0} is required.";
+    public static final String E4006 =  "E4006-Field {0} is required.";
+    public static final String E4007 =  "E4007-Field {0} is required.";
+    public static final String E4008 =  "E4008-Password not matched with confirm password.";
+    public static final String E4009 =  "E4009-Invalid value.";
+    public static final String E4010 =  "E4010-Field {0} is required.";
+    public static final String E4011 =  "E4011-Field {0} is required.";
+
+    public static final String E4501 = "E0501-Could not find any user with ID : {0}";
+    public static final String E4502 = "E0502-Could not find any user with ID : {0}";
+    public static final String E4503 = "E0503-Could not find any user with ID : {0}";
+    public static final String E4504 = "E0504-Could not find any user with ID : {0}";
+    public static final String E4505 = "E0505-Could not find any user with ID : {0}";
+    public static final String E4506 = "E0506-User name : {0} already exist";
+    public static final String E4507 = "E4507-Could not find any user with ID : {0}";
+    public static final String E4508 = "E0508-Could not find any user with ID : {0}";
+    public static final String E4509 = "E4509-User email already registered with us";
+    public static final String E4510 = "E4510-User email already registered with us";
+    public static final String E4511 = "E4511-User name already registered with us";
+    public static final String E4512 = "E4512-Could not find any user with ID : {0}";
+    public static final String E4513 = "E4513-Could not find any user with ID : {0}";
+    public static final String E4514 = "E4514-Could not find any user photo with ID : {0}";
+
+
+    public static final String E0500 =  "E0500-Internal Server Error - {0}";
 }

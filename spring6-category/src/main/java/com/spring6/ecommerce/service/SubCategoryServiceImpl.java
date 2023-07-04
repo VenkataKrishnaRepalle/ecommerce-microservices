@@ -1,18 +1,24 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.common.dto.SubCategoryFindResponseDto;
+import com.spring6.common.dto.SubCategoryFindResponseDto;
+import com.spring6.common.exeption.ErrorCodes;
+import com.spring6.common.exeption.ErrorMessage;
 import com.spring6.ecommerce.dto.SubCategoryCreateRequestDto;
 import com.spring6.ecommerce.dto.SubCategoryCreateResponseDto;
 import com.spring6.ecommerce.dto.SubCategoryUpdateRequestDto;
 import com.spring6.ecommerce.dto.SubCategoryUpdateResponseDto;
 import com.spring6.ecommerce.entity.Category;
 import com.spring6.ecommerce.entity.SubCategory;
+import com.spring6.ecommerce.exception.CategoryNameAlreadyExistException;
+import com.spring6.ecommerce.exception.SubCategoryNameAlreadyExistException;
 import com.spring6.ecommerce.exception.SubCategoryNotFoundException;
 import com.spring6.ecommerce.exception.CategoryNotFoundException;
 import com.spring6.ecommerce.mapper.SubCategoryMapper;
 import com.spring6.ecommerce.repository.SubCategoryRepository;
 import com.spring6.ecommerce.repository.CategoryRepository;
+import com.spring6.ecommerce.utils.TraceIdHolder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SubCategoryServiceImpl implements SubCategoryService {
@@ -30,58 +37,106 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     private final SubCategoryMapper subCategoryMapper;
     private final CategoryRepository categoryRepository;
 
-    public List<SubCategoryFindResponseDto> findAll() {
-        return subCategoryRepository.findAll()
-                .stream()
+    public List<SubCategoryFindResponseDto> getAllSubCategory() {
+
+        log.info("SubCategoryService:getAllSubCategory execution started.");
+        log.debug("SubCategoryService:getAllSubCategory traceId: {}", TraceIdHolder.getTraceId());
+
+         List<SubCategoryFindResponseDto> subCategoryFindResponseDtoList = subCategoryRepository.findAll()
+                 .stream()
                 .map(subCategoryMapper::subCategoryToSubCategoryFindResponseDto)
                 .toList();
+        log.debug("SubCategoryService:getAllSubCategory traceId: {}, response {} ", TraceIdHolder.getTraceId(), subCategoryFindResponseDtoList);
+        log.info("SubCategoryService:getAllSubCategory execution ended.");
+
+        return subCategoryFindResponseDtoList;
     }
 
     @Override
-    public SubCategoryFindResponseDto findById(UUID id) throws SubCategoryNotFoundException {
-        Optional<SubCategory> category = subCategoryRepository.findById(id);
-        if (category.isPresent()) {
-            return subCategoryMapper.subCategoryToSubCategoryFindResponseDto(category.get());
+    public SubCategoryFindResponseDto getSubCategoryById(UUID id) throws SubCategoryNotFoundException {
+        log.info("SubCategoryService:getSubCategoryById execution started.");
+        log.debug("SubCategoryService:getSubCategoryById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
+
+        Optional<SubCategory> optionalSubCategory = subCategoryRepository.findById(id);
+        if (optionalSubCategory.isEmpty()) {
+            log.error("SubCategoryService:getSubCategoryById traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
+            log.info("SubCategoryService:getSubCategoryById execution ended.");
+        throw new SubCategoryNotFoundException(ErrorCodes.E1509, id.toString());
         }
 
-        throw new SubCategoryNotFoundException("Category does not exist with ID : " + id);
+        SubCategoryFindResponseDto subCategoryFindResponseDto = subCategoryMapper.subCategoryToSubCategoryFindResponseDto(optionalSubCategory.get());
+        log.debug("SubCategoryService:getSubCategoryById traceId: {}, response: {}", TraceIdHolder.getTraceId(), subCategoryFindResponseDto);
+        log.info("SubCategoryService:getSubCategoryById execution ended.");
+
+        return subCategoryFindResponseDto;
+
     }
 
     @Override
-    public SubCategoryUpdateResponseDto update(final UUID id, SubCategoryUpdateRequestDto subCategoryUpdateRequestDto) throws SubCategoryNotFoundException {
-        Optional<SubCategory> optionalCategory = subCategoryRepository.findById(id);
-        if (!optionalCategory.isPresent()) {
-            throw new SubCategoryNotFoundException("Category does not exist with ID : " + id);
+    public SubCategoryCreateResponseDto createSubCategory(SubCategoryCreateRequestDto subCategoryCreateRequestDto) throws SubCategoryNameAlreadyExistException {
+        log.info("SubCategoryService:createSubCategory execution started.");
+        log.debug("SubCategoryService:createSubCategory traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), subCategoryCreateRequestDto);
+
+        if (isSubCategoryExistByName(subCategoryCreateRequestDto.getName())) {
+            log.error("SubCategoryService:createSubCategory traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1508, subCategoryCreateRequestDto.getName()));
+            throw new CategoryNameAlreadyExistException(ErrorCodes.E1508, subCategoryCreateRequestDto.getName());
+        }
+
+
+        SubCategory subCategory = subCategoryMapper.subCategoryCreateRequestDtoToSubCategory(subCategoryCreateRequestDto);
+        UUID categoryId = subCategoryCreateRequestDto.getCategoryUUID();
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(ErrorCodes.E1507,categoryId.toString()));
+        subCategory.setCategory(category);
+        SubCategory savedSubCategory = subCategoryRepository.save(subCategory);
+        SubCategoryCreateResponseDto subCategoryCreateResponseDto = subCategoryMapper.subCategoryToSubCategoryCreateResponseDto(savedSubCategory);
+        subCategoryCreateResponseDto.setCategoryUUID(categoryId);
+
+        log.debug("SubCategoryService:createSubCategory traceId: {}, response: {}", TraceIdHolder.getTraceId(), subCategoryCreateRequestDto);
+        log.info("SubCategoryService:createSubCategory execution ended.");
+        return subCategoryCreateResponseDto;
+    }
+    @Override
+    public SubCategoryUpdateResponseDto updateSubCategory(final UUID id, SubCategoryUpdateRequestDto subCategoryUpdateRequestDto) throws SubCategoryNotFoundException {
+        log.info("SubCategoryService:updateSubCategory execution started.");
+        log.debug("SubCategoryService:updateSubCategory traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, subCategoryUpdateRequestDto);
+
+        Optional<SubCategory> optionalSubCategory = subCategoryRepository.findById(id);
+        if (optionalSubCategory.isEmpty()) {
+            throw new SubCategoryNotFoundException(ErrorCodes.E1510,id.toString());
         }
 
 
         SubCategory subCategory = subCategoryMapper.subCategoryUpdateRequestDtoToSubCategory(subCategoryUpdateRequestDto);
         subCategory.setId(id);
-        subCategory.setCategory(optionalCategory.get().getCategory());
-        return subCategoryMapper.subCategoryToSubCategoryUpdateResponseDto(subCategoryRepository.save(subCategory));
+        subCategory.setCategory(optionalSubCategory.get().getCategory());
+        SubCategory updatedSubCategory = subCategoryRepository.save(subCategory);
+        SubCategoryUpdateResponseDto subCategoryUpdateResponseDto = subCategoryMapper.subCategoryToSubCategoryUpdateResponseDto(updatedSubCategory);
+
+
+        log.debug("SubCategoryService:updateSubCategory traceId: {}, response: {}", TraceIdHolder.getTraceId(), subCategoryUpdateResponseDto);
+        log.info("SubCategoryService:updateSubCategory execution ended.");
+        return subCategoryUpdateResponseDto;
     }
 
     @Override
-    public void deleteById(UUID categoryId) throws SubCategoryNotFoundException {
-        Long categoryCountById = subCategoryRepository.countById(categoryId);
-        if (categoryCountById == 0) {
-            throw new SubCategoryNotFoundException("Category does not exist with ID : " + categoryId);
+    public void deleteSubCategoryById(UUID id) throws SubCategoryNotFoundException {
+
+        log.info("SubCategoryService:deleteSubCategoryById execution started.");
+        log.debug("SubCategoryService:deleteSubCategoryById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
+
+        Optional<SubCategory> optionalSubCategory = subCategoryRepository.findById(id);
+        if (optionalSubCategory.isEmpty()) {
+            log.error("SubCategoryService:deleteSubCategoryById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1511, id.toString()));
+
+            throw new SubCategoryNotFoundException(ErrorCodes.E1511, id.toString());
         }
-        subCategoryRepository.deleteById(categoryId);
+
+
+        subCategoryRepository.deleteById(id);
+        log.info("SubCategoryService:deleteSubCategoryById execution ended.");
 
     }
 
-    @Override
-    public SubCategoryCreateResponseDto create(SubCategoryCreateRequestDto subCategoryCreateRequestDto) {
-        SubCategory subCategory = subCategoryMapper.subCategoryCreateRequestDtoToSubCategory(subCategoryCreateRequestDto);
-        UUID categoryId = subCategoryCreateRequestDto.getCategoryUUID();
-        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException("Category does not exist"));
-        subCategory.setCategory(category);
-        SubCategory savedSubCategory = subCategoryRepository.save(subCategory);
-        SubCategoryCreateResponseDto responseDto = subCategoryMapper.subCategoryToSubCategoryCreateResponseDto(savedSubCategory);
-        responseDto.setCategoryUUID(categoryId);
-        return responseDto;
-    }
 
     @Override
     public Boolean isSubCategoryExistByName(String name) {
@@ -134,17 +189,26 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-    public void updateFileNameById(UUID id, String fileName) {
+    public String updateSubCategoryImageById(UUID id, String fileName) throws SubCategoryNotFoundException {
+        log.info("SubCategoryService:updateSubCategoryImageById execution started.");
+        log.debug("SubCategoryService:updateSubCategoryImageById traceId: {}, brandId:{}, fileName: {}", TraceIdHolder.getTraceId(), id, fileName);
+
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findById(id);
 
         if (optionalSubCategory.isEmpty()) {
-            throw new SubCategoryNotFoundException("Could not find any sub-category with ID : " + id);
+            log.error("SubCategoryService:updateSubCategoryImageById traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1505, id.toString()));
+            throw new SubCategoryNotFoundException(ErrorCodes.E1512, id.toString());
         }
 
         SubCategory subCategory = optionalSubCategory.get();
         subCategory.setImage(fileName);
+        SubCategory updatedSubCategory = subCategoryRepository.save(subCategory);
 
-        subCategoryRepository.save(subCategory);
+        log.debug("SubCategoryService:updateSubCategoryImageById traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), updatedSubCategory.getImage());
+        log.info("SubCategoryService:updateSubCategoryImageById execution ended.");
+        return updatedSubCategory.getImage();
+
+
     }
 
 

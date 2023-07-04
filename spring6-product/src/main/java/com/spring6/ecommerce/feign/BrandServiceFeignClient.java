@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.feign;
 
-import com.spring6.ecommerce.common.dto.brand.BrandFindResponesDto;
+import com.spring6.common.dto.BrandFindResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,9 +12,9 @@ import java.util.UUID;
 public interface BrandServiceFeignClient {
 
     @GetMapping("brand/list")
-    List<BrandFindResponesDto> listAll();
+    List<BrandFindResponseDto> listAll();
 
     @GetMapping("brand/{brandId}")
-    BrandFindResponesDto getById(@PathVariable UUID brandId);
+    BrandFindResponseDto getById(@PathVariable UUID brandId);
 
 }

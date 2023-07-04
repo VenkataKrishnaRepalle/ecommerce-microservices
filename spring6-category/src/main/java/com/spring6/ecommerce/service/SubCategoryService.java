@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.common.dto.SubCategoryFindResponseDto;
+import com.spring6.common.dto.SubCategoryFindResponseDto;
 import com.spring6.ecommerce.dto.SubCategoryCreateRequestDto;
 import com.spring6.ecommerce.dto.SubCategoryCreateResponseDto;
 import com.spring6.ecommerce.dto.SubCategoryUpdateRequestDto;
@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SubCategoryService {
-    List<SubCategoryFindResponseDto> findAll();
+    List<SubCategoryFindResponseDto> getAllSubCategory();
 
-    SubCategoryFindResponseDto findById(UUID id);
+    SubCategoryFindResponseDto getSubCategoryById(UUID id);
 
-    SubCategoryUpdateResponseDto update(UUID id, SubCategoryUpdateRequestDto subCategoryUpdateRequestDto);
+    SubCategoryUpdateResponseDto updateSubCategory(UUID id, SubCategoryUpdateRequestDto subCategoryUpdateRequestDto);
 
-    void deleteById(UUID categoryId);
+    void deleteSubCategoryById(UUID categoryId);
 
-    SubCategoryCreateResponseDto create(SubCategoryCreateRequestDto subCategoryCreateRequestDto);
+    SubCategoryCreateResponseDto createSubCategory(SubCategoryCreateRequestDto subCategoryCreateRequestDto);
 
     Boolean isSubCategoryExistByName(String name);
 
@@ -28,5 +28,5 @@ public interface SubCategoryService {
 
     boolean isSubCategoryExistById(UUID id);
 
-    void updateFileNameById(UUID id, String fileName);
+    String updateSubCategoryImageById(UUID id, String fileName);
 }

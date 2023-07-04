@@ -2,7 +2,6 @@ package com.spring6.brand.exception;
 
 import com.spring6.brand.utils.TraceIdHolder;
 import com.spring6.common.exeption.*;
-import com.spring6.common.exeption.Error;
 import com.spring6.common.utils.GlobalConstants;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,31 +20,29 @@ import java.util.List;
 public class GlobalBrandExceptionHandler {
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<ErrorListResponse> handleValidationException(BindException bindException) {
+    public ResponseEntity<FieldErrorListResponse> handleValidationException(BindException bindException) {
         BindingResult bindingResult = bindException.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
-        List<Error> errors = new ArrayList<>();
+        List<ErrorField> errors = new ArrayList<>();
         for (FieldError fieldError : fieldErrors) {
+            String[] errorCodeAndMessage = fieldError.getDefaultMessage().split("-");
+            String errorCode = errorCodeAndMessage[0];
+            String errorMessage = errorCodeAndMessage[1];
 
-            errors.add(Error.builder()
-                    .code(fieldError.getDefaultMessage())
-                    .message(MessageFormat.format(ErrorCodes.valueOf(fieldError.getDefaultMessage()).getMessage(), fieldError.getField()))
+            errors.add(ErrorField.builder()
+                    .code(errorCode)
+                    .message(MessageFormat.format(errorMessage, fieldError.getField()))
+                    .fieldName(fieldError.getField())
                     .build());
         }
-
-        ErrorListResponse errorResponse = ErrorListResponse.builder()
-                .errors(errors)
-                .build();
-
-        errorResponse.setErrors(errors);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .headers(headers)
-                .body(errorResponse);
+                .body(FieldErrorListResponse.builder().errors(errors).build());
     }
 
     @ExceptionHandler(BrandNotFoundException.class)
@@ -74,6 +71,6 @@ public class GlobalBrandExceptionHandler {
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .headers(headers)
-                .body(ErrorMessage.errorResponse(ErrorCodes.E0500.getCode(), exception.getMessage()));
+                .body(ErrorMessage.errorResponse(ErrorCodes.E0500, exception.getMessage()));
     }
 }

@@ -26,7 +26,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -67,11 +66,10 @@ public class BrandController {
     public ResponseEntity<BrandCreateResponseDto> createBrand(
             @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto)
             throws BrandNameAlreadyExistException {
-        String trace =  MDC.get(GlobalConstants.TRACE_ID);
         log.info("BrandController:createBrand execution started.");
-        log.debug("BrandController:createBrand traceId: {} request payload: {}", trace, brandCreateRequestDto);
+        log.debug("BrandController:createBrand traceId: {} request payload: {}", TraceIdHolder.getTraceId(), brandCreateRequestDto);
 
-        BrandCreateResponseDto savedBrandDto = brandService.createBrand(brandCreateRequestDto);
+        BrandCreateResponseDto savedBrandDto = brandService.create(brandCreateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -84,11 +82,7 @@ public class BrandController {
                 .body(savedBrandDto);
     }
 
-    @Operation(tags = "Brand",
-            summary = "Get Brand By Id",
-            description = "Get Brand by id"
-
-    )
+    @Operation(tags = "Brand", summary = "Get Brand By Id", description = "Get Brand by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get Brand Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BrandFindResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Brand not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
@@ -99,7 +93,7 @@ public class BrandController {
         log.info("BrandController:getBrandById execution started.");
         log.info("BrandController:getBrandById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
-        BrandFindResponseDto brandFindResponseDto = brandService.getBrandById(id);
+        BrandFindResponseDto brandFindResponseDto = brandService.getById(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -122,7 +116,7 @@ public class BrandController {
     public ResponseEntity<List<BrandFindResponseDto>> getAllBrands() {
         log.info("BrandController:getAllBrands started.");
         log.info("BrandController:getAllBrands traceId: {}", TraceIdHolder.getTraceId());
-        List<BrandFindResponseDto> brandFindResponseDtoList = brandService.getAllBrands();
+        List<BrandFindResponseDto> brandFindResponseDtoList = brandService.getAll();
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -148,7 +142,7 @@ public class BrandController {
         log.info("BrandController:updateBrand started.");
         log.info("BrandController:updateBrand traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, brandUpdateRequestDto);
 
-        BrandUpdateResponseDto brandUpdateResponseDto = brandService.updateBrand(id, brandUpdateRequestDto);
+        BrandUpdateResponseDto brandUpdateResponseDto = brandService.update(id, brandUpdateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -174,7 +168,7 @@ public class BrandController {
         log.info("BrandController:deleteById started.");
         log.info("BrandController:deleteById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
-        brandService.deleteBrandById(id);
+        brandService.deleteById(id);
         String dir = "../brand-logos/" + id;
         FileUploadUtils.removeDir(dir);
 
@@ -204,7 +198,7 @@ public class BrandController {
         log.info("BrandController:getBrandsByPage started.");
         log.info("BrandController:getBrandsByPage traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
-        List<BrandFindResponseDto> brandFindResponseDtoList = brandService.getBrandsByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
+        List<BrandFindResponseDto> brandFindResponseDtoList = brandService.getByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -233,7 +227,7 @@ public class BrandController {
 
         if (brandService.isIdExist(brandId)) {
             log.error("BrandController:uploadBrandImage traceId: {} Brand Not Found id: {}", TraceIdHolder.getTraceId(), brandId);
-            throw new BrandNotFoundException(ErrorCodes.E0507.getCode(), brandId.toString());
+            throw new BrandNotFoundException(ErrorCodes.E0507, brandId.toString());
         }
 
         if (!multipartFile.isEmpty() && multipartFile.getOriginalFilename() != null) {
@@ -271,7 +265,7 @@ public class BrandController {
         log.info("BrandController:getBrandImageById started.");
         log.debug("BrandController:getBrandImageById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
-        String imageName = brandService.getBrandImageNameById(id);
+        String imageName = brandService.getImageNameById(id);
 
         Path imagePath = Paths.get(IMAGE_UPLOAD_DIRECTORY, imageName);
         Resource imageResource = new UrlResource(imagePath.toUri());

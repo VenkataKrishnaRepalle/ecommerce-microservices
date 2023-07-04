@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableFeignClients("com.spring6")
+@EnableFeignClients("com.spring6.brand")
 public class Spring6BrandApplication {
 
     public static void main(String[] args) {

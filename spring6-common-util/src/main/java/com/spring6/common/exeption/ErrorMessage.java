@@ -3,15 +3,19 @@ package com.spring6.common.exeption;
 import java.text.MessageFormat;
 
 public class ErrorMessage {
-    public static String message(String errorCode, String dynamicValue) {
-        return MessageFormat.format(ErrorCodes.valueOf(errorCode).getMessage(), dynamicValue);
+    public static String message(String error, String dynamicValue) {
+        return MessageFormat.format(error, dynamicValue);
     }
 
-    public static ErrorResponse errorResponse(String errorCode, String dynamicValue) {
+    public static ErrorResponse errorResponse(String error, String dynamicValue) {
+        String[] errorCodeAndMessage = error.split("-");
+        String errorCode = errorCodeAndMessage[0];
+        String errorMessage = errorCodeAndMessage[1];
+
         return ErrorResponse.builder()
                 .error(Error.builder()
                         .code(errorCode)
-                        .message(MessageFormat.format(ErrorCodes.valueOf(errorCode).getMessage(), dynamicValue))
+                        .message(MessageFormat.format(errorMessage, dynamicValue))
                         .build())
                 .build();
     }

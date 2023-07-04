@@ -2,6 +2,9 @@ package com.spring6.user.exception;
 
 import com.spring6.common.exeption.Error;
 import com.spring6.common.exeption.*;
+import com.spring6.common.utils.GlobalConstants;
+import com.spring6.user.utils.TraceIdHolder;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -18,43 +21,100 @@ import java.util.List;
 public class GlobalUserExceptionHandler {
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<ErrorListResponse> handleValidationException(BindException bindException) {
+    public ResponseEntity<FieldErrorListResponse> handleValidationException(BindException bindException) {
         BindingResult bindingResult = bindException.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
-        List<Error> errors = new ArrayList<>();
+        List<ErrorField> errors = new ArrayList<>();
+
         for (FieldError fieldError : fieldErrors) {
 
-            errors.add(Error.builder()
-                    .code(fieldError.getDefaultMessage())
-                    .message(MessageFormat.format(ErrorCodes.valueOf(fieldError.getDefaultMessage()).getMessage(), fieldError.getField()))
+            String[] errorCodeAndMessage = fieldError.getDefaultMessage().split("-");
+            String errorCode = errorCodeAndMessage[0];
+            String errorMessage = errorCodeAndMessage[1];
+
+            errors.add(ErrorField.builder()
+                    .code(errorCode)
+                    .message(MessageFormat.format(errorMessage, fieldError.getField()))
+                    .fieldName(fieldError.getField())
                     .build());
         }
 
-        ErrorListResponse errorResponse = ErrorListResponse.builder()
-                .errors(errors)
-                .build();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        errorResponse.setErrors(errors);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .headers(headers)
+                .body(FieldErrorListResponse.builder().errors(errors).build());
     }
+
+
+    @ExceptionHandler(PasswordMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(PasswordMismatchException exception) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        String[] errorCodeAndMessage = exception.getError().split("-");
+        String errorCode = errorCodeAndMessage[0];
+        String errorMessage = errorCodeAndMessage[1];
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .headers(headers)
+                .body(ErrorResponse.builder()
+                        .error(Error.builder()
+                                .code(errorCode)
+                                .message(errorMessage)
+                                .build())
+                        .build());
+    }
+
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleBrandNotFoundException(UserNotFoundException exception) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .headers(headers)
                 .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
     }
 
+    @ExceptionHandler(UserPhotoNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(UserPhotoNotFoundException exception) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .headers(headers)
+                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
+    }
+
+
     @ExceptionHandler(UserNameAlreadyExistException.class)
     public ResponseEntity<ErrorResponse> handleBrandNameAlreadyExistException(UserNameAlreadyExistException exception) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
         return ResponseEntity.status(HttpStatus.CONFLICT)
+                .headers(headers)
+                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
+    }
+
+    @ExceptionHandler(UserEmailAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleBrandNameAlreadyExistException(UserEmailAlreadyExistException exception) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .headers(headers)
                 .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ErrorMessage.errorResponse(ErrorCodes.E0500.getCode(), exception.getMessage()));
+                .headers(headers)
+                .body(ErrorMessage.errorResponse(ErrorCodes.E0500, exception.getMessage()));
     }
 }

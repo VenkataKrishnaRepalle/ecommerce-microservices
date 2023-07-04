@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.dto;
 
-import com.spring6.ecommerce.common.enumeration.CategoryEnum;
+import com.spring6.common.enums.CategoryEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

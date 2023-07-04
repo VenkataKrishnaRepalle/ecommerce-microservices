@@ -1,42 +1,44 @@
 package com.spring6.user.dto;
 
 import com.spring6.common.exeption.ErrorCodes;
-import com.spring6.user.entity.Role;
-import com.spring6.user.entity.UserStatus;
+import com.spring6.user.validations.ValidUserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.UUID;
 
 
 @Data
 @Builder
 public class UserCreateRequestDto {
 
-    @NotBlank(message = "E1001")
+    @NotBlank(message = ErrorCodes.E4001)
     private String firstName;
-    @NotBlank
+    @NotBlank(message = ErrorCodes.E4002)
     private String lastName;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = ErrorCodes.E4003)
+    @Email(message = ErrorCodes.E4004)
     private String email;
 
+    @NotBlank(message = ErrorCodes.E4005)
     private String username;
 
+    @NotBlank(message = ErrorCodes.E4006)
     private String password;
+
+    @NotBlank(message = ErrorCodes.E4007)
+    private String confirmPassword;
 
     private String photo;
 
-    private UserStatus status;
+    @ValidUserStatus(message = ErrorCodes.E4009)
+    @NotBlank(message = ErrorCodes.E4011)
+    private String status;
 
-    private Instant createdOn;
-
-    private Instant lastUpdatedOn;
-
-    private Set<Role> roles = new HashSet<>();
+    @NotNull(message = ErrorCodes.E4010)
+    private UUID roleId;
 }

@@ -11,6 +11,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidImageExtension {
     String message() default "Invalid image extension, only supported .png and .jpg";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

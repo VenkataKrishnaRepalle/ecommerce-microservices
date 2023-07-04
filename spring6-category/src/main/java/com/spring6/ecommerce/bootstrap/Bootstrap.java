@@ -1,6 +1,6 @@
 package com.spring6.ecommerce.bootstrap;
-import com.spring6.ecommerce.common.enumeration.CategoryEnum;
-import com.spring6.ecommerce.common.enumeration.SubCategoryEnum;
+import com.spring6.common.enums.CategoryEnum;
+import com.spring6.common.enums.SubCategoryEnum;
 import com.spring6.ecommerce.entity.SubCategory;
 import com.spring6.ecommerce.entity.Category;
 import com.spring6.ecommerce.repository.CategoryRepository;

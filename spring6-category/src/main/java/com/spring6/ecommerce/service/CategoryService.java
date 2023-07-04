@@ -1,20 +1,26 @@
 package com.spring6.ecommerce.service;
 
-import com.spring6.ecommerce.common.dto.CategoryFindResponseDto;
+
+
+import com.spring6.common.dto.CategoryFindResponseDto;
+import com.spring6.ecommerce.dto.CategoryCreateRequestDto;
+import com.spring6.ecommerce.dto.CategoryCreateResponseDto;
+import com.spring6.ecommerce.dto.CategoryUpdateRequestDto;
+import com.spring6.ecommerce.dto.CategoryUpdateResponseDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CategoryService {
-    CategoryCreateResponseDto create(CategoryCreateRequestDto categoryCreateRequestDto);
+    CategoryCreateResponseDto createCategory(CategoryCreateRequestDto categoryCreateRequestDto);
 
-    List<CategoryFindResponseDto> findAll();
+    List<CategoryFindResponseDto> getAllCategory();
 
-    CategoryFindResponseDto findById(UUID id);
+    CategoryFindResponseDto getCategoryById(UUID id);
 
-    CategoryUpdateResponseDto update(UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto);
+    CategoryUpdateResponseDto updateCategory(UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto);
 
-    void deleteById(UUID id);
+    void deleteCategoryById(UUID id);
 
     Boolean isCategoryExistByName(String name);
     boolean isCategoryExistById(UUID id);
@@ -22,5 +28,6 @@ public interface CategoryService {
 
     List<CategoryFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
 
-    void updateFileNameById(UUID id, String fileName);
+    String updateImageById(UUID id, String fileName);
+    String getCategoryImageNameById(UUID id);
 }

@@ -2,6 +2,7 @@ package com.spring6.user.dto;
 
 
 import com.spring6.user.entity.Role;
+import com.spring6.user.enums.UserStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -27,7 +28,7 @@ public class UserUpdateResponseDto {
 
     private String photo;
 
-    private Boolean isEnabled;
+    private UserStatus status;
 
     private Instant createdOn;
 
