@@ -1,6 +1,6 @@
 package com.spring6.user.validations;
 
-import com.spring6.user.entity.UserStatus;
+import com.spring6.user.enums.UserStatus;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.EnumUtils;
@@ -10,7 +10,7 @@ public class UserStatusValidator implements ConstraintValidator<ValidUserStatus,
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (StringUtils.isBlank(value)) {
-            return false; // Allow empty string if desired
+            return true; // Allow empty string if desired
         }
         return EnumUtils.isValidEnum(UserStatus.class, value);
     }

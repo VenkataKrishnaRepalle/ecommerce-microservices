@@ -1,14 +1,10 @@
 package com.spring6.user.dto;
 
-
-import com.spring6.user.entity.Role;
-import com.spring6.user.entity.UserStatus;
+import com.spring6.user.enums.UserStatus;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -24,8 +20,6 @@ public class UserCreateResponseDto {
 
     private String username;
 
-    private String password;
-
     private String photo;
 
     private UserStatus status;
@@ -34,5 +28,4 @@ public class UserCreateResponseDto {
 
     private Instant lastUpdatedOn;
 
-    private Set<Role> roles = new HashSet<>();
 }

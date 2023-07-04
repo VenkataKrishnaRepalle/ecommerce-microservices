@@ -23,7 +23,7 @@ public class ImageExtensionValidator implements ConstraintValidator<ValidImageEx
             // Check the image extension using ImageIO
 
             String extension = FileUploadUtils.getExtensionByString(imageFile.getOriginalFilename()).get();
-            if(extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg")) {
+            if (extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg")) {
                 ImageIO.read(imageFile.getInputStream());
                 return true; // Valid image extension
             }

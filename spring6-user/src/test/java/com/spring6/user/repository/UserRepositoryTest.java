@@ -1,6 +1,10 @@
 package com.spring6.user.repository;
 
-import com.spring6.user.entity.*;
+import com.spring6.user.entity.Permission;
+import com.spring6.user.entity.Role;
+import com.spring6.user.entity.User;
+import com.spring6.user.enums.RoleType;
+import com.spring6.user.enums.UserStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 public class UserRepositoryTest {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -45,13 +50,13 @@ public class UserRepositoryTest {
         return roles;
     }
 
-    private Set<Privilege> getPrivileges() {
+    private Set<Permission> getPrivileges() {
 
-        Set<Privilege> privileges = new HashSet<>();
+        Set<Permission> privileges = new HashSet<>();
 
-        privileges.add(Privilege.builder().name("Read").build());
-        privileges.add(Privilege.builder().name("Write").build());
-        privileges.add(Privilege.builder().name("Delete").build());
+        privileges.add(Permission.builder().name("Read").build());
+        privileges.add(Permission.builder().name("Write").build());
+        privileges.add(Permission.builder().name("Delete").build());
 
         return privileges;
     }

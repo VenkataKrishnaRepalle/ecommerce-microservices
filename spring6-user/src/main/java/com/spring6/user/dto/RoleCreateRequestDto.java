@@ -1,6 +1,6 @@
 package com.spring6.user.dto;
 
-import com.spring6.user.entity.RoleType;
+import com.spring6.user.enums.RoleType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

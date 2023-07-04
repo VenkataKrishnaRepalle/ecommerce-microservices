@@ -1,6 +1,17 @@
 package com.spring6.user.entity;
 
-import jakarta.persistence.*;
+import com.spring6.user.enums.UserStatus;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +23,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -22,6 +32,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+//public class User implements UserDetails {
 public class User {
 
     @Id
@@ -37,7 +48,7 @@ public class User {
     @Column(nullable = false, length = 45)
     private String lastName;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     private String email;
 
     @Column(nullable = false, length = 20)
@@ -46,7 +57,7 @@ public class User {
     @Column(nullable = false, length = 128)
     private String password;
 
-    @Column(nullable = false, length = 128)
+    @Column(length = 128)
     private String photo;
 
     @Enumerated(EnumType.STRING)
@@ -59,12 +70,55 @@ public class User {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
     private Set<Role> roles = new HashSet<>();
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        Set<GrantedAuthority> authorities = new HashSet<>();
+//        for (Role role : roles) {
+//            authorities.addAll(role.getPermissions().stream()
+//                    .map(permission -> new SimpleGrantedAuthority(permission.getName()))
+//                    .collect(Collectors.toList()));
+//        }
+//        return authorities;
+//    }
+//
+//    @Override
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return email;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 }

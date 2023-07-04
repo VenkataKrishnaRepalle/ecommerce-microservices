@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UserStatusValidator.class)
 public @interface ValidUserStatus {
     String message() default "Invalid user status";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }
