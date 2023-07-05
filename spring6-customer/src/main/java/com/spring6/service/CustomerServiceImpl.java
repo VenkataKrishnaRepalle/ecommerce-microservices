@@ -34,7 +34,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     private static final long OTP_VALID_DURATION = 5 * 60 * 1000;     // 5 minutes
 
-
     private final CustomerRepository customerRepository;
 
     private final CountryRepository countryRepository;
@@ -105,6 +104,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         long currentTimeInMillis = System.currentTimeMillis();
         long otpRequestedTime = customer.getOtpRequestedTime().getTime();
+        System.out.println(otpRequestedTime);
 
         if(customer.getOneTimePassword().equals(otp) && otpRequestedTime + OTP_VALID_DURATION > currentTimeInMillis) {
             System.out.println("OTP Validated Succesfully");
@@ -162,6 +162,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         String subject = "Here's your One Time Password ("+ customerRegisterDto.getOneTimePassword() +") - Expire in 5 minutes!";
         String content = null;
+
         if(customerRegisterDto.getIsEnabled().equals(EnabledStatus.INACTIVE)) {
             content = "<p>Hello <b>" + customerRegisterDto.getFirstName() + "</b>,</p>"
                     + "<p>For security reason, you're required to use the following "
