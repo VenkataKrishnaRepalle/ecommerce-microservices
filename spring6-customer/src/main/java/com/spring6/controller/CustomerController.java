@@ -53,7 +53,7 @@ public class CustomerController {
     }
 
     @PostMapping("changePassword/{email}")
-    public ResponseEntity<HttpHeaders> changePassword(@PathVariable String email,
+    public ResponseEntity<HttpStatus> changePassword(@PathVariable String email,
                                                       @RequestParam("password") String password,
                                                       @RequestParam("reEnterPassword") String reEnterPassword,
                                                       @RequestParam("newPassword") String newPassword) {
