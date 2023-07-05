@@ -10,4 +10,5 @@ public interface AuthenticationService {
      AuthenticationResponseDto register(UserCreateRequestDto userCreateRequestDto);
      AuthenticationResponseDto authenticate(AuthenticationRequestDto authenticationRequestDto);
      AuthenticationResponseDto refreshToken(String authHeader);
+//     void forgotPassword(String email, String password);
 }

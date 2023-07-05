@@ -1,6 +1,6 @@
 package com.spring6.dto;
 
-import com.spring6.entity.EnabledStatus;
+import com.spring6.enums.EnabledStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;

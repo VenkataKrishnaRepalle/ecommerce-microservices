@@ -3,7 +3,7 @@ package com.spring6.controller;
 import com.spring6.dto.CustomerCreateRequestDto;
 import com.spring6.dto.CustomerCreateResponseDto;
 import com.spring6.dto.LoginDto;
-import com.spring6.entity.EnabledStatus;
+import com.spring6.enums.EnabledStatus;
 import com.spring6.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,16 @@ public class CustomerController {
 
     @PostMapping("register")
     public ResponseEntity<CustomerCreateResponseDto> register(@RequestBody CustomerCreateRequestDto customerCreateRequestDto) {
+//       1. CALL AUTH SERVICE TO INSER AUTH INFO AND GET TOKEN
+//        2. insert customer into customer table
+//        2. Send email OTP
         return new ResponseEntity<>(customerService.register(customerCreateRequestDto), HttpStatus.CREATED);
+
     }
 
     @PostMapping("login")
     public ResponseEntity<HttpStatus> login(@RequestBody @Valid LoginDto loginDto) throws Exception {
+//        Auth service to get token
         customerService.login(loginDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -38,6 +43,13 @@ public class CustomerController {
     public Enum<EnabledStatus> getIsEnabledStatus(@PathVariable UUID id) {
         return customerService.getIsEnabledStatus(id);
     }
+//    @GetMapping("OTPValidation/{otp}")
+//    public ResponseEntity<HttpStatus> OTPValidation(@PathVariable String otp) {
+////        from token we need to get UUID
+//        UUID uuid = UUID.randomUUID();
+//        authenticationService.OTPValidation(uuid,otp);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @GetMapping("OTPValidation/{id}")
     public ResponseEntity<HttpStatus> OTPValidation(@PathVariable UUID id, @RequestParam String OTP) {

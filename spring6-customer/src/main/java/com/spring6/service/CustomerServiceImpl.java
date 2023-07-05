@@ -1,7 +1,7 @@
 package com.spring6.service;
 
 import com.spring6.dto.*;
-import com.spring6.entity.EnabledStatus;
+import com.spring6.enums.EnabledStatus;
 import com.spring6.exception.AlreadyFoundException;
 import com.spring6.exception.LoginException;
 import com.spring6.exception.NotFoundException;
@@ -122,14 +122,6 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-
-    public void forgotPassword(String email, String password) {
-        CustomerRegisterDto customer = customerMapper.customerToCustomerRegisterDto(customerRepository.findByEmail(email));
-        if(customer != null) {
-            password = passwordEncoder.encode(password);
-            customerRepository.forgotPassword(email,password);
-        }
-    }
 
     public boolean isCustomerEmailExists(String email) {
         if(customerRepository.findByEmail(email) != null) {

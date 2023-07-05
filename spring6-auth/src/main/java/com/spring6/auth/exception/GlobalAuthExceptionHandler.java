@@ -1,6 +1,6 @@
 package com.spring6.auth.exception;
 
-import com.spring6.auth.filter.traceid.TraceIdHolder;
+import com.spring6.auth.util.TraceIdHolder;
 import com.spring6.common.exeption.*;
 import com.spring6.common.utils.GlobalConstants;
 import org.springframework.http.HttpHeaders;
@@ -66,7 +66,7 @@ public class GlobalAuthExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .headers(headers)
-                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
+                .body(ErrorMessage.errorResponse(exception.getErrorCode()));
     }
 
     @ExceptionHandler(UserNameAlreadyExistException.class)

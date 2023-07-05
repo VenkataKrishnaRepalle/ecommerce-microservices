@@ -18,7 +18,5 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
     @Modifying
     void OTPUpdate(@Param("OTP") String OTP, @Param("OTPRequestedTime")Date OTPRequestedTime, @Param("id") UUID id);
 
-    @Query("UPDATE Customer c SET c.password = :password WHERE c.email = :email")
-    @Modifying
-    void forgotPassword(@Param("email") String email, @Param("password") String password);
+
 }

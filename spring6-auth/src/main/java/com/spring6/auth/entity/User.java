@@ -48,9 +48,6 @@ public class User {
     @Column(nullable = false, length = 128)
     private String password;
 
-    @Column(length = 128)
-    private String photo;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "ENUM('ACTIVE', 'INACTIVE', 'PENDING_ACTIVATION', 'BLOCKED')")
     private UserStatus status;

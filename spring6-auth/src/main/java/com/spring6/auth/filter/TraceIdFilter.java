@@ -1,5 +1,6 @@
-package com.spring6.auth.filter.traceid;
+package com.spring6.auth.filter;
 
+import com.spring6.auth.util.TraceIdHolder;
 import jakarta.servlet.*;
 import org.springframework.stereotype.Component;
 

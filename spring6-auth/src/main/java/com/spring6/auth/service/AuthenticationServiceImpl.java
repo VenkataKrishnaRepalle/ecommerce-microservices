@@ -3,14 +3,14 @@ package com.spring6.auth.service;
 import com.spring6.auth.dto.AuthenticationRequestDto;
 import com.spring6.auth.dto.AuthenticationResponseDto;
 import com.spring6.auth.dto.UserCreateRequestDto;
-import com.spring6.auth.entity.Role;
+import com.spring6.auth.entity.MyUserDetails;
 import com.spring6.auth.entity.Token;
 import com.spring6.auth.entity.User;
 import com.spring6.auth.enums.TokenType;
 import com.spring6.auth.exception.InvalidTokenException;
 import com.spring6.auth.exception.UserEmailAlreadyExistException;
 import com.spring6.auth.exception.UserNameAlreadyExistException;
-import com.spring6.auth.filter.traceid.TraceIdHolder;
+import com.spring6.auth.util.TraceIdHolder;
 import com.spring6.auth.mapper.UserMapper;
 import com.spring6.auth.repository.TokenRepository;
 import com.spring6.auth.repository.UserRepository;
@@ -21,17 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -66,7 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User userCreated = userRepository.save(user);
 
-        UserDetails userDetails = convertUserToUserDetails(userCreated);
+        UserDetails userDetails = new MyUserDetails(userCreated);
 
         var savedUser = userRepository.save(user);
 
@@ -101,7 +95,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         User user = userOptional.get();
 
-        UserDetails userDetails = convertUserToUserDetails(user);
+        UserDetails userDetails = new MyUserDetails(user);
 
         String jwtToken = jwtService.generateToken(userDetails);
         String refreshToken = jwtService.generateRefreshToken(userDetails);
@@ -133,7 +127,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new UsernameNotFoundException("User name not exist");
         }
         User user = optionalUser.get();
-        UserDetails userDetails = convertUserToUserDetails(user);
+        UserDetails userDetails = new MyUserDetails(user);
 
         if (!jwtService.isTokenValid(refreshToken, userDetails)) {
             throw new InvalidTokenException("Invalid token");
@@ -151,6 +145,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     }
+
+//    @Override
+//    public void forgotPassword(String email, String password) {
+//        CustomerRegisterDto customer = customerMapper.customerToCustomerRegisterDto(customerRepository.findByEmail(email));
+//        if(customer != null) {
+//            password = passwordEncoder.encode(password);
+//            customerRepository.forgotPassword(email,password);
+//        }
+//    }
 
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
@@ -191,23 +194,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         return Boolean.FALSE;
 
-    }
-
-    private UserDetails convertUserToUserDetails(User user) {
-
-        Set<GrantedAuthority> authorities = new HashSet<>();
-
-        for (Role role : user.getRoles()) {
-            authorities.addAll(role.getPermissions().stream()
-                    .map(permission -> new SimpleGrantedAuthority(permission.getName()))
-                    .collect(Collectors.toList()));
-        }
-
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .authorities(authorities)
-                .build();
     }
 
 }
