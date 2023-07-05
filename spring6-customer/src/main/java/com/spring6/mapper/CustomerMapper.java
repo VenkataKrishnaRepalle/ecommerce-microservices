@@ -1,9 +1,6 @@
 package com.spring6.mapper;
 
-import com.spring6.dto.CustomerCreateRequestDto;
-import com.spring6.dto.CustomerCreateResponseDto;
-import com.spring6.dto.CustomerFindResponseDto;
-import com.spring6.dto.CustomerRegisterDto;
+import com.spring6.dto.*;
 import com.spring6.entity.Customer;
 import org.mapstruct.Mapper;
 
@@ -20,4 +17,6 @@ public interface CustomerMapper {
     CustomerRegisterDto customerToCustomerRegisterDto(Customer customer);
 
     CustomerFindResponseDto customerToCustomerFindResponseDto(Customer customer);
+
+    LoginDto customerToLoginDto(Customer customer);
 }
