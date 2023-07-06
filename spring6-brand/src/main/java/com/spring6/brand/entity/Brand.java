@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.envers.Audited;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
@@ -20,21 +21,23 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Audited
 public class Brand {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     private UUID id;
+
     @Column(nullable = false, length = 45, unique = true)
     private String name;
+
     @Column(length = 128)
     private String imageName;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "ENUM('ACTIVE', 'INACTIVE')")
+    @Column(length = 15, nullable = false)
     private BrandStatusEnum status;
 
     @CreationTimestamp

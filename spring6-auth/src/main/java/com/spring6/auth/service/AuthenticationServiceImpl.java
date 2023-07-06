@@ -3,6 +3,7 @@ package com.spring6.auth.service;
 import com.spring6.auth.dto.AuthenticationRequestDto;
 import com.spring6.auth.dto.AuthenticationResponseDto;
 import com.spring6.auth.dto.UserCreateRequestDto;
+import com.spring6.common.dto.UserInfoResponseDto;
 import com.spring6.auth.entity.MyUserDetails;
 import com.spring6.auth.entity.Token;
 import com.spring6.auth.entity.User;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -86,10 +88,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         // Authenticate the user
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authenticationRequestDto.getEmail(), authenticationRequestDto.getPassword()));
+                new UsernamePasswordAuthenticationToken(authenticationRequestDto.getUsername(), authenticationRequestDto.getPassword()));
 
 
-        Optional<User> userOptional = userRepository.findByEmail(authenticationRequestDto.getEmail());
+        Optional<User> userOptional = userRepository.findByUsername(authenticationRequestDto.getUsername());
         if (userOptional.isEmpty()) {
             throw new UsernameNotFoundException("User name not exist");
         }
@@ -112,17 +114,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponseDto refreshToken(final String authHeader) {
         final String refreshToken;
-        final String userEmail;
+        final String username;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new InvalidTokenException("Invalid token");
         }
         refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
-        if (userEmail == null) {
+        username = jwtService.extractUsername(refreshToken);
+        if (username == null) {
             throw new UsernameNotFoundException("User name not exist");
 
         }
-        Optional<User> optionalUser = userRepository.findByEmail(userEmail);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException("User name not exist");
         }
@@ -144,6 +146,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
 
+    }
+
+    @Override
+    public UserInfoResponseDto getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new UsernameNotFoundException(ErrorCodes.E4015);
+        }
+
+        Optional<User> optionalUser = userRepository.findByUsername(authentication.getName());
+        if (optionalUser.isEmpty()) {
+            throw new UsernameNotFoundException(ErrorCodes.E4016);
+        }
+        User user = optionalUser.get();
+
+        return userMapper.userToUserProfileResponseDto(user);
     }
 
 //    @Override

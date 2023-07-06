@@ -5,15 +5,15 @@ import com.spring6.brand.dto.BrandCreateResponseDto;
 import com.spring6.brand.dto.BrandUpdateRequestDto;
 import com.spring6.brand.dto.BrandUpdateResponseDto;
 import com.spring6.brand.entity.Brand;
+import com.spring6.brand.enums.BrandSearchKeywordEnum;
 import com.spring6.brand.exception.BrandNameAlreadyExistException;
+import com.spring6.brand.exception.BrandNotFoundException;
 import com.spring6.brand.mapper.BrandMapper;
+import com.spring6.brand.repository.BrandRepository;
+import com.spring6.brand.utils.TraceIdHolder;
 import com.spring6.common.dto.BrandFindResponseDto;
 import com.spring6.common.exeption.ErrorCodes;
-import com.spring6.brand.enums.BrandSearchKeywordEnum;
-import com.spring6.brand.exception.BrandNotFoundException;
-import com.spring6.brand.repository.BrandRepository;
 import com.spring6.common.exeption.ErrorMessage;
-import com.spring6.brand.utils.TraceIdHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -40,7 +40,7 @@ public class BrandServiceImpl implements BrandService {
 
         List<BrandFindResponseDto> brandFindResponseDtoList = brandRepository.findAll()
                 .stream()
-                .map(brandMapper::brandToBrandFindResponesDto)
+                .map(brandMapper::brandToBrandFindResponseDto)
                 .toList();
 
         log.debug("BrandService:getAllBrands traceId: {}, response {} ", TraceIdHolder.getTraceId(), brandFindResponseDtoList);
@@ -72,7 +72,7 @@ public class BrandServiceImpl implements BrandService {
         }
 
         List<BrandFindResponseDto> brandFindResponseDtoList = brandList.stream()
-                .map(brandMapper::brandToBrandFindResponesDto)
+                .map(brandMapper::brandToBrandFindResponseDto)
                 .toList();
 
         log.debug("BrandService:getBrandsByPage traceId: {}", TraceIdHolder.getTraceId());
@@ -95,7 +95,7 @@ public class BrandServiceImpl implements BrandService {
             throw new BrandNotFoundException(ErrorCodes.E0501, id.toString());
         }
 
-        BrandFindResponseDto brandFindResponseDto = brandMapper.brandToBrandFindResponesDto(optionalBrand.get());
+        BrandFindResponseDto brandFindResponseDto = brandMapper.brandToBrandFindResponseDto(optionalBrand.get());
 
         log.debug("BrandService:getBrandById traceId: {}, response: {}", TraceIdHolder.getTraceId(), brandFindResponseDto);
         log.info("BrandService:getBrandById execution ended.");

@@ -3,9 +3,9 @@ package com.spring6.auth.controller;
 import com.spring6.auth.dto.AuthenticationRequestDto;
 import com.spring6.auth.dto.AuthenticationResponseDto;
 import com.spring6.auth.dto.UserCreateRequestDto;
-import com.spring6.auth.service.AuthenticationServiceImpl;
+import com.spring6.common.dto.UserInfoResponseDto;
+import com.spring6.auth.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,17 @@ import java.io.IOException;
 @RestController
 public class AuthenticationController {
 
-    private final AuthenticationServiceImpl authenticationService;
+    private final AuthenticationService authenticationService;
 
+
+    @GetMapping("/user-info")
+//    @PreAuthorize("hasAnyRole()")
+    public ResponseEntity<UserInfoResponseDto> getUserInfo() {
+
+        UserInfoResponseDto userInfoResponseDto =  authenticationService.getUserInfo();
+        return ResponseEntity.ok(userInfoResponseDto);
+
+    }
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponseDto> register(@RequestBody UserCreateRequestDto request) {
         return ResponseEntity.ok(authenticationService.register(request));

@@ -60,13 +60,23 @@ public class GlobalAuthExceptionHandler {
     }
 
     @ExceptionHandler(InvalidTokenException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(InvalidTokenException exception) {
+    public ResponseEntity<ErrorResponse> handleInvalidTokenException(InvalidTokenException exception) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .headers(headers)
-                .body(ErrorMessage.errorResponse(exception.getErrorCode()));
+                .body(ErrorMessage.errorResponse(exception.getError()));
+    }
+
+    @ExceptionHandler(InvalidAuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidAuthenticationException(InvalidAuthenticationException exception) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .headers(headers)
+                .body(ErrorMessage.errorResponse(exception.getError()));
     }
 
     @ExceptionHandler(UserNameAlreadyExistException.class)

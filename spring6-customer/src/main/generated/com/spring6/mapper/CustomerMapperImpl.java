@@ -4,13 +4,14 @@ import com.spring6.dto.CustomerCreateRequestDto;
 import com.spring6.dto.CustomerCreateResponseDto;
 import com.spring6.dto.CustomerFindResponseDto;
 import com.spring6.dto.CustomerRegisterDto;
+import com.spring6.dto.LoginDto;
 import com.spring6.entity.Customer;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-05T16:41:36+0530",
+    date = "2023-07-07T00:16:05+0530",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 20 (Oracle Corporation)"
 )
 @Component
@@ -148,5 +149,16 @@ public class CustomerMapperImpl implements CustomerMapper {
         customerFindResponseDto.updatedTime( customer.getUpdatedTime() );
 
         return customerFindResponseDto.build();
+    }
+
+    @Override
+    public LoginDto customerToLoginDto(Customer customer) {
+        if ( customer == null ) {
+            return null;
+        }
+
+        LoginDto.LoginDtoBuilder loginDto = LoginDto.builder();
+
+        return loginDto.build();
     }
 }

@@ -13,12 +13,12 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    Optional<User> findByEmail(String email);
-
     Optional<User> findByUsername(String username);
 
-    @Query("UPDATE Customer c SET c.password = :password WHERE c.email = :email")
-    @Modifying
-    void forgotPassword(@Param("email") String email, @Param("password") String password);
+    Optional<User> findByEmail(String email);
+
+//    @Query("UPDATE Customer c SET c.password = :password WHERE c.email = :email")
+//    @Modifying
+//    void forgotPassword(@Param("email") String email, @Param("password") String password);
 
 }

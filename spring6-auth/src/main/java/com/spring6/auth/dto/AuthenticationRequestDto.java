@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class AuthenticationRequestDto {
-    private String email;
+    private String username;
     private String password;
 }

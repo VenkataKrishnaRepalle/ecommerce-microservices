@@ -1,8 +1,8 @@
 package com.spring6.brand.bootstrap;
 
 import com.spring6.brand.entity.Brand;
-import com.spring6.common.enums.BrandStatusEnum;
 import com.spring6.brand.repository.BrandRepository;
+import com.spring6.common.enums.BrandStatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

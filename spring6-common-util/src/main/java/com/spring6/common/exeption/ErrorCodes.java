@@ -83,6 +83,9 @@ public final class ErrorCodes {
     public static final String E4011 =  "E4011-Field {0} is required.";
     public static final String E4012 =  "E4012-Username is already taken.";
     public static final String E4013 =  "E4013-Email is already registered.";
+    public static final String E4014 =  "E4014-Username is between 5 to 15 characters in length.";
+    public static final String E4015 =  "E4015-User not authenticated.";
+    public static final String E4016 =  "E4016-User name not exist.";
 
 
     public static final String E4501 = "E0501-Could not find any user with ID : {0}";

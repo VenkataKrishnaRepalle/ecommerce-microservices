@@ -3,15 +3,12 @@ package com.spring6.auth.dto;
 import com.spring6.auth.enums.RoleType;
 import com.spring6.auth.enums.UserStatus;
 import com.spring6.common.exeption.ErrorCodes;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 @Data
@@ -29,6 +26,8 @@ public class UserCreateRequestDto {
     private String email;
 
     @NotBlank(message = ErrorCodes.E4005)
+    @Size(min =5,max = 15, message = ErrorCodes.E4014)
+    @Max(value = 5, message = ErrorCodes.E4014)
     private String username;
 
     @NotBlank(message = ErrorCodes.E4006)

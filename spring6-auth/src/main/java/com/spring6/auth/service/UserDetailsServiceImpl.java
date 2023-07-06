@@ -1,5 +1,6 @@
 package com.spring6.auth.service;
 
+import com.spring6.auth.entity.MyUserDetails;
 import com.spring6.auth.entity.Role;
 import com.spring6.auth.entity.User;
 import com.spring6.auth.repository.UserRepository;
@@ -26,25 +27,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findByEmail(username);
+        Optional<User> userOptional = userRepository.findByUsername(username);
 
         if (userOptional.isEmpty()) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        User user = userOptional.get();
 
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        for (Role role : user.getRoles()) {
-            authorities.addAll(role.getPermissions().stream()
-                    .map(permission -> new SimpleGrantedAuthority(permission.getName()))
-                    .collect(Collectors.toList()));
-        }
-
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .authorities(authorities)
-                .build();
+        return new MyUserDetails(userOptional.get());
 
     }
 }

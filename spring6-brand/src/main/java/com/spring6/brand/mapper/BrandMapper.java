@@ -11,7 +11,7 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface BrandMapper {
 
-    BrandFindResponseDto brandToBrandFindResponesDto(Brand brand);
+    BrandFindResponseDto brandToBrandFindResponseDto(Brand brand);
 
     Brand brandCreateRequestDtoToBrand(BrandCreateRequestDto brandCreateRequestDto);
 
@@ -20,4 +20,5 @@ public interface BrandMapper {
     Brand brandUpdateRequestDtoToBrand(BrandUpdateRequestDto brandUpdateRequestDto);
 
     BrandUpdateResponseDto brandToBrandUpdateResponseDto(Brand brand);
+
 }

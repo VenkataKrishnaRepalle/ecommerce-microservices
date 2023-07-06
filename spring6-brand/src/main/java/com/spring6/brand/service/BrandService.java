@@ -4,9 +4,9 @@ import com.spring6.brand.dto.BrandCreateRequestDto;
 import com.spring6.brand.dto.BrandCreateResponseDto;
 import com.spring6.brand.dto.BrandUpdateRequestDto;
 import com.spring6.brand.dto.BrandUpdateResponseDto;
-import com.spring6.common.dto.BrandFindResponseDto;
 import com.spring6.brand.enums.BrandSearchKeywordEnum;
 import com.spring6.brand.exception.BrandNotFoundException;
+import com.spring6.common.dto.BrandFindResponseDto;
 
 import java.util.List;
 import java.util.UUID;
