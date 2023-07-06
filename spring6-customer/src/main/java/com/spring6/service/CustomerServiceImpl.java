@@ -123,6 +123,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
+    public void forgotPassword(String email, String password) {
+        CustomerRegisterDto customer = customerMapper.customerToCustomerRegisterDto(customerRepository.findByEmail(email));
+        if(customer != null) {
+            password = passwordEncoder.encode(password);
+            customerRepository.forgotPassword(email,password);
+        }
+    }
+
+    public void changePassword(String email, String password, String newPassword) {
+        CustomerRegisterDto customer = customerMapper.customerToCustomerRegisterDto(customerRepository.findByEmail(email));
+
+        if(passwordEncoder.matches(customer.getPassword(), password)) {
+            customer.setPassword(passwordEncoder.encode(newPassword));
+            customerRepository.save(customerMapper.cutomerRegisterDtoToCustomer(customer));
+        }
+        throw new LoginException("Entered password not matching with user " + customer.getEmail() + " account");
+    }
+
     public boolean isCustomerEmailExists(String email) {
         if(customerRepository.findByEmail(email) != null) {
             return Boolean.TRUE;

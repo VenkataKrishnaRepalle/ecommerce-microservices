@@ -17,5 +17,8 @@ public interface CustomerService {
 
     void OTPValidation(UUID id, String otp);
 
+    void forgotPassword(String email, String password);
+
+    void changePassword(String email, String password, String newPassword);
 
 }
