@@ -16,11 +16,12 @@
 - feign (optional)
 - registration captcha validation
 - rate limiting service
-- Jpa Auditing (individual audit history table with respect to entities.)
-  - User : UserAuditHistory 
-  - Customer : CustomerAuditHistory 
-  - Order : OrderAuditHistory 
-  - Payment : PaymentAuditHistory, etc.
+- Auditing (individual audit history table with respect to entities.)
+  - User : UserAudit
+  - Customer : CustomerAudit
+  - Order : OrderAudit
+  - Payment : PaymentAudit, etc.
+- Application timezone and DB timezone as "UTC" and display timezone in "Asia/Kolkata"
 
 ## controller and service methods
 - createResource()

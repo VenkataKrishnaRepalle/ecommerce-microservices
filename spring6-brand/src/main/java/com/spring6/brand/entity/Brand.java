@@ -16,12 +16,13 @@ import org.hibernate.type.SqlTypes;
 import java.time.Instant;
 import java.util.UUID;
 
+@Audited
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "brand", indexes = {@Index(name = "idx_id_name", columnList = "id, name")})
 @Entity
-@Audited
 public class Brand {
 
     @Id

@@ -15,7 +15,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class BrandUpdateRequestDto {
-    private UUID id;
     @NotBlank(message = ErrorCodes.E0005)
     @Size(min = 2, max = 45, message = ErrorCodes.E0006)
     private String name;

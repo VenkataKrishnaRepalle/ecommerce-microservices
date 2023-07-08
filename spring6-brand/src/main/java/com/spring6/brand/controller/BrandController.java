@@ -52,7 +52,7 @@ public class BrandController {
 
     private final BrandService brandService;
 
-    @Value("${file.upload-directory}")
+    @Value("${file.upload_directory}")
     private String IMAGE_UPLOAD_DIRECTORY;
 
     @Operation(tags = "Brand", summary = "Create Brand", description = "Create a new Brand by entering brand details")
