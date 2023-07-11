@@ -1,13 +1,13 @@
 package com.spring6.auth.bootstrap;
 
-import com.spring6.auth.entity.Permission;
-import com.spring6.auth.entity.Role;
-import com.spring6.auth.entity.User;
-import com.spring6.auth.enums.RoleType;
-import com.spring6.auth.enums.UserStatus;
-import com.spring6.auth.repository.PermissionRepository;
-import com.spring6.auth.repository.RoleRepository;
-import com.spring6.auth.repository.UserRepository;
+import com.spring6.auth.model.entity.Account;
+import com.spring6.auth.model.entity.Permission;
+import com.spring6.auth.model.entity.Role;
+import com.spring6.auth.model.enums.RoleType;
+import com.spring6.auth.model.enums.AccountStatus;
+import com.spring6.auth.model.repository.PermissionRepository;
+import com.spring6.auth.model.repository.RoleRepository;
+import com.spring6.auth.model.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,11 +18,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class BootstrapData implements CommandLineRunner {
 
-    private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
     private final PasswordEncoder passwordEncoder;
@@ -32,7 +32,7 @@ public class BootstrapData implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Set<Permission> permissionSet = loadPermissionData();
         Set<Role> roles = loadRoleData(permissionSet);
-        loadUserData(roles);
+        loadAccountData(roles);
     }
 
     private Set<Permission> loadPermissionData() {
@@ -108,65 +108,65 @@ public class BootstrapData implements CommandLineRunner {
 
     }
 
-    private void loadUserData(Set<Role> rolesSet) {
+    private void loadAccountData(Set<Role> rolesSet) {
 
-        if (userRepository.count() == 0) {
-            List<User> userList = new ArrayList<>();
-            userList.add(User.builder()
+        if (accountRepository.count() == 0) {
+            List<Account> accountList = new ArrayList<>();
+            accountList.add(Account.builder()
                     .firstName("Abi")
                     .lastName("Raj")
                     .username("abi-raj")
                     .password(passwordEncoder.encode("abi"))
                     .email("abiraj@gmail.com")
-                    .status(UserStatus.ACTIVE)
+                    .status(AccountStatus.ACTIVE)
                     .roles(rolesSet)
                     .build());
 
-            userList.add(User.builder()
+            accountList.add(Account.builder()
                     .firstName("Rajesh")
                     .lastName("Kanna")
                     .username("rajesh-kanna")
                     .password(passwordEncoder.encode("kanna"))
                     .email("rajeshkanna@gmail.com")
-                    .status(UserStatus.ACTIVE)
+                    .status(AccountStatus.ACTIVE)
                     .roles(rolesSet)
                     .build());
 
-            userList.add(User.builder()
+            accountList.add(Account.builder()
                     .firstName("Rajesh")
                     .lastName("Kanna")
                     .username("rajesh-kanna")
                     .password(passwordEncoder.encode("kanna"))
                     .email("rajeshkanna@gmail.com")
-                    .status(UserStatus.ACTIVE)
+                    .status(AccountStatus.ACTIVE)
                     .roles(rolesSet)
                     .build());
 
-            userList.add(User.builder().roles(rolesSet).email("nam@codejava.net").firstName("Nam").lastName("Ha Minh").password(passwordEncoder.encode("nam2020")).username("nam2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("kanna.allada@gmail.com").firstName("Allada").lastName("Pavan").password(passwordEncoder.encode("allada2020")).username("allada2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("aecllc.bnk@gmail.com").firstName("Bruce").lastName("Kitchell").password(passwordEncoder.encode("bruce2020")).username("bruce2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("muhammad.evran13@gmail.com").firstName("Muhammad").lastName("Evran").password(passwordEncoder.encode("muhammad2020")).username("muhammad2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("kent.hervey8@gmail.com").firstName("Kent").lastName("Hervey").password(passwordEncoder.encode("kent2020")).username("kent2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("alfredephraim26@gmail.com").firstName("Alfred").lastName("Ephraim").password(passwordEncoder.encode("alfred2020")).username("alfred2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("nathihsa@gmail.com").firstName("Nathi").lastName("Sangweni").password(passwordEncoder.encode("nathi2020")).username("nathi2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("ammanollashirisha2020@gmail.com").firstName("Ammanolla").lastName("Shirisha").password(passwordEncoder.encode("amma2020")).username("amma2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("bfeeny238@hotmail.com").firstName("Bill").lastName("Feeny").password(passwordEncoder.encode("billfeeny2020")).username("billfeeny2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("redsantosph@gmail.com").firstName("Frederick").lastName("delos Santos").password(passwordEncoder.encode("frederick2020")).username("frederick2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("ro_anamaria@mail.ru").firstName("Ana ").lastName("Maria").password(passwordEncoder.encode("anamaria2020")).username("anamaria2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("maytassatya@hotmail.com").firstName("Satya").lastName("Narayana").password(passwordEncoder.encode("satya2020")).username("satya2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("matthewefoli@gmail.com").firstName("Matthew").lastName("Efoli").password(passwordEncoder.encode("matthew2020")).username("matthew2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("davekumara2@gmail.com").firstName("Dave ").lastName("Kumar").password(passwordEncoder.encode("dave2020")).username("dave2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("jackkbruce@yahoo.com").firstName("Jack").lastName("Bruce").password(passwordEncoder.encode("jack2020")).username("jack2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("zirri.mohamed@gmail.com").firstName("Mohamed ").lastName("Zirri").password(passwordEncoder.encode("mohamed2020")).username("mohamed2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("mk.majumdar009@hotmail.com").firstName("Mithun").lastName("Kumar Majumdar").password(passwordEncoder.encode("mithun2020")).username("mithun2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("aliraza.arain.28@gmail.com").firstName("Ali").lastName("Raza").password(passwordEncoder.encode("ali2020")).username("ali2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("isaachenry2877@gmail.com").firstName("Isaac ").lastName("Henry").password(passwordEncoder.encode("isaac2020")).username("isaac2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("s.stasovska82@hotmail.com").firstName("Svetlana").lastName("Stasovska").password(passwordEncoder.encode("svetlana2020")).username("svetlana2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("mikegates2012@gmail.com").firstName("Mike").lastName("Gates").password(passwordEncoder.encode("mike2020")).username("mike2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("pedroquintero67@gmail.com").firstName("Pedro").lastName("Quintero").password(passwordEncoder.encode("pedro2020")).username("pedro2020").status(UserStatus.ACTIVE).build());
-            userList.add(User.builder().roles(rolesSet).email("amina.elshal2@yahoo.com").firstName("Amina").lastName("Elshal").password(passwordEncoder.encode("amina2020")).username("amina2020").status(UserStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("nam@codejava.net").firstName("Nam").lastName("Ha Minh").password(passwordEncoder.encode("root")).username("root").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("kanna.allada@gmail.com").firstName("Allada").lastName("Pavan").password(passwordEncoder.encode("allada2020")).username("allada2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("aecllc.bnk@gmail.com").firstName("Bruce").lastName("Kitchell").password(passwordEncoder.encode("bruce2020")).username("bruce2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("muhammad.evran13@gmail.com").firstName("Muhammad").lastName("Evran").password(passwordEncoder.encode("muhammad2020")).username("muhammad2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("kent.hervey8@gmail.com").firstName("Kent").lastName("Hervey").password(passwordEncoder.encode("kent2020")).username("kent2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("alfredephraim26@gmail.com").firstName("Alfred").lastName("Ephraim").password(passwordEncoder.encode("alfred2020")).username("alfred2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("nathihsa@gmail.com").firstName("Nathi").lastName("Sangweni").password(passwordEncoder.encode("nathi2020")).username("nathi2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("ammanollashirisha2020@gmail.com").firstName("Ammanolla").lastName("Shirisha").password(passwordEncoder.encode("amma2020")).username("amma2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("bfeeny238@hotmail.com").firstName("Bill").lastName("Feeny").password(passwordEncoder.encode("billfeeny2020")).username("billfeeny2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("redsantosph@gmail.com").firstName("Frederick").lastName("delos Santos").password(passwordEncoder.encode("frederick2020")).username("frederick2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("ro_anamaria@mail.ru").firstName("Ana ").lastName("Maria").password(passwordEncoder.encode("anamaria2020")).username("anamaria2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("maytassatya@hotmail.com").firstName("Satya").lastName("Narayana").password(passwordEncoder.encode("satya2020")).username("satya2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("matthewefoli@gmail.com").firstName("Matthew").lastName("Efoli").password(passwordEncoder.encode("matthew2020")).username("matthew2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("davekumara2@gmail.com").firstName("Dave ").lastName("Kumar").password(passwordEncoder.encode("dave2020")).username("dave2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("jackkbruce@yahoo.com").firstName("Jack").lastName("Bruce").password(passwordEncoder.encode("jack2020")).username("jack2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("zirri.mohamed@gmail.com").firstName("Mohamed ").lastName("Zirri").password(passwordEncoder.encode("mohamed2020")).username("mohamed2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("mk.majumdar009@hotmail.com").firstName("Mithun").lastName("Kumar Majumdar").password(passwordEncoder.encode("mithun2020")).username("mithun2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("aliraza.arain.28@gmail.com").firstName("Ali").lastName("Raza").password(passwordEncoder.encode("ali2020")).username("ali2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("isaachenry2877@gmail.com").firstName("Isaac ").lastName("Henry").password(passwordEncoder.encode("isaac2020")).username("isaac2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("s.stasovska82@hotmail.com").firstName("Svetlana").lastName("Stasovska").password(passwordEncoder.encode("svetlana2020")).username("svetlana2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("mikegates2012@gmail.com").firstName("Mike").lastName("Gates").password(passwordEncoder.encode("mike2020")).username("mike2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("pedroquintero67@gmail.com").firstName("Pedro").lastName("Quintero").password(passwordEncoder.encode("pedro2020")).username("pedro2020").status(AccountStatus.ACTIVE).build());
+            accountList.add(Account.builder().roles(rolesSet).email("amina.elshal2@yahoo.com").firstName("Amina").lastName("Elshal").password(passwordEncoder.encode("amina2020")).username("amina2020").status(AccountStatus.ACTIVE).build());
 
-            userRepository.saveAll(userList);
+            accountRepository.saveAll(accountList);
         }
 
     }

@@ -10,11 +10,8 @@ import java.util.UUID;
 public class UserInfoResponseDto {
 
     private UUID id;
-
     private String firstName;
-
     private String lastName;
-
     private String email;
 
 }

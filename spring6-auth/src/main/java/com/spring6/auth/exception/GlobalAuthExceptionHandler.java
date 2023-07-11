@@ -50,7 +50,7 @@ public class GlobalAuthExceptionHandler {
 
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(UserNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException exception) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 

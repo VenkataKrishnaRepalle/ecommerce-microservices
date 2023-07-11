@@ -1,10 +1,12 @@
 package com.spring6.user.service;
 
-import com.spring6.user.dto.*;
-import com.spring6.user.enums.SortOrderDirectionEnum;
-import com.spring6.user.enums.UserSearchKeywordEnum;
-import com.spring6.user.enums.UserSortFieldEnum;
-import com.spring6.user.enums.UserStatus;
+import com.spring6.user.dto.request.UserUpdateRequestDto;
+import com.spring6.user.dto.response.UserFindResponseDto;
+import com.spring6.user.dto.response.UserUpdateResponseDto;
+import com.spring6.user.dto.enums.SortOrderDirectionEnum;
+import com.spring6.user.dto.enums.UserSearchKeywordEnum;
+import com.spring6.user.dto.enums.UserSortFieldEnum;
+import com.spring6.user.model.enums.UserStatus;
 import com.spring6.user.exception.UserNotFoundException;
 
 import java.util.List;

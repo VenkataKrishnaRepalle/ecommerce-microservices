@@ -1,33 +1,25 @@
 package com.spring6.auth.service;
 
-import com.spring6.auth.entity.MyUserDetails;
-import com.spring6.auth.entity.Role;
-import com.spring6.auth.entity.User;
-import com.spring6.auth.repository.UserRepository;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.spring6.auth.model.dao.AccountDao;
+import com.spring6.auth.model.entity.Account;
+import com.spring6.auth.model.entity.MyUserDetails;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
-
-    public UserDetailsServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final AccountDao accountDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findByUsername(username);
+        Optional<Account> userOptional = accountDao.findByUsername(username);
 
         if (userOptional.isEmpty()) {
             throw new UsernameNotFoundException("User not found with username: " + username);

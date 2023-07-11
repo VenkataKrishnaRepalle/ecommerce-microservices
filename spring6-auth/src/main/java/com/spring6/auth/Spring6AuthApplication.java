@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-@SpringBootApplication
 //@EnableFeignClients("com.spring6.user")
 @EnableWebSecurity(debug=true)
+@SpringBootApplication
 public class Spring6AuthApplication {
 
     public static void main(String[] args) {

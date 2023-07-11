@@ -1,20 +1,20 @@
 package com.spring6.auth.service;
 
-import com.spring6.auth.dto.AuthenticationRequestDto;
-import com.spring6.auth.dto.AuthenticationResponseDto;
-import com.spring6.auth.dto.UserCreateRequestDto;
+import com.spring6.auth.dto.mapper.AccountMapper;
+import com.spring6.auth.dto.request.AuthenticationRequestDto;
+import com.spring6.auth.dto.request.AccountCreateRequestDto;
+import com.spring6.auth.dto.response.AuthenticationResponseDto;
+import com.spring6.auth.model.dao.AccountDao;
+import com.spring6.auth.model.dao.TokenDao;
+import com.spring6.auth.model.entity.Account;
 import com.spring6.common.dto.UserInfoResponseDto;
-import com.spring6.auth.entity.MyUserDetails;
-import com.spring6.auth.entity.Token;
-import com.spring6.auth.entity.User;
-import com.spring6.auth.enums.TokenType;
+import com.spring6.auth.model.entity.MyUserDetails;
+import com.spring6.auth.model.entity.Token;
+import com.spring6.auth.model.enums.TokenType;
 import com.spring6.auth.exception.InvalidTokenException;
 import com.spring6.auth.exception.UserEmailAlreadyExistException;
 import com.spring6.auth.exception.UserNameAlreadyExistException;
 import com.spring6.auth.util.TraceIdHolder;
-import com.spring6.auth.mapper.UserMapper;
-import com.spring6.auth.repository.TokenRepository;
-import com.spring6.auth.repository.UserRepository;
 import com.spring6.common.exeption.ErrorCodes;
 import com.spring6.common.exeption.ErrorMessage;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +27,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 
@@ -34,37 +36,38 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private final UserRepository userRepository;
-    private final TokenRepository tokenRepository;
+
+    private final AccountDao accountDao;
+    private final TokenDao tokenDao;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserMapper userMapper;
+    private final AccountMapper accountMapper;
 
     @Override
-    public AuthenticationResponseDto register(UserCreateRequestDto userCreateRequestDto) {
+    public AuthenticationResponseDto register(AccountCreateRequestDto accountCreateRequestDto) {
 
         log.info("UserService:createUser execution started.");
-        log.debug("UserService:createUser traceId: {} , userCreateRequestDto: {}", TraceIdHolder.getTraceId(), userCreateRequestDto);
+        log.debug("UserService:createUser traceId: {} , userCreateRequestDto: {}", TraceIdHolder.getTraceId(), accountCreateRequestDto);
 
-        if (isUsernameExist(userCreateRequestDto.getUsername())) {
-            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4506, userCreateRequestDto.getUsername()));
-            throw new UserNameAlreadyExistException(ErrorCodes.E4512, userCreateRequestDto.getUsername());
+        if (isUsernameExist(accountCreateRequestDto.getUsername())) {
+            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4506, accountCreateRequestDto.getUsername()));
+            throw new UserNameAlreadyExistException(ErrorCodes.E4512, accountCreateRequestDto.getUsername());
         }
 
-        if (isEmailExist(userCreateRequestDto.getEmail())) {
-            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4509, userCreateRequestDto.getEmail()));
-            throw new UserEmailAlreadyExistException(ErrorCodes.E4513, userCreateRequestDto.getEmail());
+        if (isEmailExist(accountCreateRequestDto.getEmail())) {
+            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4509, accountCreateRequestDto.getEmail()));
+            throw new UserEmailAlreadyExistException(ErrorCodes.E4513, accountCreateRequestDto.getEmail());
         }
 
-        User user = userMapper.userCreateRequestDtoToUser(userCreateRequestDto);
+        Account account = accountMapper.userCreateRequestDtoToUser(accountCreateRequestDto);
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User userCreated = userRepository.save(user);
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+        Account accountCreated = accountDao.save(account);
 
-        UserDetails userDetails = new MyUserDetails(userCreated);
+        UserDetails userDetails = new MyUserDetails(accountCreated);
 
-        var savedUser = userRepository.save(user);
+        var savedUser = accountDao.save(account);
 
         var jwtToken = jwtService.generateToken(userDetails);
         var refreshToken = jwtService.generateRefreshToken(userDetails);
@@ -87,23 +90,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto authenticationRequestDto) {
 
         // Authenticate the user
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authenticationRequestDto.getUsername(), authenticationRequestDto.getPassword()));
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(authenticationRequestDto.getUsername(), authenticationRequestDto.getPassword()));
 
-
-        Optional<User> userOptional = userRepository.findByUsername(authenticationRequestDto.getUsername());
+        Optional<Account> userOptional = accountDao.findByUsername(authenticationRequestDto.getUsername());
         if (userOptional.isEmpty()) {
             throw new UsernameNotFoundException("User name not exist");
         }
-        User user = userOptional.get();
+        Account account = userOptional.get();
 
-        UserDetails userDetails = new MyUserDetails(user);
+        UserDetails userDetails = new MyUserDetails(account);
 
         String jwtToken = jwtService.generateToken(userDetails);
         String refreshToken = jwtService.generateRefreshToken(userDetails);
 
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
+        revokeAllUserTokens(account);
+        saveUserToken(account, jwtToken);
 
         return AuthenticationResponseDto.builder()
                 .accessToken(jwtToken)
@@ -124,12 +126,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new UsernameNotFoundException("User name not exist");
 
         }
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+        Optional<Account> optionalUser = accountDao.findByUsername(username);
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException("User name not exist");
         }
-        User user = optionalUser.get();
-        UserDetails userDetails = new MyUserDetails(user);
+        Account account = optionalUser.get();
+        UserDetails userDetails = new MyUserDetails(account);
 
         if (!jwtService.isTokenValid(refreshToken, userDetails)) {
             throw new InvalidTokenException("Invalid token");
@@ -137,8 +139,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         var accessToken = jwtService.generateToken(userDetails);
 
-        revokeAllUserTokens(user);
-        saveUserToken(user, accessToken);
+        revokeAllUserTokens(account);
+        saveUserToken(account, accessToken);
 
         return AuthenticationResponseDto.builder()
                 .accessToken(accessToken)
@@ -155,13 +157,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new UsernameNotFoundException(ErrorCodes.E4015);
         }
 
-        Optional<User> optionalUser = userRepository.findByUsername(authentication.getName());
+        Optional<Account> optionalUser = accountDao.findByUsername(authentication.getName());
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException(ErrorCodes.E4016);
         }
-        User user = optionalUser.get();
+        Account account = optionalUser.get();
 
-        return userMapper.userToUserProfileResponseDto(user);
+        return accountMapper.userToUserProfileResponseDto(account);
     }
 
 //    @Override
@@ -173,31 +175,33 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 //        }
 //    }
 
-    private void saveUserToken(User user, String jwtToken) {
+    private void saveUserToken(Account account, String jwtToken) {
         var token = Token.builder()
-                .user(user)
+                .account(account)
                 .token(jwtToken)
                 .tokenType(TokenType.BEARER)
                 .expired(false)
                 .revoked(false)
                 .build();
-        tokenRepository.save(token);
+        tokenDao.save(token);
     }
 
-    private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-        if (validUserTokens.isEmpty())
-            return;
+    private void revokeAllUserTokens(Account account) {
+        List<Token> validUserTokens = tokenDao.findAllValidTokenByUser(account.getId());
+
+        if (validUserTokens.isEmpty()) return;
+
         validUserTokens.forEach(token -> {
             token.setExpired(true);
             token.setRevoked(true);
         });
-        tokenRepository.saveAll(validUserTokens);
+
+        tokenDao.saveAll(validUserTokens);
     }
 
     private Boolean isUsernameExist(String username) {
 
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+        Optional<Account> optionalUser = accountDao.findByUsername(username);
         if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }
@@ -206,7 +210,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private Boolean isEmailExist(String email) {
 
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+        Optional<Account> optionalUser = accountDao.findByEmail(email);
         if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }

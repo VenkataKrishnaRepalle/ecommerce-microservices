@@ -1,17 +1,15 @@
 package com.spring6.brand.bootstrap;
 
-import com.spring6.brand.entity.Brand;
-import com.spring6.brand.repository.BrandRepository;
+import com.spring6.brand.model.entity.Brand;
+import com.spring6.brand.model.repository.BrandRepository;
 import com.spring6.common.enums.BrandStatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
-
-@Component
 @RequiredArgsConstructor
+@Component
 public class BootstrapData implements CommandLineRunner {
     private final BrandRepository brandRepository;
 

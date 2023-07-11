@@ -19,7 +19,7 @@ group = 'com.spring6'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility = "16"
 }
 
 configurations {
@@ -67,3 +67,4 @@ tasks.named('test') {
 repositories {
 	mavenCentral()
 }
+targetCompatibility = JavaVersion.VERSION_16

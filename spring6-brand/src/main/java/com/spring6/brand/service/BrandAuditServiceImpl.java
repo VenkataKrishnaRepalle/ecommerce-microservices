@@ -1,16 +1,12 @@
 package com.spring6.brand.service;
 
-import com.spring6.brand.dto.BrandAuditResponseDto;
-import com.spring6.brand.entity.Brand;
-import com.spring6.brand.mapper.BrandMapper;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import com.spring6.brand.dto.response.BrandAuditResponseDto;
+import com.spring6.brand.model.dao.AuditDao;
+import com.spring6.brand.model.entity.Brand;
+import com.spring6.brand.dto.mapper.BrandMapper;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.envers.AuditReader;
-import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionType;
-import org.hibernate.envers.query.AuditEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,20 +17,13 @@ import java.util.UUID;
 @Service
 public class BrandAuditServiceImpl implements BrandAuditService {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final AuditDao brandAuditDao;
     private final BrandMapper brandMapper;
 
     @Override
     public List<BrandAuditResponseDto> getAuditRecords(UUID entityId) {
 
-        AuditReader auditReader = AuditReaderFactory.get(entityManager);
-
-        List<Object[]> auditEntities = auditReader.createQuery()
-                .forRevisionsOfEntity(Brand.class, false, true)
-                .add(AuditEntity.id().eq(entityId))
-                .getResultList();
-
+        List<Object[]> auditEntities =  brandAuditDao.getAuditRecords(Brand.class, entityId);
         List<BrandAuditResponseDto> auditDTOs = new ArrayList<>();
 
         for (Object[] auditEntity : auditEntities) {

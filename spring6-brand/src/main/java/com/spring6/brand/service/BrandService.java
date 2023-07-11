@@ -1,10 +1,10 @@
 package com.spring6.brand.service;
 
-import com.spring6.brand.dto.BrandCreateRequestDto;
-import com.spring6.brand.dto.BrandCreateResponseDto;
-import com.spring6.brand.dto.BrandUpdateRequestDto;
-import com.spring6.brand.dto.BrandUpdateResponseDto;
-import com.spring6.brand.enums.BrandSearchKeywordEnum;
+import com.spring6.brand.dto.request.BrandCreateRequestDto;
+import com.spring6.brand.dto.response.BrandCreateResponseDto;
+import com.spring6.brand.dto.request.BrandUpdateRequestDto;
+import com.spring6.brand.dto.response.BrandUpdateResponseDto;
+import com.spring6.brand.dto.enums.BrandSearchKeywordEnum;
 import com.spring6.brand.exception.BrandNotFoundException;
 import com.spring6.common.dto.BrandFindResponseDto;
 
@@ -23,8 +23,6 @@ public interface BrandService {
     BrandUpdateResponseDto update(UUID id, BrandUpdateRequestDto brandCreateRequestDto) throws BrandNotFoundException;
 
     void deleteById(UUID id) throws BrandNotFoundException;
-
-    Boolean isNameExist(String name);
 
     Boolean isIdExist(UUID uuid);
 

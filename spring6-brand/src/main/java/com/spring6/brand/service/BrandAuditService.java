@@ -1,7 +1,6 @@
 package com.spring6.brand.service;
 
-import com.spring6.brand.dto.BrandAuditResponseDto;
-import com.spring6.brand.entity.Brand;
+import com.spring6.brand.dto.response.BrandAuditResponseDto;
 
 import java.util.List;
 import java.util.UUID;

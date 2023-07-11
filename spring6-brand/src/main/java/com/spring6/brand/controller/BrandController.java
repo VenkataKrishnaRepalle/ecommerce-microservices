@@ -1,10 +1,10 @@
 package com.spring6.brand.controller;
 
-import com.spring6.brand.dto.BrandCreateRequestDto;
-import com.spring6.brand.dto.BrandCreateResponseDto;
-import com.spring6.brand.dto.BrandUpdateRequestDto;
-import com.spring6.brand.dto.BrandUpdateResponseDto;
-import com.spring6.brand.enums.BrandSearchKeywordEnum;
+import com.spring6.brand.dto.request.BrandCreateRequestDto;
+import com.spring6.brand.dto.response.BrandCreateResponseDto;
+import com.spring6.brand.dto.request.BrandUpdateRequestDto;
+import com.spring6.brand.dto.response.BrandUpdateResponseDto;
+import com.spring6.brand.dto.enums.BrandSearchKeywordEnum;
 import com.spring6.brand.exception.BrandNameAlreadyExistException;
 import com.spring6.brand.exception.BrandNotFoundException;
 import com.spring6.brand.service.BrandService;
