@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Builder
-public class CustomerRegisterDto {
+public class CustomerDto {
 
     @NotNull
     private String email;

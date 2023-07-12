@@ -1,8 +1,6 @@
 package com.spring6.controller;
 
-import com.spring6.dto.CustomerCreateRequestDto;
-import com.spring6.dto.CustomerCreateResponseDto;
-import com.spring6.dto.LoginDto;
+import com.spring6.dto.*;
 import com.spring6.enums.EnabledStatus;
 import com.spring6.service.CustomerService;
 import jakarta.validation.Valid;
@@ -45,22 +43,24 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("{email}")
+    public ResponseEntity<HttpStatus> isEmailExists(@PathVariable String email) {
+        customerService.isEmailExists(email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("forgotPasswod/{email}")
     public ResponseEntity<HttpStatus> forgotPassword(@PathVariable String email,
-                                                     @RequestParam("password") String password) {
-        customerService.forgotPassword(email,password);
-        return new ResponseEntity<>(HttpStatus.OK);
+                                                     @RequestBody ForgotPasswordDto forgotPasswordDto) {
+        customerService.forgotPassword(email, forgotPasswordDto);
+            return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("changePassword/{email}")
     public ResponseEntity<HttpStatus> changePassword(@PathVariable String email,
-                                                      @RequestParam("password") String password,
-                                                      @RequestParam("reEnterPassword") String reEnterPassword,
-                                                      @RequestParam("newPassword") String newPassword) {
-        if(password.equals(reEnterPassword)) {
-            customerService.changePassword(email, password, newPassword);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                                                     @RequestBody ChangePasswordDto changePasswordDto
+                                                     ) {
+        customerService.changePassword(email, changePasswordDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

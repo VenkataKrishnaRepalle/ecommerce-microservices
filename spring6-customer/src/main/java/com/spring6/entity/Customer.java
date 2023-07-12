@@ -1,5 +1,6 @@
 package com.spring6.entity;
 
+import com.spring6.enums.EnabledStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,21 +23,21 @@ public class Customer {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @JdbcTypeCode(SqlTypes.CHAR)
     @Column(columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
-//    @Column(length = 45, nullable = false)
-//    private String email;
-//
-//    @Column(length = 64, nullable = false)
-//    private String password;
-//
-//    @Column(length = 45, nullable = false)
-//    private String firstName;
-//
-//    @Column(length = 45, nullable = false)
-//    private String lastName;
+    @Column(length = 45, nullable = false)
+    private String email;
+
+    @Column(length = 64, nullable = false)
+    private String password;
+
+    @Column(length = 45, nullable = false)
+    private String firstName;
+
+    @Column(length = 45, nullable = false)
+    private String lastName;
 
     @Column(length = 15, nullable = false)
     private String phoneNumber;
@@ -59,8 +60,8 @@ public class Customer {
     @Column(length = 10, nullable = false)
     private String postalCode;
 
-//    @Enumerated
-//    private EnabledStatus isEnabled;
+    @Enumerated
+    private EnabledStatus isEnabled;
 
     @Column(length = 64, name = "one_time_password")
     private String oneTimePassword;
@@ -76,7 +77,7 @@ public class Customer {
     @Column(name = "updation_time")
     private Date updatedTime;
 
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(columnDefinition = "varchar(36)", updatable = false, nullable = false)
-    private UUID userId;
+//    @JdbcTypeCode(SqlTypes.VARCHAR)
+//    @Column(columnDefinition = "varchar(36)", updatable = false, nullable = false)
+//    private UUID userId;
 }

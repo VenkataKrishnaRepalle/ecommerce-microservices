@@ -10,11 +10,11 @@ public interface CustomerMapper {
     Customer customerFindResponseDtoToCustomer(CustomerFindResponseDto customerFindResponseDto);
     CustomerCreateResponseDto customerToCustomerCreateResponseDto(Customer customer);
 
-    CustomerRegisterDto customerCreateRequestDtoToCustomerRegisterDto(CustomerCreateRequestDto customerCreateRequestDto);
+    CustomerDto customerCreateRequestDtoToCustomerRegisterDto(CustomerCreateRequestDto customerCreateRequestDto);
 
-    Customer cutomerRegisterDtoToCustomer(CustomerRegisterDto customerRegisterDto);
+    Customer cutomerRegisterDtoToCustomer(CustomerDto customerRegisterDto);
 
-    CustomerRegisterDto customerToCustomerRegisterDto(Customer customer);
+    CustomerDto customerToCustomerRegisterDto(Customer customer);
 
     CustomerFindResponseDto customerToCustomerFindResponseDto(Customer customer);
 
