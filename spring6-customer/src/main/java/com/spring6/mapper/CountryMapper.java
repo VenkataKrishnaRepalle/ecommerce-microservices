@@ -1,7 +1,7 @@
 package com.spring6.mapper;
 
 import com.spring6.dto.CountryFindResponseDto;
-import com.spring6.entity.Country;
+import com.spring6.model.entity.Country;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

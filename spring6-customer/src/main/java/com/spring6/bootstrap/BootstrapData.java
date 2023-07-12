@@ -1,10 +1,10 @@
 package com.spring6.bootstrap;
 
 
-import com.spring6.entity.Country;
-import com.spring6.entity.Customer;
-import com.spring6.repository.CountryRepository;
-import com.spring6.repository.CustomerRepository;
+import com.spring6.model.entity.Country;
+import com.spring6.model.entity.Customer;
+import com.spring6.model.repository.CountryRepository;
+import com.spring6.model.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
-package com.spring6.repository;
+package com.spring6.model.repository;
 
-import com.spring6.entity.Customer;
+import com.spring6.model.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

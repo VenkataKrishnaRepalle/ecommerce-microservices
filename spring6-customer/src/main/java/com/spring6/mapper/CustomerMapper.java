@@ -1,7 +1,7 @@
 package com.spring6.mapper;
 
 import com.spring6.dto.*;
-import com.spring6.entity.Customer;
+import com.spring6.model.entity.Customer;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

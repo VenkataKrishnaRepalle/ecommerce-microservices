@@ -5,21 +5,21 @@ buildscript {
 	dependencies {
 		// You are telling gradle that this script (Not the project) depends on the
 		// following plugin
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:3.0.5"
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springVersion}"
 	}
 }
 
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.0.5'
-	id 'io.spring.dependency-management' version '1.1.0'
+	id "java"
+	id "org.springframework.boot" version "${springVersion}"
+	id "io.spring.dependency-management" version "1.1.0"
 }
 
-group = 'com.spring6'
-version = '0.0.1-SNAPSHOT'
+group = "com.spring6"
+version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = "16"
+	sourceCompatibility = "${sourceCompatibility}"
 }
 
 configurations {
@@ -33,25 +33,25 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "2022.0.3")
+	set("springCloudVersion", "${springCloudVersion}")
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web:3.0.5'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
-	implementation 'org.springframework.boot:spring-boot-starter-mail:3.0.5'
-	implementation 'net.bytebuddy:byte-buddy:1.14.5'
-	implementation 'com.twilio.sdk:twilio:9.7.0'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+	implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+	implementation "org.springframework.boot:spring-boot-starter-web:${springVersion}"
+	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocOpenapi}"
+	implementation "org.springframework.boot:spring-boot-starter-mail:${springVersion}"
+	implementation "net.bytebuddy:byte-buddy:${byteBuddy}"
+	implementation "com.twilio.sdk:twilio:${twilio}"
+	compileOnly "org.projectlombok:lombok"
+	runtimeOnly "com.mysql:mysql-connector-j"
+	annotationProcessor "org.projectlombok:lombok"
+	testImplementation "org.springframework.boot:spring-boot-starter-test"
+	implementation "org.mapstruct:mapstruct:${mapstruct}"
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct}"
+	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstruct}"
 }
 
 dependencyManagement {
@@ -60,11 +60,10 @@ dependencyManagement {
 	}
 }
 
-tasks.named('test') {
+tasks.named("test") {
 	useJUnitPlatform()
 }
 
 repositories {
 	mavenCentral()
 }
-targetCompatibility = JavaVersion.VERSION_16

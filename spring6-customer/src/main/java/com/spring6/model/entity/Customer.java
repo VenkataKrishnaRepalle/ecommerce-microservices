@@ -1,4 +1,4 @@
-package com.spring6.entity;
+package com.spring6.model.entity;
 
 import com.spring6.enums.EnabledStatus;
 import jakarta.persistence.*;

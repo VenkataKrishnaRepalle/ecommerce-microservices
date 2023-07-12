@@ -7,15 +7,16 @@ import com.spring6.exception.LoginException;
 import com.spring6.exception.NotFoundException;
 import com.spring6.mapper.CountryMapper;
 import com.spring6.mapper.CustomerMapper;
-import com.spring6.repository.CountryRepository;
-import com.spring6.repository.CustomerRepository;
+import com.spring6.model.dao.CountryDao;
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import com.spring6.model.dao.CustomerDao;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,9 +35,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     private static final long OTP_VALID_DURATION = 5 * 60 * 1000;     // 5 minutes
 
-    private final CustomerRepository customerRepository;
+    private final CustomerDao customerDao;
 
-    private final CountryRepository countryRepository;
+    private final CountryDao countryDao;
 
     private final CustomerMapper customerMapper;
 
@@ -57,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
             customerRegisterDto.setIsEnabled(EnabledStatus.INACTIVE);
         }
 
-        CountryFindResponseDto country = countryMapper.countryToCountryFindResponseDto(countryRepository.getCountryByName(customerRegisterDto.getCountry().toLowerCase()));
+        CountryFindResponseDto country = countryMapper.countryToCountryFindResponseDto(countryDao.getCountryByName(customerRegisterDto.getCountry().toLowerCase()));
         if (country == null) {
             throw new NotFoundException("Could not found country of name : " + customerRegisterDto.getCountry());
         }
@@ -72,12 +73,12 @@ public class CustomerServiceImpl implements CustomerService {
         customerRegisterDto.setOneTimePassword((String) otp.get("OTP"));
         customerRegisterDto.setOtpRequestedTime((Date) otp.get("date"));
 
-        return customerMapper.customerToCustomerCreateResponseDto(customerRepository.save(customerMapper.cutomerRegisterDtoToCustomer(customerRegisterDto)));
+        return customerMapper.customerToCustomerCreateResponseDto(customerDao.save(customerMapper.cutomerRegisterDtoToCustomer(customerRegisterDto)));
     }
 
 
     public void login(LoginDto loginDto) throws Exception {
-        CustomerFindResponseDto customer = customerMapper.customerToCustomerFindResponseDto(customerRepository.findByEmail(loginDto.getEmail()));
+        CustomerFindResponseDto customer = customerMapper.customerToCustomerFindResponseDto(customerDao.findByEmail(loginDto.getEmail()));
         if(customer == null) {
             throw new NotFoundException("could not found account with email: " + loginDto.getEmail());
         }
@@ -86,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
                 Map<String, Object> otp = generateOTP();
                 customer.setOneTimePassword((String) otp.get("OTP"));
                 customer.setOtpRequestedTime((Date) otp.get(("date")));
-                customerRepository.save(customerMapper.customerFindResponseDtoToCustomer(customer));
+                customerDao.save(customerMapper.customerFindResponseDtoToCustomer(customer));
             }
             sendOTPEmail(customer.getId());
             sendOTPMobileNumber(customer.getId());
@@ -104,13 +105,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public Enum<EnabledStatus> getIsEnabledStatus(UUID id) {
-        CustomerDto customer = customerMapper.customerToCustomerRegisterDto(customerRepository.getReferenceById(id));
+        CustomerDto customer = customerMapper.customerToCustomerRegisterDto(customerDao.getReferenceById(id));
 
         return customer.getIsEnabled();
     }
 
     public void OTPValidation(UUID id, String otp) {
-        CustomerFindResponseDto customer = customerMapper.customerToCustomerFindResponseDto(customerRepository.getReferenceById(id));
+        CustomerFindResponseDto customer = customerMapper.customerToCustomerFindResponseDto(customerDao.getReferenceById(id));
 
         long currentTimeInMillis = System.currentTimeMillis();
         long otpRequestedTime = customer.getOtpRequestedTime().getTime();
@@ -120,12 +121,12 @@ public class CustomerServiceImpl implements CustomerService {
             System.out.println("OTP Validated Successfully");
             if (customer.getIsEnabled() == EnabledStatus.INACTIVE) {
                 customer.setIsEnabled(EnabledStatus.ACTIVE);
-                customerRepository.save(customerMapper.customerFindResponseDtoToCustomer(customer));
+                customerDao.save(customerMapper.customerFindResponseDtoToCustomer(customer));
                 System.out.println("Account Activated now");
             }
         } else if (otpRequestedTime + OTP_VALID_DURATION < currentTimeInMillis) {
             Map<String, Object> otp1 = generateOTP();
-            customerRepository.OTPUpdate((String) otp1.get("OTP"), (Date) otp1.get("date"), customer.getId());
+            customerDao.OTPUpdate((String) otp1.get("OTP"), (Date) otp1.get("date"), customer.getId());
             OTPValidation(id, String.valueOf(otp1.get("OTP")));
         } else if (!customer.getOneTimePassword().equals(otp)) {
             System.out.println("Invalid OTP Entered");
@@ -133,14 +134,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public void forgotPassword(String email, ForgotPasswordDto forgotPasswordDto) {
-        CustomerFindResponseDto customer = customerMapper.customerToCustomerFindResponseDto(customerRepository.findByEmail(email));
+        CustomerFindResponseDto customer = customerMapper.customerToCustomerFindResponseDto(customerDao.findByEmail(email));
         System.out.println(customer);
         if (customer != null && forgotPasswordDto.getPassword().equals(forgotPasswordDto.getConfirmPassword())) {
             if (passwordEncoder.matches(forgotPasswordDto.getPassword(), customer.getPassword())) {
                 throw new LoginException("Entered password is same as old password, Please Enter a new Password");
             }
             customer.setPassword(passwordEncoder.encode(forgotPasswordDto.getPassword()));
-            customerRepository.save(customerMapper.customerFindResponseDtoToCustomer(customer));
+            customerDao.save(customerMapper.customerFindResponseDtoToCustomer(customer));
         } else if (!forgotPasswordDto.getPassword().equals(forgotPasswordDto.getConfirmPassword())) {
             throw new LoginException("New Password and Confirm Password not matched");
         }
@@ -148,7 +149,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public void changePassword(String email, ChangePasswordDto changePasswordDto) {
-        CustomerFindResponseDto customer = customerMapper.customerToCustomerFindResponseDto(customerRepository.findByEmail(email));
+        CustomerFindResponseDto customer = customerMapper.customerToCustomerFindResponseDto(customerDao.findByEmail(email));
         System.out.println(customer);
         if (customer != null && passwordEncoder.matches(changePasswordDto.getOldPassword(), customer.getPassword())) {
             if (changePasswordDto.getOldPassword().equals(changePasswordDto.getNewPassword())) {
@@ -157,7 +158,7 @@ public class CustomerServiceImpl implements CustomerService {
                 throw new LoginException("Old Password and Confirm New password Matched, Please Enter a different Confirm New Password");
             } else if (changePasswordDto.getNewPassword().equals(changePasswordDto.getConfirmNewPassword())) {
                 customer.setPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
-                customerRepository.save(customerMapper.customerFindResponseDtoToCustomer(customer));
+                customerDao.save(customerMapper.customerFindResponseDtoToCustomer(customer));
             } else if (!changePasswordDto.getNewPassword().equals(changePasswordDto.getConfirmNewPassword())) {
                 throw new LoginException("New Password and Confirm new Password not matched");
             }
@@ -173,7 +174,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public boolean isCustomerEmailExists(String email) {
-        if (customerRepository.findByEmail(email) != null) {
+        if (customerDao.findByEmail(email) != null) {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
@@ -192,7 +193,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public void sendOTPEmail(UUID id) throws MessagingException, UnsupportedEncodingException {
-        CustomerDto customerRegisterDto = customerMapper.customerToCustomerRegisterDto(customerRepository.getReferenceById(id));
+        CustomerDto customerRegisterDto = customerMapper.customerToCustomerRegisterDto(customerDao.getReferenceById(id));
 
         MimeMessage message = mailSender.createMimeMessage();
 
@@ -230,7 +231,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public void sendOTPMobileNumber(UUID id) throws Exception {
-        CustomerDto customerRegisterDto = customerMapper.customerToCustomerRegisterDto(customerRepository.getReferenceById(id));
+        CustomerDto customerRegisterDto = customerMapper.customerToCustomerRegisterDto(customerDao.getReferenceById(id));
 
         Twilio.init("AC443909b8a51ab7f21ac55e853e7b4d4b", "1eba97540b14fc0ac9be1c12a311da03");
         try {
@@ -241,7 +242,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public String getCountryCode(String countryName) {
-        CountryFindResponseDto country = countryMapper.countryToCountryFindResponseDto(countryRepository.getCountryByName(countryName));
+        CountryFindResponseDto country = countryMapper.countryToCountryFindResponseDto(countryDao.getCountryByName(countryName.toLowerCase()));
         return country.getCode();
     }
 }
