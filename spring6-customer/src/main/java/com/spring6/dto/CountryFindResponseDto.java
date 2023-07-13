@@ -9,7 +9,7 @@ import lombok.Data;
 public class CountryFindResponseDto {
 
     @NotNull
-    private int code;
+    private String code;
 
     @NotNull
     private String name;

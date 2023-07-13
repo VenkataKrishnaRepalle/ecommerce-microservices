@@ -1,9 +1,9 @@
 package com.spring6.user.service;
 
-import com.spring6.user.entity.Role;
-import com.spring6.user.entity.User;
-import com.spring6.user.repository.RoleRepository;
-import com.spring6.user.repository.UserRepository;
+import com.spring6.user.model.entity.Role;
+import com.spring6.user.model.entity.UserProfile;
+import com.spring6.user.model.repository.RoleRepository;
+import com.spring6.user.model.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -22,19 +22,19 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public void assignRoleToUser(UUID userId, UUID roleId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        UserProfile userProfile = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         Role role = roleRepository.findById(roleId).orElseThrow(() -> new EntityNotFoundException("Role not found"));
 
-        user.getRoles().add(role);
-        userRepository.save(user);
+        userProfile.getRoles().add(role);
+        userRepository.save(userProfile);
     }
 
     @Override
     public void removeRoleFromUser(UUID userId, UUID roleId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        UserProfile userProfile = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         Role role = roleRepository.findById(roleId).orElseThrow(() -> new EntityNotFoundException("Role not found"));
 
-        user.getRoles().remove(role);
-        userRepository.save(user);
+        userProfile.getRoles().remove(role);
+        userRepository.save(userProfile);
     }
 }

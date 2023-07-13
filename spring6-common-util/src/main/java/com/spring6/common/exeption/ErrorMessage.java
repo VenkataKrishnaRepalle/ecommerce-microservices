@@ -19,4 +19,17 @@ public class ErrorMessage {
                         .build())
                 .build();
     }
+
+    public static ErrorResponse errorResponse(String error) {
+        String[] errorCodeAndMessage = error.split("-");
+        String errorCode = errorCodeAndMessage[0];
+        String errorMessage = errorCodeAndMessage[1];
+
+        return ErrorResponse.builder()
+                .error(Error.builder()
+                        .code(errorCode)
+                        .message(errorMessage)
+                        .build())
+                .build();
+    }
 }

@@ -1,6 +1,5 @@
 package com.spring6.user.filter;
 
-import com.spring6.user.utils.TraceIdHolder;
 import jakarta.servlet.*;
 import org.springframework.stereotype.Component;
 

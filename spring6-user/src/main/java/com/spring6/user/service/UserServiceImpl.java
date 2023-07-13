@@ -2,19 +2,21 @@ package com.spring6.user.service;
 
 import com.spring6.common.exeption.ErrorCodes;
 import com.spring6.common.exeption.ErrorMessage;
-import com.spring6.user.dto.*;
-import com.spring6.user.entity.User;
-import com.spring6.user.enums.SortOrderDirectionEnum;
-import com.spring6.user.enums.UserSearchKeywordEnum;
-import com.spring6.user.enums.UserSortFieldEnum;
-import com.spring6.user.enums.UserStatus;
+import com.spring6.user.dto.request.UserUpdateRequestDto;
+import com.spring6.user.dto.response.UserFindResponseDto;
+import com.spring6.user.dto.response.UserUpdateResponseDto;
+import com.spring6.user.model.entity.UserProfile;
+import com.spring6.user.dto.enums.SortOrderDirectionEnum;
+import com.spring6.user.dto.enums.UserSearchKeywordEnum;
+import com.spring6.user.dto.enums.UserSortFieldEnum;
+import com.spring6.user.model.enums.UserStatus;
 import com.spring6.user.exception.UserEmailAlreadyExistException;
 import com.spring6.user.exception.UserNameAlreadyExistException;
 import com.spring6.user.exception.UserNotFoundException;
 import com.spring6.user.exception.UserPhotoNotFoundException;
-import com.spring6.user.mapper.UserMapper;
-import com.spring6.user.repository.UserRepository;
-import com.spring6.user.utils.TraceIdHolder;
+import com.spring6.user.dto.mapper.UserMapper;
+import com.spring6.user.model.repository.UserRepository;
+import com.spring6.user.filter.TraceIdHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +24,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +37,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-//    private final PasswordEncoder passwordEncoder;
     private final HttpServletRequest request;
 
     public List<UserFindResponseDto> getAll() {
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
             pageable = PageRequest.of(pageNumber - 1, perPageCount, sort);
         }
 
-        Page<User> userList;
+        Page<UserProfile> userList;
 
         if (searchKeyword != null && searchField.equals(UserSearchKeywordEnum.FIRST_NAME)) {
             userList = userRepository.findAllByFirstName(searchKeyword, pageable);
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:getUserById execution started.");
         log.debug("UserService:getUserById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<UserProfile> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
             log.error("UserService:getUserById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4501, id.toString()));
@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:getPhotoById execution started.");
         log.debug("UserService:getPhotoById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<UserProfile> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
             log.error("UserService:getPhotoById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4513, id.toString()));
@@ -144,45 +144,17 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(ErrorCodes.E4513, id.toString());
         }
 
-        User user = optionalUser.get();
+        UserProfile userProfile = optionalUser.get();
 
-        if (user.getPhoto() == null) {
+        if (userProfile.getPhoto() == null) {
             log.error("UserService:getPhotoById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4514, id.toString()));
             log.info("UserService:getPhotoById execution ended.");
             throw new UserPhotoNotFoundException(ErrorCodes.E4514, id.toString());
         }
 
-        log.debug("UserService:getPhotoById traceId: {}, photo : {}", TraceIdHolder.getTraceId(), user.getPhoto());
+        log.debug("UserService:getPhotoById traceId: {}, photo : {}", TraceIdHolder.getTraceId(), userProfile.getPhoto());
         log.info("UserService:getPhotoById execution ended.");
-        return user.getPhoto();
-    }
-
-    @Override
-    public UserCreateResponseDto create(UserCreateRequestDto userCreateRequestDto) {
-        log.info("UserService:createUser execution started.");
-        log.debug("UserService:createUser traceId: {} , userCreateRequestDto: {}", TraceIdHolder.getTraceId(), userCreateRequestDto);
-
-        if (isUsernameExist(userCreateRequestDto.getUsername())) {
-            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4506, userCreateRequestDto.getUsername()));
-            throw new UserNameAlreadyExistException(ErrorCodes.E4506, userCreateRequestDto.getUsername());
-        }
-
-        if (isEmailExist(userCreateRequestDto.getEmail())) {
-            log.error("UserService:createUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4509, userCreateRequestDto.getEmail()));
-            throw new UserEmailAlreadyExistException(ErrorCodes.E4509, userCreateRequestDto.getEmail());
-        }
-
-        User user = userMapper.userCreateRequestDtoToUser(userCreateRequestDto);
-
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User userCreated = userRepository.save(user);
-        UserCreateResponseDto userCreateResponseDto = userMapper.userToUserCreateResponseDto(userCreated);
-
-        log.debug("UserService:createUser traceId: {}, response: {}", TraceIdHolder.getTraceId(), userCreateResponseDto);
-        log.info("UserService:createUser execution ended.");
-
-        return userCreateResponseDto;
-
+        return userProfile.getPhoto();
     }
 
     @Override
@@ -191,7 +163,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:updateUser execution started.");
         log.debug("UserService:updateUser traceId: {}, id: {}, userCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, userUpdateRequestDto);
 
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<UserProfile> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
             log.error("UserService:updateUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4502, userUpdateRequestDto.getUsername()));
@@ -208,11 +180,11 @@ public class UserServiceImpl implements UserService {
             throw new UserEmailAlreadyExistException(ErrorCodes.E4510, userUpdateRequestDto.getEmail());
         }
 
-        User user = userMapper.userUpdateRequestDtoToUser(userUpdateRequestDto);
-        user.setId(optionalUser.get().getId());
+        UserProfile userProfile = userMapper.userUpdateRequestDtoToUser(userUpdateRequestDto);
+        userProfile.setId(optionalUser.get().getId());
 
-        User userUpdated = userRepository.save(user);
-        UserUpdateResponseDto userUpdateResponseDto = userMapper.userToUserUpdateResponseDto(userUpdated);
+        UserProfile userProfileUpdated = userRepository.save(userProfile);
+        UserUpdateResponseDto userUpdateResponseDto = userMapper.userToUserUpdateResponseDto(userProfileUpdated);
 
         log.debug("UserService:updateUser traceId: {}, response: {}", TraceIdHolder.getTraceId(), userUpdateResponseDto);
         log.info("UserService:updateUser execution ended.");
@@ -241,22 +213,22 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:updateImageName execution started.");
         log.debug("UserService:updateImageName traceId: {}, userId:{}, fileName: {}", TraceIdHolder.getTraceId(), userId, fileName);
 
-        Optional<User> optionalUser = userRepository.findById(userId);
+        Optional<UserProfile> optionalUser = userRepository.findById(userId);
 
         if (!optionalUser.isPresent()) {
             log.error("UserService:updateImageName traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4504, userId.toString()));
             throw new UserNotFoundException(ErrorCodes.E4504, userId.toString());
         }
 
-        User user = optionalUser.get();
-        user.setPhoto(fileName);
+        UserProfile userProfile = optionalUser.get();
+        userProfile.setPhoto(fileName);
 
-        User userUpdated = userRepository.save(user);
+        UserProfile userProfileUpdated = userRepository.save(userProfile);
 
-        log.debug("UserService:updateImageName traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), userUpdated.getPhoto());
+        log.debug("UserService:updateImageName traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), userProfileUpdated.getPhoto());
         log.info("UserService:updateImageName execution ended.");
 
-        return userUpdated.getPhoto();
+        return userProfileUpdated.getPhoto();
     }
 
     @Override
@@ -264,7 +236,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:isUserEmailExist execution started.");
         log.debug("UserService:isUserEmailExist traceId: {}, username: {}", TraceIdHolder.getTraceId(), email);
 
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+        Optional<UserProfile> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }
@@ -278,23 +250,23 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:updateUserStatus execution started.");
         log.debug("UserService:updateUserStatus traceId: {}, id:{}, userStatus: {}", TraceIdHolder.getTraceId(), id, userStatus);
 
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<UserProfile> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
             log.error("UserService:updateUserStatus traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4512, id.toString()));
             throw new UserNotFoundException(ErrorCodes.E4512, id.toString());
         }
 
-        User user = optionalUser.get();
-        user.setStatus(userStatus);
+        UserProfile userProfile = optionalUser.get();
+        userProfile.setStatus(userStatus);
 
-        User userUpdated = userRepository.save(user);
+        UserProfile userProfileUpdated = userRepository.save(userProfile);
 
-        if (userUpdated == null) {
+        if (userProfileUpdated == null) {
             return Boolean.FALSE;
         }
 
-        log.debug("UserService:updateUserStatus traceId: {}, userStatus: {}", TraceIdHolder.getTraceId(), userUpdated.getStatus());
+        log.debug("UserService:updateUserStatus traceId: {}, userStatus: {}", TraceIdHolder.getTraceId(), userProfileUpdated.getStatus());
         log.info("UserService:updateUserStatus execution ended.");
 
         return Boolean.TRUE;
@@ -306,7 +278,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:isUserNameExist execution started.");
         log.debug("UserService:isUserNameExist traceId: {}, username: {}", TraceIdHolder.getTraceId(), username);
 
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+        Optional<UserProfile> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }
@@ -318,7 +290,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:isIdExist execution started.");
         log.debug("UserService:isIdExist traceId: {}, id: {}", TraceIdHolder.getTraceId(), uuid);
 
-        Optional<User> optionalUser = userRepository.findById(uuid);
+        Optional<UserProfile> optionalUser = userRepository.findById(uuid);
         if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }

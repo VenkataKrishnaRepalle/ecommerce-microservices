@@ -1,22 +1,22 @@
 package com.spring6.brand.controller;
 
-import com.spring6.brand.dto.BrandCreateRequestDto;
-import com.spring6.brand.dto.BrandCreateResponseDto;
-import com.spring6.brand.dto.BrandUpdateRequestDto;
-import com.spring6.brand.dto.BrandUpdateResponseDto;
+import com.spring6.brand.dto.request.BrandCreateRequestDto;
+import com.spring6.brand.dto.response.BrandCreateResponseDto;
+import com.spring6.brand.dto.request.BrandUpdateRequestDto;
+import com.spring6.brand.dto.response.BrandUpdateResponseDto;
+import com.spring6.brand.dto.enums.BrandSearchKeywordEnum;
+import com.spring6.brand.exception.BrandNameAlreadyExistException;
 import com.spring6.brand.exception.BrandNotFoundException;
 import com.spring6.brand.service.BrandService;
+import com.spring6.brand.utils.TraceIdHolder;
+import com.spring6.brand.validations.ValidImageExtension;
 import com.spring6.common.dto.BrandFindResponseDto;
 import com.spring6.common.exeption.ErrorCodes;
 import com.spring6.common.exeption.ErrorListResponse;
 import com.spring6.common.exeption.ErrorResponse;
 import com.spring6.common.utils.FileUploadUtils;
-import com.spring6.brand.enums.BrandSearchKeywordEnum;
-import com.spring6.brand.exception.BrandNameAlreadyExistException;
-import com.spring6.brand.validations.ValidImageExtension;
 import com.spring6.common.utils.GlobalConstants;
 import com.spring6.common.utils.HttpStatusCodes;
-import com.spring6.brand.utils.TraceIdHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,7 +52,7 @@ public class BrandController {
 
     private final BrandService brandService;
 
-    @Value("${file.upload-directory}")
+    @Value("${file.upload_directory}")
     private String IMAGE_UPLOAD_DIRECTORY;
 
     @Operation(tags = "Brand", summary = "Create Brand", description = "Create a new Brand by entering brand details")

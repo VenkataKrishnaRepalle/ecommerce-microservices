@@ -1,6 +1,6 @@
 package com.spring6.user.export;
 
-import com.spring6.user.dto.UserFindResponseDto;
+import com.spring6.user.dto.response.UserFindResponseDto;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.CellStyle;

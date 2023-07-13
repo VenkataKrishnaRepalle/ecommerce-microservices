@@ -1,7 +1,6 @@
 package com.spring6.dto;
 
-import com.spring6.entity.Country;
-import com.spring6.entity.EnabledStatus;
+import com.spring6.enums.EnabledStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -50,8 +49,11 @@ public class CustomerFindResponseDto {
     @NotNull
     private EnabledStatus isEnabled;
 
-    private String verificationCode;
+    @NotNull
+    private String oneTimePassword;
 
+    @NotNull
+    private Date otpRequestedTime;
     @NotNull
     private Date createdTime;
 

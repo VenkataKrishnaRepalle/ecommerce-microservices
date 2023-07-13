@@ -2,12 +2,12 @@ package com.spring6.user.controller;
 
 import com.spring6.common.exeption.ErrorResponse;
 import com.spring6.common.utils.HttpStatusCodes;
-import com.spring6.user.dto.UserFindResponseDto;
+import com.spring6.user.dto.response.UserFindResponseDto;
 import com.spring6.user.export.UserCSVExporter;
 import com.spring6.user.export.UserExcelExporter;
 import com.spring6.user.export.UserPDFExporter;
 import com.spring6.user.service.UserService;
-import com.spring6.user.utils.TraceIdHolder;
+import com.spring6.user.filter.TraceIdHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

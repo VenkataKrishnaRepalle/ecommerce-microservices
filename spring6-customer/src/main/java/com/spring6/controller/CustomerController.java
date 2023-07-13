@@ -1,14 +1,17 @@
 package com.spring6.controller;
 
-import com.spring6.dto.CustomerCreateRequestDto;
-import com.spring6.dto.CustomerCreateResponseDto;
+import com.spring6.dto.*;
+import com.spring6.enums.EnabledStatus;
 import com.spring6.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @Transactional(propagation = Propagation.REQUIRED)
@@ -23,6 +26,41 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.register(customerCreateRequestDto), HttpStatus.CREATED);
     }
 
-//    @GetMapping("login")
-//    public ResponseEntity
+    @PostMapping("login")
+    public ResponseEntity<HttpStatus> login(@RequestBody @Valid LoginDto loginDto) throws Exception {
+        customerService.login(loginDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("isEnabledStatus/{id}")
+    public Enum<EnabledStatus> getIsEnabledStatus(@PathVariable UUID id) {
+        return customerService.getIsEnabledStatus(id);
+    }
+
+    @GetMapping("OTPValidation/{id}")
+    public ResponseEntity<HttpStatus> OTPValidation(@PathVariable UUID id, @RequestParam String OTP) {
+        customerService.OTPValidation(id,OTP);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("{email}")
+    public ResponseEntity<HttpStatus> isEmailExists(@PathVariable String email) {
+        customerService.isEmailExists(email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("forgotPasswod/{email}")
+    public ResponseEntity<HttpStatus> forgotPassword(@PathVariable String email,
+                                                     @RequestBody ForgotPasswordDto forgotPasswordDto) {
+        customerService.forgotPassword(email, forgotPasswordDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("changePassword/{email}")
+    public ResponseEntity<HttpStatus> changePassword(@PathVariable String email,
+                                                     @RequestBody ChangePasswordDto changePasswordDto
+                                                     ) {
+        customerService.changePassword(email, changePasswordDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

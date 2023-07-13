@@ -1,7 +1,7 @@
 package com.spring6.user.export;
 
 import com.spring6.common.utils.GlobalConstants;
-import com.spring6.user.utils.TraceIdHolder;
+import com.spring6.user.filter.TraceIdHolder;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.text.SimpleDateFormat;

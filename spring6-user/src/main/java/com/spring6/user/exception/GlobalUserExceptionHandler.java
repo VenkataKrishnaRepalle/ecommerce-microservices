@@ -3,7 +3,7 @@ package com.spring6.user.exception;
 import com.spring6.common.exeption.Error;
 import com.spring6.common.exeption.*;
 import com.spring6.common.utils.GlobalConstants;
-import com.spring6.user.utils.TraceIdHolder;
+import com.spring6.user.filter.TraceIdHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

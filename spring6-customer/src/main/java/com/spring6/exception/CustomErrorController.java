@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class CustomErrorController {
 
     @ExceptionHandler(AlreadyFoundException.class)
-    ResponseEntity handleCustomerAlreadyPresentExceptionError(AlreadyFoundException e) {
-        return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+    ResponseEntity handleCustomerAlreadyPresentExceptionError(AlreadyFoundException exception) {
+        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler(NotFoundException.class)
-    ResponseEntity handleCustomerNotFoundExceptionError(NotFoundException e) {
-        return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }}
+    ResponseEntity handleCustomerNotFoundExceptionError(NotFoundException exception) {
+        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(LoginException.class)
+    ResponseEntity handleLoginExceptionError(LoginException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+}
