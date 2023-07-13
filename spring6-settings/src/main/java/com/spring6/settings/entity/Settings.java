@@ -1,6 +1,6 @@
-package com.spring6.ecommerce.entity;
+package com.spring6.settings.entity;
 
-import com.spring6.common.enums.CategoryEnum;
+import com.spring6.common.enums.SettingCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,9 +12,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
-import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -22,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Category {
+public class Settings {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -30,26 +28,22 @@ public class Category {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID id;
 
-    @Column(length = 128, nullable = false, unique = true)
-    private String name;
+    @Column(length = 45, nullable = false, unique = true)
+    private String keyName;
 
-    @Column(length = 64, nullable = false, unique = true)
-    private String alias;
+    @Column(length = 45, nullable = false, unique = true)
+    private String valueField;
 
-    @Column(length = 128, nullable = false)
-    private String image;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 40, nullable = false)
+    private SettingCategory category;
 
-    @Column(name = "status")
-    private CategoryEnum status;
 
     @CreationTimestamp
-    private Instant createdOn;
+    @Column(name = "created_time", updatable = false)
+    private Date createdTime;
 
     @UpdateTimestamp
-    private Instant lastUpdatedOn;
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
-    private Set<SubCategory> categories = new HashSet<>();
-
-
+    @Column(name = "updated_time")
+    private Date updatedTime;
 }

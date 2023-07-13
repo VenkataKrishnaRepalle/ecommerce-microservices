@@ -147,7 +147,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public boolean isCategoryExistById(UUID id) {
+    public Boolean isCategoryExistById(UUID id) {
         log.info("CategoryService:isCategoryExistById execution started. traceId: {}", TraceIdHolder.getTraceId());
         log.debug("CategoryService:isCategoryExistById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 

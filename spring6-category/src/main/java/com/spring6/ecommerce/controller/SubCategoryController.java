@@ -2,6 +2,7 @@ package com.spring6.ecommerce.controller;
 
 
 import com.spring6.common.dto.SubCategoryFindResponseDto;
+import com.spring6.common.exeption.ErrorCodes;
 import com.spring6.common.utils.FileUploadUtils;
 import com.spring6.common.utils.GlobalConstants;
 import com.spring6.ecommerce.dto.SubCategoryCreateRequestDto;
@@ -157,7 +158,7 @@ public class SubCategoryController {
         log.info("SubCategoryController:uploadSubCategoryImage traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         if (!subCategoryService.isSubCategoryExistById(id)) {
-            throw new SubCategoryNotFoundException("Sub-Category does not exist  with id " + id.toString());
+            throw new SubCategoryNotFoundException(ErrorCodes.E1513, id.toString());
         }
 
         if (!multipartFile.isEmpty()) {

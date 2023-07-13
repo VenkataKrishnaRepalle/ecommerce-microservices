@@ -23,7 +23,7 @@ public interface CategoryService {
     void deleteCategoryById(UUID id);
 
     Boolean isCategoryExistByName(String name);
-    boolean isCategoryExistById(UUID id);
+    Boolean isCategoryExistById(UUID id);
 
 
     List<CategoryFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
