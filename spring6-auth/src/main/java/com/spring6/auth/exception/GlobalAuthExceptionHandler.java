@@ -56,7 +56,7 @@ public class GlobalAuthExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .headers(headers)
-                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
+                .body(ErrorMessage.errorResponse(exception.getError()));
     }
 
     @ExceptionHandler(InvalidTokenException.class)

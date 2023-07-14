@@ -6,24 +6,26 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtServiceImpl implements JwtService {
 
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
-    @Value("${application.security.jwt.expiration}")
-    private long jwtExpiration;
-    @Value("${application.security.jwt.refresh-token.expiration}")
-    private long refreshExpiration;
+    @Value("${application.security.jwt.expiration.minutes}")
+    private long jwtExpirationInMinutes;
+    @Value("${application.security.jwt.refresh-token.expiration.hours}")
+    private long refreshTokenExpirationInHour;
 
     @Override
     public String extractUsername(String token) {
@@ -38,17 +40,26 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> claims = new HashMap<>();
+        List<String> authorities = userDetails.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        claims.put("ROLES", authorities.toString());
+
+        return generateToken(claims, userDetails);
     }
 
     @Override
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return buildToken(extraClaims, userDetails, jwtExpiration);
+
+        return buildToken(extraClaims, userDetails, TimeUnit.MINUTES.toMillis(jwtExpirationInMinutes));
     }
 
     @Override
     public String generateRefreshToken(UserDetails userDetails) {
-        return buildToken(new HashMap<>(), userDetails, refreshExpiration);
+        return buildToken(new HashMap<>(), userDetails, TimeUnit.HOURS.toMillis(refreshTokenExpirationInHour));
     }
 
     @Override
@@ -62,6 +73,7 @@ public class JwtServiceImpl implements JwtService {
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
+                .setIssuer("PME")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

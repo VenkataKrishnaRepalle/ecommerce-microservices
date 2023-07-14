@@ -4,14 +4,12 @@ import lombok.Getter;
 
 @Getter
 public class UserNotFoundException extends RuntimeException {
-    private final String errorCode;
-    private final String dynamicValue;
+    private final String error;
 
-    public UserNotFoundException(String errorCode, String dynamicValue) {
-        super(String.format("%s : %s", errorCode, dynamicValue));
+    public UserNotFoundException(String error) {
+        super(String.format("%s", error));
 
-        this.errorCode = errorCode;
-        this.dynamicValue = dynamicValue;
+        this.error = error;
     }
 
 }

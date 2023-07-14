@@ -17,7 +17,7 @@
     </appender>
 
 <!--    &lt;!&ndash; Define the loggers &ndash;&gt;-->
-<!--    <logger name="com.spring6.brand" level="DEBUG"/>-->
+<!--    <logger name="com.spring6.order" level="DEBUG"/>-->
     <logger name="org.springframework" level="DEBUG"/>
 
     <!-- Set the root logger -->

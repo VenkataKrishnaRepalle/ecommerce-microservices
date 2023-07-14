@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.spring6</groupId>
-    <artifactId>spring6-brand</artifactId>
+    <artifactId>spring6-order</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring6-brand</name>
+    <name>spring6-order</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>20</java.version>

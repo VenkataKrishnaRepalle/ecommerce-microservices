@@ -4,18 +4,29 @@
 - service
 - repository
 - entity
+- dao
 - dto
+- enums
+- package structure
 - config
 - exception
 - validation
 - error codes
-- trace id (sleuth)
+- trace id
 - logging (Slf4j)
 - unit test case all layer (controller, service, repository) and at least 90% test coverage.
 - check style
 - sonar qube
-- feign (optional)
+- feign
+- kafka
+- camunda
+- karate
 - registration captcha validation
+` - uuid
+  - captcha id
+  - ip
+  - created date
+  - config for expiration
 - rate limiting service
 - Auditing (individual audit history table with respect to entities.)
     - User : UserAudit
@@ -23,6 +34,7 @@
     - Order : OrderAudit
     - Payment : PaymentAudit, etc.
 - Application timezone and DB timezone as "UTC" and display timezone in "Asia/Kolkata"
+- Two factor authentication
 
 ## controller and service methods
 

@@ -1,5 +1,6 @@
 package com.spring6.auth.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.spring6.auth.model.enums.AccountStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,10 +23,10 @@ import java.util.*;
 @NoArgsConstructor
 @Table(name = "account",
         indexes = {
-        @Index(name = "idx_account_id", columnList = "id"),
-        @Index(name = "idx_account_username", columnList = "username"),
-        @Index(name = "idx_account_email", columnList = "email")
-})
+                @Index(name = "idx_account_id", columnList = "id"),
+                @Index(name = "idx_account_username", columnList = "username"),
+                @Index(name = "idx_account_email", columnList = "email")
+        })
 @Entity
 public class Account {
 
@@ -61,10 +62,11 @@ public class Account {
     private Instant lastUpdatedOn;
 
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account")
     private Set<Token> tokens = new HashSet<>();
 
-//    @JsonIgnore
+    //    @JsonIgnore
+    @JsonManagedReference
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @JoinTable(
             name = "account_role",

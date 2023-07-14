@@ -1,5 +1,6 @@
 package com.spring6.auth.config;
 
+import com.spring6.auth.model.enums.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -55,8 +56,9 @@ public class SecurityConfiguration {
                 ).permitAll()
 
 
-                .requestMatchers("/api/v1/management/**").hasAnyRole("Role_ADMIN", "Role_MANAGER")
-
+                .requestMatchers("/api/v1/management/**").hasAnyRole(RoleType.ROLE_ADMIN.toString())
+                .requestMatchers("/api/v1/user-info").hasAnyRole("ROLE_CUSTOMER", "ROLE_ADMIN")
+//                .requestMatchers("/api/v1/user-info").hasAnyAuthority("ROLE_CUSTOMER", "ROLE_ADMIN")
 
                 .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority("ADMIN_READ", "MANAGER_READ")
                 .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority("ADMIN_CREATE", "MANAGER_CREATE")

@@ -1,5 +1,6 @@
 package com.spring6.auth.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,12 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "permission", indexes = {@Index(name = "idx__permission__id_name", columnList = "id, name")})
+@Table(name = "privilege", indexes = {
+        @Index(name = "idx_privilege_id", columnList = "id"),
+        @Index(name = "idx_privilege_name", columnList = "name")
+})
 @Entity
-public class Permission {
+public class Privilege {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -41,6 +45,7 @@ public class Permission {
     private Instant lastUpdatedOn;
 
     //@JsonIgnore
-    @ManyToMany(mappedBy = "permissions")
+    @JsonBackReference
+    @ManyToMany(mappedBy = "privileges")
     private Set<Role> roles = new HashSet<>();
 }

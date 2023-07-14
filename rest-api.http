@@ -1,23 +1,23 @@
 # Brand API
 ###
-GET {{url}}1001/brand/list
+GET {{url}}1001/order/list
 Accept: application/json
 
 ###
 
-# curl --location 'http://localhost:1001/brand/page/1?sortField=name&sortDir=asc&keyword=s'
+# curl --location 'http://localhost:1001/order/page/1?sortField=name&sortDir=asc&keyword=s'
 #--header 'accept: */*'
-GET http://localhost:1001/brand/page/1?sortField=name&sortDir=asc&keyword=s
+GET http://localhost:1001/order/page/1?sortField=name&sortDir=asc&keyword=s
 accept: */*
 
 ###
-GET http://localhost:1001/brand/page/1?sortField=name&sortDir=asc&keyword=
+GET http://localhost:1001/order/page/1?sortField=name&sortDir=asc&keyword=
 accept: */*
 ###
-GET http://localhost:1001/brand/page/2?sortField=name&sortDir=asc&keyword=
+GET http://localhost:1001/order/page/2?sortField=name&sortDir=asc&keyword=
 accept: */*
 ###
-POST {{url}}1001/brand/create
+POST {{url}}1001/order/create
 Content-Type: application/json
 {
   "name": "Ma",

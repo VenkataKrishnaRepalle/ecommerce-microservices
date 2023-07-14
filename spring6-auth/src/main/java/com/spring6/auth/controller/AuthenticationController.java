@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -35,15 +36,6 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponseDto> refreshToken(HttpServletRequest request) throws IOException {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         return ResponseEntity.ok(authenticationService.refreshToken(authHeader));
-    }
-
-    @GetMapping("/user-info")
-//    @PreAuthorize("hasAnyRole()")
-    public ResponseEntity<UserInfoResponseDto> getUserInfo() {
-
-        UserInfoResponseDto userInfoResponseDto =  authenticationService.getUserInfo();
-        return ResponseEntity.ok(userInfoResponseDto);
-
     }
 
 }

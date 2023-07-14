@@ -48,7 +48,7 @@ public class Token {
 
     // @JsonIgnore
     @JoinColumn(name = "account_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Account account;
 
 }

@@ -1,7 +1,7 @@
 package com.spring6.auth.bootstrap;
 
 import com.spring6.auth.model.entity.Account;
-import com.spring6.auth.model.entity.Permission;
+import com.spring6.auth.model.entity.Privilege;
 import com.spring6.auth.model.entity.Role;
 import com.spring6.auth.model.enums.RoleType;
 import com.spring6.auth.model.enums.AccountStatus;
@@ -29,78 +29,84 @@ public class BootstrapData implements CommandLineRunner {
 
 
     @Override
-    public void run(String... args) throws Exception {
-        Set<Permission> permissionSet = loadPermissionData();
-        Set<Role> roles = loadRoleData(permissionSet);
+    public void run(String... args) {
+        Set<Privilege> privilegeSet = loadPermissionData();
+        Set<Role> roles = loadRoleData(privilegeSet);
         loadAccountData(roles);
     }
 
-    private Set<Permission> loadPermissionData() {
-        Set<Permission> permissionSet = new HashSet<>();
+    private Set<Privilege> loadPermissionData() {
+        Set<Privilege> privilegeSet = new HashSet<>();
 
         if (permissionRepository.count() == 0) {
-            List<Permission> permissionList = permissionRepository.saveAll(
+            List<Privilege> privilegeList = permissionRepository.saveAll(
                     Set.of(
-                            Permission.builder().name("BRAND_READ").build(),
-                            Permission.builder().name("BRAND_CREATE").build(),
-                            Permission.builder().name("BRAND_UPDATE").build(),
-                            Permission.builder().name("BRAND_DELETE").build(),
-                            Permission.builder().name("CATEGORY_READ").build(),
-                            Permission.builder().name("CATEGORY_CREATE").build(),
-                            Permission.builder().name("CATEGORY_UPDATE").build(),
-                            Permission.builder().name("CATEGORY_DELETE").build(),
-                            Permission.builder().name("PRODUCT_READ").build(),
-                            Permission.builder().name("PRODUCT_CREATE").build(),
-                            Permission.builder().name("PRODUCT_UPDATE").build(),
-                            Permission.builder().name("PRODUCT_DELETE").build(),
-                            Permission.builder().name("ORDER_READ").build(),
-                            Permission.builder().name("ORDER_CREATE").build(),
-                            Permission.builder().name("ORDER_UPDATE").build(),
-                            Permission.builder().name("ORDER_DELETE").build()
+                            Privilege.builder().name("BRAND_READ").build(),
+                            Privilege.builder().name("BRAND_CREATE").build(),
+                            Privilege.builder().name("BRAND_UPDATE").build(),
+                            Privilege.builder().name("BRAND_DELETE").build(),
+                            Privilege.builder().name("CATEGORY_READ").build(),
+                            Privilege.builder().name("CATEGORY_CREATE").build(),
+                            Privilege.builder().name("CATEGORY_UPDATE").build(),
+                            Privilege.builder().name("CATEGORY_DELETE").build(),
+                            Privilege.builder().name("PRODUCT_READ").build(),
+                            Privilege.builder().name("PRODUCT_CREATE").build(),
+                            Privilege.builder().name("PRODUCT_UPDATE").build(),
+                            Privilege.builder().name("PRODUCT_DELETE").build(),
+                            Privilege.builder().name("ORDER_READ").build(),
+                            Privilege.builder().name("ORDER_CREATE").build(),
+                            Privilege.builder().name("ORDER_UPDATE").build(),
+                            Privilege.builder().name("ORDER_DELETE").build()
                     )
             );
 
-            permissionSet.addAll(permissionList);
+            privilegeSet.addAll(privilegeList);
         }
 
-        return permissionSet;
+        return privilegeSet;
     }
 
-    private Set<Role> loadRoleData(Set<Permission> permissions) {
+    private Set<Role> loadRoleData(Set<Privilege> privileges) {
         Set<Role> rolesSet = new HashSet<>();
 
         if (roleRepository.count() == 0) {
-            Role roleAdmin = Role.builder()
-                    .name(RoleType.ADMIN)
-                    .description("Manage Everything")
-                    .permissions(permissions)
-                    .build();
 
-            Role roleSalesPerson = Role.builder()
-                    .name(RoleType.SALES_PERSON)
-                    .description("Manage Product Price, customers, shipping, orders and sales report")
-                    .permissions(permissions)
-                    .build();
+            List<Role> roleList = roleRepository.saveAll(Set.of(
+                    Role.builder()
+                            .name(RoleType.ROLE_ADMIN)
+                            .description("Manage Everything")
+                            .privileges(privileges)
+                            .build(),
 
-            Role roleEditor = Role.builder()
-                    .name(RoleType.EDITOR)
-                    .description("Manage Categories, brands,products, articles and menus")
-                    .permissions(permissions)
-                    .build();
+                    Role.builder()
+                            .name(RoleType.ROLE_SALES_PERSON)
+                            .description("Manage Product Price, customers, shipping, orders and sales report")
+                            .privileges(privileges)
+                            .build(),
 
-            Role roleShipper = Role.builder()
-                    .name(RoleType.SHIPPER)
-                    .description("Manage view products, view orders and update order status")
-                    .permissions(permissions)
-                    .build();
+                    Role.builder()
+                            .name(RoleType.ROLE_EDITOR)
+                            .description("Manage Categories, brands,products, articles and menus")
+                            .privileges(privileges)
+                            .build(),
 
-            Role roleAssistant = Role.builder()
-                    .name(RoleType.ASSISTANT)
-                    .description("Manage questions and reviews")
-                    .permissions(permissions)
-                    .build();
+                    Role.builder()
+                            .name(RoleType.ROLE_SHIPPER)
+                            .description("Manage view products, view orders and update order status")
+                            .privileges(privileges)
+                            .build(),
+                    Role.builder()
+                            .name(RoleType.ROLE_CUSTOMER)
+                            .description("Manage view products, view orders and view order status")
+                            .privileges(privileges)
+                            .build(),
 
-            List<Role> roleList = roleRepository.saveAll(Set.of(roleAdmin, roleSalesPerson, roleEditor, roleShipper, roleAssistant));
+                    Role.builder()
+                            .name(RoleType.ROLE_ASSISTANT)
+                            .description("Manage questions and reviews")
+                            .privileges(privileges)
+                            .build()
+            ));
             rolesSet.addAll(roleList);
         }
 

@@ -4,6 +4,7 @@ import com.spring6.auth.dto.mapper.AccountMapper;
 import com.spring6.auth.dto.request.AuthenticationRequestDto;
 import com.spring6.auth.dto.request.AccountCreateRequestDto;
 import com.spring6.auth.dto.response.AuthenticationResponseDto;
+import com.spring6.auth.exception.UserNotFoundException;
 import com.spring6.auth.model.dao.AccountDao;
 import com.spring6.auth.model.dao.TokenDao;
 import com.spring6.auth.model.entity.Account;
@@ -90,8 +91,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto authenticationRequestDto) {
 
         // Authenticate the user
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(authenticationRequestDto.getUsername(), authenticationRequestDto.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authenticationRequestDto.getUsername(), authenticationRequestDto.getPassword()));
 
         Optional<Account> userOptional = accountDao.findByUsername(authenticationRequestDto.getUsername());
         if (userOptional.isEmpty()) {
@@ -150,21 +151,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     }
 
-    @Override
-    public UserInfoResponseDto getUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new UsernameNotFoundException(ErrorCodes.E4015);
-        }
 
-        Optional<Account> optionalUser = accountDao.findByUsername(authentication.getName());
-        if (optionalUser.isEmpty()) {
-            throw new UsernameNotFoundException(ErrorCodes.E4016);
-        }
-        Account account = optionalUser.get();
-
-        return accountMapper.userToUserProfileResponseDto(account);
-    }
 
 //    @Override
 //    public void forgotPassword(String email, String password) {

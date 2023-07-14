@@ -10,6 +10,5 @@ public interface AuthenticationService {
      AuthenticationResponseDto authenticate(AuthenticationRequestDto authenticationRequestDto);
      AuthenticationResponseDto refreshToken(String authHeader);
 
-    UserInfoResponseDto getUserInfo();
 //     void forgotPassword(String email, String password);
 }

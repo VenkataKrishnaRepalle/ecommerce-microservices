@@ -1,6 +1,7 @@
 package com.spring6.auth.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.spring6.auth.model.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "role", indexes = {@Index(name = "idx__role__id_name", columnList = "id, name")})
+@Table(name = "role", indexes = {@Index(name = "idx_role_id", columnList = "id"), @Index(name = "idx_role_name", columnList = "name")})
 @Entity
 public class Role {
 
@@ -48,17 +49,19 @@ public class Role {
     private Instant lastUpdatedOn;
 
     // @JsonIgnore
-     @ManyToMany(mappedBy = "roles")
-     private Set<Account> accounts = new HashSet<>();
+    @JsonBackReference
+    @ManyToMany(mappedBy = "roles")
+    private Set<Account> accounts = new HashSet<>();
 
-//    @JsonIgnore
+    //    @JsonIgnore
+    @JsonManagedReference
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "role_permission",
+            name = "role_privilege",
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id")
+            inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id")
     )
-    private Set<Permission> permissions = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Privilege> privileges = new HashSet<>();
 
 }

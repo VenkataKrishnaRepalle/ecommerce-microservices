@@ -21,7 +21,8 @@ public class MyUserDetails implements UserDetails {
         Set<GrantedAuthority> authorities = new HashSet<>();
 
         for (Role role : account.getRoles()) {
-            authorities.addAll(role.getPermissions().stream()
+            authorities.add(new SimpleGrantedAuthority(role.getName().toString()));
+            authorities.addAll(role.getPrivileges().stream()
                     .map(permission -> new SimpleGrantedAuthority(permission.getName()))
                     .collect(Collectors.toList()));
         }
