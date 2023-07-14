@@ -71,6 +71,7 @@
    trigger an email notification to the customer. The email service, subscribed to this event, can consume it and send
    the email asynchronously.
 
+
 **List of common processes typically found in an ecommerce domain:**
 
 1. Product Catalog Management: This process involves managing the product catalog, including adding, updating, and
