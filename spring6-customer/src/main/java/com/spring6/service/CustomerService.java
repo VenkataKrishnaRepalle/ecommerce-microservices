@@ -1,8 +1,6 @@
 package com.spring6.service;
 
-import com.spring6.dto.CustomerCreateRequestDto;
-import com.spring6.dto.CustomerCreateResponseDto;
-import com.spring6.dto.LoginDto;
+import com.spring6.dto.*;
 import com.spring6.enums.EnabledStatus;
 
 import java.util.UUID;
@@ -17,8 +15,10 @@ public interface CustomerService {
 
     void OTPValidation(UUID id, String otp);
 
-    void forgotPassword(String email, String password);
+    void forgotPassword(String email, ForgotPasswordDto forgotPasswordDto);
 
-    void changePassword(String email, String password, String newPassword);
+    void changePassword(String email, ChangePasswordDto changePasswordDto);
+
+    void isEmailExists(String email);
 
 }

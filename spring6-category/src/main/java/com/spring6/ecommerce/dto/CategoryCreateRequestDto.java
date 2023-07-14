@@ -15,10 +15,13 @@ public class CategoryCreateRequestDto {
     @NotBlank(message = ErrorCodes.E1001)
     @Size(min = 2, max = 45, message = ErrorCodes.E1002)
     private String name;
+
     @NotBlank(message = ErrorCodes.E1003)
     private String alias;
+
     @NotBlank(message = ErrorCodes.E1004)
     private String image;
+
     @NotNull(message = ErrorCodes.E1005)
     @Enumerated
     private CategoryEnum status;

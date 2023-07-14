@@ -1,11 +1,9 @@
-package com.spring6.repository;
+package com.spring6.model.repository;
 
-import com.spring6.entity.Country;
+import com.spring6.model.entity.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.UUID;
 
 public interface CountryRepository extends JpaRepository<Country, Integer> {
 
