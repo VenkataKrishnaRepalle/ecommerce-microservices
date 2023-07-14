@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface BrandDao {
+public interface OrderDao {
 
     List<Order> findAll();
 

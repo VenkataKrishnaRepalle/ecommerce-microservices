@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Repository
-public class BrandDaoImpl implements BrandDao {
+public class OrderDaoImpl implements OrderDao {
 
     private final OrderRepository orderRepository;
 

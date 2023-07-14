@@ -45,22 +45,13 @@ public class GlobalBrandExceptionHandler {
                 .body(FieldErrorListResponse.builder().errors(errors).build());
     }
 
-    @ExceptionHandler(BrandNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(BrandNotFoundException exception) {
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(OrderNotFoundException exception) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .headers(headers)
-                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
-    }
-
-    @ExceptionHandler(BrandNameAlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNameAlreadyExistException(BrandNameAlreadyExistException exception) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-        return ResponseEntity.status(HttpStatus.CONFLICT)
                 .headers(headers)
                 .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
     }

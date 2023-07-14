@@ -1,15 +1,14 @@
 package com.spring6.order.service;
 
-import com.spring6.order.dto.request.BrandCreateRequestDto;
-import com.spring6.order.dto.response.BrandCreateResponseDto;
-import com.spring6.order.dto.request.BrandUpdateRequestDto;
-import com.spring6.order.dto.response.BrandUpdateResponseDto;
-import com.spring6.order.model.dao.BrandDao;
+import com.spring6.order.dto.request.OrderCreateRequestDto;
+import com.spring6.order.dto.response.OrderCreateResponseDto;
+import com.spring6.order.dto.request.OrderUpdateRequestDto;
+import com.spring6.order.dto.response.OrderUpdateResponseDto;
+import com.spring6.order.model.dao.OrderDao;
 import com.spring6.order.model.entity.Order;
-import com.spring6.order.dto.enums.BrandSearchKeywordEnum;
-import com.spring6.order.exception.BrandNameAlreadyExistException;
-import com.spring6.order.exception.BrandNotFoundException;
-import com.spring6.order.dto.mapper.BrandMapper;
+import com.spring6.order.dto.enums.OrderSearchKeywordEnum;
+import com.spring6.order.exception.OrderNotFoundException;
+import com.spring6.order.dto.mapper.OrderMapper;
 import com.spring6.order.utils.TraceIdHolder;
 import com.spring6.common.dto.BrandFindResponseDto;
 import com.spring6.common.exeption.ErrorCodes;
@@ -29,18 +28,18 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class BrandServiceImpl implements BrandService {
+public class OrderServiceImpl implements OrderService {
 
-    private final BrandDao brandDao;
-    private final BrandMapper brandMapper;
+    private final OrderDao orderDao;
+    private final OrderMapper orderMapper;
 
     public List<BrandFindResponseDto> getAll() {
         log.info("BrandService:getAllBrands execution started.");
         log.debug("BrandService:getAllBrands traceId: {}", TraceIdHolder.getTraceId());
 
-        List<BrandFindResponseDto> brandFindResponseDtoList = brandDao.findAll()
+        List<BrandFindResponseDto> brandFindResponseDtoList = orderDao.findAll()
                 .stream()
-                .map(brandMapper::brandToBrandFindResponseDto)
+                .map(orderMapper::brandToBrandFindResponseDto)
                 .toList();
 
         log.debug("BrandService:getAllBrands traceId: {}, response {} ", TraceIdHolder.getTraceId(), brandFindResponseDtoList);
@@ -49,7 +48,7 @@ public class BrandServiceImpl implements BrandService {
         return brandFindResponseDtoList;
     }
 
-    public List<BrandFindResponseDto> getByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDirectory, BrandSearchKeywordEnum searchField, String searchKeyword) {
+    public List<BrandFindResponseDto> getByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDirectory, OrderSearchKeywordEnum searchField, String searchKeyword) {
         log.info("BrandService:getBrandsByPage execution started.");
         log.debug("BrandService:getBrandsByPage traceId: {},  pageNumber: {}, perPageCount: {}, sortField: {}, sortDirectory: {}, searchField: {}, searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirectory, searchField, searchKeyword);
 
@@ -64,15 +63,15 @@ public class BrandServiceImpl implements BrandService {
 
         Page<Order> brandList;
 
-        if (searchKeyword != null && searchField.equals(BrandSearchKeywordEnum.BRAND_NAME)) {
-            brandList =  brandDao.findAllByName(searchKeyword, pageable);
+        if (searchKeyword != null && searchField.equals(OrderSearchKeywordEnum.BRAND_NAME)) {
+            brandList =  orderDao.findAllByName(searchKeyword, pageable);
 
         } else {
-            brandList =  brandDao.findAll(pageable);
+            brandList =  orderDao.findAll(pageable);
         }
 
         List<BrandFindResponseDto> brandFindResponseDtoList = brandList.stream()
-                .map(brandMapper::brandToBrandFindResponseDto)
+                .map(orderMapper::brandToBrandFindResponseDto)
                 .toList();
 
         log.debug("BrandService:getBrandsByPage traceId: {}", TraceIdHolder.getTraceId());
@@ -83,19 +82,19 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandFindResponseDto getById(UUID id) throws BrandNotFoundException {
+    public BrandFindResponseDto getById(UUID id) throws OrderNotFoundException {
         log.info("BrandService:getBrandById execution started.");
         log.debug("BrandService:getBrandById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
-        Optional<Order> optionalBrand = brandDao.findById(id);
+        Optional<Order> optionalBrand = orderDao.findById(id);
 
         if (!optionalBrand.isPresent()) {
             log.error("BrandService:getBrandById traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
             log.info("BrandService:getBrandById execution ended.");
-            throw new BrandNotFoundException(ErrorCodes.E0501, id.toString());
+            throw new OrderNotFoundException(ErrorCodes.E0501, id.toString());
         }
 
-        BrandFindResponseDto brandFindResponseDto = brandMapper.brandToBrandFindResponseDto(optionalBrand.get());
+        BrandFindResponseDto brandFindResponseDto = orderMapper.brandToBrandFindResponseDto(optionalBrand.get());
 
         log.debug("BrandService:getBrandById traceId: {}, response: {}", TraceIdHolder.getTraceId(), brandFindResponseDto);
         log.info("BrandService:getBrandById execution ended.");
@@ -104,63 +103,63 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandCreateResponseDto create(BrandCreateRequestDto brandCreateRequestDto) {
+    public OrderCreateResponseDto create(OrderCreateRequestDto orderCreateRequestDto) {
         log.info("BrandService:createBrand execution started.");
-        log.debug("BrandService:createBrand traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), brandCreateRequestDto);
+        log.debug("BrandService:createBrand traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), orderCreateRequestDto);
 
-        if (isNameExist(brandCreateRequestDto.getName())) {
-            log.error("BrandService:createBrand traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0506, brandCreateRequestDto.getName()));
-            throw new BrandNameAlreadyExistException(ErrorCodes.E0506, brandCreateRequestDto.getName());
+        if (isNameExist(orderCreateRequestDto.getName())) {
+            log.error("BrandService:createBrand traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0506, orderCreateRequestDto.getName()));
+            throw new BrandNameAlreadyExistException(ErrorCodes.E0506, orderCreateRequestDto.getName());
         }
 
-        Order order = brandMapper.brandCreateRequestDtoToBrand(brandCreateRequestDto);
-        Order orderCreated = brandDao.save(order);
-        BrandCreateResponseDto brandCreateResponseDto = brandMapper.brandToBrandCreateResponseDto(orderCreated);
+        Order order = orderMapper.brandCreateRequestDtoToBrand(orderCreateRequestDto);
+        Order orderCreated = orderDao.save(order);
+        OrderCreateResponseDto orderCreateResponseDto = orderMapper.brandToBrandCreateResponseDto(orderCreated);
 
-        log.debug("BrandService:createBrand traceId: {}, response: {}", TraceIdHolder.getTraceId(), brandCreateResponseDto);
+        log.debug("BrandService:createBrand traceId: {}, response: {}", TraceIdHolder.getTraceId(), orderCreateResponseDto);
         log.info("BrandService:createBrand execution ended.");
 
-        return brandCreateResponseDto;
+        return orderCreateResponseDto;
 
     }
 
     @Override
-    public BrandUpdateResponseDto update(final UUID id, BrandUpdateRequestDto brandUpdateRequestDto)
-            throws BrandNotFoundException {
+    public OrderUpdateResponseDto update(final UUID id, OrderUpdateRequestDto orderUpdateRequestDto)
+            throws OrderNotFoundException {
         log.info("BrandService:updateBrand execution started.");
-        log.debug("BrandService:updateBrand traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, brandUpdateRequestDto);
+        log.debug("BrandService:updateBrand traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, orderUpdateRequestDto);
 
 
-        Optional<Order> optionalBrand = brandDao.findById(id);
+        Optional<Order> optionalBrand = orderDao.findById(id);
 
         if (!optionalBrand.isPresent()) {
-            throw new BrandNotFoundException(ErrorCodes.E0502, id.toString());
+            throw new OrderNotFoundException(ErrorCodes.E0502, id.toString());
         }
 
-        Order order = brandMapper.brandUpdateRequestDtoToBrand(brandUpdateRequestDto);
+        Order order = orderMapper.brandUpdateRequestDtoToBrand(orderUpdateRequestDto);
         order.setId(optionalBrand.get().getId());
 
-        Order orderUpdated = brandDao.save(order);
-        BrandUpdateResponseDto brandUpdateResponseDto = brandMapper.brandToBrandUpdateResponseDto(orderUpdated);
+        Order orderUpdated = orderDao.save(order);
+        OrderUpdateResponseDto orderUpdateResponseDto = orderMapper.brandToBrandUpdateResponseDto(orderUpdated);
 
-        log.debug("BrandService:updateBrand traceId: {}, response: {}", TraceIdHolder.getTraceId(), brandUpdateResponseDto);
+        log.debug("BrandService:updateBrand traceId: {}, response: {}", TraceIdHolder.getTraceId(), orderUpdateResponseDto);
         log.info("BrandService:updateBrand execution ended.");
 
-        return brandUpdateResponseDto;
+        return orderUpdateResponseDto;
     }
 
     @Override
-    public void deleteById(UUID id) throws BrandNotFoundException {
+    public void deleteById(UUID id) throws OrderNotFoundException {
         log.info("BrandService:deleteBrandById execution started.");
         log.debug("BrandService:deleteBrandById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
-        Long brandCountById = brandDao.countById(id);
+        Long brandCountById = orderDao.countById(id);
         if (brandCountById == 0) {
             log.error("BrandService:deleteBrandById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0503, id.toString()));
-            throw new BrandNotFoundException(ErrorCodes.E0503, id.toString());
+            throw new OrderNotFoundException(ErrorCodes.E0503, id.toString());
         }
 
-        brandDao.deleteById(id);
+        orderDao.deleteById(id);
         log.info("BrandService:deleteBrandById execution ended.");
 
     }
@@ -170,17 +169,17 @@ public class BrandServiceImpl implements BrandService {
         log.info("BrandService:updateImageName execution started.");
         log.debug("BrandService:updateImageName traceId: {}, brandId:{}, fileName: {}", TraceIdHolder.getTraceId(), brandId, fileName);
 
-        Optional<Order> optionalBrand = brandDao.findById(brandId);
+        Optional<Order> optionalBrand = orderDao.findById(brandId);
 
         if (!optionalBrand.isPresent()) {
             log.error("BrandService:updateImageName traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E0504, brandId.toString()));
-            throw new BrandNotFoundException(ErrorCodes.E0504, brandId.toString());
+            throw new OrderNotFoundException(ErrorCodes.E0504, brandId.toString());
         }
 
         Order order = optionalBrand.get();
         order.setImageName(fileName);
 
-        Order orderUpdated = brandDao.save(order);
+        Order orderUpdated = orderDao.save(order);
 
         log.debug("BrandService:updateImageName traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), orderUpdated.getImageName());
         log.info("BrandService:updateImageName execution ended.");
@@ -193,12 +192,12 @@ public class BrandServiceImpl implements BrandService {
         log.info("BrandService:getBrandImageNameById execution started.");
         log.debug("BrandService:getBrandImageNameById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
-        Optional<Order> optionalBrand = brandDao.findById(id);
+        Optional<Order> optionalBrand = orderDao.findById(id);
 
         if (!optionalBrand.isPresent()) {
             log.error("BrandService:getBrandImageNameById traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
             log.info("BrandService:getBrandImageNameById execution ended.");
-            throw new BrandNotFoundException(ErrorCodes.E0508, id.toString());
+            throw new OrderNotFoundException(ErrorCodes.E0508, id.toString());
         }
 
         String imageName =  optionalBrand.get().getImageName();
@@ -214,7 +213,7 @@ public class BrandServiceImpl implements BrandService {
         log.info("BrandService:isIdExist execution started. traceId: {}", TraceIdHolder.getTraceId());
         log.debug("BrandService:isIdExist traceId: {}, id: {}", TraceIdHolder.getTraceId(), uuid);
 
-        Optional<Order> optionalBrand = brandDao.findById(uuid);
+        Optional<Order> optionalBrand = orderDao.findById(uuid);
         if (optionalBrand.isPresent()) {
             return Boolean.TRUE;
         }
@@ -224,7 +223,7 @@ public class BrandServiceImpl implements BrandService {
     private Boolean isNameExist(String name) {
         log.info("BrandService:isNameExist execution started. traceId: {}", TraceIdHolder.getTraceId());
 
-        Optional<Order> optionalBrand = brandDao.findByName(name);
+        Optional<Order> optionalBrand = orderDao.findByName(name);
         if (optionalBrand.isPresent()) {
             return Boolean.TRUE;
         }

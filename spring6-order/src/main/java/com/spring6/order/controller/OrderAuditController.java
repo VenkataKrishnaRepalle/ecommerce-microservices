@@ -1,7 +1,7 @@
 package com.spring6.order.controller;
 
-import com.spring6.order.dto.response.BrandAuditResponseDto;
-import com.spring6.order.service.BrandAuditService;
+import com.spring6.order.dto.response.OrderAuditResponseDto;
+import com.spring6.order.service.OrderAuditService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,14 +14,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/brand")
 @RestController
-public class BrandAuditController {
+public class OrderAuditController {
 
-    private final BrandAuditService brandAuditService;
+    private final OrderAuditService orderAuditService;
 
     @GetMapping("{id}/audit")
-    public List<BrandAuditResponseDto> getBrandAudits(
+    public List<OrderAuditResponseDto> getBrandAudits(
             @PathVariable("id") UUID id) {
 
-        return brandAuditService.getAuditRecords(id);
+        return orderAuditService.getAuditRecords(id);
     }
 }

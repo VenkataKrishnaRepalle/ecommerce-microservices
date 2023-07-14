@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class BrandCreateResponseDto {
+public class OrderCreateResponseDto {
     private UUID id;
     private String name;
     private UUID subcategoryId;

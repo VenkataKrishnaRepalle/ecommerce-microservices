@@ -1,9 +1,9 @@
 package com.spring6.order.service;
 
-import com.spring6.order.dto.response.BrandAuditResponseDto;
+import com.spring6.order.dto.response.OrderAuditResponseDto;
 import com.spring6.order.model.dao.AuditDao;
 import com.spring6.order.model.entity.Order;
-import com.spring6.order.dto.mapper.BrandMapper;
+import com.spring6.order.dto.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionType;
@@ -15,23 +15,23 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-public class BrandAuditServiceImpl implements BrandAuditService {
+public class OrderAuditServiceImpl implements OrderAuditService {
 
     private final AuditDao brandAuditDao;
-    private final BrandMapper brandMapper;
+    private final OrderMapper orderMapper;
 
     @Override
-    public List<BrandAuditResponseDto> getAuditRecords(UUID entityId) {
+    public List<OrderAuditResponseDto> getAuditRecords(UUID entityId) {
 
         List<Object[]> auditEntities =  brandAuditDao.getAuditRecords(Order.class, entityId);
-        List<BrandAuditResponseDto> auditDTOs = new ArrayList<>();
+        List<OrderAuditResponseDto> auditDTOs = new ArrayList<>();
 
         for (Object[] auditEntity : auditEntities) {
             Order order = (Order) auditEntity[0];
             DefaultRevisionEntity revisionEntity = (DefaultRevisionEntity) auditEntity[1];
             RevisionType revisionType = (RevisionType) auditEntity[2];
 
-            BrandAuditResponseDto auditDTO = brandMapper.brandToBrandAuditResponseDto(order);
+            OrderAuditResponseDto auditDTO = orderMapper.brandToBrandAuditResponseDto(order);
             auditDTO.setRevision(revisionEntity.getId());
             auditDTO.setRevisionType(revisionType);
 

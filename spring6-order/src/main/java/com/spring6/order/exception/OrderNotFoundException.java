@@ -3,11 +3,11 @@ package com.spring6.order.exception;
 import lombok.Getter;
 
 @Getter
-public class BrandNotFoundException extends RuntimeException {
+public class OrderNotFoundException extends RuntimeException {
     private final String errorCode;
     private final String dynamicValue;
 
-    public BrandNotFoundException(String errorCode, String dynamicValue) {
+    public OrderNotFoundException(String errorCode, String dynamicValue) {
         super(String.format("%s : %s", errorCode, dynamicValue));
 
         this.errorCode = errorCode;

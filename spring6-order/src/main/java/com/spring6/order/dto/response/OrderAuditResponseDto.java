@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class BrandAuditResponseDto {
+public class OrderAuditResponseDto {
     private UUID id;
     private String name;
     private String imageName;

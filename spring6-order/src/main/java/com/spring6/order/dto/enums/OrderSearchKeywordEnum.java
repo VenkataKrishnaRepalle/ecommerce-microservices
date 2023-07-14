@@ -1,5 +1,5 @@
 package com.spring6.order.dto.enums;
 
-public enum BrandSearchKeywordEnum {
+public enum OrderSearchKeywordEnum {
     BRAND_NAME
 }
