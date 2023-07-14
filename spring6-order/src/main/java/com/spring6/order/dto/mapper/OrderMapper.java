@@ -4,10 +4,10 @@ import com.spring6.order.dto.request.OrderCreateRequestDto;
 import com.spring6.order.dto.request.OrderUpdateRequestDto;
 import com.spring6.order.dto.response.OrderAuditResponseDto;
 import com.spring6.order.dto.response.OrderCreateResponseDto;
+import com.spring6.order.dto.response.OrderResponseDto;
 import com.spring6.order.dto.response.OrderUpdateResponseDto;
 import com.spring6.order.model.entity.Order;
 import com.spring6.order.utils.InstantFormatter;
-import com.spring6.common.dto.BrandFindResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -19,19 +19,19 @@ public interface OrderMapper {
 
     @Mapping(source = "createdOn", target = "createdOn", qualifiedByName = "formatInstant")
     @Mapping(source = "lastUpdatedOn", target = "lastUpdatedOn", qualifiedByName = "formatInstant")
-    BrandFindResponseDto brandToBrandFindResponseDto(Order order);
+    OrderResponseDto orderToOrderResponseDto(Order order);
 
-    Order brandCreateRequestDtoToBrand(OrderCreateRequestDto orderCreateRequestDto);
+    Order orderCreateRequestDtoToOrder(OrderCreateRequestDto orderCreateRequestDto);
 
-    OrderCreateResponseDto brandToBrandCreateResponseDto(Order order);
+    OrderCreateResponseDto orderToOrderCreateResponseDto(Order order);
 
-    Order brandUpdateRequestDtoToBrand(OrderUpdateRequestDto orderUpdateRequestDto);
+    Order orderUpdateRequestDtoToOrder(OrderUpdateRequestDto orderUpdateRequestDto);
 
-    OrderUpdateResponseDto brandToBrandUpdateResponseDto(Order order);
+    OrderUpdateResponseDto orderToOrderUpdateResponseDto(Order order);
 
     @Mapping(source = "createdOn", target = "createdOn", qualifiedByName = "formatInstant")
     @Mapping(source = "lastUpdatedOn", target = "lastUpdatedOn", qualifiedByName = "formatInstant")
-    OrderAuditResponseDto brandToBrandAuditResponseDto(Order order);
+    OrderAuditResponseDto orderToOrderAuditResponseDto(Order order);
 
     @Named("formatInstant")
     default String formatInstant(Instant instant) {

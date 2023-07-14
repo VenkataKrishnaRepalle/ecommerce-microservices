@@ -17,15 +17,9 @@ public interface OrderDao {
 
     Order save(Order user);
 
-    void delete(Order user);
-
-    Page<Order> findAllByName(String searchKeyword, Pageable pageable);
-
     Page<Order> findAll(Pageable pageable);
 
     Long countById(UUID id);
 
     void deleteById(UUID id);
-
-    Optional<Order> findByName(String name);
 }

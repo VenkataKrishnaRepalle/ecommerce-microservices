@@ -3,13 +3,13 @@ package com.spring6.order.controller;
 import com.spring6.order.dto.request.OrderCreateRequestDto;
 import com.spring6.order.dto.request.OrderUpdateRequestDto;
 import com.spring6.order.dto.response.OrderCreateResponseDto;
+import com.spring6.order.dto.response.OrderResponseDto;
 import com.spring6.order.dto.response.OrderUpdateResponseDto;
-import com.spring6.order.dto.enums.OrderSearchKeywordEnum;
+import com.spring6.order.dto.enums.OrderSearchKeyword;
 import com.spring6.order.exception.OrderNotFoundException;
 import com.spring6.order.service.OrderService;
 import com.spring6.order.utils.TraceIdHolder;
 import com.spring6.order.validations.ValidImageExtension;
-import com.spring6.common.dto.BrandFindResponseDto;
 import com.spring6.common.exeption.ErrorCodes;
 import com.spring6.common.exeption.ErrorListResponse;
 import com.spring6.common.exeption.ErrorResponse;
@@ -46,108 +46,103 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/brand")
+@RequestMapping("api/order")
 public class OrderController {
 
     private final OrderService orderService;
-
-    @Value("${file.upload_directory}")
-    private String IMAGE_UPLOAD_DIRECTORY;
-
-    @Operation(tags = "Brand", summary = "Create Brand", description = "Create a new Brand by entering brand details")
+    
+    @Operation(tags = "Order", summary = "Create Order", description = "Create a new Order by entering order details")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Brand", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderCreateResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Order", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderCreateResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping(value = "create")
-    public ResponseEntity<OrderCreateResponseDto> createBrand(
-            @RequestBody @Valid final OrderCreateRequestDto orderCreateRequestDto)
-            throws BrandNameAlreadyExistException {
-        log.info("BrandController:createBrand execution started.");
-        log.debug("BrandController:createBrand traceId: {} request payload: {}", TraceIdHolder.getTraceId(), orderCreateRequestDto);
+    public ResponseEntity<OrderCreateResponseDto> createOrder(@RequestBody @Valid final OrderCreateRequestDto orderCreateRequestDto) {
+        log.info("OrderController:createOrder execution started.");
+        log.debug("OrderController:createOrder traceId: {} request payload: {}", TraceIdHolder.getTraceId(), orderCreateRequestDto);
 
-        OrderCreateResponseDto savedBrandDto = orderService.create(orderCreateRequestDto);
+        OrderCreateResponseDto savedOrderDto = orderService.create(orderCreateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.debug("BrandController:createBrand traceId: {} response: {}", TraceIdHolder.getTraceId(), savedBrandDto);
-        log.info("BrandController:createBrand execution ended.");
+        log.debug("OrderController:createOrder traceId: {} response: {}", TraceIdHolder.getTraceId(), savedOrderDto);
+        log.info("OrderController:createOrder execution ended.");
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .headers(headers)
-                .body(savedBrandDto);
+                .body(savedOrderDto);
     }
 
-    @Operation(tags = "Brand", summary = "Get Brand By Id", description = "Get Brand by id")
+    @Operation(tags = "Order", summary = "Get Order By Id", description = "Get Order by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get Brand Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BrandFindResponseDto.class))}),
-            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Brand not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get Order Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Order not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("{id}")
-    public ResponseEntity<BrandFindResponseDto> getBrandById(@PathVariable @Valid final UUID id) {
-        log.info("BrandController:getBrandById execution started.");
-        log.info("BrandController:getBrandById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+    public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable @Valid final UUID id) {
+        log.info("OrderController:getOrderById execution started.");
+        log.info("OrderController:getOrderById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
-        BrandFindResponseDto brandFindResponseDto = orderService.getById(id);
+        OrderResponseDto orderFindResponseDto = orderService.getById(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:getBrandById traceId: {} response : {}", TraceIdHolder.getTraceId(), brandFindResponseDto);
-        log.info("BrandController:getBrandById execution ended.");
+        log.info("OrderController:getOrderById traceId: {} response : {}", TraceIdHolder.getTraceId(), orderFindResponseDto);
+        log.info("OrderController:getOrderById execution ended.");
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(brandFindResponseDto);
+                .body(orderFindResponseDto);
     }
 
-    @Operation(tags = "Brand", summary = "Get All Brands", description = "Get all brands by passing brand id")
+    @Operation(tags = "Order", summary = "Get All Orders", description = "Get all orders by passing order id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get Brand Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BrandFindResponseDto.class))}),
-            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Brand not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get Order Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Order not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("list")
-    public ResponseEntity<List<BrandFindResponseDto>> getAllBrands() {
-        log.info("BrandController:getAllBrands started.");
-        log.info("BrandController:getAllBrands traceId: {}", TraceIdHolder.getTraceId());
-        List<BrandFindResponseDto> brandFindResponseDtoList = orderService.getAll();
+    public ResponseEntity<List<OrderResponseDto>> getAllOrders() {
+        log.info("OrderController:getAllOrders started.");
+        log.info("OrderController:getAllOrders traceId: {}", TraceIdHolder.getTraceId());
+        List<OrderResponseDto> orderFindResponseDtoList = orderService.getAll();
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:getAllBrands traceId: {} response: {}", TraceIdHolder.getTraceId(), brandFindResponseDtoList);
-        log.info("BrandController:getAllBrands execution ended.");
+        log.info("OrderController:getAllOrders traceId: {} response: {}", TraceIdHolder.getTraceId(), orderFindResponseDtoList);
+        log.info("OrderController:getAllOrders execution ended.");
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(brandFindResponseDtoList);
+                .body(orderFindResponseDtoList);
     }
 
-    @Operation(tags = "Brand", summary = "Update Brand", description = "Update brand by passing brand id and brand request body")
+    @Operation(tags = "Order", summary = "Update Order", description = "Update order by passing order id and order request body")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Brand", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderCreateResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Order", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderCreateResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PatchMapping("update/{id}")
-    public ResponseEntity<OrderUpdateResponseDto> updateBrand(@PathVariable UUID id, @RequestBody OrderUpdateRequestDto orderUpdateRequestDto) {
+    public ResponseEntity<OrderUpdateResponseDto> updateOrder(@PathVariable UUID id, @RequestBody OrderUpdateRequestDto orderUpdateRequestDto) {
 
-        log.info("BrandController:updateBrand started.");
-        log.info("BrandController:updateBrand traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, orderUpdateRequestDto);
+        log.info("OrderController:updateOrder started.");
+        log.info("OrderController:updateOrder traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, orderUpdateRequestDto);
 
         OrderUpdateResponseDto orderUpdateResponseDto = orderService.update(id, orderUpdateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:updateBrand traceId: {} response: {}", TraceIdHolder.getTraceId(), orderUpdateResponseDto);
-        log.info("BrandController:updateBrand ended.");
+        log.info("OrderController:updateOrder traceId: {} response: {}", TraceIdHolder.getTraceId(), orderUpdateResponseDto);
+        log.info("OrderController:updateOrder ended.");
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -155,141 +150,59 @@ public class OrderController {
 
     }
 
-    @Operation(tags = "Brand", summary = "Delete Brand By Id", description = "Delete existing brand by passing brand id")
+    @Operation(tags = "Order", summary = "Delete Order By Id", description = "Delete existing order by passing order id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Brand", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderCreateResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Order", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderCreateResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteBrandById(@PathVariable final UUID id) {
-        log.info("BrandController:deleteById started.");
-        log.info("BrandController:deleteById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+    public ResponseEntity<Void> deleteOrderById(@PathVariable final UUID id) {
+        log.info("OrderController:deleteById started.");
+        log.info("OrderController:deleteById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         orderService.deleteById(id);
-        String dir = "../brand-logos/" + id;
+        String dir = "../order-logos/" + id;
         FileUploadUtils.removeDir(dir);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:deleteById traceId: {}", TraceIdHolder.getTraceId());
-        log.info("BrandController:deleteById ended.");
+        log.info("OrderController:deleteById traceId: {}", TraceIdHolder.getTraceId());
+        log.info("OrderController:deleteById ended.");
 
         return ResponseEntity.noContent()
                 .headers(headers)
                 .build();
     }
 
-    @Operation(tags = "Brand", summary = "Get Brands By Pagination", description = "Get brands by pagination by passing pagination attributes")
+    @Operation(tags = "Order", summary = "Get Orders By Pagination", description = "Get orders by pagination by passing pagination attributes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Brands", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BrandFindResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Orders", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("page")
-    public ResponseEntity<List<BrandFindResponseDto>> getBrandsByPage(@RequestParam(name = "pageNumber") Integer pageNumber,
+    public ResponseEntity<List<OrderResponseDto>> getOrdersByPage(@RequestParam(name = "pageNumber") Integer pageNumber,
                                                                       @RequestParam("perPageCount") Integer perPageCount,
                                                                       @RequestParam("sortField") String sortField,
                                                                       @RequestParam("sortDirection") String sortDirection,
-                                                                      @RequestParam("searchField") OrderSearchKeywordEnum searchField,
+                                                                      @RequestParam("searchField") OrderSearchKeyword searchField,
                                                                       @RequestParam("searchKeyword") String searchKeyword) {
-        log.info("BrandController:getBrandsByPage started.");
-        log.info("BrandController:getBrandsByPage traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
+        log.info("OrderController:getOrdersByPage started.");
+        log.info("OrderController:getOrdersByPage traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
-        List<BrandFindResponseDto> brandFindResponseDtoList = orderService.getByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-
-        log.info("BrandController:getBrandsByPage traceId: {} response: {}", TraceIdHolder.getTraceId(), brandFindResponseDtoList);
-        log.info("BrandController:getBrandsByPage ended.");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(brandFindResponseDtoList);
-    }
-
-    @Operation(tags = "Brand", summary = "Upload Brand Image", description = "Upload brand image by passing brand id and brand image")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Image uploaded success"),
-            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
-            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @PostMapping("upload-image")
-    public ResponseEntity<Void> uploadBrandImage(
-            @RequestParam @NotNull final UUID brandId,
-            @NotNull @ValidImageExtension @RequestParam("fileImage") final MultipartFile multipartFile)
-            throws IOException, BrandNameAlreadyExistException {
-        log.info("BrandController:uploadBrandImage started.");
-        log.info("BrandController:uploadBrandImage traceId: {} request id: {}", TraceIdHolder.getTraceId(), brandId);
-
-        if (orderService.isIdExist(brandId)) {
-            log.error("BrandController:uploadBrandImage traceId: {} Brand Not Found id: {}", TraceIdHolder.getTraceId(), brandId);
-            throw new OrderNotFoundException(ErrorCodes.E0507, brandId.toString());
-        }
-
-        if (!multipartFile.isEmpty() && multipartFile.getOriginalFilename() != null) {
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-
-            FileUploadUtils.cleanDir(IMAGE_UPLOAD_DIRECTORY);
-            FileUploadUtils.saveFile(IMAGE_UPLOAD_DIRECTORY, fileName, multipartFile.getInputStream());
-
-            orderService.updateImageName(brandId, fileName);
-
-        } else {
-            log.error("BrandController:uploadBrandImage traceId: {} File Not Found id: {}", TraceIdHolder.getTraceId(), brandId);
-        }
+        List<OrderResponseDto> orderFindResponseDtoList = orderService.getByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:uploadBrandImage traceId: {}", TraceIdHolder.getTraceId());
-        log.info("BrandController:uploadBrandImage ended.");
+        log.info("OrderController:getOrdersByPage traceId: {} response: {}", TraceIdHolder.getTraceId(), orderFindResponseDtoList);
+        log.info("OrderController:getOrdersByPage ended.");
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .build();
-    }
-
-    @Operation(tags = "Brand", summary = "Get Brand Image By Id", description = "Get brand by passing brand id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Success", content = {@Content(mediaType = "application/octet-stream")}),
-            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Image Not found"),
-            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @GetMapping("image/{id}")
-    public ResponseEntity<Resource> getBrandImageById(
-            @PathVariable("id") UUID id) throws MalformedURLException {
-        log.info("BrandController:getBrandImageById started.");
-        log.debug("BrandController:getBrandImageById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
-
-        String imageName = orderService.getImageNameById(id);
-
-        Path imagePath = Paths.get(IMAGE_UPLOAD_DIRECTORY, imageName);
-        Resource imageResource = new UrlResource(imagePath.toUri());
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-
-        if (!imageResource.exists()) {
-            log.error("BrandController:getBrandImageById traceId: {} id: {} Image source not found", TraceIdHolder.getTraceId(), id);
-            log.error("BrandController:getBrandImageById ended.");
-            return ResponseEntity.notFound()
-                    .headers(headers).build();
-
-        }
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageName + "\"");
-
-        log.info("BrandController:getBrandImageById traceId: {} id: {}", TraceIdHolder.getTraceId(), id);
-        log.info("BrandController:getBrandImageById ended.");
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .headers(headers)
-                .body(imageResource);
-
+                .body(orderFindResponseDtoList);
     }
 
 }

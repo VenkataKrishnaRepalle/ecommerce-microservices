@@ -1,6 +1,5 @@
 package com.spring6.order.model.entity;
 
-import com.spring6.order.model.enums.OrderStatusEnum;
 import com.spring6.order.model.enums.StockStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,16 +15,16 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
-@Audited
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "order", indexes = {
-        @Index(name = "idx_order_id", columnList = "id"),
-        @Index(name = "idx_order_status", columnList = "status")
-})
-@Entity
+//@Audited
+//@Data
+//@Builder
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Table(name = "order", indexes = {
+//        @Index(name = "idx_order_id", columnList = "id"),
+//        @Index(name = "idx_order_status", columnList = "status")
+//})
+//@Entity
 public class Stock {
 
     @Id

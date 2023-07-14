@@ -33,16 +33,6 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void delete(Order user) {
-        orderRepository.delete(user);
-    }
-
-    @Override
-    public Page<Order> findAllByName(String searchKeyword, Pageable pageable) {
-        return orderRepository.findAllByName(searchKeyword, pageable);
-    }
-
-    @Override
     public Page<Order> findAll(Pageable pageable) {
         return orderRepository.findAll(pageable);
     }
@@ -57,8 +47,4 @@ public class OrderDaoImpl implements OrderDao {
         orderRepository.deleteById(id);
     }
 
-    @Override
-    public Optional<Order> findByName(String name) {
-        return orderRepository.findByName(name);
-    }
 }

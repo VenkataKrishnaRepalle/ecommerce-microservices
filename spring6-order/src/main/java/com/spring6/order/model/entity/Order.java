@@ -1,7 +1,7 @@
 package com.spring6.order.model.entity;
 
-import com.spring6.common.enums.BrandStatusEnum;
-import com.spring6.order.model.enums.OrderStatusEnum;
+import com.spring6.order.model.enums.OrderStatus;
+import com.spring6.order.model.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
-import org.hibernate.type.SqlTypes;
 
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Audited
@@ -35,10 +37,38 @@ public class Order {
     @Column(updatable = false, nullable = false)
     private UUID id;
 
+    @Column(nullable = false, length = 45)
+    private String firstName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 15, nullable = false)
-    private OrderStatusEnum status;
+    @Column(nullable = false, length = 45)
+    private String lastName;
+
+    @Column(nullable = false, length = 15)
+    private String phoneNumber;
+
+    @Column(length = 15)
+    private String secondaryPhoneNumber;
+
+    @Column(nullable = false, length = 64)
+    private String addressLine1;
+
+    @Column(length = 64)
+    private String addressLine2;
+
+    @Column(nullable = false, length = 45)
+    private String city;
+
+    @Column(nullable = false, length = 45)
+    private String district;
+
+    @Column(nullable = false, length = 45)
+    private String state;
+
+    @Column(nullable = false, length = 45)
+    private String country;
+
+    @Column(nullable = false, length = 10)
+    private String postalCode;
 
     private Instant orderDate;
 
@@ -48,11 +78,38 @@ public class Order {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-//    @ManyToOne
+    private BigDecimal productCostTotal; // original price of all products total
+
+    private BigDecimal shippingCost; // shipping cost of order
+    private BigDecimal tax;
+
+    private BigDecimal subtotal;
+
+    private BigDecimal total;// shippingCost + subtotal + tax
+
+    private String recipientAddress;
+
+    private Date estimatedDeliveryDate;
+
+    private int estimatedDeliveryDays;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15, nullable = false)
+    private PaymentMethod paymentMethod;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15, nullable = false)
+    private OrderStatus status;
+
+    //    @ManyToOne
 //    @JoinColumn(name = "customer_id")
 //    private Customer customer;
     @Column(nullable = false, length = 36)
     private UUID customerId;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private Set<OrderDetail> orderDetails = new HashSet<>();
+
 
 }
 
