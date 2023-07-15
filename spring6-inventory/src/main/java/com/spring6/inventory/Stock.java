@@ -2,14 +2,9 @@ package com.spring6.order.model.entity;
 
 import com.spring6.order.model.enums.StockStatusEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.envers.Audited;
 
 import java.math.BigDecimal;
 import java.time.Instant;
