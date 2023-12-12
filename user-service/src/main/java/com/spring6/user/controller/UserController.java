@@ -5,7 +5,7 @@ import com.pm.spring.ema.common.exeption.ErrorListResponse;
 import com.pm.spring.ema.common.exeption.ErrorResponse;
 import com.pm.spring.ema.common.utils.FileNameUtil;
 import com.pm.spring.ema.common.util.FileUploadUtils;
-import com.pm.spring.ema.common.utils.GlobalConstants;
+import com.pm.spring.ema.common.util.GlobalConstants;
 import com.pm.spring.ema.common.utils.HttpStatusCodes;
 import com.pm.spring.ema.user.dto.request.UserUpdateRequestDto;
 import com.pm.spring.ema.user.dto.response.UserCreateResponseDto;

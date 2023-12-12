@@ -1,9 +1,9 @@
 package com.pm.spring.ema.ecommerce.controller;
 
 import com.pm.spring.ema.common.dto.CategoryFindResponseDto;
+import com.pm.spring.ema.common.util.GlobalConstants;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.FileUploadUtils;
-import com.pm.spring.ema.common.utils.GlobalConstants;
 import com.pm.spring.ema.ecommerce.dto.CategoryCreateRequestDto;
 import com.pm.spring.ema.ecommerce.dto.CategoryCreateResponseDto;
 import com.pm.spring.ema.ecommerce.dto.CategoryUpdateRequestDto;

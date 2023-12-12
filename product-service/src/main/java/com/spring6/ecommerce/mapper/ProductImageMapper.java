@@ -4,7 +4,7 @@ import com.pm.spring.ema.ecommerce.dto.ProductCreateRequestDto;
 import com.pm.spring.ema.ecommerce.dto.ProductImageCreateRequestDto;
 import com.pm.spring.ema.ecommerce.dto.ProductImageCreateResponseDto;
 import com.pm.spring.ema.ecommerce.dto.ProductImageFindResponseDto;
-import com.pm.spring.ema.ecommerce.entity.ProductImage;
+import com.pm.spring.ema.ecommerce.model.entity.ProductImage;
 import org.mapstruct.Mapper;
 
 @Mapper

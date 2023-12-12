@@ -1,6 +1,6 @@
 package com.pm.spring.ema.ecommerce.dto;
 
-import com.pm.spring.ema.ecommerce.entity.ProductImage;
+import com.pm.spring.ema.ecommerce.model.entity.ProductImage;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;

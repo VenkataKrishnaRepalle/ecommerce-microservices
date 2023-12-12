@@ -1,6 +1,6 @@
 package com.pm.spring.ema.auth.util;
 
-import com.pm.spring.ema.common.utils.GlobalConstants;
+import com.pm.spring.ema.common.util.GlobalConstants;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
-package com.pm.spring.ema.ecommerce.repository;
+package com.pm.spring.ema.ecommerce.model.repository;
 
-import com.pm.spring.ema.ecommerce.entity.Category;
+import com.pm.spring.ema.ecommerce.model.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

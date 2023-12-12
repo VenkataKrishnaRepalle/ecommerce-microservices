@@ -1,10 +1,10 @@
 package com.pm.spring.ema.ecommerce.bootstrap;
 import com.pm.spring.ema.common.enums.CategoryEnum;
 import com.pm.spring.ema.common.enums.SubCategoryEnum;
-import com.pm.spring.ema.ecommerce.entity.SubCategory;
-import com.pm.spring.ema.ecommerce.entity.Category;
-import com.pm.spring.ema.ecommerce.repository.CategoryRepository;
-import com.pm.spring.ema.ecommerce.repository.SubCategoryRepository;
+import com.pm.spring.ema.ecommerce.model.entity.SubCategory;
+import com.pm.spring.ema.ecommerce.model.entity.Category;
+import com.pm.spring.ema.ecommerce.model.repository.CategoryRepository;
+import com.pm.spring.ema.ecommerce.model.repository.SubCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

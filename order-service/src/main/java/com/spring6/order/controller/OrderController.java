@@ -3,7 +3,7 @@ package com.pm.spring.ema.order.controller;
 import com.pm.spring.ema.common.exeption.ErrorListResponse;
 import com.pm.spring.ema.common.exeption.ErrorResponse;
 import com.pm.spring.ema.common.util.FileUploadUtils;
-import com.pm.spring.ema.common.utils.GlobalConstants;
+import com.pm.spring.ema.common.util.GlobalConstants;
 import com.pm.spring.ema.common.utils.HttpStatusCodes;
 import com.pm.spring.ema.order.dto.enums.OrderSearchKeyword;
 import com.pm.spring.ema.order.dto.request.OrderCreateRequestDto;

@@ -1,7 +1,7 @@
 package com.pm.spring.ema.ecommerce.bootstrap;
 
-import com.pm.spring.ema.ecommerce.entity.Product;
-import com.pm.spring.ema.ecommerce.repository.ProductRepository;
+import com.pm.spring.ema.ecommerce.model.entity.Product;
+import com.pm.spring.ema.ecommerce.model.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

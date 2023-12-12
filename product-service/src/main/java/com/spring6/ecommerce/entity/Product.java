@@ -1,4 +1,4 @@
-package com.pm.spring.ema.ecommerce.entity;
+package com.pm.spring.ema.ecommerce.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

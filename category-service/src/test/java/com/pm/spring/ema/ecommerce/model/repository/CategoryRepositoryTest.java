@@ -1,6 +1,6 @@
-package com.pm.spring.ema.ecommerce.repository;
+package com.pm.spring.ema.ecommerce.model.repository;
 
-import com.pm.spring.ema.ecommerce.entity.Category;
+import com.pm.spring.ema.ecommerce.model.entity.Category;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

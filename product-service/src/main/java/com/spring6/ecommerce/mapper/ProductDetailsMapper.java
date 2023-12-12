@@ -3,7 +3,7 @@ package com.pm.spring.ema.ecommerce.mapper;
 import com.pm.spring.ema.common.dto.ProductDetailsFindResponseDto;
 import com.pm.spring.ema.ecommerce.dto.ProductDetailsCreateRequestDto;
 import com.pm.spring.ema.ecommerce.dto.ProductDetailsUpdateRequestDto;
-import com.pm.spring.ema.ecommerce.entity.ProductDetails;
+import com.pm.spring.ema.ecommerce.model.entity.ProductDetails;
 import org.mapstruct.Mapper;
 
 import java.util.List;

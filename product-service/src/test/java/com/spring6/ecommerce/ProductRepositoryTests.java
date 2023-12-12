@@ -1,7 +1,7 @@
 package com.pm.spring.ema.ecommerce;
 
-import com.pm.spring.ema.ecommerce.entity.Product;
-import com.pm.spring.ema.ecommerce.repository.ProductRepository;
+import com.pm.spring.ema.ecommerce.model.entity.Product;
+import com.pm.spring.ema.ecommerce.model.repository.ProductRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

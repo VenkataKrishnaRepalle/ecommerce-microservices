@@ -2,7 +2,7 @@ package com.pm.spring.ema.user.exception;
 
 import com.pm.spring.ema.common.exeption.Error;
 import com.pm.spring.ema.common.exeption.*;
-import com.pm.spring.ema.common.utils.GlobalConstants;
+import com.pm.spring.ema.common.util.GlobalConstants;
 import com.pm.spring.ema.user.filter.TraceIdHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

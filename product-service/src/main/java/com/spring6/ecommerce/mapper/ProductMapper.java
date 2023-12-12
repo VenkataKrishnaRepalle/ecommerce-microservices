@@ -5,7 +5,7 @@ import com.pm.spring.ema.ecommerce.dto.ProductCreateRequestDto;
 import com.pm.spring.ema.ecommerce.dto.ProductCreateResponseDto;
 import com.pm.spring.ema.ecommerce.dto.ProductUpdateRequestDto;
 import com.pm.spring.ema.ecommerce.dto.ProductUpdateResponseDto;
-import com.pm.spring.ema.ecommerce.entity.Product;
+import com.pm.spring.ema.ecommerce.model.entity.Product;
 import org.mapstruct.Mapper;
 
 @Mapper

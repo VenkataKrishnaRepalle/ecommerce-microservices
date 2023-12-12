@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Spring6EcommerceCategoryApplication {
+public class CategoryApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Spring6EcommerceCategoryApplication.class, args);
+        SpringApplication.run(CategoryApplication.class, args);
     }
 
 }

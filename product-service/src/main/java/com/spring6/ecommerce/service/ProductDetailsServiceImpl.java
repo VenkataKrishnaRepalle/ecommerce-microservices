@@ -3,13 +3,13 @@ package com.pm.spring.ema.ecommerce.service;
 import com.pm.spring.ema.common.dto.ProductDetailsFindResponseDto;
 import com.pm.spring.ema.ecommerce.dto.ProductDetailsCreateRequestDto;
 import com.pm.spring.ema.ecommerce.dto.ProductDetailsUpdateRequestDto;
-import com.pm.spring.ema.ecommerce.entity.ProductDetails;
+import com.pm.spring.ema.ecommerce.model.entity.ProductDetails;
 import com.pm.spring.ema.ecommerce.exception.ErrorCode;
 import com.pm.spring.ema.ecommerce.exception.InvalidInputDetailsException;
 import com.pm.spring.ema.ecommerce.exception.ProductAlreadyPresentException;
 import com.pm.spring.ema.ecommerce.exception.ProductNotFoundException;
 import com.pm.spring.ema.ecommerce.mapper.ProductDetailsMapper;
-import com.pm.spring.ema.ecommerce.repository.ProductDetailsRepository;
+import com.pm.spring.ema.ecommerce.model.repository.ProductDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.pm.spring.ema.ecommerce.repository;
+package com.pm.spring.ema.ecommerce.model.repository;
 
-import com.pm.spring.ema.ecommerce.entity.Product;
+import com.pm.spring.ema.ecommerce.model.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
 package com.pm.spring.ema.user.export;
 
-import com.pm.spring.ema.common.utils.GlobalConstants;
+import com.pm.spring.ema.common.util.GlobalConstants;
 import com.pm.spring.ema.user.filter.TraceIdHolder;
 import jakarta.servlet.http.HttpServletResponse;
 
