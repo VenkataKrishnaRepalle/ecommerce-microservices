@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>OTP for Login</title>
+</head>
+<body style="background-color: #f0f0f0; font-family: Arial, sans-serif; text-align: center;">
+<div style="background-color: #ffffff; border-radius: 8px; margin: 20px auto; padding: 20px; width: 80%; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <p style="color: #333; font-size: 18px;">Hello [[${name}]], </p>
+    <h1 style="color: #007bff;">Your Login OTP Code</h1> <!-- Replace with the recipient's name -->
+    <p style="color: #333; font-size: 18px;">Your One-Time Password (OTP) for Login is:</p>
+    <div style="background-color: #007bff; color: #fff; font-size: 24px; padding: 10px 0; border-radius: 4px;">
+        <strong>[[${otp}]]</strong> <!-- Replace with the actual OTP -->
+    </div>
+    <p style="color: #333; font-size: 16px; margin-top: 20px;">This OTP is valid for 2 minutes.</p>
+    <p style="color: #333; font-size: 16px;">Please do not share this OTP with anyone.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  postgres-db:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=chat_user
+      - POSTGRES_PASSWORD=chat_password
+      - POSTGRES_DB=chat_db
+    networks:
+      - ${GLOBAL_NETWORK:-services}

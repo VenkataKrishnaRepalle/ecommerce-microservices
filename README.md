@@ -1,5 +1,4 @@
-# Spring Boot Ecommerce
-
+# Spring Boot
 **References:**
 
 - https://www.udemy.com/course/spring-boot-e-commerce-ultimate/

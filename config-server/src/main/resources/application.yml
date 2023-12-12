@@ -1,0 +1,35 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+#        encrypt:
+#          enabled: false
+        git:
+#          uri: file:./config-server-repository
+          uri: https://github.com/pandimuneeswaranraja/spring-chat-config-server-repository
+          username: '{cipher}3eedfa227d0bed5b119e50aa5d879bfaca8892528b05cbe34370754ee85f0dc67448f2a43136e05c765e435f87fa0296'
+          password: '{cipher}a14fe88b8cfe138c8978c8056662d03fdf376917cd72b85675223159a192f546afee11583e3a42f22eacc013bfece84b69d1b64770b7f0df68ef63d8b0f1313b'
+          default-label: main
+          clone-on-start: true
+#          timeout: 5
+    fail-fast: true
+  security:
+    user:
+      name: user
+      password: '{cipher}2e1042272f3912b3b4d1f97a227e0f437250c7d0810a7c045f88d42a3d6b8ef4'
+encrypt:
+  key: ${CHAT_ENCRYPT_KEY}
+
+log:
+  app-name: config-server
+
+# remove for production
+logging:
+  level:
+    ROOT: INFO
+    org.spring.framework.cloud.config: DEBUG

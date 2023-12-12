@@ -1,0 +1,16 @@
+package com.pm.spring.ema.common.util.api;
+
+import com.pm.spring.ema.common.util.exception.Error;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
+@Builder
+public class ErrorResponse {
+    private StatusType status = StatusType.ERROR;
+    private Error error;
+}

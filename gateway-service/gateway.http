@@ -1,0 +1,31 @@
+GET http://localhost:7070/authentication-service/get-by-userid/8faf7c48-74d7-455f-9269-7ae0c7e90826
+#Authorization: 'Bearer eyJ0eXAiOiJBUEkiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJBQlVtTWtqSFNLU2V4R19PN3FYWC1BIn0.MCwCFGKASOgBTBOGu2TlB1meLqDjmNVAAhQcjbXglY7d9jM8y3YnS7kN1HcBU0BAQEBAQEAy'
+
+###
+
+GET http://localhost:1001/get-by-userid/8faf7c48-74d7-455f-9269-7ae0c7e90826
+
+###
+
+# curl -X GET --location "http://localhost:7070/authentication-service/get-by-userid/8faf7c48-74d7-455f-9269-7ae0c7e90826"
+#    -H "Accept: application/json"
+#    -d "Authorization 'Bearer eyJ0eXAiOiJBUEkiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJBQlVtTWtqSFNLU2V4R19PN3FYWC1BIn0.MCwCFGKASOgBTBOGu2TlB1meLqDjmNVAAhQcjbXglY7d9jM8y3YnS7kN1HcBU0BAQEBAQEAy'"
+GET http://localhost:7070/authentication-service/get-by-userid/8faf7c48-74d7-455f-9269-7ae0c7e90826
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+Authorization 'Bearer eyJ0eXAiOiJBUEkiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJBQlVtTWtqSFNLU2V4R19PN3FYWC1BIn0.MCwCFGKASOgBTBOGu2TlB1meLqDjmNVAAhQcjbXglY7d9jM8y3YnS7kN1HcBU0BAQEBAQEAy'
+
+###
+
+# curl -X GET
+#  'https://your-api-endpoint'
+#  -H 'Authorization: Bearer ABC123'
+GET http://localhost:7070/authentication-service/get-by-userid/8faf7c48-74d7-455f-9269-7ae0c7e90826
+Authorization: Bearer ABC123
+
+###
+
+
+
+

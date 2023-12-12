@@ -1,0 +1,17 @@
+{
+	"ulid": "01HFRN7VEMXES2CMH79Y5XK2RR",
+	"minTime": 1700416800000,
+	"maxTime": 1700424000000,
+	"stats": {
+		"numSamples": 34081,
+		"numSeries": 474,
+		"numChunks": 474
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HFRN7VEMXES2CMH79Y5XK2RR"
+		]
+	},
+	"version": 1
+}

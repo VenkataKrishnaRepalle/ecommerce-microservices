@@ -1,0 +1,47 @@
+GET http://localhost:8888/enrypt/status
+Accept: application/json
+
+###
+###
+
+# curl -X POST http://localhost:8888/encrypt -d "mysecret@123423$$rtyhADD$1"
+POST http://localhost:8888/encrypt
+#Content-Type: application/x-www-form-urlencoded
+Content-Type: text/plain
+#Authorization: Basic user pass
+
+my-hidden-secret
+
+###
+
+###
+
+# curl -X POST http://localhost:8888/encrypt -d "mysecret@123423$$rtyhADD$1"
+POST http://localhost:8888/decrypt
+Content-Type: application/x-www-form-urlencoded
+
+dcb39e1a21c1940c99388f158a7e728fe19dbaa70f8b6da7b806a36a3532c16a
+###
+
+# curl --location 'http://localhost:8888/encrypt'
+#--header 'Content-Type: text/plain'
+#--header 'Authorization: Basic dXNlcjpwYXNz'
+#--header 'Cookie: JSESSIONID=35F3577D30983C6052F97CEBCF9B455E'
+#--data 'my-hidden-secret'
+POST http://localhost:8888/encrypt
+Authorization: Basic user password
+Content-Type: text/plain
+
+dsdsfdsfdsf
+
+###
+#9c164fea-865e-477a-9a0a-e86943c22f9b
+
+# curl -X POST http://config-client-host:config-client-port/actuator/refresh
+POST http://localhost:8888/actuator/refresh
+Authorization: Basic user password
+
+
+###
+
+
