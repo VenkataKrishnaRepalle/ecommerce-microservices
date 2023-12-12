@@ -36,7 +36,7 @@
 <!--        <module>inventory-service</module>-->
 <!--        <module>order-service</module>-->
 <!--        <module>payment-service</module>-->
-<!--        <module>product-service</module>-->
+        <module>product-service</module>
 <!--        <module>report-service</module>-->
 <!--        <module>return-refund-service</module>-->
 <!--        <module>review-service</module>-->

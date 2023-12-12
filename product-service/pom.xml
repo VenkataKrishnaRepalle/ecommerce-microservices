@@ -90,7 +90,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.pm.spring.ema</groupId>
-			<artifactId>spring6-common-util</artifactId>
+			<artifactId>common-util</artifactId>
 			<version>${snapshot.version}</version>
 		</dependency>
 
@@ -102,7 +102,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.pm.spring.ema</groupId>
-			<artifactId>spring6-common-util</artifactId>
+			<artifactId>common-util</artifactId>
 			<version>${snapshot.version}</version>
 			<scope>compile</scope>
 		</dependency>
