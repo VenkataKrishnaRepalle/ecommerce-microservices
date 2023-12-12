@@ -230,11 +230,11 @@ In an e-commerce system, various roles may exist to manage different aspects of 
 
 ## Postgres
 ```sql
-DROP USER chat_user;
-DROP DATABASE chat_db;
-CREATE USER chat_user WITH PASSWORD 'chat_password';
-CREATE DATABASE chat_db;
-GRANT ALL PRIVILEGES ON DATABASE chat_db TO chat_user;
+DROP USER ema_user;
+DROP DATABASE ema_db;
+CREATE USER ema_user WITH PASSWORD 'ema_password';
+CREATE DATABASE ema_db;
+GRANT ALL PRIVILEGES ON DATABASE chat_db TO ema_user;
 ```
 
 ## Docker
