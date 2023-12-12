@@ -10,7 +10,7 @@ POST http://localhost:8888/encrypt
 Content-Type: text/plain
 #Authorization: Basic user pass
 
-my-hidden-secret
+ema_password
 
 ###
 
@@ -20,7 +20,7 @@ my-hidden-secret
 POST http://localhost:8888/decrypt
 Content-Type: application/x-www-form-urlencoded
 
-dcb39e1a21c1940c99388f158a7e728fe19dbaa70f8b6da7b806a36a3532c16a
+09110b6731cc38a64c216f45a28be0b5bbf99331bd19c4a02c0bfdd196679327
 ###
 
 # curl --location 'http://localhost:8888/encrypt'

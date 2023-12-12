@@ -1,4 +1,4 @@
-package com.pm.spring.ema.brand.dto.mapper;
+package com.pm.spring.ema.brand.mapper;
 
 import com.pm.spring.ema.brand.dto.request.BrandCreateRequestDto;
 import com.pm.spring.ema.brand.dto.request.BrandUpdateRequestDto;

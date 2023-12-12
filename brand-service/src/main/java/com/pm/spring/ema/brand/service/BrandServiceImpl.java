@@ -9,7 +9,7 @@ import com.pm.spring.ema.brand.model.entity.Brand;
 import com.pm.spring.ema.brand.dto.enums.BrandSearchKeywordEnum;
 import com.pm.spring.ema.brand.exception.BrandNameAlreadyExistException;
 import com.pm.spring.ema.brand.exception.BrandNotFoundException;
-import com.pm.spring.ema.brand.dto.mapper.BrandMapper;
+import com.pm.spring.ema.brand.mapper.BrandMapper;
 import com.pm.spring.ema.brand.utils.TraceIdHolder;
 import com.pm.spring.ema.common.dto.BrandFindResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;

@@ -3,7 +3,7 @@ package com.pm.spring.ema.brand.service;
 import com.pm.spring.ema.brand.dto.response.BrandAuditResponseDto;
 import com.pm.spring.ema.brand.model.dao.AuditDao;
 import com.pm.spring.ema.brand.model.entity.Brand;
-import com.pm.spring.ema.brand.dto.mapper.BrandMapper;
+import com.pm.spring.ema.brand.mapper.BrandMapper;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionType;

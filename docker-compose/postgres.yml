@@ -7,8 +7,8 @@ services:
     volumes:
       - ~/apps/postgres:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=chat_user
-      - POSTGRES_PASSWORD=chat_password
-      - POSTGRES_DB=chat_db
+      - POSTGRES_USER=ema_user
+      - POSTGRES_PASSWORD=ema_password
+      - POSTGRES_DB=ema_db
     networks:
       - ${GLOBAL_NETWORK:-services}

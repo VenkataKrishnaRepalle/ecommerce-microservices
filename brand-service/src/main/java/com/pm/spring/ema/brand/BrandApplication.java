@@ -8,11 +8,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 //@EnableAdminServer
 @EnableFeignClients("com.pm.spring.ema.brand")
 @SpringBootApplication
-public class Spring6BrandApplication {
+public class BrandApplication {
 
     public static void main(String[] args) {
 
-        SpringApplication.run(Spring6BrandApplication.class, args);
+        SpringApplication.run(BrandApplication.class, args);
     }
 
 }

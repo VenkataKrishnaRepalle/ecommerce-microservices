@@ -154,3 +154,129 @@
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
 ```
+
+## Roles
+In an e-commerce system, various roles may exist to manage different aspects of the platform and its functionalities. Here's a list of common roles in an e-commerce application, along with brief descriptions of their responsibilities:
+
+1. **Customer:**
+   - Role: `ROLE_CUSTOMER`
+   - Responsibilities: Registered users who can browse products, add items to their cart, place orders, and manage their profiles.
+
+2. **Guest Customer:**
+   - Role: `ROLE_GUEST`
+   - Responsibilities: Users who are not registered but can browse products and add items to their cart. They may be prompted to register during the checkout process.
+
+3. **Administrator:**
+   - Role: `ROLE_ADMIN`
+   - Responsibilities: Users with full access to the admin panel, allowing them to manage products, categories, orders, customer data, and other system configurations.
+
+4. **Store Manager:**
+   - Role: `ROLE_STORE_MANAGER`
+   - Responsibilities: Users responsible for managing specific aspects of the product catalog, such as adding, updating, or removing products within their assigned categories.
+
+5. **Order Fulfillment:**
+   - Role: `ROLE_ORDER_FULFILLMENT`
+   - Responsibilities: Users responsible for processing and fulfilling customer orders, managing inventory, and coordinating shipping and logistics.
+
+6. **Customer Support:**
+   - Role: `ROLE_CUSTOMER_SUPPORT`
+   - Responsibilities: Users who handle customer inquiries, provide support, and resolve issues related to orders, products, and general inquiries.
+
+7. **Marketing Manager:**
+   - Role: `ROLE_MARKETING_MANAGER`
+   - Responsibilities: Users responsible for creating and managing marketing campaigns, promotions, discounts, and analyzing customer behavior to optimize marketing strategies.
+
+8. **Analytics and Reporting:**
+   - Role: `ROLE_ANALYTICS`
+   - Responsibilities: Users responsible for analyzing data, generating reports, and providing insights into customer behavior, sales trends, and overall system performance.
+
+9. **Finance Manager:**
+   - Role: `ROLE_FINANCE_MANAGER`
+   - Responsibilities: Users responsible for managing financial aspects of the e-commerce platform, including budgeting, financial reporting, and reconciliation.
+
+10. **Security Manager:**
+   - Role: `ROLE_SECURITY_MANAGER`
+   - Responsibilities: Users responsible for implementing and managing security measures to protect the e-commerce platform from cyber threats, ensuring compliance with security standards.
+
+11. **Content Manager:**
+   - Role: `ROLE_CONTENT_MANAGER`
+   - Responsibilities: Users responsible for managing and updating content on the website, including product descriptions, images, and other informational content.
+
+12. **Vendor:**
+   - Role: `ROLE_VENDOR`
+   - Responsibilities: Users representing external vendors who manage their product listings, inventory, and order fulfillment processes within the e-commerce platform.
+
+
+## Pre-deployment steps
+
+- CheckStyle : local development code smell
+- Karate : Automated Testing
+- Git : Version Control
+- Apache Maven : Build
+- SonarQube : Code smell
+- Apache JMeter : Load Testing
+- Snyk : scan, prioritize, and fix security vulnerabilities in your code, open source dependencies, container images,
+  and Infrastructure as Code (IaC) configurations.
+- Jenkins : CI/CD
+- Nexus : Artifacts
+- Jacco : Code Coverage
+- maven: final build
+- Docker: Containerization
+- kubernetes : container orchestration platforms
+- Elastic : logging
+- Kafka: Message broker
+- Spring Cloud Config or external configuration files
+
+
+## Postgres
+```sql
+DROP USER chat_user;
+DROP DATABASE chat_db;
+CREATE USER chat_user WITH PASSWORD 'chat_password';
+CREATE DATABASE chat_db;
+GRANT ALL PRIVILEGES ON DATABASE chat_db TO chat_user;
+```
+
+## Docker
+```shell
+# run container in detached mode
+docker run --name demo-container -p 8080:8080 -d demo-image 
+# stop container
+docker stop demo-container 
+# remove container
+docker rm demo-container 
+# set container volume from local `pwd` to container directory `/code`
+docker run --name demo-container -p 8080:8080 -d -v $(pwd):/code demo-image
+#Check the created images
+docker images
+#Check the created containers
+docker ps -a
+#Check the logs
+docker container logs CONTAINER_ID
+
+```
+## Docker compose
+
+Let change `docker run --name config-server -p 8080:8080 -d -v $(pwd):/code demo-image` to docker compose file
+
+docker-compose.yml
+
+```yaml
+version: '3.9'
+
+services:
+  config-server:
+    build: *
+    container_name: config-server
+    command: java -jar app.jar --host 0.0.0.0 --port 8080 --reload
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/code
+```
+
+```shell
+ docker-compose -f .\common.yml -f .\docker-compose.yml build
+ docker-compose -f .\common.yml -f .\docker-compose.yml up -d
+ docker-compose down
+```
