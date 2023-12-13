@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: product-service
+  profiles:
+    active: product
+  config:
+    import: 'configserver:'
+  cloud:
+    config:
+      name: product-service,config-client
+      username: user
+      password: password
+      uri: http://localhost:8888
+
+log:
+  appName: product-service
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud: DEBUG
