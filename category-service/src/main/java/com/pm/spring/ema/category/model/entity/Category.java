@@ -26,8 +26,7 @@ public class Category {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(updatable = false, nullable = false)
     private UUID id;
 
     @Column(length = 128, nullable = false, unique = true)

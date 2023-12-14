@@ -10,16 +10,14 @@ spring:
       name: category-service,config-client
       username: user
       password: password
-      zipkin:
-        baseUrl: http://localhost:9411
-        sleuth:
-          sampler:
-            probability: 1
-            spring:
-              sleuth:
-                probability=1:
-                  0:
-
+#  zipkin:
+#    baseUrl: http://localhost:9411
+#    sleuth:
+#      sampler:
+#        probability: 1
+#        spring:
+#          sleuth:
+#            probability: 1
 #eureka:
 #  client:
 #    serviceUrl:
@@ -31,9 +29,26 @@ spring:
 log:
   appName: category-service
 
+#jasypt:
+#  encryptor:
+#    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+#    algorithm: PBEWithHMACSHA512AndAES_256
+#    string-output-type: base64
+
+#   remove it in production
 logging:
   level:
+    ROOT: INFO
+    org.spring.framework.cloud.config: DEBUG
     org:
-      springframework:
-        cloud: DEBUG
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace
 
+# Logger
+#logging.file.path=C:/Users/praja/IdeaProjects/spring6/spring6-order
+#logging.file.name=spring6-order-log.log
+
+# Spring Admin
+#  spring.boot.admin.client.url=http://localhost:8080
