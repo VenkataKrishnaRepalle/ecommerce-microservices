@@ -8,9 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.pm.spring.ema</groupId>
-    <artifactId>category-service</artifactId>
+    <artifactId>category-service-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>category-service</name>
+    <name>category-service-common</name>
     <description>Demo project for Spring Boot</description>
     <dependencies>
         <dependency>
