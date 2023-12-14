@@ -2,7 +2,7 @@ spring:
   application:
     name: category-service
   profiles:
-    active: contact
+    active: category
   config:
     import: 'configserver:'
   cloud:

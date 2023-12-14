@@ -2,7 +2,7 @@
 
 The following was discovered as part of building this project:
 
-* The original package name 'com.pm.spring.ema.spring-boot-ecommerce' is invalid and this project uses 'com.pm.spring.ema.ecommerce'
+* The original package name 'com.pm.spring.ema.spring-boot-ecommerce' is invalid and this project uses 'com.pm.spring.ema.category'
   instead.
 
 # Getting Started
