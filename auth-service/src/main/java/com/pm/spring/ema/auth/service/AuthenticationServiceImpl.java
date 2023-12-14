@@ -7,7 +7,6 @@ import com.pm.spring.ema.auth.dto.response.AuthenticationResponseDto;
 import com.pm.spring.ema.auth.model.dao.AccountDao;
 import com.pm.spring.ema.auth.model.dao.TokenDao;
 import com.pm.spring.ema.auth.model.entity.Account;
-import com.pm.spring.ema.common.dto.UserInfoResponseDto;
 import com.pm.spring.ema.auth.model.entity.MyUserDetails;
 import com.pm.spring.ema.auth.model.entity.Token;
 import com.pm.spring.ema.auth.model.enums.TokenType;

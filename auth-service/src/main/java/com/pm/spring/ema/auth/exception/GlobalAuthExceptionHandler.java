@@ -1,8 +1,12 @@
 package com.pm.spring.ema.auth.exception;
 
 import com.pm.spring.ema.auth.util.TraceIdHolder;
-import com.pm.spring.ema.common.exeption.*;
 import com.pm.spring.ema.common.util.GlobalConstants;
+import com.pm.spring.ema.common.util.api.ErrorResponse;
+import com.pm.spring.ema.common.util.api.FieldErrorListResponse;
+import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.pm.spring.ema.common.util.exception.ErrorField;
+import com.pm.spring.ema.common.util.exception.ErrorMessage;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

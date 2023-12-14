@@ -1,4 +1,4 @@
-package com.pm.spring.ema.common.dto;
+package com.pm.spring.ema.auth.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
