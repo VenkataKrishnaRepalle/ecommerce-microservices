@@ -1,7 +1,7 @@
 package com.pm.spring.ema.auth.controller;
 
+import com.pm.spring.ema.auth.dto.response.UserInfoResponseDto;
 import com.pm.spring.ema.auth.service.UserInfoService;
-import com.pm.spring.ema.common.dto.UserInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

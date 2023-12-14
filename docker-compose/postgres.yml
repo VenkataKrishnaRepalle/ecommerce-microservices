@@ -1,14 +1,22 @@
 version: '3.9'
+
+volumes:
+  postgres:
+    driver: local
+
 services:
-  postgres-db:
-    image: postgres:14-alpine
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+    volumes:
+      - postgres:/data/postgres
+      - ./data:/var/lib/postgresql/data
+      - ./postgresql.conf:/etc/postgres/sql/postgresql.conf
     ports:
       - "5432:5432"
-    volumes:
-      - ~/apps/postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=ema_user
-      - POSTGRES_PASSWORD=ema_password
-      - POSTGRES_DB=ema_db
     networks:
       - ${GLOBAL_NETWORK:-services}

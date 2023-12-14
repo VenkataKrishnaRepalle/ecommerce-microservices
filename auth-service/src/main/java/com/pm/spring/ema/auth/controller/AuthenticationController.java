@@ -3,7 +3,6 @@ package com.pm.spring.ema.auth.controller;
 import com.pm.spring.ema.auth.dto.request.AuthenticationRequestDto;
 import com.pm.spring.ema.auth.dto.response.AuthenticationResponseDto;
 import com.pm.spring.ema.auth.dto.request.AccountCreateRequestDto;
-import com.pm.spring.ema.common.dto.UserInfoResponseDto;
 import com.pm.spring.ema.auth.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
