@@ -234,7 +234,7 @@ DROP USER ema_user;
 DROP DATABASE ema_db;
 CREATE USER ema_user WITH PASSWORD 'ema_password';
 CREATE DATABASE ema_db;
-GRANT ALL PRIVILEGES ON DATABASE chat_db TO ema_user;
+GRANT ALL PRIVILEGES ON DATABASE ema_db TO ema_user;
 ```
 
 ## Docker

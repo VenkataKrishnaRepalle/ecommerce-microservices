@@ -15,6 +15,18 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.pm.spring.ema</groupId>
+            <artifactId>app-config-data</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pm.spring.ema</groupId>
+            <artifactId>common-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pm.spring.ema</groupId>
+            <artifactId>common-util</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
@@ -77,8 +89,8 @@
 <!--            <version>2.4.1</version>-->
 <!--        </dependency>-->
         <dependency>
-            <groupId>com.pm.spring.ema</groupId>
-            <artifactId>common-util</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
         <dependency>
@@ -149,41 +161,4 @@
         </plugins>
 
     </build>
-    <repositories>
-        <repository>
-            <id>maven-central</id>
-            <name>Maven central</name>
-            <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </repository>
-        <repository>
-            <id>spring-snapshots</id>
-            <url>https://repo.spring.io/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>spring-milestones</id>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <url>https://repo.spring.io/snapshot</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <url>https://repo.spring.io/milestone</url>
-        </pluginRepository>
-    </pluginRepositories>
-
 </project>

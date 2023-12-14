@@ -105,6 +105,7 @@
         <h2.version>2.1.214</h2.version>
         <hibernate-envers.version>6.1.7.Final</hibernate-envers.version>
         <maven.compiler.version>3.10.1</maven.compiler.version>
+        <spring-boot-admin-starter-server.version>2.4.1</spring-boot-admin-starter-server.version>
     </properties>
     <repositories>
         <repository>
@@ -114,6 +115,26 @@
         <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>maven-central</id>
+            <name>Maven central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <url>https://repo.spring.io/milestone</url>
         </repository>
     </repositories>
     <dependencies>
@@ -425,6 +446,11 @@
                 <artifactId>hibernate-envers</artifactId>
                 <version>${hibernate-envers.version}</version>
             </dependency>
+<!--            <dependency>-->
+<!--                <groupId>de.codecentric</groupId>-->
+<!--                <artifactId>spring-boot-admin-starter-server</artifactId>-->
+<!--                <version>${spring-boot-admin-starter-server.version}</version>-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
