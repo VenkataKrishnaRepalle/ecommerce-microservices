@@ -28,3 +28,8 @@ hs_err_pid*
 target
 */target
 /config-server-repo-ema/
+/docker-compose/config/
+/docker-compose/data/
+/docker-compose/grafana/
+/docker-compose/postgresql.conf/
+/docker-compose/prometheus/
