@@ -11,8 +11,6 @@
 <!--        <module>elastic-query-service</module>-->
 <!--        <module>elastic-query-service-common</module>-->
         <module>mdc-interceptor</module>
-<!--        <module>auth-service</module>-->
-<!--        <module>mail-service</module>-->
 <!--        <module>kafka</module>-->
 <!--        <module>kafka/kafka-model</module>-->
 <!--        <module>kafka/kafka-admin</module>-->
@@ -22,7 +20,9 @@
         <!--        <module>kafka-streams-service</module>-->
         <module>discovery-service</module>
         <module>gateway-service</module>
-<!--        <module>analytics-service</module>-->
+        <module>auth-service</module>
+
+        <!--        <module>analytics-service</module>-->
 <!--        <module>elastic-query-web-client-common</module>-->
 <!--        <module>elastic-query-web-client</module>-->
 <!--        <module>elastic-query-web-client-2</module>-->
@@ -47,6 +47,7 @@
 <!--        <module>warehouse-service</module>-->
 <!--        <module>wishlist-service</module>-->
         <module>address-service</module>
+        <!--        <module>mail-service</module>-->
         <module>karate-test-api</module>
         <module>playground</module>
 
