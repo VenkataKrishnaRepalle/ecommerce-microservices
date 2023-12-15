@@ -52,7 +52,6 @@
 <!--        <module>mail-service</module>-->
         <module>karate-test-api</module>
         <module>playground</module>
-        <module>iam</module>
 
     </modules>
     <parent>
