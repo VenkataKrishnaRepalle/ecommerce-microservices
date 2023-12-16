@@ -1,6 +1,6 @@
 package com.pm.spring.ema.brand.feign;
 
-import com.pm.spring.ema.auth.dto.response.UserInfoResponseDto;
+import com.pm.spring.ema.auth.service.common.dto.response.UserInfoResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
