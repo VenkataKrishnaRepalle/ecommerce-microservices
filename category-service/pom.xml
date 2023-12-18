@@ -12,6 +12,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>category-service</name>
     <description>Demo project for Spring Boot</description>
+    <properties>
+        <spring-boot-maven-plugin-version>3.0.0</spring-boot-maven-plugin-version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.pm.spring.ema</groupId>
@@ -118,6 +121,10 @@
                         <compilerArg>-Amapstruct.defaultComponentModel=spring</compilerArg>
                     </compilerArgs>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
