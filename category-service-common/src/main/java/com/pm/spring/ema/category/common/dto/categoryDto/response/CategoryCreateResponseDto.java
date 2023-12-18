@@ -1,6 +1,6 @@
-package com.pm.spring.ema.category.dto.categoryDto;
+package com.pm.spring.ema.category.common.dto.categoryDto.response;
 
-import com.pm.spring.ema.common.enums.CategoryEnum;
+import com.pm.spring.ema.category.common.enums.CategoryEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -22,7 +22,7 @@ public class CategoryCreateResponseDto {
     private String alias;
 
     @NotBlank
-    private String image;
+    private String imageName;
 
     @NotNull
     private CategoryEnum status;

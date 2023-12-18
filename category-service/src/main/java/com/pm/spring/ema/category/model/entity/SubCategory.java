@@ -1,6 +1,6 @@
 package com.pm.spring.ema.category.model.entity;
 
-import com.pm.spring.ema.common.enums.SubCategoryEnum;
+import com.pm.spring.ema.category.common.enums.SubCategoryEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +36,7 @@ public class SubCategory {
     private String alias;
 
     @Column(length = 128, nullable = false)
-    private String image;
+    private String imageName;
 
     @Column(name = "status")
     private SubCategoryEnum status;

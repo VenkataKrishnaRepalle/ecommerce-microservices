@@ -1,6 +1,6 @@
 package com.pm.spring.ema.category.model.entity;
 
-import com.pm.spring.ema.common.enums.CategoryEnum;
+import com.pm.spring.ema.category.common.enums.CategoryEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,10 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.type.SqlTypes;
-
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,7 +33,7 @@ public class Category {
     private String alias;
 
     @Column(length = 128, nullable = false)
-    private String image;
+    private String imageName;
 
     @Column(name = "status")
     private CategoryEnum status;

@@ -1,6 +1,6 @@
-package com.pm.spring.ema.common.dto;
+package com.pm.spring.ema.category.common.dto.subcategoryDto.response;
 
-import com.pm.spring.ema.common.enums.SubCategoryEnum;
+import com.pm.spring.ema.category.common.enums.SubCategoryEnum;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,9 +15,8 @@ public class SubCategoryFindResponseDto {
 
     private String alias;
 
-    private String image;
+    private String imageName;
 
     private SubCategoryEnum status;
 
-    private CategoryFindResponseDto category;
 }

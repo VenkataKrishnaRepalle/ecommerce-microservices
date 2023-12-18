@@ -1,6 +1,10 @@
 package com.pm.spring.ema.category.controller;
 
-import com.pm.spring.ema.common.dto.CategoryFindResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryCreateRequestDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryUpdateRequestDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
 import com.pm.spring.ema.common.util.GlobalConstants;
 import com.pm.spring.ema.common.util.HttpStatusCodes;
 import com.pm.spring.ema.common.util.api.ErrorResponse;
@@ -8,10 +12,6 @@ import com.pm.spring.ema.common.util.api.StatusType;
 import com.pm.spring.ema.common.util.api.SuccessResponse;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.FileUploadUtils;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryCreateRequestDto;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryCreateResponseDto;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryUpdateRequestDto;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryUpdateResponseDto;
 import com.pm.spring.ema.category.exception.CategoryException.CategoryNameAlreadyExistException;
 import com.pm.spring.ema.category.exception.CategoryException.CategoryNotFoundException;
 import com.pm.spring.ema.category.service.CategoryService;
@@ -215,8 +215,8 @@ public class CategoryController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:uploadBrandImage traceId: {}", TraceIdHolder.getTraceId());
-        log.info("BrandController:uploadBrandImage ended.");
+        log.info("CategoryController:uploadCategoryImage traceId: {}", TraceIdHolder.getTraceId());
+        log.info("CategoryController:uploadCategoryImage ended.");
 
         return ResponseEntity.ok()
                 .headers(headers)

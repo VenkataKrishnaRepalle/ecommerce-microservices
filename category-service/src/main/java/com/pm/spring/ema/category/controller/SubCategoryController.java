@@ -1,14 +1,13 @@
 package com.pm.spring.ema.category.controller;
 
-
-import com.pm.spring.ema.common.dto.SubCategoryFindResponseDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryCreateRequestDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryUpdateRequestDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryFindResponseDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryUpdateResponseDto;
 import com.pm.spring.ema.common.util.GlobalConstants;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.FileUploadUtils;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryCreateRequestDto;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryCreateResponseDto;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryUpdateRequestDto;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryUpdateResponseDto;
 import com.pm.spring.ema.category.exception.SubCategoryException.SubCategoryNameAlreadyExistException;
 import com.pm.spring.ema.category.exception.SubCategoryException.SubCategoryNotFoundException;
 import com.pm.spring.ema.category.service.SubCategoryService;
@@ -187,7 +186,7 @@ public class SubCategoryController {
         log.info("SubCategoryController:getSubCategoriesByCategoryId execution started.");
         log.info("SubCategoryController:getSubCategoriesByCategoryId traceId: {} request id: {}", TraceIdHolder.getTraceId(), categoryId);
 
-        List<SubCategoryFindResponseDto> subCategoryFindResponseDtoList = subCategoryService.findByCategoryId(categoryId);
+        List<SubCategoryFindResponseDto> subCategoryFindResponseDtoList = subCategoryService.getSubCategoriesByCategoryId(categoryId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());

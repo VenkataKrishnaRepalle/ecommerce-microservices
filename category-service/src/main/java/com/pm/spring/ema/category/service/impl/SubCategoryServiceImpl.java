@@ -1,12 +1,13 @@
 package com.pm.spring.ema.category.service.impl;
 
-import com.pm.spring.ema.common.dto.SubCategoryFindResponseDto;
+
+import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryCreateRequestDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryUpdateRequestDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryFindResponseDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryUpdateResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.ErrorMessage;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryCreateRequestDto;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryCreateResponseDto;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryUpdateRequestDto;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryUpdateResponseDto;
 import com.pm.spring.ema.category.model.dao.categoryDao.CategoryDao;
 import com.pm.spring.ema.category.model.dao.subCategoryDao.SubCategoryDao;
 import com.pm.spring.ema.category.model.entity.Category;
@@ -149,7 +150,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-    public List<SubCategoryFindResponseDto> findByCategoryId(UUID categoryId) {
+    public List<SubCategoryFindResponseDto> getSubCategoriesByCategoryId(UUID categoryId) {
 
         return subCategoryDao.findByCategory(Category.builder().id(categoryId).build())
                 .stream()
@@ -202,12 +203,12 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         }
 
         SubCategory subCategory = optionalSubCategory.get();
-        subCategory.setImage(fileName);
+        subCategory.setImageName(fileName);
         SubCategory updatedSubCategory = subCategoryDao.save(subCategory);
 
-        log.debug("SubCategoryService:updateSubCategoryImageById traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), updatedSubCategory.getImage());
+        log.debug("SubCategoryService:updateSubCategoryImageById traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), updatedSubCategory.getImageName());
         log.info("SubCategoryService:updateSubCategoryImageById execution ended.");
-        return updatedSubCategory.getImage();
+        return updatedSubCategory.getImageName();
 
 
     }

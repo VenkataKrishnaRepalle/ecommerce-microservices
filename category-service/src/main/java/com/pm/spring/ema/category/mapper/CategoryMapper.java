@@ -1,10 +1,10 @@
 package com.pm.spring.ema.category.mapper;
 
-import com.pm.spring.ema.common.dto.CategoryFindResponseDto;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryCreateRequestDto;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryCreateResponseDto;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryUpdateRequestDto;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryUpdateResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryCreateRequestDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryUpdateRequestDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
 import com.pm.spring.ema.category.model.entity.Category;
 import org.mapstruct.Mapper;
 

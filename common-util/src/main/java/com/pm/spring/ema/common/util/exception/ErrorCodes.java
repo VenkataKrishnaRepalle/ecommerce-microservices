@@ -62,7 +62,7 @@ public final class ErrorCodes {
     public static final String E1511 = "E1511-Could not find any SubCategory with ID : {0}";
     public static final String E1512 = "E1512-Could not find any SubCategory with ID : {0}";
     public static final String E1513 = "E1513-Could not find any SubCategory with ID : {0}";
-    public static final String E1514 = "E1514-Could not find any SubCategory with ID : {0}";
+    public static final String E1514 = "E1514-Invalid Category with ID : {0}";
 
 
     //  user - 4001 to 5000 errors
