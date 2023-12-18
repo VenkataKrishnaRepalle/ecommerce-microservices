@@ -52,6 +52,7 @@
 <!--        <module>mail-service</module>-->
         <module>karate-test-api</module>
         <module>playground</module>
+        <module>authorization-server</module>
 
     </modules>
     <parent>
@@ -429,6 +430,11 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-oauth2-client</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
@@ -492,6 +498,11 @@
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-jackson</artifactId>
                 <version>${jwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security.oauth.boot</groupId>
+                <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
