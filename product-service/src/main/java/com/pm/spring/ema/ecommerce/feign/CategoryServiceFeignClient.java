@@ -1,6 +1,5 @@
 package com.pm.spring.ema.ecommerce.feign;
 
-import com.pm.spring.ema.common.dto.CategoryFindResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

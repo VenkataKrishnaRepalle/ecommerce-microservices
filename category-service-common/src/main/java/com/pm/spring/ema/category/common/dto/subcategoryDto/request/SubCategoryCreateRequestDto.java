@@ -1,6 +1,6 @@
-package com.pm.spring.ema.category.dto.subcategoryDto;
+package com.pm.spring.ema.category.common.dto.subcategoryDto.request;
 
-import com.pm.spring.ema.common.enums.SubCategoryEnum;
+import com.pm.spring.ema.category.common.enums.SubCategoryEnum;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -22,7 +22,7 @@ public class SubCategoryCreateRequestDto {
     private String alias;
 
     @NotBlank(message = ErrorCodes.E1014)
-    private String image;
+    private String imageName;
 
     @NotNull(message = ErrorCodes.E1015)
     private SubCategoryEnum status;

@@ -1,6 +1,6 @@
-package com.pm.spring.ema.category.dto.subcategoryDto;
+package com.pm.spring.ema.category.common.dto.categoryDto.response;
 
-import com.pm.spring.ema.common.enums.SubCategoryEnum;
+import com.pm.spring.ema.category.common.enums.CategoryEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -10,7 +10,8 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class SubCategoryCreateResponseDto {
+public class CategoryUpdateResponseDto {
+
     private UUID id;
     @NotBlank
     private String name;
@@ -19,11 +20,9 @@ public class SubCategoryCreateResponseDto {
     private String alias;
 
     @NotBlank
-    private String image;
+    private String imageName;
 
     @NotNull
-    private SubCategoryEnum status;
+    private CategoryEnum status;
 
-    @NotNull
-    private UUID categoryUUID;
 }

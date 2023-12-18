@@ -1,12 +1,10 @@
 package com.pm.spring.ema.category.bootstrap;
+import com.pm.spring.ema.category.common.enums.CategoryEnum;
+import com.pm.spring.ema.category.common.enums.SubCategoryEnum;
 import com.pm.spring.ema.category.model.dao.categoryDao.CategoryDao;
 import com.pm.spring.ema.category.model.dao.subCategoryDao.SubCategoryDao;
-import com.pm.spring.ema.common.enums.CategoryEnum;
-import com.pm.spring.ema.common.enums.SubCategoryEnum;
 import com.pm.spring.ema.category.model.entity.SubCategory;
 import com.pm.spring.ema.category.model.entity.Category;
-import com.pm.spring.ema.category.model.repository.CategoryRepository;
-import com.pm.spring.ema.category.model.repository.SubCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -27,13 +25,13 @@ public class Bootstrap implements CommandLineRunner {
             Category computer = categoryDao.save(Category.builder()
                     .name("Computer")
                     .alias("Computer")
-                    .image("Computer.png")
+                    .imageName("Computer.png")
                     .status(CategoryEnum.ACTIVE)
                     .build());
             Category electronics = categoryDao.save(Category.builder()
                     .name("Electronics")
                     .alias("Electronics")
-                    .image("Electronics.png")
+                    .imageName("Electronics.png")
                     .status(CategoryEnum.ACTIVE)
                     .build());
 
@@ -41,14 +39,14 @@ public class Bootstrap implements CommandLineRunner {
             subCategoryDao.save(SubCategory.builder()
                     .name("Desktops")
                     .alias("Desktops")
-                    .image("Desktops.png")
+                    .imageName("Desktops.png")
                     .category(computer)
                     .status(SubCategoryEnum.ACTIVE)
                     .build());
             subCategoryDao.save(SubCategory.builder()
                     .name("Laptops")
                     .alias("Laptops")
-                    .image("Laptops.png")
+                    .imageName("Laptops.png")
                     .category(computer)
                     .status(SubCategoryEnum.ACTIVE)
                     .build());
@@ -56,7 +54,7 @@ public class Bootstrap implements CommandLineRunner {
             subCategoryDao.save(SubCategory.builder()
                     .name("Cameras")
                     .alias("Cameras")
-                    .image("Cameras.png")
+                    .imageName("Cameras.png")
                     .category(electronics)
                     .status(SubCategoryEnum.ACTIVE)
                     .build());
@@ -64,7 +62,7 @@ public class Bootstrap implements CommandLineRunner {
             subCategoryDao.save(SubCategory.builder()
                     .name("SmartPhones")
                     .alias("Smart Phones")
-                    .image("SmartPhones.png")
+                    .imageName("SmartPhones.png")
                     .category(electronics)
                     .status(SubCategoryEnum.ACTIVE)
                     .build());

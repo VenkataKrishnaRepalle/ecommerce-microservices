@@ -1,10 +1,10 @@
 package com.pm.spring.ema.category.service;
 
-import com.pm.spring.ema.common.dto.SubCategoryFindResponseDto;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryCreateRequestDto;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryCreateResponseDto;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryUpdateRequestDto;
-import com.pm.spring.ema.category.dto.subcategoryDto.SubCategoryUpdateResponseDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryCreateRequestDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryUpdateRequestDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryFindResponseDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryUpdateResponseDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +23,7 @@ public interface SubCategoryService {
 
     Boolean isSubCategoryExistByName(String name);
 
-    List<SubCategoryFindResponseDto> findByCategoryId(UUID categoryId);
+    List<SubCategoryFindResponseDto> getSubCategoriesByCategoryId(UUID categoryId);
 
     List<SubCategoryFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
 

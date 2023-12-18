@@ -19,7 +19,7 @@ public class CategoryRepositoryTest {
         Category savedCategory = categoryRepository.save(Category.builder()
                 .name("Computer")
                 .alias("Computer")
-                .image("defalut.png")
+                .imageName("defalut.png")
                 .build());
 
         assertThat(savedCategory).isNotNull();

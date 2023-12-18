@@ -1,12 +1,12 @@
 package com.pm.spring.ema.category.service.impl;
 
-import com.pm.spring.ema.common.dto.CategoryFindResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryCreateRequestDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryUpdateRequestDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.ErrorMessage;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryCreateRequestDto;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryCreateResponseDto;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryUpdateRequestDto;
-import com.pm.spring.ema.category.dto.categoryDto.CategoryUpdateResponseDto;
 import com.pm.spring.ema.category.model.dao.categoryDao.CategoryDao;
 import com.pm.spring.ema.category.model.dao.subCategoryDao.SubCategoryDao;
 import com.pm.spring.ema.category.model.entity.Category;
@@ -191,13 +191,13 @@ public class CategoryServiceImpl implements CategoryService {
             throw new CategoryNotFoundException(ErrorCodes.E1505, id.toString());
         }
         Category category = optionalCategory.get();
-        category.setImage(fileName);
+        category.setImageName(fileName);
         Category updatedCategory = categoryDao.save(category);
 
-        log.debug("CategoryService:updateImageById traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), updatedCategory.getImage());
+        log.debug("CategoryService:updateImageById traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), updatedCategory.getImageName());
         log.info("CategoryService:updateImageById execution ended.");
 
-        return updatedCategory.getImage();
+        return updatedCategory.getImageName();
 
 
     }
@@ -215,7 +215,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new CategoryNotFoundException(ErrorCodes.E1506, id.toString());
         }
 
-        String imageName = optionalCategory.get().getImage();
+        String imageName = optionalCategory.get().getImageName();
 
         log.debug("CategoryService:getCategoryImageNameById traceId: {}, response: {}", TraceIdHolder.getTraceId(), imageName);
         log.info("CategoryService:getCategoryImageNameById execution ended.");

@@ -1,7 +1,6 @@
-package com.pm.spring.ema.category.dto.categoryDto;
+package com.pm.spring.ema.category.common.dto.categoryDto.request;
 
-import com.pm.spring.ema.common.enums.CategoryEnum;
-
+import com.pm.spring.ema.category.common.enums.CategoryEnum;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -22,7 +21,7 @@ public class CategoryUpdateRequestDto {
     private String alias;
 
     @NotBlank(message = ErrorCodes.E1009)
-    private String image;
+    private String imageName;
 
     @NotNull(message = ErrorCodes.E1010)
     @Enumerated
