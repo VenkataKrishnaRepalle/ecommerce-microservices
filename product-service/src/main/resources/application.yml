@@ -10,13 +10,16 @@ spring:
       name: product-service,config-client
       username: user
       password: password
-      uri: http://localhost:8888
 
 log:
   appName: product-service
 
 logging:
   level:
+    ROOT: INFO
+    org.spring.framework.cloud.config: DEBUG
     org:
-      springframework:
-        cloud: DEBUG
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace
