@@ -27,7 +27,6 @@ public final class ErrorCodes {
     public static final String E0508 = "E0508-Could not find any brand with ID : {0}";
 
 
-
     public static final String E1001 = "E1001-Field {0} is required.";
     public static final String E1002 = "E1002-Field {0} should be 2 to 45 characters in length.";
     public static final String E1003 = "E1003-Field {0} is required.";
@@ -66,26 +65,23 @@ public final class ErrorCodes {
     public static final String E1514 = "E1514-Could not find any SubCategory with ID : {0}";
 
 
-
-
-
     //  user - 4001 to 5000 errors
-    public static final String E4001 =  "E4001-Field {0} is required.";
-    public static final String E4002 =  "E4002-Field {0} is required.";
-    public static final String E4003 =  "E4003-Field {0} is required.";
-    public static final String E4004 =  "E4004-Invalid {0}.";
-    public static final String E4005 =  "E4005-Field {0} is required.";
-    public static final String E4006 =  "E4006-Field {0} is required.";
-    public static final String E4007 =  "E4007-Field {0} is required.";
-    public static final String E4008 =  "E4008-Password not matched with confirm password.";
-    public static final String E4009 =  "E4009-Invalid value.";
-    public static final String E4010 =  "E4010-Field {0} is required.";
-    public static final String E4011 =  "E4011-Field {0} is required.";
-    public static final String E4012 =  "E4012-Username is already taken.";
-    public static final String E4013 =  "E4013-Email is already registered.";
-    public static final String E4014 =  "E4014-Username is between 5 to 15 characters in length.";
-    public static final String E4015 =  "E4015-User not authenticated.";
-    public static final String E4016 =  "E4016-User name not exist.";
+    public static final String E4001 = "E4001-Field {0} is required.";
+    public static final String E4002 = "E4002-Field {0} is required.";
+    public static final String E4003 = "E4003-Field {0} is required.";
+    public static final String E4004 = "E4004-Invalid {0}.";
+    public static final String E4005 = "E4005-Field {0} is required.";
+    public static final String E4006 = "E4006-Field {0} is required.";
+    public static final String E4007 = "E4007-Field {0} is required.";
+    public static final String E4008 = "E4008-Password not matched with confirm password.";
+    public static final String E4009 = "E4009-Invalid value.";
+    public static final String E4010 = "E4010-Field {0} is required.";
+    public static final String E4011 = "E4011-Field {0} is required.";
+    public static final String E4012 = "E4012-Username is already taken.";
+    public static final String E4013 = "E4013-Email is already registered.";
+    public static final String E4014 = "E4014-Username is between 5 to 15 characters in length.";
+    public static final String E4015 = "E4015-User not authenticated.";
+    public static final String E4016 = "E4016-User name not exist.";
 
 
     public static final String E4501 = "E0501-Could not find any user with ID : {0}";
@@ -104,5 +100,9 @@ public final class ErrorCodes {
     public static final String E4514 = "E4514-Could not find any user photo with ID : {0}";
 
 
-    public static final String E0500 =  "E0500-Internal Server Error - {0}";
+    public static final String E0500 = "E0500-Internal Server Error - {0}";
+
+    public static final String E5001 = "E5001-Field Country is required";
+    public static final String E5002 = "E5002-Length should be 10 Characters";
+    public static final String E5003 = "E5002-Length should be 6 Characters";
 }

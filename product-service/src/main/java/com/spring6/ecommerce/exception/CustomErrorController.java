@@ -1,5 +1,8 @@
-package com.pm.spring.ema.ecommerce.exception;
+package com.spring6.ecommerce.exception;
 
+import com.pm.spring.ema.ecommerce.exception.InvalidInputDetailsException;
+import com.pm.spring.ema.ecommerce.exception.ProductAlreadyPresentException;
+import com.pm.spring.ema.ecommerce.exception.ProductNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.UnexpectedTypeException;
 import org.springframework.dao.DataIntegrityViolationException;
