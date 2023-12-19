@@ -6,10 +6,10 @@ import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryU
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryCreateResponseDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryFindResponseDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryUpdateResponseDto;
+import com.pm.spring.ema.category.model.dao.categoryDAO.CategoryDAO;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.ErrorMessage;
-import com.pm.spring.ema.category.model.dao.categoryDao.CategoryDao;
-import com.pm.spring.ema.category.model.dao.subCategoryDao.SubCategoryDao;
+import com.pm.spring.ema.category.model.dao.subCategoryDAO.SubCategoryDAO;
 import com.pm.spring.ema.category.model.entity.Category;
 import com.pm.spring.ema.category.model.entity.SubCategory;
 import com.pm.spring.ema.category.exception.CategoryException.CategoryNameAlreadyExistException;
@@ -35,9 +35,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SubCategoryServiceImpl implements SubCategoryService {
     private static final int SUB_CATEGORY_PER_PAGE = 5;
-    private final SubCategoryDao subCategoryDao;
+    private final SubCategoryDAO subCategoryDao;
     private final SubCategoryMapper subCategoryMapper;
-    private final CategoryDao categoryDao;
+    private final CategoryDAO categoryDao;
 
     public List<SubCategoryFindResponseDto> getAllSubCategory() {
 

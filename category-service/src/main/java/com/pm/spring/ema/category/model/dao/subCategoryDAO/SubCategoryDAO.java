@@ -1,4 +1,4 @@
-package com.pm.spring.ema.category.model.dao.subCategoryDao;
+package com.pm.spring.ema.category.model.dao.subCategoryDAO;
 
 
 import com.pm.spring.ema.category.model.entity.Category;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface SubCategoryDao {
+public interface SubCategoryDAO {
     List<SubCategory> findAll();
 
     Optional<SubCategory> findById(UUID id);

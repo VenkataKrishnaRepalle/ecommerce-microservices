@@ -12,9 +12,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>category-service</name>
     <description>Demo project for Spring Boot</description>
-    <properties>
-        <spring-boot-maven-plugin-version>3.0.0</spring-boot-maven-plugin-version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>com.pm.spring.ema</groupId>
@@ -79,7 +76,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <version>${openfeign.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -110,17 +106,14 @@
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>${lombok.mapstruct.binding.version}</version>
                         </path>
                     </annotationProcessorPaths>
                     <compilerArgs>

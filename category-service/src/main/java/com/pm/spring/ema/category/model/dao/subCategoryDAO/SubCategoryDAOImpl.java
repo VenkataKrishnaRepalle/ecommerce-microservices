@@ -1,4 +1,4 @@
-package com.pm.spring.ema.category.model.dao.subCategoryDao;
+package com.pm.spring.ema.category.model.dao.subCategoryDAO;
 
 import com.pm.spring.ema.category.model.entity.Category;
 import com.pm.spring.ema.category.model.entity.SubCategory;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Repository
-public class SubCategoryDaoImpl implements SubCategoryDao {
+public class SubCategoryDAOImpl implements SubCategoryDAO {
     private final SubCategoryRepository subCategoryRepository;
 
     @Override
