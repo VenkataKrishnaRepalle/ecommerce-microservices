@@ -65,6 +65,8 @@ public final class ErrorCodes {
     public static final String E1513 = "E1513-Could not find any SubCategory with ID : {0}";
     public static final String E1514 = "E1514-Invalid Category with ID : {0}";
 
+    public static final String E1550 = "E1550-Shopping Cart already exist with ID : {0}";
+
 
 
 

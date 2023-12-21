@@ -12,7 +12,9 @@ import java.util.UUID;
 @Builder
 public class CategoryUpdateResponseDto {
 
+    @NotNull
     private UUID id;
+
     @NotBlank
     private String name;
 

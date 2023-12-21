@@ -11,7 +11,10 @@ import java.util.UUID;
 @Data
 @Builder
 public class SubCategoryCreateResponseDto {
+
+    @NotNull
     private UUID id;
+
     @NotBlank
     private String name;
 

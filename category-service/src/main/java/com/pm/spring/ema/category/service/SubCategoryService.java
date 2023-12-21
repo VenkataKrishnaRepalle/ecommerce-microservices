@@ -3,12 +3,15 @@ package com.pm.spring.ema.category.service;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryCreateRequestDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryUpdateRequestDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryDeleteResponseDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryFindResponseDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryUpdateResponseDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public interface SubCategoryService {
 
     List<SubCategoryFindResponseDto> getAllSubCategory();
@@ -17,7 +20,7 @@ public interface SubCategoryService {
 
     SubCategoryUpdateResponseDto updateSubCategory(UUID id, SubCategoryUpdateRequestDto subCategoryUpdateRequestDto);
 
-    void deleteSubCategoryById(UUID categoryId);
+    SubCategoryDeleteResponseDto deleteSubCategoryById(UUID categoryId);
 
     SubCategoryCreateResponseDto createSubCategory(SubCategoryCreateRequestDto subCategoryCreateRequestDto);
 

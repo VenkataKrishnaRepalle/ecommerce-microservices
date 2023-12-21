@@ -3,6 +3,7 @@ package com.pm.spring.ema.category.service.impl;
 import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryCreateRequestDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryUpdateRequestDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryDeleteResponseDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
@@ -28,8 +29,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
     private static final int CATEGORY_PER_PAGE = 5;
@@ -75,7 +76,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryCreateResponseDto createCategory(CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException{
+    public CategoryCreateResponseDto createCategory(CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
 
         log.info("CategoryService:createCategory execution started.");
         log.debug("CategoryService:createCategory traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), categoryCreateRequestDto);
@@ -116,24 +117,30 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategoryById(UUID id) throws CategoryNotFoundException {
+    public CategoryDeleteResponseDto deleteCategoryById(UUID id) throws CategoryNotFoundException {
         log.info("CategoryService:deleteCategoryById execution started.");
         log.debug("CategoryService:deleteCategoryById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
 
         Optional<Category> optionalCategory = categoryDao.findById(id);
-        if (optionalCategory.isEmpty()) {
-            log.error("CategoryService:deleteCategoryById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1504, id.toString()));
+        if (optionalCategory.isPresent()) {
 
+            CategoryDeleteResponseDto categoryDeleteResponseDto = categoryMapper.convertToCategoryDeleteResponseDto(optionalCategory.get());
+
+            Category category = optionalCategory.get();
+
+            for (SubCategory subCategory : subCategoryDao.findByCategory(category)) {
+                subCategoryDao.delete(subCategory);
+            }
+            categoryDao.deleteById(category.getId());
+
+            log.info("CategoryService:deleteCategoryById execution ended response : {}", categoryDeleteResponseDto);
+
+            return categoryDeleteResponseDto;
+        } else {
+            log.error("CategoryService:deleteCategoryById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1504, id.toString()));
             throw new CategoryNotFoundException(ErrorCodes.E1504, id.toString());
         }
-        Category category = optionalCategory.get();
-        for (SubCategory subCategory : subCategoryDao.findByCategory(category)) {
-            subCategoryDao.delete(subCategory);
-        }
-        categoryDao.deleteById(category.getId());
-        log.info("CategoryService:deleteCategoryById execution ended.");
-
     }
 
     @Override
@@ -168,7 +175,7 @@ public class CategoryServiceImpl implements CategoryService {
         Pageable pageable = PageRequest.of(pageNumber - 1, CATEGORY_PER_PAGE, sort);
 
         if (keyword != null) {
-            return categoryDao.findAllByPage(keyword,pageable)
+            return categoryDao.findAllByPage(keyword, pageable)
                     .stream()
                     .map(categoryMapper::categoryToCategoryFindResponseDto)
                     .toList();
@@ -181,7 +188,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String updateImageById(UUID id, String fileName) throws CategoryNotFoundException{
+    public String updateImageById(UUID id, String fileName) throws CategoryNotFoundException {
         log.info("CategoryService:updateImageById execution started.");
         log.debug("CategoryService:updateImageById traceId: {}, brandId:{}, fileName: {}", TraceIdHolder.getTraceId(), id, fileName);
 

@@ -3,6 +3,7 @@ package com.pm.spring.ema.category.controller;
 import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryCreateRequestDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryUpdateRequestDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryDeleteResponseDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
 import com.pm.spring.ema.common.util.GlobalConstants;
@@ -42,14 +43,14 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("category")
-@Tag(name = "Category")
+@Tag(name = "category")
 public class CategoryController {
 
     private final CategoryService categoryService;
 
     @Operation(summary = "Create a new category", description = "Add a new category")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Category created", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryCreateRequestDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Category created", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryCreateResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Category already exist", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
@@ -80,7 +81,7 @@ public class CategoryController {
             @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Category could not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @Operation(summary = "Get a category by categoryId")
+    @Operation(summary = "Get a category by id",description = "Get a category by id")
     @GetMapping("{categoryId}")
     public ResponseEntity<SuccessResponse> getCategoryById(@PathVariable final UUID categoryId) {
 
@@ -131,14 +132,14 @@ public class CategoryController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Category updated", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryFindResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Category updated", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryUpdateResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Category could not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
 
     @Operation(summary = "Update a category by id",description = "Update a category by categoryId")
     @PutMapping("update/{categoryId}")
-    public ResponseEntity<CategoryUpdateResponseDto> updateCategory(@PathVariable UUID categoryId, @RequestBody CategoryUpdateRequestDto categoryUpdateRequestDto) {
+    public ResponseEntity<SuccessResponse> updateCategory(@PathVariable UUID categoryId, @RequestBody CategoryUpdateRequestDto categoryUpdateRequestDto) {
 
         log.info("CategoryController:updateCategory started.");
 
@@ -154,31 +155,35 @@ public class CategoryController {
         log.info("CategoryController:updateCategory ended.");
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(categoryUpdateResponseDto);
+                .body(SuccessResponse.builder().data(categoryUpdateResponseDto)
+                        .status(StatusType.SUCCESS).build());
 
     }
 
     @ApiResponses(value = {
-//            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Category deleted.", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ContactFindResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Category deleted.", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDeleteResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Category could not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @Operation(summary = "Delete a category by id",description = "Delete a category")
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteCategoryById(@PathVariable final UUID id) {
+    public ResponseEntity<SuccessResponse> deleteCategoryById(@PathVariable final UUID id) {
+
         log.info("CategoryController:deleteCategoryById started.");
         log.info("CategoryController:deleteCategoryById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
-        categoryService.deleteCategoryById(id);
+      CategoryDeleteResponseDto categoryDeleteResponseDto = categoryService.deleteCategoryById(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
         log.info("CategoryController:deleteCategoryById traceId: {}", TraceIdHolder.getTraceId());
         log.info("CategoryController:deleteCategoryById ended.");
-        return ResponseEntity.noContent()
+        return ResponseEntity.ok()
                 .headers(headers)
-                .build();
+                .body(SuccessResponse.builder().data(categoryDeleteResponseDto)
+                .status(StatusType.SUCCESS).build());
+
     }
 
     @Operation(summary = "Sort and Filter for Category list page")

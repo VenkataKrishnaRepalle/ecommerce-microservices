@@ -1,11 +1,19 @@
 package com.pm.spring.ema.category.controller;
 
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryDeleteResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryCreateRequestDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryUpdateRequestDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryDeleteResponseDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryFindResponseDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryUpdateResponseDto;
 import com.pm.spring.ema.common.util.GlobalConstants;
+import com.pm.spring.ema.common.util.HttpStatusCodes;
+import com.pm.spring.ema.common.util.api.ErrorResponse;
+import com.pm.spring.ema.common.util.api.StatusType;
+import com.pm.spring.ema.common.util.api.SuccessResponse;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.FileUploadUtils;
 import com.pm.spring.ema.category.exception.SubCategoryException.SubCategoryNameAlreadyExistException;
@@ -13,6 +21,10 @@ import com.pm.spring.ema.category.exception.SubCategoryException.SubCategoryNotF
 import com.pm.spring.ema.category.service.SubCategoryService;
 import com.pm.spring.ema.category.utils.TraceIdHolder;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -34,13 +46,19 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/sub-category")
-@Tag(name = "SubCategory")
+@Tag(name = "sub-category")
 public class SubCategoryController {
     private final SubCategoryService subCategoryService;
 
-    @Operation(summary = "Create new sub-category")
+
+    @Operation(summary = "Create a new sub-category", description = "Add a new sub-category")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Sub-category created", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SubCategoryCreateResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Sub-category already exist", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PostMapping("create")
-    public ResponseEntity<SubCategoryCreateResponseDto> createSubCategory(@RequestBody @Valid final SubCategoryCreateRequestDto subCategoryCreateRequestDto) throws SubCategoryNameAlreadyExistException {
+    public ResponseEntity<SuccessResponse> createSubCategory(@RequestBody @Valid final SubCategoryCreateRequestDto subCategoryCreateRequestDto) throws SubCategoryNameAlreadyExistException {
         log.info("SubCategoryController:createSubCategory execution started.");
         log.debug("SubCategoryController:createSubCategory traceId: {} request payload: {}", TraceIdHolder.getTraceId(), subCategoryCreateRequestDto);
 
@@ -54,12 +72,21 @@ public class SubCategoryController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .headers(headers)
-                .body(subCategoryCreateResponseDto);
+                .body(SuccessResponse.builder()
+                        .data(subCategoryCreateResponseDto)
+                        .status(StatusType.SUCCESS)
+                        .build());
+
     }
 
-    @Operation(summary = "Get sub-category by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Sub-category found", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SubCategoryFindResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Sub-category could not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @Operation(summary = "Get a sub-category by id", description = "Get a sub-category by id")
     @GetMapping("{id}")
-    public ResponseEntity<SubCategoryFindResponseDto> getSubCategoryById(@PathVariable final UUID id) {
+    public ResponseEntity<SuccessResponse> getSubCategoryById(@PathVariable final UUID id) {
         log.info("SubCategoryController:getSubCategoryById execution started.");
         log.info("SubCategoryController:getSubCategoryById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
@@ -72,11 +99,18 @@ public class SubCategoryController {
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(subCategoryFindResponseDto);
-
+                .body(SuccessResponse.builder()
+                        .data(subCategoryFindResponseDto)
+                        .status(StatusType.SUCCESS)
+                        .build());
     }
 
-    @Operation(summary = "Get all sub-category")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Sub-categories found", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SubCategoryFindResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Sub-categories could not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @Operation(summary = "Get all sub-categories", description = "Fetch all the sub-categories")
     @GetMapping("list")
     public ResponseEntity<List<SubCategoryFindResponseDto>> getAllSubCategory() {
         log.info("SubCategoryController:getAllSubCategory started.");
@@ -97,9 +131,14 @@ public class SubCategoryController {
     }
 
 
-    @Operation(summary = "Update sub-category by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Sub-categories updated", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SubCategoryUpdateResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Sub-categories could not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @Operation(summary = "Update a Sub-category by id", description = "Update a Sub-category")
     @PutMapping("update/{id}")
-    public ResponseEntity<SubCategoryUpdateResponseDto>updateSubCategory(@PathVariable UUID id, @RequestBody SubCategoryUpdateRequestDto subCategoryUpdateRequestDto ) {
+    public ResponseEntity<SuccessResponse> updateSubCategory(@PathVariable UUID id, @RequestBody SubCategoryUpdateRequestDto subCategoryUpdateRequestDto) {
         log.info("SubCategoryController:updateSubCategory started.");
         log.info("SubCategoryController:updateSubCategory traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, subCategoryUpdateRequestDto);
 
@@ -112,27 +151,36 @@ public class SubCategoryController {
         log.info("SubCategoryController:updateSubCategory ended.");
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(subCategoryUpdateResponseDto);
-
+                .body(SuccessResponse.builder()
+                        .data(subCategoryUpdateResponseDto)
+                        .status(StatusType.SUCCESS)
+                        .build());
 
     }
 
-    @Operation(summary = "delete sub-category by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Sub-category deleted.", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SubCategoryDeleteResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Sub-category could not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @Operation(summary = "Delete a Sub-category by id", description = "Delete a Sub-category")
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteSubCategoryById(@PathVariable final UUID id) {
+    public ResponseEntity<SuccessResponse> deleteSubCategoryById(@PathVariable final UUID id) {
         log.info("SubCategoryController:deleteSubCategoryById started.");
         log.info("SubCategoryController:deleteSubCategoryById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
-        subCategoryService.deleteSubCategoryById(id);
+        SubCategoryDeleteResponseDto categoryDeleteResponseDto = subCategoryService.deleteSubCategoryById(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
         log.info("SubCategoryController:deleteSubCategoryById traceId: {}", TraceIdHolder.getTraceId());
         log.info("SubCategoryController:deleteSubCategoryById ended.");
-        return ResponseEntity.noContent()
+        return ResponseEntity.ok()
                 .headers(headers)
-                .build();
+                .body(SuccessResponse.builder().data(categoryDeleteResponseDto)
+                        .status(StatusType.SUCCESS).build());
+
 
     }
 
@@ -150,7 +198,7 @@ public class SubCategoryController {
     @Operation(summary = "Upload Image of sub-category ")
     @PostMapping(value = "upload-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<HttpStatus> uploadSubCategoryImage(@RequestParam @NotNull final UUID id,
-                                                  @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
+                                                             @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
             throws IOException, SubCategoryNotFoundException {
 
         log.info("SubCategoryController:uploadSubCategoryImage started.");
@@ -179,7 +227,12 @@ public class SubCategoryController {
                 .build();
     }
 
-    @Operation(summary = "Get all sub-categories associated with One categoryId ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Sub-categories found", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SubCategoryFindResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Sub-categories could not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @Operation(summary = "Get all sub-categories associated with one categoryId ",description = "Fetch all the sub-categories associated with one categoryId")
     @GetMapping(value = "{categoryId}", produces = "application/json")
     public ResponseEntity<List<SubCategoryFindResponseDto>> getSubCategoriesByCategoryId(@PathVariable final UUID categoryId) {
 

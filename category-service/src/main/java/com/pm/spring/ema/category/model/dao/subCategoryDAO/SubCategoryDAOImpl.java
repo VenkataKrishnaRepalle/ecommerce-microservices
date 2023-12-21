@@ -1,5 +1,6 @@
 package com.pm.spring.ema.category.model.dao.subCategoryDAO;
 
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryDeleteResponseDto;
 import com.pm.spring.ema.category.model.entity.Category;
 import com.pm.spring.ema.category.model.entity.SubCategory;
 import com.pm.spring.ema.category.model.repository.SubCategoryRepository;
@@ -39,8 +40,9 @@ public class SubCategoryDAOImpl implements SubCategoryDAO {
     }
 
     @Override
-    public void deleteById(UUID id) {
+    public SubCategoryDeleteResponseDto deleteById(UUID id) {
         subCategoryRepository.deleteById(id);
+        return null;
     }
 
     @Override
