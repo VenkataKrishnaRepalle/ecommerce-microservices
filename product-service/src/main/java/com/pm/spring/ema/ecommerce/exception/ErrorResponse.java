@@ -1,4 +1,4 @@
-package com.pm.spring.ema.ecommerce.exception;
+package com.pm.spring.ema.shipping.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
