@@ -3,10 +3,10 @@ package com.pm.spring.ema.config;
 import com.pm.spring.ema.model.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.oauth2.config.annotation.builders.ClientDetailsServiceBuilder;
-//import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-//import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-//import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.builders.ClientDetailsServiceBuilder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerConfigurerAdapter;
 
 @Configuration
 @EnableAuthorizationServer
@@ -30,7 +30,8 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     private ClientDetailsService clientDetailsService() {
         return clientId -> clientRepository.findById(clientId)
                 .map(client -> {
-                    BaseClientDetails details = new BaseClientDetails(client.getClientId(),
+                    BaseClientDetails details = new BaseClientDetails(
+                            client.getClientId(),
                             client.getResourceIds(),
                             client.getScopes(),
                             client.getAuthorizedGrantTypes(),
