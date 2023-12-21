@@ -7,8 +7,8 @@ import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindRe
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.ErrorMessage;
-import com.pm.spring.ema.category.model.dao.categoryDao.CategoryDao;
-import com.pm.spring.ema.category.model.dao.subCategoryDao.SubCategoryDao;
+import com.pm.spring.ema.category.model.dao.categoryDAO.CategoryDAO;
+import com.pm.spring.ema.category.model.dao.subCategoryDAO.SubCategoryDAO;
 import com.pm.spring.ema.category.model.entity.Category;
 import com.pm.spring.ema.category.model.entity.SubCategory;
 import com.pm.spring.ema.category.exception.CategoryException.CategoryNameAlreadyExistException;
@@ -33,9 +33,9 @@ import java.util.UUID;
 public class CategoryServiceImpl implements CategoryService {
 
     private static final int CATEGORY_PER_PAGE = 5;
-    private final CategoryDao categoryDao;
+    private final CategoryDAO categoryDao;
     private final CategoryMapper categoryMapper;
-    private final SubCategoryDao subCategoryDao;
+    private final SubCategoryDAO subCategoryDao;
 
 
     public List<CategoryFindResponseDto> getAllCategory() {

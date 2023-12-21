@@ -1,6 +1,5 @@
-package com.spring6.ecommerce.exception;
+package com.pm.spring.ema.shipping.exception;
 
-import com.pm.spring.ema.ecommerce.exception.ErrorFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
