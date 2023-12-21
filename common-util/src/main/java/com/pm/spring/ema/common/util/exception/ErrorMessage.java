@@ -25,7 +25,7 @@ public class ErrorMessage {
     }
 
     public static ErrorResponse errorResponse(String error) {
-        String[] errorCodeAndMessage = error.split("-");
+        String[] errorCodeAndMessage = error.split("-", 2);
         String errorCode = errorCodeAndMessage[0];
         String errorMessage = errorCodeAndMessage[1];
 

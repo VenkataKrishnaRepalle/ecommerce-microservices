@@ -6,13 +6,13 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Builder
-public class AddAddressRequestDto {
+public class UpdateAddressRequestDto {
 
     @NotBlank(message = ErrorCodes.E5001)
     private String country;

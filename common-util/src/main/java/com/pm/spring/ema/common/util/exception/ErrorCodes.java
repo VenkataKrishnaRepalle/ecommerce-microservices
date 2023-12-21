@@ -104,5 +104,17 @@ public final class ErrorCodes {
 
     public static final String E5001 = "E5001-Field Country is required";
     public static final String E5002 = "E5002-Length should be 10 Characters";
-    public static final String E5003 = "E5002-Length should be 6 Characters";
+    public static final String E5003 = "E5003-Length should be 6 Characters";
+    public static final String E5004 = "E5004-Field Full Name is required";
+    public static final String E5005 = "E5005-Field Mobile Number is required";
+    public static final String E5006 = "E5006-Field Pincode is required";
+    public static final String E5007 = "E5007-Field House Number is required";
+    public static final String E5008 = "E5008-Field Area is required";
+    public static final String E5009 = "E5009-Field Landmark is required";
+    public static final String E5010 = "E5010-Field City is required";
+    public static final String E5011 = "E5011-Field State is required";
+    public static final String E5012 = "E5012-Maximum Address count reached";
+    public static final String E5013 = "E5013-Couldn't found Address with id: ";
+    public static final String E5014 = "E5014-Default Address not updated for addressId: ";
+    public static final String E5015 = "E5015-Address not deleted for id: ";
 }

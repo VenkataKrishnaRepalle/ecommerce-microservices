@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddAddressResponseDto {
+public class UpdateAddressResponseDto {
 
     private UUID id;
 
