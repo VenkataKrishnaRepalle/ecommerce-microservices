@@ -1,4 +1,4 @@
-package com.pm.spring.ema.category.model.dao.categoryDao;
+package com.pm.spring.ema.category.model.dao.categoryDAO;
 
 import com.pm.spring.ema.category.model.entity.Category;
 import com.pm.spring.ema.category.model.repository.CategoryRepository;
@@ -12,8 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@Repository
-public class CategoryDaoImpl implements CategoryDao{
+public class CategoryDAOImpl implements CategoryDAO {
     private final CategoryRepository categoryRepository;
 
     @Override

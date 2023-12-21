@@ -1,14 +1,16 @@
-package com.pm.spring.ema.category.model.dao.categoryDao;
+package com.pm.spring.ema.category.model.dao.categoryDAO;
 
 import com.pm.spring.ema.category.model.entity.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface CategoryDao {
+@Repository
+public interface CategoryDAO {
     List<Category> findAll();
 
     Optional<Category> findById(UUID id);
