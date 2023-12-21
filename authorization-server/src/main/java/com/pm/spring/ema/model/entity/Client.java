@@ -21,7 +21,7 @@ public class Client {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(updatable = false, nullable = false)
-    private String clientId;
+    private String id;
     private String clientSecret;
     private String grantTypes;
     private String scopes;
