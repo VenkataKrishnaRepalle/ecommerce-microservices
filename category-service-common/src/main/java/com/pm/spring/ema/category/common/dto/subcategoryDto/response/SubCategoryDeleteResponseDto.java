@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class SubCategoryFindResponseDto {
+public class SubCategoryDeleteResponseDto {
 
     @NotNull
     private UUID id;

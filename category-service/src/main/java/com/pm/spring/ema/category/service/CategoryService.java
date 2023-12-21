@@ -4,13 +4,16 @@ package com.pm.spring.ema.category.service;
 import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryCreateRequestDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryUpdateRequestDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryCreateResponseDto;
+import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryDeleteResponseDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public interface CategoryService {
     CategoryCreateResponseDto createCategory(CategoryCreateRequestDto categoryCreateRequestDto);
 
@@ -20,7 +23,7 @@ public interface CategoryService {
 
     CategoryUpdateResponseDto updateCategory(UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto);
 
-    void deleteCategoryById(UUID id);
+    CategoryDeleteResponseDto deleteCategoryById(UUID id);
 
     Boolean isCategoryExistByName(String name);
 

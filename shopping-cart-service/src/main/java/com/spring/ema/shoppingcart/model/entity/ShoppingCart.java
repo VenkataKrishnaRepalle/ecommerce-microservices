@@ -1,10 +1,10 @@
 package com.spring.ema.shoppingcart.model.entity;
 
+import com.spring.ema.shoppingcart.enums.ShoppingCartStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,8 +24,12 @@ public class ShoppingCart {
     @Column(updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "customer_id",nullable = false)
+    @Column(name = "customer_id",unique = true,nullable = false)
     private UUID customerId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status",nullable = false)
+    private ShoppingCartStatus status;
 
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItems> cartItems = new ArrayList<>();

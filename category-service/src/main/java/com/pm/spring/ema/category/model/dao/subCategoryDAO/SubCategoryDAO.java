@@ -1,6 +1,7 @@
 package com.pm.spring.ema.category.model.dao.subCategoryDAO;
 
 
+import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryDeleteResponseDto;
 import com.pm.spring.ema.category.model.entity.Category;
 import com.pm.spring.ema.category.model.entity.SubCategory;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,7 @@ public interface SubCategoryDAO {
 
     void delete(SubCategory subCategory);
 
-    void deleteById(UUID id);
+    SubCategoryDeleteResponseDto deleteById(UUID id);
 
     Optional<SubCategory> findByName(String name);
 
