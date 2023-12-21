@@ -115,7 +115,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>${lombok.mapstruct.binding}</version>
+                            <version>${project-lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                     <compilerArgs>
