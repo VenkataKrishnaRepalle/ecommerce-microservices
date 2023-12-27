@@ -7,10 +7,10 @@ import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategory
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryDeleteResponseDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryFindResponseDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryUpdateResponseDto;
-import com.pm.spring.ema.category.model.dao.categoryDAO.CategoryDAO;
+import com.pm.spring.ema.category.model.dao.CategoryDao;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.ErrorMessage;
-import com.pm.spring.ema.category.model.dao.subCategoryDAO.SubCategoryDAO;
+import com.pm.spring.ema.category.model.dao.SubCategoryDao;
 import com.pm.spring.ema.category.model.entity.Category;
 import com.pm.spring.ema.category.model.entity.SubCategory;
 import com.pm.spring.ema.category.exception.CategoryException.CategoryNameAlreadyExistException;
@@ -36,40 +36,37 @@ import java.util.UUID;
 @Service
 public class SubCategoryServiceImpl implements SubCategoryService {
     private static final int SUB_CATEGORY_PER_PAGE = 5;
-    private final SubCategoryDAO subCategoryDao;
+    private final SubCategoryDao subCategoryDao;
     private final SubCategoryMapper subCategoryMapper;
-    private final CategoryDAO categoryDao;
+    private final CategoryDao categoryDao;
 
     public List<SubCategoryFindResponseDto> getAllSubCategory() {
 
-        log.info("SubCategoryService:getAllSubCategory execution started.");
-        log.debug("SubCategoryService:getAllSubCategory traceId: {}", TraceIdHolder.getTraceId());
+
+        log.debug("SubCategoryService:getAllSubCategory EXECUTION STARTED.  traceId: {}", TraceIdHolder.getTraceId());
 
         List<SubCategoryFindResponseDto> subCategoryFindResponseDtoList = subCategoryDao.findAll()
                 .stream()
                 .map(subCategoryMapper::subCategoryToSubCategoryFindResponseDto)
                 .toList();
-        log.debug("SubCategoryService:getAllSubCategory traceId: {}, response {} ", TraceIdHolder.getTraceId(), subCategoryFindResponseDtoList);
-        log.info("SubCategoryService:getAllSubCategory execution ended.");
+        log.debug("SubCategoryService:getAllSubCategory EXECUTION ENDED. traceId: {}, response {} ", TraceIdHolder.getTraceId(), subCategoryFindResponseDtoList);
 
         return subCategoryFindResponseDtoList;
     }
 
     @Override
     public SubCategoryFindResponseDto getSubCategoryById(UUID id) throws SubCategoryNotFoundException {
-        log.info("SubCategoryService:getSubCategoryById execution started.");
-        log.debug("SubCategoryService:getSubCategoryById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
+
+        log.debug("SubCategoryService:getSubCategoryById EXECUTION STARTED.  traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
         Optional<SubCategory> optionalSubCategory = subCategoryDao.findById(id);
         if (optionalSubCategory.isEmpty()) {
-            log.error("SubCategoryService:getSubCategoryById traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
-            log.info("SubCategoryService:getSubCategoryById execution ended.");
+            log.error("SubCategoryService:getSubCategoryById EXECUTION ENDED. traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
             throw new SubCategoryNotFoundException(ErrorCodes.E1509, id.toString());
         }
 
         SubCategoryFindResponseDto subCategoryFindResponseDto = subCategoryMapper.subCategoryToSubCategoryFindResponseDto(optionalSubCategory.get());
-        log.debug("SubCategoryService:getSubCategoryById traceId: {}, response: {}", TraceIdHolder.getTraceId(), subCategoryFindResponseDto);
-        log.info("SubCategoryService:getSubCategoryById execution ended.");
+        log.debug("SubCategoryService:getSubCategoryById EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), subCategoryFindResponseDto);
 
         return subCategoryFindResponseDto;
 
@@ -77,11 +74,11 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
     @Override
     public SubCategoryCreateResponseDto createSubCategory(SubCategoryCreateRequestDto subCategoryCreateRequestDto) throws SubCategoryNameAlreadyExistException {
-        log.info("SubCategoryService:createSubCategory execution started.");
-        log.debug("SubCategoryService:createSubCategory traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), subCategoryCreateRequestDto);
+
+        log.debug("SubCategoryService:createSubCategory EXECUTION STARTED. traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), subCategoryCreateRequestDto);
 
         if (isSubCategoryExistByName(subCategoryCreateRequestDto.getName())) {
-            log.error("SubCategoryService:createSubCategory traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1508, subCategoryCreateRequestDto.getName()));
+            log.error("SubCategoryService:createSubCategory EXECUTION ENDED. traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1508, subCategoryCreateRequestDto.getName()));
             throw new CategoryNameAlreadyExistException(ErrorCodes.E1508, subCategoryCreateRequestDto.getName());
         }
 
@@ -94,15 +91,13 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         SubCategoryCreateResponseDto subCategoryCreateResponseDto = subCategoryMapper.subCategoryToSubCategoryCreateResponseDto(savedSubCategory);
         subCategoryCreateResponseDto.setCategoryUUID(categoryId);
 
-        log.debug("SubCategoryService:createSubCategory traceId: {}, response: {}", TraceIdHolder.getTraceId(), subCategoryCreateRequestDto);
-        log.info("SubCategoryService:createSubCategory execution ended.");
+        log.debug("SubCategoryService:createSubCategory EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), subCategoryCreateRequestDto);
         return subCategoryCreateResponseDto;
     }
 
     @Override
     public SubCategoryUpdateResponseDto updateSubCategory(final UUID id, SubCategoryUpdateRequestDto subCategoryUpdateRequestDto) throws SubCategoryNotFoundException {
-        log.info("SubCategoryService:updateSubCategory execution started.");
-        log.debug("SubCategoryService:updateSubCategory traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, subCategoryUpdateRequestDto);
+        log.debug("SubCategoryService:updateSubCategory EXECUTION STARTED. traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, subCategoryUpdateRequestDto);
 
         Optional<SubCategory> optionalSubCategory = subCategoryDao.findById(id);
         if (optionalSubCategory.isEmpty()) {
@@ -117,16 +112,14 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         SubCategoryUpdateResponseDto subCategoryUpdateResponseDto = subCategoryMapper.subCategoryToSubCategoryUpdateResponseDto(updatedSubCategory);
 
 
-        log.debug("SubCategoryService:updateSubCategory traceId: {}, response: {}", TraceIdHolder.getTraceId(), subCategoryUpdateResponseDto);
-        log.info("SubCategoryService:updateSubCategory execution ended.");
+        log.debug("SubCategoryService:updateSubCategory EXECUTION ENDED.traceId: {}, response: {}", TraceIdHolder.getTraceId(), subCategoryUpdateResponseDto);
         return subCategoryUpdateResponseDto;
     }
 
     @Override
     public SubCategoryDeleteResponseDto deleteSubCategoryById(UUID id) throws SubCategoryNotFoundException {
 
-        log.info("SubCategoryService:deleteSubCategoryById execution started.");
-        log.debug("SubCategoryService:deleteSubCategoryById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
+        log.debug("SubCategoryService:deleteSubCategoryById EXECUTION STARTED. traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
         Optional<SubCategory> optionalSubCategory = subCategoryDao.findById(id);
         if (optionalSubCategory.isPresent()) {
@@ -135,11 +128,11 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
             subCategoryDao.deleteById(id);
 
-            log.info("SubCategoryService:deleteSubCategoryById execution ended.");
+            log.debug("SubCategoryService:deleteSubCategoryById EXECUTION ENDED.");
 
             return categoryDeleteResponseDto;
         } else {
-            log.error("SubCategoryService:deleteSubCategoryById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1511, id.toString()));
+            log.error("SubCategoryService:deleteSubCategoryById EXECUTION ENDED. traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1511, id.toString()));
 
             throw new SubCategoryNotFoundException(ErrorCodes.E1511, id.toString());
         }
@@ -200,13 +193,13 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
     @Override
     public String updateSubCategoryImageById(UUID id, String fileName) throws SubCategoryNotFoundException {
-        log.info("SubCategoryService:updateSubCategoryImageById execution started.");
-        log.debug("SubCategoryService:updateSubCategoryImageById traceId: {}, brandId:{}, fileName: {}", TraceIdHolder.getTraceId(), id, fileName);
+
+        log.debug("SubCategoryService:updateSubCategoryImageById EXECUTION STARTED. traceId: {}, brandId:{}, fileName: {}", TraceIdHolder.getTraceId(), id, fileName);
 
         Optional<SubCategory> optionalSubCategory = subCategoryDao.findById(id);
 
         if (optionalSubCategory.isEmpty()) {
-            log.error("SubCategoryService:updateSubCategoryImageById traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1505, id.toString()));
+            log.error("SubCategoryService:updateSubCategoryImageById EXECUTION ENDED. traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1505, id.toString()));
             throw new SubCategoryNotFoundException(ErrorCodes.E1512, id.toString());
         }
 
@@ -214,8 +207,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         subCategory.setImageName(fileName);
         SubCategory updatedSubCategory = subCategoryDao.save(subCategory);
 
-        log.debug("SubCategoryService:updateSubCategoryImageById traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), updatedSubCategory.getImageName());
-        log.info("SubCategoryService:updateSubCategoryImageById execution ended.");
+        log.debug("SubCategoryService:updateSubCategoryImageById EXECUTION ENDED. traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), updatedSubCategory.getImageName());
         return updatedSubCategory.getImageName();
 
 
