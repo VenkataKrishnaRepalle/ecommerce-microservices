@@ -3,6 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
+        <module>address-service</module>
         <module>app-config-data</module>
         <module>common-config</module>
         <module>common-util</module>
@@ -27,7 +28,7 @@
 <!--        <module>elastic-query-web-client-common</module>-->
 <!--        <module>elastic-query-web-client</module>-->
 <!--        <module>elastic-query-web-client-2</module>-->
-        <module>brand-service</module>
+<!--        <module>brand-service</module>-->
 <!--        <module>camunda</module>-->
 <!--        <module>customer-service</module>-->
         <module>category-service-common</module>
@@ -38,7 +39,7 @@
 <!--        <module>inventory-service</module>-->
 <!--        <module>order-service</module>-->
 <!--        <module>payment-service</module>-->
-<!--        <module>product-service</module>-->
+        <module>product-service</module>
 <!--        <module>report-service</module>-->
 <!--        <module>return-refund-service</module>-->
 <!--        <module>review-service</module>-->
@@ -49,7 +50,6 @@
 <!--        <module>user-service</module>-->
 <!--        <module>warehouse-service</module>-->
 <!--        <module>wishlist-service</module>-->
-<!--        <module>address-service</module>-->
 <!--        <module>mail-service</module>-->
         <module>karate-test-api</module>
         <module>playground</module>

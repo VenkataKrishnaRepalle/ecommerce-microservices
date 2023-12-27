@@ -67,6 +67,12 @@ public final class ErrorCodes {
     public static final String E1550 = "E1550-Shopping Cart already exist with ID : {0}";
 
 
+// Product - 2001 to 3000
+    public static final String E2001 = "E2001-Could not find any product with ID: ";
+    public static final String E2002 = "E2002-Product already present with name: ";
+
+
+
     //  user - 4001 to 5000 errors
     public static final String E4001 = "E4001-Field {0} is required.";
     public static final String E4002 = "E4002-Field {0} is required.";
