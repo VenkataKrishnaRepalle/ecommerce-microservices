@@ -1,29 +1,26 @@
-server:
-  port: 9000
+spring:
+  application:
+    name: authorization-server
+  profiles:
+    active: authorization
+  config:
+    import: 'configserver:'
+  cloud:
+    config:
+      name: authorization-server,config-client
+      username: user
+      password: password
+log:
+  appName: authorization-server
 
+# remove for production
 logging:
   level:
+    ROOT: INFO
+    org.spring.framework.cloud.config: DEBUG
     org.springframework.security: trace
-
-spring:
-  security:
-    oauth2:
-      authorizationserver:
-        client:
-          oidc-client:
-            registration:
-              client-id: "oidc-client"
-              client-secret: "{noop}secret"
-              client-authentication-methods:
-                - "client_secret_basic"
-              authorization-grant-types:
-                - "authorization_code"
-                - "refresh_token"
-              redirect-uris:
-                - "http://127.0.0.1:8080/login/oauth2/code/oidc-client"
-              post-logout-redirect-uris:
-                - "http://127.0.0.1:8080/"
-              scopes:
-                - "openid"
-                - "profile"
-            require-authorization-consent: true
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace

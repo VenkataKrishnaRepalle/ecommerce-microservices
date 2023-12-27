@@ -66,16 +66,14 @@ public class BrandController {
     public ResponseEntity<BrandCreateResponseDto> createBrand(
             @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto)
             throws BrandNameAlreadyExistException {
-        log.info("BrandController:createBrand execution started.");
-        log.debug("BrandController:createBrand traceId: {} request payload: {}", TraceIdHolder.getTraceId(), brandCreateRequestDto);
+        log.debug("BrandController:createBrand STARTED. traceId: {} request: {}", TraceIdHolder.getTraceId(), brandCreateRequestDto);
 
         BrandCreateResponseDto savedBrandDto = brandService.create(brandCreateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.debug("BrandController:createBrand traceId: {} response: {}", TraceIdHolder.getTraceId(), savedBrandDto);
-        log.info("BrandController:createBrand execution ended.");
+        log.debug("BrandController:createBrand ENDED traceId: {} response: {}", TraceIdHolder.getTraceId(), savedBrandDto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .headers(headers)
@@ -90,16 +88,14 @@ public class BrandController {
     })
     @GetMapping("{id}")
     public ResponseEntity<BrandFindResponseDto> getBrandById(@PathVariable @Valid final UUID id) {
-        log.info("BrandController:getBrandById execution started.");
-        log.info("BrandController:getBrandById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+        log.info("BrandController:getBrandById STARTED. traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         BrandFindResponseDto brandFindResponseDto = brandService.getById(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:getBrandById traceId: {} response : {}", TraceIdHolder.getTraceId(), brandFindResponseDto);
-        log.info("BrandController:getBrandById execution ended.");
+        log.info("BrandController:getBrandById ENDED. traceId: {} response : {}", TraceIdHolder.getTraceId(), brandFindResponseDto);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -114,15 +110,13 @@ public class BrandController {
     })
     @GetMapping("list")
     public ResponseEntity<List<BrandFindResponseDto>> getAllBrands() {
-        log.info("BrandController:getAllBrands started.");
-        log.info("BrandController:getAllBrands traceId: {}", TraceIdHolder.getTraceId());
+        log.info("BrandController:getAllBrands STARTED traceId: {}", TraceIdHolder.getTraceId());
         List<BrandFindResponseDto> brandFindResponseDtoList = brandService.getAll();
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:getAllBrands traceId: {} response: {}", TraceIdHolder.getTraceId(), brandFindResponseDtoList);
-        log.info("BrandController:getAllBrands execution ended.");
+        log.info("BrandController:getAllBrands ENDED traceId: {} response: {}", TraceIdHolder.getTraceId(), brandFindResponseDtoList);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -139,16 +133,14 @@ public class BrandController {
     @PatchMapping("update/{id}")
     public ResponseEntity<BrandUpdateResponseDto> updateBrand(@PathVariable UUID id, @RequestBody BrandUpdateRequestDto brandUpdateRequestDto) {
 
-        log.info("BrandController:updateBrand started.");
-        log.info("BrandController:updateBrand traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, brandUpdateRequestDto);
+        log.debug("BrandController:updateBrand STARTED traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, brandUpdateRequestDto);
 
         BrandUpdateResponseDto brandUpdateResponseDto = brandService.update(id, brandUpdateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:updateBrand traceId: {} response: {}", TraceIdHolder.getTraceId(), brandUpdateResponseDto);
-        log.info("BrandController:updateBrand ended.");
+        log.info("BrandController:updateBrand ENDED traceId: {} response: {}", TraceIdHolder.getTraceId(), brandUpdateResponseDto);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -165,8 +157,7 @@ public class BrandController {
     })
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteBrandById(@PathVariable final UUID id) {
-        log.info("BrandController:deleteById started.");
-        log.info("BrandController:deleteById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+        log.info("BrandController:deleteById STARTED traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         brandService.deleteById(id);
         String dir = "../brand-logos/" + id;
@@ -175,8 +166,7 @@ public class BrandController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:deleteById traceId: {}", TraceIdHolder.getTraceId());
-        log.info("BrandController:deleteById ended.");
+        log.info("BrandController:deleteById ENDED traceId: {}", TraceIdHolder.getTraceId());
 
         return ResponseEntity.noContent()
                 .headers(headers)
@@ -195,16 +185,14 @@ public class BrandController {
                                                                       @RequestParam("sortDirection") String sortDirection,
                                                                       @RequestParam("searchField") BrandSearchKeywordEnum searchField,
                                                                       @RequestParam("searchKeyword") String searchKeyword) {
-        log.info("BrandController:getBrandsByPage started.");
-        log.info("BrandController:getBrandsByPage traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
+        log.info("BrandController:getBrandsByPage STARTED traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
         List<BrandFindResponseDto> brandFindResponseDtoList = brandService.getByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:getBrandsByPage traceId: {} response: {}", TraceIdHolder.getTraceId(), brandFindResponseDtoList);
-        log.info("BrandController:getBrandsByPage ended.");
+        log.info("BrandController:getBrandsByPage ENDED traceId: {} response: {}", TraceIdHolder.getTraceId(), brandFindResponseDtoList);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -222,8 +210,7 @@ public class BrandController {
             @RequestParam @NotNull final UUID brandId,
             @NotNull @ValidImageExtension @RequestParam("fileImage") final MultipartFile multipartFile)
             throws IOException, BrandNameAlreadyExistException {
-        log.info("BrandController:uploadBrandImage started.");
-        log.info("BrandController:uploadBrandImage traceId: {} request id: {}", TraceIdHolder.getTraceId(), brandId);
+        log.info("BrandController:uploadBrandImage STARTED traceId: {} request id: {}", TraceIdHolder.getTraceId(), brandId);
 
         if (brandService.isIdExist(brandId)) {
             log.error("BrandController:uploadBrandImage traceId: {} Brand Not Found id: {}", TraceIdHolder.getTraceId(), brandId);
@@ -239,14 +226,13 @@ public class BrandController {
             brandService.updateImageName(brandId, fileName);
 
         } else {
-            log.error("BrandController:uploadBrandImage traceId: {} File Not Found id: {}", TraceIdHolder.getTraceId(), brandId);
+            log.error("BrandController:uploadBrandImage ERROR traceId: {} File Not Found id: {}", TraceIdHolder.getTraceId(), brandId);
         }
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("BrandController:uploadBrandImage traceId: {}", TraceIdHolder.getTraceId());
-        log.info("BrandController:uploadBrandImage ended.");
+        log.info("BrandController:uploadBrandImage ENDED traceId: {}", TraceIdHolder.getTraceId());
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -262,8 +248,7 @@ public class BrandController {
     @GetMapping("image/{id}")
     public ResponseEntity<Resource> getBrandImageById(
             @PathVariable("id") UUID id) throws MalformedURLException {
-        log.info("BrandController:getBrandImageById started.");
-        log.debug("BrandController:getBrandImageById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+        log.debug("BrandController:getBrandImageById STARTED traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         String imageName = brandService.getImageNameById(id);
 
@@ -274,8 +259,7 @@ public class BrandController {
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
         if (!imageResource.exists()) {
-            log.error("BrandController:getBrandImageById traceId: {} id: {} Image source not found", TraceIdHolder.getTraceId(), id);
-            log.error("BrandController:getBrandImageById ended.");
+            log.error("BrandController:getBrandImageById ENDED traceId: {} id: {} Image source not found", TraceIdHolder.getTraceId(), id);
             return ResponseEntity.notFound()
                     .headers(headers).build();
 
@@ -283,8 +267,7 @@ public class BrandController {
         headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageName + "\"");
 
-        log.info("BrandController:getBrandImageById traceId: {} id: {}", TraceIdHolder.getTraceId(), id);
-        log.info("BrandController:getBrandImageById ended.");
+        log.info("BrandController:getBrandImageById ENDED traceId: {} id: {}", TraceIdHolder.getTraceId(), id);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))

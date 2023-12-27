@@ -7,8 +7,7 @@ import java.time.Instant;
 
 @Data
 @Builder
-public class ClientCreateResponseDto {
-    private String name;
+public class ClientUpdateResponseDto {
     private String clientId;
     private String clientSecret;
     private String grantTypes;

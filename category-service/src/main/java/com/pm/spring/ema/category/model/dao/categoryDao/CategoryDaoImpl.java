@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Repository
 public class CategoryDAOImpl implements CategoryDAO {
     private final CategoryRepository categoryRepository;
 

@@ -2,13 +2,14 @@ package com.pm.spring.ema.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
 @Data
 @Builder
-public class ClientCreateResponseDto {
-    private String name;
+public class ClientFindResponseDto {
     private String clientId;
     private String clientSecret;
     private String grantTypes;
@@ -16,4 +17,5 @@ public class ClientCreateResponseDto {
     private String redirectUris;
     private Instant createdOn;
     private Instant lastUpdatedOn;
+
 }

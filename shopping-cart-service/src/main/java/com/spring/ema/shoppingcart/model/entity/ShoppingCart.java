@@ -24,7 +24,7 @@ public class ShoppingCart {
     @Column(updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "customer_id",unique = true,nullable = false)
+    @Column(name = "customer_id",unique = true, nullable = false)
     private UUID customerId;
 
     @Enumerated(EnumType.STRING)

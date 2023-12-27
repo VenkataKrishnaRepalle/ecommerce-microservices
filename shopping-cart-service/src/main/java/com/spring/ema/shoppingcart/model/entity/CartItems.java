@@ -27,9 +27,12 @@ public class CartItems {
     @Column(name = "product_id",nullable = false)
     private UUID productId;
 
+    @Column(nullable = false)
+    private Integer quantity;
+
     @ManyToOne
     @JoinColumn(name = "shopping_cart_id", nullable = false)
-    private ShoppingCart shoppingCart;
+    private ShoppingCart shoppingCartId;
 
     @CreationTimestamp
     @Column(nullable = false, name = "created_time", updatable = false)
