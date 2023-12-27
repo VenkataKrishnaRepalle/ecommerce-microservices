@@ -10,8 +10,15 @@ spring:
       name: authorization-server,config-client
       username: user
       password: password
-log:
-  appName: authorization-server
+
+  main:
+    allow-bean-definition-overriding: true
+
+ema:
+  log:
+    appName: authorization-server
+
+
 
 # remove for production
 logging:
