@@ -1,4 +1,4 @@
-package com.pm.spring.ema.service;
+package com.pm.spring.ema.service.Impl;
 
 import com.pm.spring.ema.common.dto.ProductFindResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
@@ -7,22 +7,23 @@ import com.pm.spring.ema.dto.ProductCreateResponseDto;
 import com.pm.spring.ema.dto.ProductImageCreateRequestDto;
 import com.pm.spring.ema.dto.ProductUpdateRequestDto;
 import com.pm.spring.ema.dto.ProductUpdateResponseDto;
+import com.pm.spring.ema.model.dao.Impl.ProductImageDaoImpl;
+import com.pm.spring.ema.model.dao.ProductDao;
 import com.pm.spring.ema.model.entity.Product;
 import com.pm.spring.ema.exception.ProductAlreadyPresentException;
 import com.pm.spring.ema.exception.ProductNotFoundException;
-import com.pm.spring.ema.mapper.ProductImageMapper;
-import com.pm.spring.ema.mapper.ProductMapper;
+import com.pm.spring.ema.dto.mapper.ProductImageMapper;
+import com.pm.spring.ema.dto.mapper.ProductMapper;
 import com.pm.spring.ema.model.repository.ProductImageRepository;
 import com.pm.spring.ema.model.repository.ProductRepository;
+import com.pm.spring.ema.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,22 +32,23 @@ public class ProductServiceImpl implements ProductService {
 
     private static final int PRODUCT_PER_PAGE = 5;
 
-    private final ProductRepository productRepository;
 
-    private final ProductImageRepository productImageRepository;
+    private final ProductImageDaoImpl productImageDao;
 
     private final ProductMapper productMapper;
 
     private final ProductImageMapper productImageMapper;
 
+    private final ProductDao productDao;
+
     public List<ProductFindResponseDto> listAll() {
-        return productRepository.findAll()
+        return productDao.findAll()
                 .stream()
                 .map(productMapper::productToProductFindResponseDto).toList();
     }
 
     public ProductFindResponseDto getProductById(final UUID id) throws ProductNotFoundException {
-        Optional<Product> product = productRepository.findById(id);
+        var product = productDao.findById(id);
 
         if (product.isPresent()) {
             return productMapper.productToProductFindResponseDto(product.get());
@@ -59,33 +61,37 @@ public class ProductServiceImpl implements ProductService {
         if (isProductNameExists(productCreateRequestDto.getName())) {
             throw new ProductAlreadyPresentException(ErrorCodes.E2002, productCreateRequestDto.getName());
         }
-        Float cost = productCreateRequestDto.getCost();
-        Float price = productCreateRequestDto.getPrice();
-        Float discountedPercent = (cost > 0 && price > 0 && cost > price) ? ((cost - price) / cost) * 100 : 0.0f;
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        var cost = productCreateRequestDto.getCost();
+        var price = productCreateRequestDto.getPrice();
+        var discountedPercent = (cost > 0 && price > 0 && cost > price) ? ((cost - price) / cost) * 100 : 0.0f;
+        var decimalFormat = new DecimalFormat("#.##");
         discountedPercent = Float.valueOf(decimalFormat.format(discountedPercent));
 
         productCreateRequestDto.setDiscountPercent(discountedPercent);
 
         return productMapper.productToProductCreateResponseDto(
-                productRepository.save(productMapper.productCreateRequestDtoToProduct(productCreateRequestDto)));
+                productDao.save(productMapper.productCreateRequestDtoToProduct(productCreateRequestDto)));
     }
 
     public void updateProductStatusById(final UUID id, final boolean status) {
-        productRepository.updateEnabledStatus(status, id);
+        var product = productDao.findById(id);
+        if (product.isEmpty()) {
+            throw new ProductNotFoundException(ErrorCodes.E2001, product.get().getId().toString());
+        }
+        productDao.updateEnabledStatus(status, id);
     }
 
     public void deleteProductById(final UUID id) {
-        long countById = productRepository.countById(id);
+        var countById = productDao.countById(id);
 
         if (countById == 0) {
             throw new ProductNotFoundException(ErrorCodes.E2001, String.valueOf(id));
         }
-        productRepository.deleteById(id);
+        productDao.deleteById(id);
     }
 
     public boolean isProductNameExists(final String productName) {
-        Product optionalProduct = productRepository.findByName(productName);
+        var optionalProduct = productDao.findByName(productName);
 
         if (optionalProduct != null) {
             return Boolean.TRUE;
@@ -96,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public boolean isProductExists(final UUID id) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
+        var optionalProduct = productDao.findById(id);
 
         if (optionalProduct.isPresent()) {
             return Boolean.TRUE;
@@ -106,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public void uploadImage(final UUID id, final String fileName) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
+        var optionalProduct = productDao.findById(id);
 
         if (optionalProduct.isEmpty()) {
             throw new ProductNotFoundException(ErrorCodes.E2001, String.valueOf(id));
@@ -114,61 +120,62 @@ public class ProductServiceImpl implements ProductService {
         Product product = optionalProduct.get();
         if (product.getMainImage().isEmpty()) {
             product.setMainImage(fileName + "_" + id);
-            productRepository.save(product);
+            productDao.save(product);
         } else {
             ProductImageCreateRequestDto productImageCreateRequestDto = new ProductImageCreateRequestDto();
             productImageCreateRequestDto.setName(fileName + "_" + id);
             productImageCreateRequestDto.setProductId(id);
-            productImageRepository.save(productImageMapper.ProductImageCreateRequestDtoToProductImage(
+            productImageDao.save(productImageMapper.ProductImageCreateRequestDtoToProductImage(
                     productImageCreateRequestDto));
         }
     }
 
     public ProductUpdateResponseDto update(final UUID id, final ProductUpdateRequestDto productUpdateRequestDto) {
-        Optional<Product> existingProduct = productRepository.findById(id);
+        var existingProduct = productDao.findById(id);
 
         if (existingProduct.isEmpty()) {
             throw new ProductNotFoundException(ErrorCodes.E2001, String.valueOf(id));
         }
 
-        Product product = productMapper.productUpdateRequestDtoToProduct(productUpdateRequestDto);
+        var product = productMapper.productUpdateRequestDtoToProduct(productUpdateRequestDto);
 
-        Float cost = productUpdateRequestDto.getCost();
-        Float price = productUpdateRequestDto.getPrice();
-        Float discountedPercent = ((cost - price) / cost) * 100;
+        var cost = productUpdateRequestDto.getCost();
+        var price = productUpdateRequestDto.getPrice();
+        var discountedPercent = ((cost - price) / cost) * 100;
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        var decimalFormat = new DecimalFormat("#.##");
         discountedPercent = Float.valueOf(decimalFormat.format(discountedPercent));
 
         product.setId(id);
         product.setDiscountPercent(discountedPercent);
 
-        return productMapper.productToProductUpdateResponseDto(productRepository.save(product));
+        return productMapper.productToProductUpdateResponseDto(productDao.save(product));
     }
 
     public List<ProductFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword) {
-        Sort sort = Sort.by(sortField);
+        var sort = Sort.by(sortField);
         sort = sortDir.equals("ASC") ? sort.ascending() : sort.descending();
 
-        Pageable pageable = PageRequest.of(pageNumber - 1, PRODUCT_PER_PAGE, sort);
+        var pageable = PageRequest.of(pageNumber - 1, PRODUCT_PER_PAGE, sort);
 
         if (keyword != null) {
-            return productRepository.findAll(keyword, pageable)
+            return productDao.findAll(keyword, pageable)
                     .stream()
                     .map(productMapper::productToProductFindResponseDto)
                     .toList();
         }
-        return productRepository.findAll()
+        return productDao.findAll()
                 .stream()
                 .map(productMapper::productToProductFindResponseDto)
                 .toList();
     }
 
     public List<ProductFindResponseDto> getByCategoryId(UUID categoryId) {
-        if (productRepository.getByCategoryId(categoryId).isEmpty()) {
+        var productList = productDao.getByCategoryId(categoryId);
+        if (productList.isEmpty()) {
             throw new ProductNotFoundException(ErrorCodes.E2001, String.valueOf(categoryId));
         }
-        return productRepository.getByCategoryId(categoryId)
+        return productList
                 .stream()
                 .map(productMapper::productToProductFindResponseDto)
                 .toList();
@@ -176,11 +183,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductFindResponseDto> getByBrandId(UUID brandId) {
-        if (productRepository.getByBrandId(brandId).isEmpty()) {
+        var productList = productDao.getByBrandId(brandId);
+        if (productList.isEmpty()) {
             throw new ProductNotFoundException(ErrorCodes.E2001, String.valueOf(brandId));
         }
 
-        return productRepository.getByBrandId(brandId)
+        return productList
                 .stream()
                 .map(productMapper::productToProductFindResponseDto)
                 .toList();
@@ -188,12 +196,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductFindResponseDto> getByCategoryIdAndBrandId(UUID categoryId, UUID brandId) {
-        if (productRepository.getByCategoryId(categoryId).isEmpty()) {
+        if (productDao.getByCategoryId(categoryId).isEmpty()) {
             throw new ProductNotFoundException(ErrorCodes.E2001, String.valueOf(categoryId));
-        } else if (productRepository.getByBrandId(brandId).isEmpty()) {
+        } else if (productDao.getByBrandId(brandId).isEmpty()) {
             throw new ProductNotFoundException(ErrorCodes.E2001, String.valueOf(brandId));
         }
-        return productRepository.getByCategoryIdAndBrandId(categoryId, brandId)
+        return productDao.getByCategoryIdAndBrandId(categoryId, brandId)
                 .stream()
                 .map(productMapper::productToProductFindResponseDto)
                 .toList();

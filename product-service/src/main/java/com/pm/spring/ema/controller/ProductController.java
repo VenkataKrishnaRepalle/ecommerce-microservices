@@ -59,7 +59,7 @@ public class ProductController {
             tags = "Product")
     @PostMapping(value = "create")
     public ResponseEntity<HttpHeaders> create(@RequestBody @Valid final ProductCreateRequestDto productCreateRequestDto) {
-        ProductCreateResponseDto savedProduct = productService.create(productCreateRequestDto);
+        var savedProduct = productService.create(productCreateRequestDto);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Location", "/brand" + savedProduct.getId());
         return new ResponseEntity(savedProduct, httpHeaders, HttpStatus.CREATED);
@@ -78,9 +78,9 @@ public class ProductController {
         }
 
         if (!multipartFile.isEmpty()) {
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            var fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
-            String uploadDir = "spring6-ecommerce-product/product-images";
+            var uploadDir = "spring6-ecommerce-product/product-images";
             FileUploadUtils.saveFile(uploadDir, fileName + "_" + id, multipartFile.getInputStream());
 
             productService.uploadImage(id, fileName);
@@ -107,7 +107,7 @@ public class ProductController {
     public ResponseEntity<String> updateProductEnabledStatus(@PathVariable final UUID id,
                                                              @PathVariable final boolean status) {
         productService.updateProductStatusById(id, status);
-        String message = "The Product Id " + id + " has been " + status;
+        var message = "The Product Id " + id + " has been " + status;
         return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
     }
 

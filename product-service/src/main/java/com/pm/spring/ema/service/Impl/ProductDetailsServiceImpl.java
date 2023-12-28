@@ -1,15 +1,16 @@
-package com.pm.spring.ema.service;
+package com.pm.spring.ema.service.Impl;
 
 import com.pm.spring.ema.common.dto.ProductDetailsFindResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.dto.ProductDetailsCreateRequestDto;
 import com.pm.spring.ema.dto.ProductDetailsUpdateRequestDto;
+import com.pm.spring.ema.model.dao.ProductDetailsDao;
 import com.pm.spring.ema.model.entity.ProductDetails;
 import com.pm.spring.ema.exception.InvalidInputDetailsException;
 import com.pm.spring.ema.exception.ProductAlreadyPresentException;
 import com.pm.spring.ema.exception.ProductNotFoundException;
-import com.pm.spring.ema.mapper.ProductDetailsMapper;
-import com.pm.spring.ema.model.repository.ProductDetailsRepository;
+import com.pm.spring.ema.dto.mapper.ProductDetailsMapper;
+import com.pm.spring.ema.service.ProductDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProductDetailsServiceImpl implements ProductDetailsService {
 
-    private final ProductDetailsRepository productDetailsRepository;
+    private final ProductDetailsDao productDetailsDao;
 
     private final ProductDetailsMapper productDetailsMapper;
 
@@ -31,7 +32,7 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
 
         for (int count = 0; count < detailNames.length; count++) {
             if (!detailNames[count].isEmpty() && !detailValues[count].isEmpty()) {
-                ProductDetailsCreateRequestDto isProductDetailsExists = productDetailsMapper.ProductDetailsToProductDetailsCreateRequestDto(productDetailsRepository.isProductDetailsExists(id, detailNames[count]));
+                ProductDetailsCreateRequestDto isProductDetailsExists = productDetailsMapper.ProductDetailsToProductDetailsCreateRequestDto(productDetailsDao.isProductDetailsExists(id, detailNames[count]));
                 if (isProductDetailsExists != null) {
                     throw new ProductAlreadyPresentException(ErrorCodes.E2002, detailNames[count]);
                 }
@@ -46,7 +47,7 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
         List<ProductDetailsFindResponseDto> productDetailsFindResponseDtoList = new ArrayList<>();
 
         for (ProductDetailsCreateRequestDto productDetail : productDetails) {
-            ProductDetailsFindResponseDto finalProductDetails = productDetailsMapper.productDetailsToProductDetailsFindResponseDto(productDetailsRepository.save(productDetailsMapper.ProductDetailsCreateRequestDtoToProductDetails(productDetail)));
+            ProductDetailsFindResponseDto finalProductDetails = productDetailsMapper.productDetailsToProductDetailsFindResponseDto(productDetailsDao.save(productDetailsMapper.ProductDetailsCreateRequestDtoToProductDetails(productDetail)));
             productDetailsFindResponseDtoList.add(finalProductDetails);
         }
         return productDetailsFindResponseDtoList;
@@ -61,19 +62,19 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
         if (isProductDetailsExists) {
             for (int index = 0; index < detailName.length; index++) {
                 if (!detailName[index].isEmpty() && !detailValue[index].isEmpty()) {
-                    ProductDetails productDetails = productDetailsRepository.isProductDetailsExists(id, detailName[index]);
+                    ProductDetails productDetails = productDetailsDao.isProductDetailsExists(id, detailName[index]);
                     if (productDetails == null) {
                         ProductDetailsUpdateRequestDto productDetails1 = new ProductDetailsUpdateRequestDto();
                         productDetails1.setProductId(id);
                         productDetails1.setName(detailName[index]);
                         productDetails1.setValue(detailValue[index]);
 
-                        ProductDetails pd = productDetailsRepository.save(productDetailsMapper.ProductDetailsUpdateRequestDtoToProductDetails(productDetails1));
+                        ProductDetails pd = productDetailsDao.save(productDetailsMapper.ProductDetailsUpdateRequestDtoToProductDetails(productDetails1));
 
                         listProductDetails.add(pd);
                     } else {
                         productDetails.setValue(detailValue[index]);
-                        productDetailsRepository.save(productDetails);
+                        productDetailsDao.save(productDetails);
                         listProductDetails.add(productDetails);
                     }
                 } else if (detailName[index].isEmpty()) {
@@ -98,13 +99,13 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
         if (!isProductDetailsExitsWithProductId(id)) {
             throw new ProductNotFoundException(ErrorCodes.E2001, String.valueOf(id));
         }
-        return productDetailsRepository.getByProductId(id)
+        return productDetailsDao.getByProductId(id)
                 .stream()
                 .map(productDetailsMapper::productDetailsToProductDetailsFindResponseDto).toList();
     }
 
     private boolean isProductDetailsExitsWithProductId(UUID productId) {
-        if (!productDetailsRepository.isProductDetailsExistsWithProductId(productId)) {
+        if (!productDetailsDao.isProductDetailsExistsWithProductId(productId)) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
