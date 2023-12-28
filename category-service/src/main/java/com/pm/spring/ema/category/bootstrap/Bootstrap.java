@@ -1,8 +1,8 @@
 package com.pm.spring.ema.category.bootstrap;
 import com.pm.spring.ema.category.common.enums.CategoryEnum;
 import com.pm.spring.ema.category.common.enums.SubCategoryEnum;
-import com.pm.spring.ema.category.model.dao.categoryDAO.CategoryDAO;
-import com.pm.spring.ema.category.model.dao.subCategoryDAO.SubCategoryDAO;
+import com.pm.spring.ema.category.model.dao.CategoryDao;
+import com.pm.spring.ema.category.model.dao.SubCategoryDao;
 import com.pm.spring.ema.category.model.entity.SubCategory;
 import com.pm.spring.ema.category.model.entity.Category;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class Bootstrap implements CommandLineRunner {
-    private final CategoryDAO categoryDao;
-    private final SubCategoryDAO subCategoryDao;
+    private final CategoryDao categoryDao;
+    private final SubCategoryDao subCategoryDao;
 
     @Override
     public void run(String... args) throws Exception {

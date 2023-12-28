@@ -6,10 +6,10 @@ import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryCreate
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryDeleteResponseDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
+import com.pm.spring.ema.category.model.dao.CategoryDao;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.ErrorMessage;
-import com.pm.spring.ema.category.model.dao.categoryDAO.CategoryDAO;
-import com.pm.spring.ema.category.model.dao.subCategoryDAO.SubCategoryDAO;
+import com.pm.spring.ema.category.model.dao.SubCategoryDao;
 import com.pm.spring.ema.category.model.entity.Category;
 import com.pm.spring.ema.category.model.entity.SubCategory;
 import com.pm.spring.ema.category.exception.CategoryException.CategoryNameAlreadyExistException;
@@ -34,22 +34,21 @@ import java.util.UUID;
 public class CategoryServiceImpl implements CategoryService {
 
     private static final int CATEGORY_PER_PAGE = 5;
-    private final CategoryDAO categoryDao;
+    private final CategoryDao categoryDao;
     private final CategoryMapper categoryMapper;
-    private final SubCategoryDAO subCategoryDao;
+    private final SubCategoryDao subCategoryDao;
 
 
     public List<CategoryFindResponseDto> getAllCategory() {
-        log.info("CategoryService:getAllCategory execution started.");
-        log.debug("CategoryService:getAllCategory traceId: {}", TraceIdHolder.getTraceId());
+        log.debug("CategoryService:getAllCategory EXECUTION STARTED. traceId: {}", TraceIdHolder.getTraceId());
 
 
         List<CategoryFindResponseDto> categoryFindResponseDtoList = categoryDao.findAll()
                 .stream()
                 .map(categoryMapper::categoryToCategoryFindResponseDto)
                 .toList();
-        log.debug("CategoryService:getAllCategory traceId: {}, response {} ", TraceIdHolder.getTraceId(), categoryFindResponseDtoList);
-        log.info("CategoryService:getAllCategory execution ended.");
+        log.debug("CategoryService:getAllCategory EXECUTION ENDED. traceId: {}, response {} ", TraceIdHolder.getTraceId(), categoryFindResponseDtoList);
+
 
         return categoryFindResponseDtoList;
     }
@@ -57,19 +56,17 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryFindResponseDto getCategoryById(UUID id) throws CategoryNotFoundException {
 
-        log.info("CategoryService:getCategoryById execution started.");
-        log.debug("CategoryService:getCategoryById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
+        log.debug("CategoryService:getCategoryById EXECUTION STARTED. traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
         Optional<Category> optionalCategory = categoryDao.findById(id);
         if (!optionalCategory.isPresent()) {
-            log.error("CategoryService:getCategoryById traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
-            log.info("CategoryService:getCategoryById execution ended.");
+            log.error("CategoryService:getCategoryById EXECUTION ENDED. traceId: {}, errorMessage: Category Not found", TraceIdHolder.getTraceId());
             throw new CategoryNotFoundException(ErrorCodes.E1502, id.toString());
         }
         CategoryFindResponseDto categoryFindResponseDto = categoryMapper.categoryToCategoryFindResponseDto(optionalCategory.get());
 
-        log.debug("CategoryService:getCategoryById traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryFindResponseDto);
-        log.info("CategoryService:getCategoryById execution ended.");
+        log.debug("CategoryService:getCategoryById EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryFindResponseDto);
+
 
         return categoryFindResponseDto;
 
@@ -78,27 +75,26 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryCreateResponseDto createCategory(CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
 
-        log.info("CategoryService:createCategory execution started.");
-        log.debug("CategoryService:createCategory traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), categoryCreateRequestDto);
+
+        log.debug("CategoryService:createCategory EXECUTION STARTED. traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), categoryCreateRequestDto);
 
         if (isCategoryExistByName(categoryCreateRequestDto.getName())) {
-            log.error("CategoryService:createCategory traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1501, categoryCreateRequestDto.getName()));
+            log.error("CategoryService:createCategory EXECUTION ENDED. traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1501, categoryCreateRequestDto.getName()));
             throw new CategoryNameAlreadyExistException(ErrorCodes.E1501, categoryCreateRequestDto.getName());
         }
         Category category = categoryMapper.categoryCreateRequestDtoToCategory(categoryCreateRequestDto);
         Category savedCategory = categoryDao.save(category);
         CategoryCreateResponseDto categoryCreateResponseDto = categoryMapper.categoryToCategoryCreateResponseDto(savedCategory);
 
-        log.debug("CategoryService:createCategory traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryCreateRequestDto);
-        log.info("CategoryService:createCategory execution ended.");
+        log.debug("CategoryService:createCategory EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryCreateRequestDto);
         return categoryCreateResponseDto;
 
     }
 
     @Override
     public CategoryUpdateResponseDto updateCategory(UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto) throws CategoryNotFoundException {
-        log.info("CategoryService:updateCategory execution started.");
-        log.debug("CategoryService:updateCategory traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, categoryUpdateRequestDto);
+
+        log.debug("CategoryService:updateCategory EXECUTION STARTED. traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, categoryUpdateRequestDto);
 
         Optional<Category> optionalCategory = categoryDao.findById(id);
         if (!optionalCategory.isPresent()) {
@@ -111,15 +107,15 @@ public class CategoryServiceImpl implements CategoryService {
         Category updatedCategory = categoryDao.save(category);
         CategoryUpdateResponseDto categoryUpdateResponseDto = categoryMapper.categoryToCategoryUpdateResponseDto(updatedCategory);
 
-        log.debug("CategoryService:updateCategory traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryUpdateResponseDto);
-        log.info("CategoryService:updateCategory execution ended.");
+        log.debug("CategoryService:updateCategory EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryUpdateResponseDto);
+
         return categoryUpdateResponseDto;
     }
 
     @Override
     public CategoryDeleteResponseDto deleteCategoryById(UUID id) throws CategoryNotFoundException {
-        log.info("CategoryService:deleteCategoryById execution started.");
-        log.debug("CategoryService:deleteCategoryById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
+
+        log.debug("CategoryService:deleteCategoryById EXECUTION STARTED. traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
 
         Optional<Category> optionalCategory = categoryDao.findById(id);
@@ -134,11 +130,11 @@ public class CategoryServiceImpl implements CategoryService {
             }
             categoryDao.deleteById(category.getId());
 
-            log.info("CategoryService:deleteCategoryById execution ended response : {}", categoryDeleteResponseDto);
+            log.debug("CategoryService:deleteCategoryById EXECUTION ENDED. response : {}", categoryDeleteResponseDto);
 
             return categoryDeleteResponseDto;
         } else {
-            log.error("CategoryService:deleteCategoryById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1504, id.toString()));
+            log.error("CategoryService:deleteCategoryById EXECUTION ENDED. traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1504, id.toString()));
             throw new CategoryNotFoundException(ErrorCodes.E1504, id.toString());
         }
     }
@@ -146,7 +142,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Boolean isCategoryExistByName(String name) {
 
-        log.info("CategoryService:isCategoryExistByName execution started. traceId: {}", TraceIdHolder.getTraceId());
+        log.debug("CategoryService:isCategoryExistByName EXECUTION STARTED. traceId: {}", TraceIdHolder.getTraceId());
 
         Optional<Category> optionalParentCategory = categoryDao.findByName(name);
         if (optionalParentCategory.isPresent()) {
@@ -157,7 +153,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Boolean isCategoryExistById(UUID id) {
-        log.info("CategoryService:isCategoryExistById execution started. traceId: {}", TraceIdHolder.getTraceId());
+
         log.debug("CategoryService:isCategoryExistById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
         Optional<Category> optionalCategory = categoryDao.findById(id);
@@ -189,20 +185,19 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public String updateImageById(UUID id, String fileName) throws CategoryNotFoundException {
-        log.info("CategoryService:updateImageById execution started.");
-        log.debug("CategoryService:updateImageById traceId: {}, brandId:{}, fileName: {}", TraceIdHolder.getTraceId(), id, fileName);
+
+        log.debug("CategoryService:updateImageById EXECUTION STARTED. traceId: {}, brandId:{}, fileName: {}", TraceIdHolder.getTraceId(), id, fileName);
 
         Optional<Category> optionalCategory = categoryDao.findById(id);
         if (optionalCategory.isEmpty()) {
-            log.error("CategoryService:updateImageById traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1505, id.toString()));
+            log.error("CategoryService:updateImageById EXECUTION ENDED. traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1505, id.toString()));
             throw new CategoryNotFoundException(ErrorCodes.E1505, id.toString());
         }
         Category category = optionalCategory.get();
         category.setImageName(fileName);
         Category updatedCategory = categoryDao.save(category);
 
-        log.debug("CategoryService:updateImageById traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), updatedCategory.getImageName());
-        log.info("CategoryService:updateImageById execution ended.");
+        log.debug("CategoryService:updateImageById EXECUTION ENDED. traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), updatedCategory.getImageName());
 
         return updatedCategory.getImageName();
 
@@ -211,22 +206,19 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public String getCategoryImageNameById(UUID id) {
-        log.info("CategoryService:getCategoryImageNameById execution started.");
-        log.debug("CategoryService:getCategoryImageNameById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
+
+        log.debug("CategoryService:getCategoryImageNameById EXECUTION STARTED. traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
         Optional<Category> optionalCategory = categoryDao.findById(id);
 
         if (!optionalCategory.isPresent()) {
-            log.error("BrandService:getCategoryImageNameById traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
-            log.info("BrandService:getCategoryImageNameById execution ended.");
+            log.error("BrandService:getCategoryImageNameById EXECUTION ENDED. traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
             throw new CategoryNotFoundException(ErrorCodes.E1506, id.toString());
         }
 
         String imageName = optionalCategory.get().getImageName();
 
-        log.debug("CategoryService:getCategoryImageNameById traceId: {}, response: {}", TraceIdHolder.getTraceId(), imageName);
-        log.info("CategoryService:getCategoryImageNameById execution ended.");
-
+        log.debug("CategoryService:getCategoryImageNameById EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), imageName);
         return imageName;
     }
 

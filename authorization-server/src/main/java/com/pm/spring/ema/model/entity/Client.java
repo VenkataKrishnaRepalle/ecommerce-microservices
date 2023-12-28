@@ -1,14 +1,20 @@
 package com.pm.spring.ema.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.pm.spring.ema.converter.GrantTypeConverter;
+import com.pm.spring.ema.converter.StringListConverter;
+import com.pm.spring.ema.dto.enums.GrantType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -21,10 +27,26 @@ public class Client {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(updatable = false, nullable = false)
-    private String clientId;
+    private UUID id;
+    private String name;
     private String clientSecret;
-    private String grantTypes;
-    private String scopes;
-    private String redirectUris;
+
+    @Convert(converter = GrantTypeConverter.class)
+    @Column(name = "grant_type")
+    private List<GrantType> grantTypes;
+
+    @Convert(converter = StringListConverter.class)
+    @Column(name = "scope")
+    private List<String> scopes;
+
+    @Convert(converter = StringListConverter.class)
+    @Column(name = "redirect_uri")
+    private List<String> redirectUris;
+
+    @CreationTimestamp
+    private Instant createdOn;
+
+    @UpdateTimestamp
+    private Instant lastUpdatedOn;
 
 }

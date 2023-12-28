@@ -65,11 +65,17 @@ public final class ErrorCodes {
     public static final String E1514 = "E1514-Invalid Category with ID : {0}";
 
     public static final String E1550 = "E1550-Shopping Cart already exist with ID : {0}";
+    public static final String E1551 = "E1551-Could not found shopping cart with ID : {0}";
+    public static final String E1552 = "E1552-Could not found shopping cart with customerId : {0}";
 
-// Product - 2001 to 3000
+    //    Shopping-cart
+    public static final String E1600 = "E1600-Field {0} is required.";
+    public static final String E1601 = "E1601-Field {0} is required.";
+
+
+    // Product - 2001 to 3000
     public static final String E2001 = "E2001-Could not find any product with ID: ";
     public static final String E2002 = "E2002-Product already present with name: ";
-
 
 
     //  user - 4001 to 5000 errors
@@ -124,4 +130,12 @@ public final class ErrorCodes {
     public static final String E5013 = "E5013-Couldn't found Address with id: ";
     public static final String E5014 = "E5014-Default Address not updated for addressId: ";
     public static final String E5015 = "E5015-Address not deleted for id: ";
+
+    //    authorization
+    public static final String E6001 = "E6001-Could not find any client with ID : {0}";
+    public static final String E6002 = "E6002-Client Name: {0} already exist";
+    public static final String E6003 = "E6003-Could not find any client with ID : {0}";
+    public static final String E6004 = "E6004-Could not find any client with ID : {0}";
+
+
 }

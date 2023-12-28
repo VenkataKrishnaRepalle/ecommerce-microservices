@@ -42,7 +42,7 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("category")
+@RequestMapping("api/category")
 @Tag(name = "category")
 public class CategoryController {
 
@@ -57,16 +57,14 @@ public class CategoryController {
     @PostMapping("create")
     public ResponseEntity<SuccessResponse> createCategory(@RequestBody @Valid final CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
 
-        log.info("CategoryController:createCategory execution started.");
-        log.debug("CategoryController:createCategory traceId: {} request payload: {}", TraceIdHolder.getTraceId(), categoryCreateRequestDto);
+        log.debug("CategoryController:createCategory EXECUTION STARTED. traceId: {} request payload: {}", TraceIdHolder.getTraceId(), categoryCreateRequestDto);
 
         CategoryCreateResponseDto categoryCreateResponseDto = categoryService.createCategory(categoryCreateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.debug("CategoryController:createCategory traceId: {} response: {}", TraceIdHolder.getTraceId(), categoryCreateResponseDto);
-        log.info("CategoryController:createCategory execution ended.");
+        log.debug("CategoryController:createCategory EXECUTION ENDED. traceId: {} response: {}", TraceIdHolder.getTraceId(), categoryCreateResponseDto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .headers(headers)
@@ -85,18 +83,16 @@ public class CategoryController {
     @GetMapping("{categoryId}")
     public ResponseEntity<SuccessResponse> getCategoryById(@PathVariable final UUID categoryId) {
 
-        log.info("CategoryController:getCategoryById execution started.");
 
-        log.info("CategoryController:getCategoryById traceId: {} request id: {}", TraceIdHolder.getTraceId(), categoryId);
+        log.debug("CategoryController:getCategoryById EXECUTION STARTED. traceId: {} request id: {}", TraceIdHolder.getTraceId(), categoryId);
 
         CategoryFindResponseDto categoryFindResponseDto = categoryService.getCategoryById(categoryId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("CategoryController:getCategoryById traceId: {} response : {}", TraceIdHolder.getTraceId(), categoryFindResponseDto);
+        log.debug("CategoryController:getCategoryById  EXECUTION ENDED. traceId: {} response : {}", TraceIdHolder.getTraceId(), categoryFindResponseDto);
 
-        log.info("CategoryController:getCategoryById execution ended.");
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(SuccessResponse.builder().data(categoryFindResponseDto).status(StatusType.SUCCESS).build());
@@ -112,9 +108,8 @@ public class CategoryController {
     @GetMapping("list")
     public ResponseEntity<List<CategoryFindResponseDto>> getAllCategory() {
 
-        log.info("CategoryController:getAllCategory started.");
 
-        log.info("CategoryController:getAllCategory traceId: {}", TraceIdHolder.getTraceId());
+        log.debug("CategoryController:getAllCategory EXECUTION STARTED. traceId: {}", TraceIdHolder.getTraceId());
 
         List<CategoryFindResponseDto> categoryFindResponseDtoList = categoryService.getAllCategory();
 
@@ -122,9 +117,7 @@ public class CategoryController {
 
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("CategoryController:getAllCategory traceId: {} response : {}", TraceIdHolder.getTraceId(), categoryFindResponseDtoList);
-
-        log.info("CategoryController:getAllCategory execution ended.");
+        log.debug("CategoryController:getAllCategory EXECUTION ENDED. traceId: {} response : {}", TraceIdHolder.getTraceId(), categoryFindResponseDtoList);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -141,9 +134,8 @@ public class CategoryController {
     @PutMapping("update/{categoryId}")
     public ResponseEntity<SuccessResponse> updateCategory(@PathVariable UUID categoryId, @RequestBody CategoryUpdateRequestDto categoryUpdateRequestDto) {
 
-        log.info("CategoryController:updateCategory started.");
 
-        log.info("CategoryController:updateCategory traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), categoryId, categoryUpdateRequestDto);
+        log.debug("CategoryController:updateCategory EXECUTION STARTED. traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), categoryId, categoryUpdateRequestDto);
 
         CategoryUpdateResponseDto categoryUpdateResponseDto = categoryService.updateCategory(categoryId, categoryUpdateRequestDto);
 
@@ -151,8 +143,7 @@ public class CategoryController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("CategoryController:updateCategory traceId: {} response: {}", TraceIdHolder.getTraceId(), categoryUpdateResponseDto);
-        log.info("CategoryController:updateCategory ended.");
+        log.debug("CategoryController:updateCategory EXECUTION ENDED. traceId: {} response: {}", TraceIdHolder.getTraceId(), categoryUpdateResponseDto);
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(SuccessResponse.builder().data(categoryUpdateResponseDto)
@@ -169,16 +160,14 @@ public class CategoryController {
     @DeleteMapping("delete/{id}")
     public ResponseEntity<SuccessResponse> deleteCategoryById(@PathVariable final UUID id) {
 
-        log.info("CategoryController:deleteCategoryById started.");
-        log.info("CategoryController:deleteCategoryById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+        log.debug("CategoryController:deleteCategoryById EXECUTION STARTED. traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
       CategoryDeleteResponseDto categoryDeleteResponseDto = categoryService.deleteCategoryById(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("CategoryController:deleteCategoryById traceId: {}", TraceIdHolder.getTraceId());
-        log.info("CategoryController:deleteCategoryById ended.");
+        log.debug("CategoryController:deleteCategoryById EXECUTION ENDED. traceId: {}", TraceIdHolder.getTraceId());
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(SuccessResponse.builder().data(categoryDeleteResponseDto)
@@ -202,8 +191,7 @@ public class CategoryController {
     public ResponseEntity<Void> uploadCategoryImage(@RequestParam @NotNull final UUID id,
                                                     @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
             throws IOException, CategoryNotFoundException {
-        log.info("CategoryController:uploadCategoryImage started.");
-        log.info("CategoryController:uploadCategoryImage traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+        log.debug("CategoryController:uploadCategoryImage EXECUTION STARTED. traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         if (!categoryService.isCategoryExistById(id)) {
             throw new CategoryNotFoundException(ErrorCodes.E1506, id.toString());
@@ -220,8 +208,7 @@ public class CategoryController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("CategoryController:uploadCategoryImage traceId: {}", TraceIdHolder.getTraceId());
-        log.info("CategoryController:uploadCategoryImage ended.");
+        log.debug("CategoryController:uploadCategoryImage EXECUTION ENDED. traceId: {}", TraceIdHolder.getTraceId());
 
         return ResponseEntity.ok()
                 .headers(headers)

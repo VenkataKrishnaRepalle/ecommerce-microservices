@@ -1,8 +1,6 @@
 package com.pm.spring.ema.category.controller;
 
-import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryDeleteResponseDto;
-import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
-import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
+
 import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryCreateRequestDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryUpdateRequestDto;
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryCreateResponseDto;
@@ -59,16 +57,14 @@ public class SubCategoryController {
     })
     @PostMapping("create")
     public ResponseEntity<SuccessResponse> createSubCategory(@RequestBody @Valid final SubCategoryCreateRequestDto subCategoryCreateRequestDto) throws SubCategoryNameAlreadyExistException {
-        log.info("SubCategoryController:createSubCategory execution started.");
-        log.debug("SubCategoryController:createSubCategory traceId: {} request payload: {}", TraceIdHolder.getTraceId(), subCategoryCreateRequestDto);
+        log.debug("SubCategoryController:createSubCategory EXECUTION STARTED. traceId: {} request payload: {}", TraceIdHolder.getTraceId(), subCategoryCreateRequestDto);
 
 
         SubCategoryCreateResponseDto subCategoryCreateResponseDto = subCategoryService.createSubCategory(subCategoryCreateRequestDto);
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.debug("SubCategoryController:createSubCategory traceId: {} response: {}", TraceIdHolder.getTraceId(), subCategoryCreateResponseDto);
-        log.info("SubCategoryController:createSubCategory execution ended.");
+        log.debug("SubCategoryController:createSubCategory EXECUTION ENDED. traceId: {} response: {}", TraceIdHolder.getTraceId(), subCategoryCreateResponseDto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .headers(headers)
@@ -87,15 +83,14 @@ public class SubCategoryController {
     @Operation(summary = "Get a sub-category by id", description = "Get a sub-category by id")
     @GetMapping("{id}")
     public ResponseEntity<SuccessResponse> getSubCategoryById(@PathVariable final UUID id) {
-        log.info("SubCategoryController:getSubCategoryById execution started.");
-        log.info("SubCategoryController:getSubCategoryById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+
+        log.debug("SubCategoryController:getSubCategoryById EXECUTION STARTED. traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         SubCategoryFindResponseDto subCategoryFindResponseDto = subCategoryService.getSubCategoryById(id);
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("SubCategoryController:getSubCategoryById traceId: {} response : {}", TraceIdHolder.getTraceId(), subCategoryFindResponseDto);
-        log.info("SubCategoryController:getSubCategoryById execution ended.");
+        log.debug("SubCategoryController:getSubCategoryById EXECUTION ENDED. traceId: {} response : {}", TraceIdHolder.getTraceId(), subCategoryFindResponseDto);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -113,8 +108,8 @@ public class SubCategoryController {
     @Operation(summary = "Get all sub-categories", description = "Fetch all the sub-categories")
     @GetMapping("list")
     public ResponseEntity<List<SubCategoryFindResponseDto>> getAllSubCategory() {
-        log.info("SubCategoryController:getAllSubCategory started.");
-        log.info("SubCategoryController:getAllSubCategory traceId: {}", TraceIdHolder.getTraceId());
+
+        log.debug("SubCategoryController:getAllSubCategory EXECUTION STARTED. traceId: {}", TraceIdHolder.getTraceId());
 
         List<SubCategoryFindResponseDto> subCategoryFindResponseDtoList = subCategoryService.getAllSubCategory();
 
@@ -122,8 +117,7 @@ public class SubCategoryController {
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
 
-        log.info("SubCategoryController:getAllSubCategory traceId: {} response : {}", TraceIdHolder.getTraceId(), subCategoryFindResponseDtoList);
-        log.info("SubCategoryController:getAllSubCategory execution ended.");
+        log.debug("SubCategoryController:getAllSubCategory EXECUTION ENDED. traceId: {} response : {}", TraceIdHolder.getTraceId(), subCategoryFindResponseDtoList);
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(subCategoryFindResponseDtoList);
@@ -139,16 +133,15 @@ public class SubCategoryController {
     @Operation(summary = "Update a Sub-category by id", description = "Update a Sub-category")
     @PutMapping("update/{id}")
     public ResponseEntity<SuccessResponse> updateSubCategory(@PathVariable UUID id, @RequestBody SubCategoryUpdateRequestDto subCategoryUpdateRequestDto) {
-        log.info("SubCategoryController:updateSubCategory started.");
-        log.info("SubCategoryController:updateSubCategory traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, subCategoryUpdateRequestDto);
+
+        log.debug("SubCategoryController:updateSubCategory EXECUTION STARTED. traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, subCategoryUpdateRequestDto);
 
         SubCategoryUpdateResponseDto subCategoryUpdateResponseDto = subCategoryService.updateSubCategory(id, subCategoryUpdateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("SubCategoryController:updateSubCategory traceId: {} response: {}", TraceIdHolder.getTraceId(), subCategoryUpdateResponseDto);
-        log.info("SubCategoryController:updateSubCategory ended.");
+        log.debug("SubCategoryController:updateSubCategory EXECUTION ENDED. traceId: {} response: {}", TraceIdHolder.getTraceId(), subCategoryUpdateResponseDto);
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(SuccessResponse.builder()
@@ -166,16 +159,15 @@ public class SubCategoryController {
     @Operation(summary = "Delete a Sub-category by id", description = "Delete a Sub-category")
     @DeleteMapping("delete/{id}")
     public ResponseEntity<SuccessResponse> deleteSubCategoryById(@PathVariable final UUID id) {
-        log.info("SubCategoryController:deleteSubCategoryById started.");
-        log.info("SubCategoryController:deleteSubCategoryById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+
+        log.debug("SubCategoryController:deleteSubCategoryById EXECUTION STARTED. traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         SubCategoryDeleteResponseDto categoryDeleteResponseDto = subCategoryService.deleteSubCategoryById(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("SubCategoryController:deleteSubCategoryById traceId: {}", TraceIdHolder.getTraceId());
-        log.info("SubCategoryController:deleteSubCategoryById ended.");
+        log.debug("SubCategoryController:deleteSubCategoryById EXECUTION ENDED. traceId: {}", TraceIdHolder.getTraceId());
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(SuccessResponse.builder().data(categoryDeleteResponseDto)
@@ -201,8 +193,7 @@ public class SubCategoryController {
                                                              @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
             throws IOException, SubCategoryNotFoundException {
 
-        log.info("SubCategoryController:uploadSubCategoryImage started.");
-        log.info("SubCategoryController:uploadSubCategoryImage traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+        log.debug("SubCategoryController:uploadSubCategoryImage EXECUTION STARTED. traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         if (!subCategoryService.isSubCategoryExistById(id)) {
             throw new SubCategoryNotFoundException(ErrorCodes.E1513, id.toString());
@@ -219,8 +210,7 @@ public class SubCategoryController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
-        log.info("SubCategoryController:uploadSubCategoryImage traceId: {}", TraceIdHolder.getTraceId());
-        log.info("SubCategoryController:uploadSubCategoryImage ended.");
+        log.debug("SubCategoryController:uploadSubCategoryImage EXECUTION ENDED. traceId: {}", TraceIdHolder.getTraceId());
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -236,8 +226,7 @@ public class SubCategoryController {
     @GetMapping(value = "{categoryId}", produces = "application/json")
     public ResponseEntity<List<SubCategoryFindResponseDto>> getSubCategoriesByCategoryId(@PathVariable final UUID categoryId) {
 
-        log.info("SubCategoryController:getSubCategoriesByCategoryId execution started.");
-        log.info("SubCategoryController:getSubCategoriesByCategoryId traceId: {} request id: {}", TraceIdHolder.getTraceId(), categoryId);
+        log.debug("SubCategoryController:getSubCategoriesByCategoryId EXECUTION STARTED. traceId: {} request id: {}", TraceIdHolder.getTraceId(), categoryId);
 
         List<SubCategoryFindResponseDto> subCategoryFindResponseDtoList = subCategoryService.getSubCategoriesByCategoryId(categoryId);
 
@@ -245,8 +234,7 @@ public class SubCategoryController {
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
 
 
-        log.info("SubCategoryController:getSubCategoriesByCategoryId traceId: {} response : {}", TraceIdHolder.getTraceId(), subCategoryFindResponseDtoList);
-        log.info("SubCategoryController:getSubCategoriesByCategoryId execution ended.");
+        log.debug("SubCategoryController:getSubCategoriesByCategoryId EXECUTION ENDED. traceId: {} response : {}", TraceIdHolder.getTraceId(), subCategoryFindResponseDtoList);
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(subCategoryFindResponseDtoList);
