@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty name="ema.log.app-name" source="ema.log.app-name" />
+
+    <property name="DEV_HOME" value="./${ema.log.app-name}/logs"/>
+    <property name="APP_NAME" value="${ema.log.app-name}"/>
+
+    <include resource="logback-common.xml"/>
+</configuration>

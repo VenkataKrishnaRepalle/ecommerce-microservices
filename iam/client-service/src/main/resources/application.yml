@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: client-service
+  profiles:
+    active: client
+  config:
+    import: 'configserver:'
+  cloud:
+    config:
+      name: client-service,config-client
+      username: user
+      password: password
+
+ema:
+  log:
+    appName: client-service
+
+
+
+# remove for production
+logging:
+  level:
+    ROOT: INFO
+    org.spring.framework.cloud.config: DEBUG
+    org.springframework.security: trace
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace
