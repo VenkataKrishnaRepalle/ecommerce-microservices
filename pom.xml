@@ -30,7 +30,7 @@
 <!--        <module>elastic-query-web-client-2</module>-->
 <!--        <module>brand-service</module>-->
 <!--        <module>camunda</module>-->
-<!--        <module>customer-service</module>-->
+        <module>customer-service</module>
         <module>category-service-common</module>
         <module>category-service</module>
 <!--        <module>cms-service</module>-->
