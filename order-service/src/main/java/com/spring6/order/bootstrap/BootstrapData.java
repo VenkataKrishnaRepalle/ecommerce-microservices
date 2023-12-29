@@ -19,13 +19,13 @@ public class BootstrapData implements CommandLineRunner {
 //        loadOrderData();
     }
 
-    private void loadOrderData() {
-        if (orderRepository.count() == 0) {
-            orderRepository.save(Order.builder()
-                    .firstName("Kamal")
-                    .lastName("Karthik")
-                    .status(OrderStatus.PROCESSING)
-                    .build());
-        }
-    }
+//    private void loadOrderData() {
+//        if (orderRepository.count() == 0) {
+//            orderRepository.save(Order.builder()
+//                    .firstName("Kamal")
+//                    .lastName("Karthik")
+//                    .status(OrderStatus.PROCESSING)
+//                    .build());
+//        }
+//    }
 }

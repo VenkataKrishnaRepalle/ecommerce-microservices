@@ -1,9 +1,8 @@
 package com.spring6.order.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pm.spring.ema.order.model.enums.PaymentMethod;
 import com.spring6.order.model.enums.OrderStatus;
+import com.spring6.order.model.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +10,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -23,10 +24,11 @@ import java.util.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "order", indexes = {
-        @Index(name = "idx_order_id", columnList = "id"),
-        @Index(name = "idx_order_status", columnList = "status")
+@Table(name = "\"order\"", indexes = {
+        @Index(name = "\"idx_order_id\"", columnList = "id"),
+        @Index(name = "\"idx_order_status\"", columnList = "status")
 })
+
 @Entity
 public class Order {
 
@@ -36,13 +38,15 @@ public class Order {
     @Column(updatable = false, nullable = false)
     private UUID id;
 
-    private BigDecimal productCostTotal;
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(columnDefinition = "varchar(36)", updatable = false, nullable = false)
+    private UUID userId;
+
+    private BigDecimal productTotalCost;
 
     private BigDecimal shippingCost;
 
     private BigDecimal tax;
-
-    private BigDecimal subtotal;
 
     private BigDecimal total;
 
@@ -53,9 +57,6 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus status;
-
-    @Column(nullable = false, length = 36)
-    private UUID customerId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("order")
