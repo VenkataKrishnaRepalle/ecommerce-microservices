@@ -1,4 +1,4 @@
-package com.pm.spring.ema.order.model.dao;
+package com.spring6.order.model.dao;
 
 import java.util.List;
 import java.util.UUID;

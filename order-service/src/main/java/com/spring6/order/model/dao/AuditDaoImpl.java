@@ -1,4 +1,4 @@
-package com.pm.spring.ema.order.model.dao;
+package com.spring6.order.model.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

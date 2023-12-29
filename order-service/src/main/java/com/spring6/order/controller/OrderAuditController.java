@@ -1,7 +1,7 @@
-package com.pm.spring.ema.order.controller;
+package com.spring6.order.controller;
 
-import com.pm.spring.ema.order.dto.response.OrderAuditResponseDto;
-import com.pm.spring.ema.order.service.OrderAuditService;
+import com.spring6.order.dto.response.OrderAuditResponseDto;
+import com.spring6.order.service.OrderAuditService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

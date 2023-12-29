@@ -1,11 +1,9 @@
-package com.pm.spring.ema.order.dto.response;
+package com.spring6.order.dto.response;
 
 
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
+import com.spring6.order.model.enums.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.RevisionType;
 
 import java.time.Instant;
@@ -17,7 +15,7 @@ public class OrderAuditResponseDto {
     private UUID id;
     private String name;
     private String imageName;
-    private BrandStatusEnum status;
+    private OrderStatus status;
     private String createdOn;
     private String lastUpdatedOn;
     private UUID subcategoryId;
