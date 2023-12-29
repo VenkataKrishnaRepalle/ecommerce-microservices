@@ -8,6 +8,7 @@ import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.ErrorField;
 import com.pm.spring.ema.common.util.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestControllerAdvice
 public class GlobalClientExceptionHandler {
@@ -75,6 +77,8 @@ public class GlobalClientExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
+        log.error("GlobalClientExceptionHandler:handleException error: {}", exception);
+
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

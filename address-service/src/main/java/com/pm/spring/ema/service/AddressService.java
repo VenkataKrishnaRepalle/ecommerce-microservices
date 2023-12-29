@@ -1,4 +1,4 @@
-package com.pm.spring.ema.service;
+package com.pm.spring.ema.permission;
 
 import com.pm.spring.ema.dto.request.AddAddressRequestDto;
 import com.pm.spring.ema.dto.request.UpdateAddressRequestDto;

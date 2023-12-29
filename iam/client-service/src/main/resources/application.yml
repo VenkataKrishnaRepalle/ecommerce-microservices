@@ -14,8 +14,10 @@ spring:
 ema:
   log:
     appName: client-service
-
-
+  rest:
+    api:
+      response:
+        time-zone: Asia/Kolkata
 
 # remove for production
 logging:

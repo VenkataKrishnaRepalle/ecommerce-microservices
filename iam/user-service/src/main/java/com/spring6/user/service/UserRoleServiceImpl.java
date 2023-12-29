@@ -1,8 +1,5 @@
 package com.pm.spring.ema.user.service;
 
-import com.pm.spring.ema.user.model.entity.Role;
-import com.pm.spring.ema.user.model.entity.UserProfile;
-import com.pm.spring.ema.user.model.repository.RoleRepository;
 import com.pm.spring.ema.user.model.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -13,28 +10,28 @@ import java.util.UUID;
 public class UserRoleServiceImpl implements UserRoleService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final com.pm.spring.ema.user.model.repository.UserRoleRepository userRoleRepository;
 
-    public UserRoleServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserRoleServiceImpl(UserRepository userRepository, com.pm.spring.ema.user.model.repository.UserRoleRepository userRoleRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.userRoleRepository = userRoleRepository;
     }
 
     @Override
     public void assignRoleToUser(UUID userId, UUID roleId) {
-        UserProfile userProfile = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        Role role = roleRepository.findById(roleId).orElseThrow(() -> new EntityNotFoundException("Role not found"));
+        com.pm.spring.ema.user.model.entity.User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        Role role = userRoleRepository.findById(roleId).orElseThrow(() -> new EntityNotFoundException("Role not found"));
 
-        userProfile.getRoles().add(role);
-        userRepository.save(userProfile);
+        user.getRoles().add(role);
+        userRepository.save(user);
     }
 
     @Override
     public void removeRoleFromUser(UUID userId, UUID roleId) {
-        UserProfile userProfile = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        Role role = roleRepository.findById(roleId).orElseThrow(() -> new EntityNotFoundException("Role not found"));
+        com.pm.spring.ema.user.model.entity.User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        Role role = userRoleRepository.findById(roleId).orElseThrow(() -> new EntityNotFoundException("Role not found"));
 
-        userProfile.getRoles().remove(role);
-        userRepository.save(userProfile);
+        user.getRoles().remove(role);
+        userRepository.save(user);
     }
 }

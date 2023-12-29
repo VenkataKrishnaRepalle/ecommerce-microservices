@@ -1,4 +1,4 @@
-package com.pm.spring.ema.service.Impl;
+package com.pm.spring.ema.permission.Impl;
 
 import com.pm.spring.ema.common.dto.ProductFindResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
@@ -16,7 +16,7 @@ import com.pm.spring.ema.dto.mapper.ProductImageMapper;
 import com.pm.spring.ema.dto.mapper.ProductMapper;
 import com.pm.spring.ema.model.repository.ProductImageRepository;
 import com.pm.spring.ema.model.repository.ProductRepository;
-import com.pm.spring.ema.service.ProductService;
+import com.pm.spring.ema.permission.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

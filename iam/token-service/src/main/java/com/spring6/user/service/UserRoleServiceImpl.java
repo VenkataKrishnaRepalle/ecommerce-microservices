@@ -1,9 +1,5 @@
 package com.pm.spring.ema.user.service;
 
-import com.pm.spring.ema.user.model.entity.Role;
-import com.pm.spring.ema.user.model.entity.UserProfile;
-import com.pm.spring.ema.user.model.repository.RoleRepository;
-import com.pm.spring.ema.user.model.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +9,17 @@ import java.util.UUID;
 public class UserRoleServiceImpl implements UserRoleService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final com.pm.spring.ema.user.model.repository.TokenRepository tokenRepository;
 
-    public UserRoleServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserRoleServiceImpl(UserRepository userRepository, com.pm.spring.ema.user.model.repository.TokenRepository tokenRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.tokenRepository = tokenRepository;
     }
 
     @Override
     public void assignRoleToUser(UUID userId, UUID roleId) {
         UserProfile userProfile = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        Role role = roleRepository.findById(roleId).orElseThrow(() -> new EntityNotFoundException("Role not found"));
+        Role role = tokenRepository.findById(roleId).orElseThrow(() -> new EntityNotFoundException("Role not found"));
 
         userProfile.getRoles().add(role);
         userRepository.save(userProfile);
@@ -32,7 +28,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public void removeRoleFromUser(UUID userId, UUID roleId) {
         UserProfile userProfile = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        Role role = roleRepository.findById(roleId).orElseThrow(() -> new EntityNotFoundException("Role not found"));
+        Role role = tokenRepository.findById(roleId).orElseThrow(() -> new EntityNotFoundException("Role not found"));
 
         userProfile.getRoles().remove(role);
         userRepository.save(userProfile);

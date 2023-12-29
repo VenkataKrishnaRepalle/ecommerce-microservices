@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: authorization-server
+  profiles:
+    active: authorization
+  config:
+    import: 'configserver:'
+  cloud:
+    config:
+      name: authorization-server,config-client
+      username: user
+      password: password
+
+  main:
+    allow-bean-definition-overriding: true
+
+ema:
+  log:
+    appName: authorization-server
+
+
+
+# remove for production
+logging:
+  level:
+    ROOT: INFO
+    org.spring.framework.cloud.config: DEBUG
+    org.springframework.security: trace
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace

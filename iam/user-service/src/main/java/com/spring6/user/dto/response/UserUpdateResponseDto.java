@@ -1,7 +1,6 @@
 package com.pm.spring.ema.user.dto.response;
 
 
-import com.pm.spring.ema.user.model.entity.Role;
 import com.pm.spring.ema.user.model.enums.UserStatus;
 import lombok.Builder;
 import lombok.Data;

@@ -8,7 +8,7 @@ import com.pm.spring.ema.dto.ProductCreateResponseDto;
 import com.pm.spring.ema.dto.ProductUpdateRequestDto;
 import com.pm.spring.ema.dto.ProductUpdateResponseDto;
 import com.pm.spring.ema.exception.ProductNotFoundException;
-import com.pm.spring.ema.service.ProductService;
+import com.pm.spring.ema.permission.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

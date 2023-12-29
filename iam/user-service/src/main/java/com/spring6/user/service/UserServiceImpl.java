@@ -5,7 +5,6 @@ import com.pm.spring.ema.common.util.exception.ErrorMessage;
 import com.pm.spring.ema.user.dto.request.UserUpdateRequestDto;
 import com.pm.spring.ema.user.dto.response.UserFindResponseDto;
 import com.pm.spring.ema.user.dto.response.UserUpdateResponseDto;
-import com.pm.spring.ema.user.model.entity.UserProfile;
 import com.pm.spring.ema.user.dto.enums.SortOrderDirectionEnum;
 import com.pm.spring.ema.user.dto.enums.UserSearchKeywordEnum;
 import com.pm.spring.ema.user.dto.enums.UserSortFieldEnum;
@@ -76,7 +75,7 @@ public class UserServiceImpl implements UserService {
             pageable = PageRequest.of(pageNumber - 1, perPageCount, sort);
         }
 
-        Page<UserProfile> userList;
+        Page<com.pm.spring.ema.user.model.entity.User> userList;
 
         if (searchKeyword != null && searchField.equals(UserSearchKeywordEnum.FIRST_NAME)) {
             userList = userRepository.findAllByFirstName(searchKeyword, pageable);
@@ -115,7 +114,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:getUserById execution started.");
         log.debug("UserService:getUserById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
-        Optional<UserProfile> optionalUser = userRepository.findById(id);
+        Optional<com.pm.spring.ema.user.model.entity.User> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
             log.error("UserService:getUserById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4501, id.toString()));
@@ -136,7 +135,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:getPhotoById execution started.");
         log.debug("UserService:getPhotoById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
-        Optional<UserProfile> optionalUser = userRepository.findById(id);
+        Optional<com.pm.spring.ema.user.model.entity.User> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
             log.error("UserService:getPhotoById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4513, id.toString()));
@@ -144,17 +143,17 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(ErrorCodes.E4513, id.toString());
         }
 
-        UserProfile userProfile = optionalUser.get();
+        com.pm.spring.ema.user.model.entity.User user = optionalUser.get();
 
-        if (userProfile.getPhoto() == null) {
+        if (user.getPhoto() == null) {
             log.error("UserService:getPhotoById traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4514, id.toString()));
             log.info("UserService:getPhotoById execution ended.");
             throw new UserPhotoNotFoundException(ErrorCodes.E4514, id.toString());
         }
 
-        log.debug("UserService:getPhotoById traceId: {}, photo : {}", TraceIdHolder.getTraceId(), userProfile.getPhoto());
+        log.debug("UserService:getPhotoById traceId: {}, photo : {}", TraceIdHolder.getTraceId(), user.getPhoto());
         log.info("UserService:getPhotoById execution ended.");
-        return userProfile.getPhoto();
+        return user.getPhoto();
     }
 
     @Override
@@ -163,7 +162,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:updateUser execution started.");
         log.debug("UserService:updateUser traceId: {}, id: {}, userCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, userUpdateRequestDto);
 
-        Optional<UserProfile> optionalUser = userRepository.findById(id);
+        Optional<com.pm.spring.ema.user.model.entity.User> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
             log.error("UserService:updateUser traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4502, userUpdateRequestDto.getUsername()));
@@ -180,11 +179,11 @@ public class UserServiceImpl implements UserService {
             throw new UserEmailAlreadyExistException(ErrorCodes.E4510, userUpdateRequestDto.getEmail());
         }
 
-        UserProfile userProfile = userMapper.userUpdateRequestDtoToUser(userUpdateRequestDto);
-        userProfile.setId(optionalUser.get().getId());
+        com.pm.spring.ema.user.model.entity.User user = userMapper.userUpdateRequestDtoToUser(userUpdateRequestDto);
+        user.setId(optionalUser.get().getId());
 
-        UserProfile userProfileUpdated = userRepository.save(userProfile);
-        UserUpdateResponseDto userUpdateResponseDto = userMapper.userToUserUpdateResponseDto(userProfileUpdated);
+        com.pm.spring.ema.user.model.entity.User userUpdated = userRepository.save(user);
+        UserUpdateResponseDto userUpdateResponseDto = userMapper.userToUserUpdateResponseDto(userUpdated);
 
         log.debug("UserService:updateUser traceId: {}, response: {}", TraceIdHolder.getTraceId(), userUpdateResponseDto);
         log.info("UserService:updateUser execution ended.");
@@ -213,22 +212,22 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:updateImageName execution started.");
         log.debug("UserService:updateImageName traceId: {}, userId:{}, fileName: {}", TraceIdHolder.getTraceId(), userId, fileName);
 
-        Optional<UserProfile> optionalUser = userRepository.findById(userId);
+        Optional<com.pm.spring.ema.user.model.entity.User> optionalUser = userRepository.findById(userId);
 
         if (!optionalUser.isPresent()) {
             log.error("UserService:updateImageName traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4504, userId.toString()));
             throw new UserNotFoundException(ErrorCodes.E4504, userId.toString());
         }
 
-        UserProfile userProfile = optionalUser.get();
-        userProfile.setPhoto(fileName);
+        com.pm.spring.ema.user.model.entity.User user = optionalUser.get();
+        user.setPhoto(fileName);
 
-        UserProfile userProfileUpdated = userRepository.save(userProfile);
+        com.pm.spring.ema.user.model.entity.User userUpdated = userRepository.save(user);
 
-        log.debug("UserService:updateImageName traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), userProfileUpdated.getPhoto());
+        log.debug("UserService:updateImageName traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), userUpdated.getPhoto());
         log.info("UserService:updateImageName execution ended.");
 
-        return userProfileUpdated.getPhoto();
+        return userUpdated.getPhoto();
     }
 
     @Override
@@ -236,7 +235,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:isUserEmailExist execution started.");
         log.debug("UserService:isUserEmailExist traceId: {}, username: {}", TraceIdHolder.getTraceId(), email);
 
-        Optional<UserProfile> optionalUser = userRepository.findByEmail(email);
+        Optional<com.pm.spring.ema.user.model.entity.User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }
@@ -250,23 +249,23 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:updateUserStatus execution started.");
         log.debug("UserService:updateUserStatus traceId: {}, id:{}, userStatus: {}", TraceIdHolder.getTraceId(), id, userStatus);
 
-        Optional<UserProfile> optionalUser = userRepository.findById(id);
+        Optional<com.pm.spring.ema.user.model.entity.User> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
             log.error("UserService:updateUserStatus traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E4512, id.toString()));
             throw new UserNotFoundException(ErrorCodes.E4512, id.toString());
         }
 
-        UserProfile userProfile = optionalUser.get();
-        userProfile.setStatus(userStatus);
+        com.pm.spring.ema.user.model.entity.User user = optionalUser.get();
+        user.setStatus(userStatus);
 
-        UserProfile userProfileUpdated = userRepository.save(userProfile);
+        com.pm.spring.ema.user.model.entity.User userUpdated = userRepository.save(user);
 
-        if (userProfileUpdated == null) {
+        if (userUpdated == null) {
             return Boolean.FALSE;
         }
 
-        log.debug("UserService:updateUserStatus traceId: {}, userStatus: {}", TraceIdHolder.getTraceId(), userProfileUpdated.getStatus());
+        log.debug("UserService:updateUserStatus traceId: {}, userStatus: {}", TraceIdHolder.getTraceId(), userUpdated.getStatus());
         log.info("UserService:updateUserStatus execution ended.");
 
         return Boolean.TRUE;
@@ -278,7 +277,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:isUserNameExist execution started.");
         log.debug("UserService:isUserNameExist traceId: {}, username: {}", TraceIdHolder.getTraceId(), username);
 
-        Optional<UserProfile> optionalUser = userRepository.findByUsername(username);
+        Optional<com.pm.spring.ema.user.model.entity.User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }
@@ -290,7 +289,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserService:isIdExist execution started.");
         log.debug("UserService:isIdExist traceId: {}, id: {}", TraceIdHolder.getTraceId(), uuid);
 
-        Optional<UserProfile> optionalUser = userRepository.findById(uuid);
+        Optional<com.pm.spring.ema.user.model.entity.User> optionalUser = userRepository.findById(uuid);
         if (optionalUser.isPresent()) {
             return Boolean.TRUE;
         }

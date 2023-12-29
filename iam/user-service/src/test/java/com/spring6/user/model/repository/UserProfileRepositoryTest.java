@@ -1,8 +1,5 @@
 package com.pm.spring.ema.user.model.repository;
 
-import com.pm.spring.ema.user.model.entity.Permission;
-import com.pm.spring.ema.user.model.entity.Role;
-import com.pm.spring.ema.user.model.entity.UserProfile;
 import com.pm.spring.ema.user.model.enums.RoleType;
 import com.pm.spring.ema.user.model.enums.UserStatus;
 import org.junit.jupiter.api.Test;
@@ -22,15 +19,15 @@ public class UserProfileRepositoryTest {
 
     @Test
     public void testCreateBrand() {
-        UserProfile savedUserProfile = userRepository.save(getUser());
+        com.pm.spring.ema.user.model.entity.User savedUser = userRepository.save(getUser());
 
-        assertThat(savedUserProfile).isNotNull();
-        assertThat(savedUserProfile.getId()).isNotNull();
+        assertThat(savedUser).isNotNull();
+        assertThat(savedUser.getId()).isNotNull();
 
     }
-    private UserProfile getUser() {
+    private com.pm.spring.ema.user.model.entity.User getUser() {
 
-        return UserProfile.builder()
+        return com.pm.spring.ema.user.model.entity.User.builder()
                 .firstName("Rajesh")
                 .lastName("kumar")
                 .username("rajeshkumar")

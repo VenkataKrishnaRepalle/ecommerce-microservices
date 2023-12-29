@@ -1,4 +1,4 @@
-package com.pm.spring.ema.service.Impl;
+package com.pm.spring.ema.permission.Impl;
 
 import com.pm.spring.ema.common.dto.ProductDetailsFindResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
@@ -10,7 +10,7 @@ import com.pm.spring.ema.exception.InvalidInputDetailsException;
 import com.pm.spring.ema.exception.ProductAlreadyPresentException;
 import com.pm.spring.ema.exception.ProductNotFoundException;
 import com.pm.spring.ema.dto.mapper.ProductDetailsMapper;
-import com.pm.spring.ema.service.ProductDetailsService;
+import com.pm.spring.ema.permission.ProductDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

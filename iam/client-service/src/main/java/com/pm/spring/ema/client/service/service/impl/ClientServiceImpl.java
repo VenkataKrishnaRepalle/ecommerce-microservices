@@ -48,9 +48,9 @@ public class ClientServiceImpl implements ClientService {
 
         Optional<Client> optionalClient = clientDao.findById(id);
 
-        if (!optionalClient.isPresent()) {
-            log.error("ClientService:getClientById ENDED errorMessage: {}", ErrorMessage.message(ErrorCodes.E6001, id.toString()));
-            throw new ClientNotFoundException(ErrorCodes.E6001, id.toString());
+        if (optionalClient.isEmpty()) {
+            log.error("ClientService:getClientById ENDED errorMessage: {}", ErrorMessage.message(ErrorCodes.E7501, id.toString()));
+            throw new ClientNotFoundException(ErrorCodes.E7501, id.toString());
         }
 
         ClientFindResponseDto clientFindResponseDto = clientMapper.clientToClientFindResponseDto(optionalClient.get());
@@ -64,9 +64,9 @@ public class ClientServiceImpl implements ClientService {
     public ClientCreateResponseDto create(ClientCreateRequestDto clientCreateRequestDto) {
         log.debug("ClientService:create STARTED clientCreateRequestDto: {}", clientCreateRequestDto);
 
-        if (isNameExist(clientCreateRequestDto.getName())) {
-            log.error("ClientService:create errorMessage: {}", ErrorMessage.message(ErrorCodes.E6002, clientCreateRequestDto.getName()));
-            throw new ClientNameAlreadyExistException(ErrorCodes.E6002, clientCreateRequestDto.getName());
+        if (isNameExist(clientCreateRequestDto.getClientName())) {
+            log.error("ClientService:create errorMessage: {}", ErrorMessage.message(ErrorCodes.E7502, clientCreateRequestDto.getClientName()));
+            throw new ClientNameAlreadyExistException(ErrorCodes.E7502, clientCreateRequestDto.getClientName());
         }
 
         Client client = clientMapper.clientCreateRequestDtoToClient(clientCreateRequestDto);
@@ -87,13 +87,14 @@ public class ClientServiceImpl implements ClientService {
 
         Optional<Client> optionalClient = clientDao.findById(id);
 
-        if (!optionalClient.isPresent()) {
-            log.error("ClientService:update errorMessage: {}", ErrorMessage.message(ErrorCodes.E6003, id.toString()));
-            throw new ClientNotFoundException(ErrorCodes.E6003, id.toString());
+        if (optionalClient.isEmpty()) {
+            log.error("ClientService:update errorMessage: {}", ErrorMessage.message(ErrorCodes.E7503, id.toString()));
+            throw new ClientNotFoundException(ErrorCodes.E7503, id.toString());
         }
 
         Client client = clientMapper.clientUpdateRequestDtoToClient(clientUpdateRequestDto);
         client.setId(optionalClient.get().getId());
+        client.setCreatedOn(optionalClient.get().getCreatedOn());
 
         Client clientUpdated = clientDao.save(client);
         ClientUpdateResponseDto clientUpdateResponseDto = clientMapper.clientToClientUpdateResponseDto(clientUpdated);
@@ -109,8 +110,8 @@ public class ClientServiceImpl implements ClientService {
 
         Long clientCountById = clientDao.countById(id);
         if (clientCountById == 0) {
-            log.error("ClientService:deleteById errorMessage: {}", ErrorMessage.message(ErrorCodes.E6004, id.toString()));
-            throw new ClientNotFoundException(ErrorCodes.E6004, id.toString());
+            log.error("ClientService:deleteById errorMessage: {}", ErrorMessage.message(ErrorCodes.E7504, id.toString()));
+            throw new ClientNotFoundException(ErrorCodes.E7504, id.toString());
         }
 
         clientDao.deleteById(id);

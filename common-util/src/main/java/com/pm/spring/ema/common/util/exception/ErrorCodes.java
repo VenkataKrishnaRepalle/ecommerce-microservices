@@ -131,11 +131,27 @@ public final class ErrorCodes {
     public static final String E5014 = "E5014-Default Address not updated for addressId: ";
     public static final String E5015 = "E5015-Address not deleted for id: ";
 
-    //    authorization
-    public static final String E6001 = "E6001-Could not find any client with ID : {0}";
-    public static final String E6002 = "E6002-Client Name: {0} already exist";
-    public static final String E6003 = "E6003-Could not find any client with ID : {0}";
-    public static final String E6004 = "E6004-Could not find any client with ID : {0}";
+    //     client
 
+    public static final String E7001 = "E7001-Field Client name is required";
+    public static final String E7002 = "E7002-Field Client Secret is required";
+    public static final String E7003 = "E7003-Scope is required";
+    public static final String E7004 = "E7004-Client Authentication method is required";
+    public static final String E7005 = "E7005-Field authorizationGrantTypes should not be empty.";
+    public static final String E7006 = "E7006-Field redirectUris should not be empty";
+    public static final String E7007 = "E7007-Field postLogoutRedirectUris should not be empty";
+    public static final String E7008 = "E7008-Client Secret expiry date is required";
+    public static final String E7009 = "E7009-Field Client name is required";
+    public static final String E7010 = "E7010-Field Client Secret is required";
+    public static final String E7011 = "E7011-Client Authentication method is required";
+    public static final String E7012 = "E7012-Field authorizationGrantTypes should not be empty.";
+    public static final String E7013 = "E7013-Scope is required";
+    public static final String E7014 = "E7014-Field redirectUris should not be empty";
+    public static final String E7015 = "E7015-Field postLogoutRedirectUris should not be empty";
+    public static final String E7016 = "E7016-Client Secret expiry date is required";
 
+    public static final String E7501 = "E6001-Could not find any client with ID : {0}";
+    public static final String E7502 = "E6002-Client Name: {0} already exist";
+    public static final String E7503 = "E6003-Could not find any client with ID : {0}";
+    public static final String E7504 = "E6004-Could not find any client with ID : {0}";
 }

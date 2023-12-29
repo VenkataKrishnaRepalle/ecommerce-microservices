@@ -1,6 +1,5 @@
 package com.pm.spring.ema.user.dto.request;
 
-import com.pm.spring.ema.user.model.entity.Role;
 import lombok.Builder;
 import lombok.Data;
 

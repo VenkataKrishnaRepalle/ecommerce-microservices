@@ -62,13 +62,16 @@ public class Client {
     @Column(name = "postLogoutRedirectUri")
     private Set<String> postLogoutRedirectUris;
 
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Instant createdOn;
 
     @UpdateTimestamp
+    @Column(nullable = false)
     private Instant lastUpdatedOn;
 
     @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private Instant clientIdIssuedAt;
     private Instant clientSecretExpiresAt;
 

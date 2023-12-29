@@ -1,7 +1,6 @@
 package com.pm.spring.ema.client.service.mapper;
 
 import org.mapstruct.Mapper;
-import com.pm.spring.ema.common.util.InstantFormatter;
 import com.pm.spring.ema.client.service.dto.request.ClientCreateRequestDto;
 import com.pm.spring.ema.client.service.dto.request.ClientUpdateRequestDto;
 import com.pm.spring.ema.client.service.dto.response.ClientCreateResponseDto;
@@ -17,30 +16,21 @@ import java.time.Instant;
 public interface ClientMapper {
 
     @Mapping(source = "id", target = "clientId")
-    @Mapping(source = "createdOn", target = "createdOn", qualifiedByName = "formatInstant")
-    @Mapping(source = "lastUpdatedOn", target = "lastUpdatedOn", qualifiedByName = "formatInstant")
     ClientFindResponseDto clientToClientFindResponseDto(Client client);
 
+    @Mapping(source = "clientName", target = "name")
+    @Mapping(source = "clientSecret", target = "secret")
     Client clientCreateRequestDtoToClient(ClientCreateRequestDto clientCreateRequestDto);
 
     @Mapping(source = "id", target = "clientId")
-    @Mapping(source = "createdOn", target = "createdOn", qualifiedByName = "formatInstant")
-    @Mapping(source = "lastUpdatedOn", target = "lastUpdatedOn", qualifiedByName = "formatInstant")
+//    @Mapping(target = "secret", ignore = true)
     ClientCreateResponseDto clientToClientCreateResponseDto(Client client);
 
+    @Mapping(source = "clientName", target = "name")
+    @Mapping(source = "clientSecret", target = "secret")
     Client clientUpdateRequestDtoToClient(ClientUpdateRequestDto clientUpdateRequestDto);
 
     @Mapping(source = "id", target = "clientId")
-    @Mapping(source = "createdOn", target = "createdOn", qualifiedByName = "formatInstant")
-    @Mapping(source = "lastUpdatedOn", target = "lastUpdatedOn", qualifiedByName = "formatInstant")
     ClientUpdateResponseDto clientToClientUpdateResponseDto(Client client);
-
-    @Named("formatInstant")
-    default String formatInstant(Instant instant) {
-        if (instant != null) {
-            return InstantFormatter.formatInstant(instant);
-        }
-        return null;
-    }
 
 }

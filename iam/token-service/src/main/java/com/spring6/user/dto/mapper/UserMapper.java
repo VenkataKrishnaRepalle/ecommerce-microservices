@@ -5,7 +5,6 @@ import com.pm.spring.ema.user.dto.request.UserUpdateRequestDto;
 import com.pm.spring.ema.user.dto.response.UserCreateResponseDto;
 import com.pm.spring.ema.user.dto.response.UserFindResponseDto;
 import com.pm.spring.ema.user.dto.response.UserUpdateResponseDto;
-import com.pm.spring.ema.user.model.entity.UserProfile;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

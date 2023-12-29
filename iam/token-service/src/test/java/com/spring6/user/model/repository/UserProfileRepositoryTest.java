@@ -1,8 +1,5 @@
 package com.pm.spring.ema.user.model.repository;
 
-import com.pm.spring.ema.user.model.entity.Permission;
-import com.pm.spring.ema.user.model.entity.Role;
-import com.pm.spring.ema.user.model.entity.UserProfile;
 import com.pm.spring.ema.user.model.enums.RoleType;
 import com.pm.spring.ema.user.model.enums.UserStatus;
 import org.junit.jupiter.api.Test;

@@ -5,7 +5,6 @@ import com.pm.spring.ema.user.dto.request.UserUpdateRequestDto;
 import com.pm.spring.ema.user.dto.response.UserCreateResponseDto;
 import com.pm.spring.ema.user.dto.response.UserFindResponseDto;
 import com.pm.spring.ema.user.dto.response.UserUpdateResponseDto;
-import com.pm.spring.ema.user.model.entity.UserProfile;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -15,17 +14,17 @@ import java.util.UUID;
 public interface UserMapper {
 
     @Mapping(target = "imageUrl", expression = "java(getImageUrl(requestUrl, user.getId()))")
-    UserFindResponseDto userToUserFindResponseDto(UserProfile userProfile, String requestUrl);
+    UserFindResponseDto userToUserFindResponseDto(com.pm.spring.ema.user.model.entity.User user, String requestUrl);
 
-    UserFindResponseDto userToUserFindResponseDto(UserProfile userProfile);
+    UserFindResponseDto userToUserFindResponseDto(com.pm.spring.ema.user.model.entity.User user);
 
-    UserProfile userCreateRequestDtoToUser(UserCreateRequestDto userCreateRequestDto);
+    com.pm.spring.ema.user.model.entity.User userCreateRequestDtoToUser(UserCreateRequestDto userCreateRequestDto);
 
-    UserCreateResponseDto userToUserCreateResponseDto(UserProfile userProfile);
+    UserCreateResponseDto userToUserCreateResponseDto(com.pm.spring.ema.user.model.entity.User user);
 
-    UserProfile userUpdateRequestDtoToUser(UserUpdateRequestDto userUpdateRequestDto);
+    com.pm.spring.ema.user.model.entity.User userUpdateRequestDtoToUser(UserUpdateRequestDto userUpdateRequestDto);
 
-    UserUpdateResponseDto userToUserUpdateResponseDto(UserProfile userProfile);
+    UserUpdateResponseDto userToUserUpdateResponseDto(com.pm.spring.ema.user.model.entity.User user);
 
     default String getImageUrl(String requestUrl, UUID userId) {
         return requestUrl + "/api/user/" + userId + "/image";

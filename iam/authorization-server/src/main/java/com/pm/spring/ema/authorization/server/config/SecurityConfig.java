@@ -106,6 +106,13 @@ public class SecurityConfig {
 
         return new InMemoryRegisteredClientRepository(oidcClient);
     }
+// instead of registeredClientRepository() use below for db
+    ////    private final RegisteredClientServiceImpl jdbcRegisteredClientRepository;
+////
+////    @Bean
+////    public RegisteredClientRepository registeredClientRepository() {
+////        return jdbcRegisteredClientRepository;
+////    }
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {

@@ -5,7 +5,7 @@ import com.pm.spring.ema.dto.request.UpdateAddressRequestDto;
 import com.pm.spring.ema.dto.response.AddAddressResponseDto;
 import com.pm.spring.ema.dto.response.AddressFindResponseDto;
 import com.pm.spring.ema.dto.response.UpdateAddressResponseDto;
-import com.pm.spring.ema.service.AddressService;
+import com.pm.spring.ema.permission.AddressService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

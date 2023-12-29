@@ -15,7 +15,6 @@ import java.util.UUID;
 public class ClientCreateResponseDto {
     private UUID clientId;
     private String name;
-    private String clientSecret;
     private List<String> scopes;
     private Set<ClientAuthenticationMethodEnum> clientAuthenticationMethods;
     private Set<AuthorizationGrantTypeEnum> authorizationGrantTypes;

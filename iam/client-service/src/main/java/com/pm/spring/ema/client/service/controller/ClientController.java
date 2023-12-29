@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -132,13 +133,13 @@ public class ClientController {
     }
     @Operation(tags = "Client", summary = "Delete Client By Id", description = "Delete existing client by passing client id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Client", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ClientCreateResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NO_CONTENT, description = "Client deleted successfully"),
             @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteClientById(@PathVariable final UUID id) {
+    public ResponseEntity<Void> deleteClientById(@NotNull @PathVariable final UUID id) {
         log.debug("ClientController:deleteById STATED. request id: {}", id);
 
         clientService.deleteById(id);

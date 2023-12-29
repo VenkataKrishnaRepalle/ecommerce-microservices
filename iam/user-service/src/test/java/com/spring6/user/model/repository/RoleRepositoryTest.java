@@ -1,7 +1,6 @@
 package com.pm.spring.ema.user.model.repository;
 
 
-import com.pm.spring.ema.user.model.entity.Role;
 import com.pm.spring.ema.user.model.enums.RoleType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

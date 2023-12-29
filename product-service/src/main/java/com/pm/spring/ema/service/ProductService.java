@@ -1,4 +1,4 @@
-package com.pm.spring.ema.service;
+package com.pm.spring.ema.permission;
 
 import com.pm.spring.ema.common.dto.ProductFindResponseDto;
 import com.pm.spring.ema.dto.ProductCreateRequestDto;
