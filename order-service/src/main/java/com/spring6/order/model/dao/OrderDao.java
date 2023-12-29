@@ -1,7 +1,7 @@
-package com.pm.spring.ema.order.model.dao;
+package com.spring6.order.model.dao;
 
 
-import com.pm.spring.ema.order.model.entity.Order;
+import com.spring6.order.model.entity.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -6,54 +6,54 @@
         <module>app-config-data</module>
         <module>common-config</module>
         <module>common-util</module>
-<!--        <module>config-server</module>-->
-<!--        <module>elastic</module>-->
-<!--        <module>elastic-query-service</module>-->
-<!--        <module>elastic-query-service-common</module>-->
-<!--        <module>mdc-interceptor</module>-->
-<!--        <module>kafka</module>-->
-<!--        <module>kafka/kafka-model</module>-->
-<!--        <module>kafka/kafka-admin</module>-->
-<!--        <module>kafka/kafka-producer</module>-->
-<!--        <module>kafka/kafka-consumer</module>-->
-<!--        <module>kafka-to-elastic-service</module>-->
+        <module>config-server</module>
+        <!--        <module>elastic</module>-->
+        <!--        <module>elastic-query-service</module>-->
+        <!--        <module>elastic-query-service-common</module>-->
+        <!--        <module>mdc-interceptor</module>-->
+        <!--        <module>kafka</module>-->
+        <!--        <module>kafka/kafka-model</module>-->
+        <!--        <module>kafka/kafka-admin</module>-->
+        <!--        <module>kafka/kafka-producer</module>-->
+        <!--        <module>kafka/kafka-consumer</module>-->
+        <!--        <module>kafka-to-elastic-service</module>-->
         <!--        <module>kafka-streams-service</module>-->
-<!--        <module>discovery-service</module>-->
-<!--        <module>gateway-service</module>-->
-<!--        <module>auth-service-common</module>-->
-<!--        <module>auth-service</module>-->
-<!--        <module>address-service</module>-->
+        <!--        <module>discovery-service</module>-->
+        <!--        <module>gateway-service</module>-->
+        <!--        <module>auth-service-common</module>-->
+        <!--        <module>auth-service</module>-->
+        <module>address-service</module>
 
         <!--        <module>analytics-service</module>-->
-<!--        <module>elastic-query-web-client-common</module>-->
-<!--        <module>elastic-query-web-client</module>-->
-<!--        <module>elastic-query-web-client-2</module>-->
-<!--        <module>brand-service</module>-->
-<!--        <module>camunda</module>-->
-<!--        <module>customer-service</module>-->
-<!--        <module>category-service-common</module>-->
-<!--        <module>category-service</module>-->
-<!--        <module>cms-service</module>-->
-<!--        <module>customer-support-service</module>-->
-<!--        <module>discount-service</module>-->
-<!--        <module>inventory-service</module>-->
+        <!--        <module>elastic-query-web-client-common</module>-->
+        <!--        <module>elastic-query-web-client</module>-->
+        <!--        <module>elastic-query-web-client-2</module>-->
+        <!--        <module>brand-service</module>-->
+        <!--        <module>camunda</module>-->
+        <!--        <module>customer-service</module>-->
+        <!--        <module>category-service-common</module>-->
+        <!--        <module>category-service</module>-->
+        <!--        <module>cms-service</module>-->
+        <!--        <module>customer-support-service</module>-->
+        <!--        <module>discount-service</module>-->
+        <!--        <module>inventory-service</module>-->
         <module>order-service</module>
-<!--        <module>payment-service</module>-->
-<!--        <module>product-service</module>-->
-<!--        <module>report-service</module>-->
-<!--        <module>return-refund-service</module>-->
-<!--        <module>review-service</module>-->
-<!--        <module>reward-service</module>-->
-<!--        <module>settings-service</module>-->
-<!--        <module>shipping-service</module>-->
-<!--        <module>shopping-cart-service</module>-->
-<!--        <module>user-service</module>-->
-<!--        <module>warehouse-service</module>-->
-<!--        <module>wishlist-service</module>-->
-<!--        <module>mail-service</module>-->
-<!--        <module>karate-test-api</module>-->
-<!--        <module>playground</module>-->
-        <module>authorization-server</module>
+        <!--        <module>payment-service</module>-->
+        <!--        <module>product-service</module>-->
+        <!--        <module>report-service</module>-->
+        <!--        <module>return-refund-service</module>-->
+        <!--        <module>review-service</module>-->
+        <!--        <module>reward-service</module>-->
+        <!--        <module>settings-service</module>-->
+        <!--        <module>shipping-service</module>-->
+        <!--        <module>shopping-cart-service</module>-->
+        <!--        <module>user-service</module>-->
+        <!--        <module>warehouse-service</module>-->
+        <!--        <module>wishlist-service</module>-->
+        <!--        <module>mail-service</module>-->
+        <!--        <module>karate-test-api</module>-->
+        <!--        <module>playground</module>-->
+        <!--        <module>authorization-server</module>-->
 
     </modules>
     <parent>
@@ -95,16 +95,17 @@
         <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
         <karate-core.version>1.4.1</karate-core.version>
         <karate-junit5.version>1.4.1</karate-junit5.version>
-        <spring-cloud-starter-circuitbreaker-reactor-resilience4j.version>3.0.3</spring-cloud-starter-circuitbreaker-reactor-resilience4j.version>
+        <spring-cloud-starter-circuitbreaker-reactor-resilience4j.version>3.0.3
+        </spring-cloud-starter-circuitbreaker-reactor-resilience4j.version>
         <spring-cloud-starter-zipkin.version>2.2.8.RELEASE</spring-cloud-starter-zipkin.version>
 
-<!--        <java.version>20</java.version>-->
+        <!--        <java.version>20</java.version>-->
         <spring.version>3.1.2</spring.version>
         <mysql.version>8.0.32</mysql.version>
-<!--        <lombok.version>1.18.26</lombok.version>-->
+        <!--        <lombok.version>1.18.26</lombok.version>-->
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <springdoc.openapi.version>2.0.4</springdoc.openapi.version>
-<!--        <spring-cloud.version>2022.0.1</spring-cloud.version>-->
+        <!--        <spring-cloud.version>2022.0.1</spring-cloud.version>-->
         <common-util.version>0.0.1-SNAPSHOT</common-util.version>
         <h2.version>2.1.214</h2.version>
         <hibernate-envers.version>6.1.7.Final</hibernate-envers.version>
@@ -115,7 +116,8 @@
         <poi.ooxml.version>4.1.2</poi.ooxml.version>
         <openpdf.version>1.3.30</openpdf.version>
         <jwt.version>0.11.5</jwt.version>
-        <spring-boot-starter-oauth2-authorization-server.version>1.2.1</spring-boot-starter-oauth2-authorization-server.version>
+        <spring-boot-starter-oauth2-authorization-server.version>1.2.1
+        </spring-boot-starter-oauth2-authorization-server.version>
         <spring-boot-starter-oauth2-resource-server.version>1.2.1</spring-boot-starter-oauth2-resource-server.version>
         <spring-boot-starter-oauth2-client.version>1.2.1</spring-boot-starter-oauth2-client.version>
         <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>
@@ -164,62 +166,62 @@
                 <artifactId>auth-service-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>com.pm.spring.ema</groupId>-->
-<!--                <artifactId>kafka-model</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.pm.spring.ema</groupId>-->
-<!--                <artifactId>kafka-admin</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.pm.spring.ema</groupId>-->
-<!--                <artifactId>kafka-producer</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.pm.spring.ema</groupId>-->
-<!--                <artifactId>elastic-config</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.pm.spring.ema</groupId>-->
-<!--                <artifactId>elastic-model</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.pm.spring.ema</groupId>-->
-<!--                <artifactId>elastic-index-client</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.pm.spring.ema</groupId>-->
-<!--                <artifactId>kafka-consumer</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.pm.spring.ema</groupId>-->
+            <!--                <artifactId>kafka-model</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.pm.spring.ema</groupId>-->
+            <!--                <artifactId>kafka-admin</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.pm.spring.ema</groupId>-->
+            <!--                <artifactId>kafka-producer</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.pm.spring.ema</groupId>-->
+            <!--                <artifactId>elastic-config</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.pm.spring.ema</groupId>-->
+            <!--                <artifactId>elastic-model</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.pm.spring.ema</groupId>-->
+            <!--                <artifactId>elastic-index-client</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.pm.spring.ema</groupId>-->
+            <!--                <artifactId>kafka-consumer</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
             <dependency>
                 <groupId>com.pm.spring.ema</groupId>
                 <artifactId>mdc-interceptor</artifactId>
                 <version>${project.version}</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>com.pm.spring.ema</groupId>-->
-<!--                <artifactId>elastic-query-service-common</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.pm.spring.ema</groupId>-->
+            <!--                <artifactId>elastic-query-service-common</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
 
-<!--            <dependency>-->
-<!--                <groupId>com.pm.spring.ema</groupId>-->
-<!--                <artifactId>elastic-query-client</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.pm.spring.ema</groupId>-->
-<!--                <artifactId>elastic-query-web-client-common</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.pm.spring.ema</groupId>-->
+            <!--                <artifactId>elastic-query-client</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.pm.spring.ema</groupId>-->
+            <!--                <artifactId>elastic-query-web-client-common</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
 
             <!-- LOCAL end -->
 
@@ -369,21 +371,21 @@
                 <artifactId>jakarta.annotation-api</artifactId>
                 <version>2.1.1</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.apache.kafka</groupId>-->
-<!--                <artifactId>kafka-streams</artifactId>-->
-<!--                <version>${kafka-streams.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.kafka</groupId>-->
-<!--                <artifactId>kafka-clients</artifactId>-->
-<!--                <version>${kafka-clients.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.kafka</groupId>-->
-<!--                <artifactId>spring-kafka</artifactId>-->
-<!--                <version>${spring-kafka.version}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.apache.kafka</groupId>-->
+            <!--                <artifactId>kafka-streams</artifactId>-->
+            <!--                <version>${kafka-streams.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.apache.kafka</groupId>-->
+            <!--                <artifactId>kafka-clients</artifactId>-->
+            <!--                <version>${kafka-clients.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.springframework.kafka</groupId>-->
+            <!--                <artifactId>spring-kafka</artifactId>-->
+            <!--                <version>${spring-kafka.version}</version>-->
+            <!--            </dependency>-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
@@ -410,11 +412,11 @@
                 <artifactId>hibernate-envers</artifactId>
                 <version>${hibernate-envers.version}</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>de.codecentric</groupId>-->
-<!--                <artifactId>spring-boot-admin-starter-server</artifactId>-->
-<!--                <version>${spring-boot-admin-starter-server.version}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>de.codecentric</groupId>-->
+            <!--                <artifactId>spring-boot-admin-starter-server</artifactId>-->
+            <!--                <version>${spring-boot-admin-starter-server.version}</version>-->
+            <!--            </dependency>-->
             <dependency>
                 <groupId>net.sf.supercsv</groupId>
                 <artifactId>super-csv</artifactId>

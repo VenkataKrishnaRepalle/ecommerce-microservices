@@ -1,4 +1,4 @@
-package com.pm.spring.ema.order.exception;
+package com.spring6.order.exception;
 
 import lombok.Getter;
 

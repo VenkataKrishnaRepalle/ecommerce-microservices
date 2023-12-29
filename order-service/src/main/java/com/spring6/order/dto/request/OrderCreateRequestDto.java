@@ -1,7 +1,7 @@
-package com.pm.spring.ema.order.dto.request;
+package com.spring6.order.dto.request;
 
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.spring6.order.model.enums.OrderStatus;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,5 +23,5 @@ public class OrderCreateRequestDto {
 
     @NotNull(message = ErrorCodes.E0004)
     @Enumerated
-    private BrandStatusEnum status;
+    private OrderStatus status;
 }

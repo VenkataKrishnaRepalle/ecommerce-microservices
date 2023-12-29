@@ -1,7 +1,7 @@
-package com.pm.spring.ema.order.dto.response;
+package com.spring6.order.dto.response;
 
 
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
+import com.spring6.order.model.enums.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,5 +13,5 @@ public class OrderCreateResponseDto {
     private UUID id;
     private String name;
     private UUID subcategoryId;
-    private BrandStatusEnum status;
+    private OrderStatus status;
 }
