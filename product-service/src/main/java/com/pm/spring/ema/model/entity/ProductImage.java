@@ -30,7 +30,7 @@ public class ProductImage {
 
     @Column(nullable = false)
     private String name;
-
+// todo: imageOrder -> Integer, Status -> Active, Disable
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(columnDefinition = "varchar(36)", nullable = false)
     private UUID productId;
