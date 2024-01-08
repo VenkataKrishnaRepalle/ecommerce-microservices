@@ -1,9 +1,10 @@
-package com.spring6.order.service;
+package com.spring6.order.service.impl;
 
 import com.spring6.order.dto.mapper.OrderMapper;
 import com.spring6.order.dto.response.OrderAuditResponseDto;
 import com.spring6.order.model.dao.AuditDao;
 import com.spring6.order.model.entity.Order;
+import com.spring6.order.service.OrderAuditService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionType;

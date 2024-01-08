@@ -1,6 +1,6 @@
-package com.pm.spring.ema.permission.Impl;
+package com.pm.spring.ema.service.Impl;
 
-import com.pm.spring.ema.common.dto.ProductFindResponseDto;
+import com.pm.spring.ema.common.util.dto.ProductFindResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.dto.ProductCreateRequestDto;
 import com.pm.spring.ema.dto.ProductCreateResponseDto;
@@ -14,14 +14,13 @@ import com.pm.spring.ema.exception.ProductAlreadyPresentException;
 import com.pm.spring.ema.exception.ProductNotFoundException;
 import com.pm.spring.ema.dto.mapper.ProductImageMapper;
 import com.pm.spring.ema.dto.mapper.ProductMapper;
-import com.pm.spring.ema.model.repository.ProductImageRepository;
-import com.pm.spring.ema.model.repository.ProductRepository;
-import com.pm.spring.ema.permission.ProductService;
+import com.pm.spring.ema.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
@@ -63,9 +62,7 @@ public class ProductServiceImpl implements ProductService {
         }
         var cost = productCreateRequestDto.getCost();
         var price = productCreateRequestDto.getPrice();
-        var discountedPercent = (cost > 0 && price > 0 && cost > price) ? ((cost - price) / cost) * 100 : 0.0f;
-        var decimalFormat = new DecimalFormat("#.##");
-        discountedPercent = Float.valueOf(decimalFormat.format(discountedPercent));
+        var discountedPercent = (cost.compareTo(BigDecimal.ZERO) > 0 && price.compareTo(BigDecimal.ZERO) > 0 && cost.compareTo(price) > 0) ? (((cost.subtract(price).divide(cost))).multiply(BigDecimal.valueOf(100))) : BigDecimal.ZERO;
 
         productCreateRequestDto.setDiscountPercent(discountedPercent);
 
@@ -141,10 +138,7 @@ public class ProductServiceImpl implements ProductService {
 
         var cost = productUpdateRequestDto.getCost();
         var price = productUpdateRequestDto.getPrice();
-        var discountedPercent = ((cost - price) / cost) * 100;
-
-        var decimalFormat = new DecimalFormat("#.##");
-        discountedPercent = Float.valueOf(decimalFormat.format(discountedPercent));
+        var discountedPercent = (cost.compareTo(BigDecimal.ZERO) > 0 && price.compareTo(BigDecimal.ZERO) > 0 && cost.compareTo(price) > 0) ? (((cost.subtract(price).divide(cost))).multiply(BigDecimal.valueOf(100))) : BigDecimal.ZERO;
 
         product.setId(id);
         product.setDiscountPercent(discountedPercent);
@@ -205,6 +199,21 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(productMapper::productToProductFindResponseDto)
                 .toList();
+    }
+
+    @Override
+    public Boolean isProductExistsById(UUID productId) {
+        var product = productDao.findById(productId);
+
+        var isProductExists = isProductExists(productId);
+        if (Boolean.TRUE.equals(isProductExists) && Boolean.TRUE.equals(product.get().getIsEnabled())) {
+            if (Boolean.TRUE.equals(product.get().getInStock())) {
+                return Boolean.TRUE;
+            } else {
+                throw new ProductNotFoundException(ErrorCodes.E2003, productId.toString());
+            }
+        }
+        return Boolean.FALSE;
     }
 
 }

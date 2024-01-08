@@ -1,13 +1,11 @@
 package com.spring6.order.bootstrap;
 
 
-import com.spring6.order.model.entity.Order;
-import com.spring6.order.model.enums.OrderStatus;
+
 import com.spring6.order.model.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component

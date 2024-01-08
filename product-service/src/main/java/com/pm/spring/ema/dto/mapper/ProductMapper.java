@@ -1,6 +1,6 @@
 package com.pm.spring.ema.dto.mapper;
 
-import com.pm.spring.ema.common.dto.ProductFindResponseDto;
+import com.pm.spring.ema.common.util.dto.ProductFindResponseDto;
 import com.pm.spring.ema.dto.ProductCreateRequestDto;
 import com.pm.spring.ema.dto.ProductCreateResponseDto;
 import com.pm.spring.ema.dto.ProductUpdateRequestDto;

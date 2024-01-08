@@ -76,7 +76,12 @@ public final class ErrorCodes {
     // Product - 2001 to 3000
     public static final String E2001 = "E2001-Could not find any product with ID: ";
     public static final String E2002 = "E2002-Product already present with name: ";
+    public static final String E2003 = "E2003-Product is not available at this moment: ";
 
+    // Order  -  3001 to 4000
+    public static final String E3001 = "E3001-Invalid Order Quantity for Product: ";
+    public static final String E3002 = "E3002-Order not found with Id: ";
+    public static final String E3003 = "E3003-Invalid order and Order Details";
 
     //  user - 4001 to 5000 errors
     public static final String E4001 = "E4001-Field {0} is required.";

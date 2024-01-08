@@ -42,17 +42,24 @@ public class Order {
     @Column(columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID userId;
 
+    @Column(nullable = false)
     private BigDecimal productTotalCost;
 
+    @Column(nullable = false)
     private BigDecimal shippingCost;
 
     private BigDecimal tax;
 
+    @Column(nullable = false)
     private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "payment_method")
     private PaymentMethod paymentMethod;
+
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(columnDefinition = "varchar(36)")
+    private UUID paymentId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -70,5 +77,3 @@ public class Order {
     @Column(nullable = false)
     private Instant lastUpdatedTime;
 }
-
-

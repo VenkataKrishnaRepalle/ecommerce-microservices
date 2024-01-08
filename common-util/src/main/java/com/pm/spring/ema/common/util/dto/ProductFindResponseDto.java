@@ -1,4 +1,4 @@
-package com.pm.spring.ema.common.dto;
+package com.pm.spring.ema.common.util.dto;
 
 import lombok.*;
 
@@ -7,6 +7,8 @@ import java.util.UUID;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductFindResponseDto {
 
     private UUID id;

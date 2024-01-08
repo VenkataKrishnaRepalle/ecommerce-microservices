@@ -1,4 +1,4 @@
-package com.pm.spring.ema.order;
+package com.spring6.order;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

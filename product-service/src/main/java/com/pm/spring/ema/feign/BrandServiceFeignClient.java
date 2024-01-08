@@ -1,6 +1,6 @@
 package com.pm.spring.ema.feign;
 
-import com.pm.spring.ema.common.dto.BrandFindResponseDto;
+import com.pm.spring.ema.common.util.dto.BrandFindResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,14 +1,14 @@
 package com.pm.spring.ema.controller;
 
-import com.pm.spring.ema.common.dto.ProductFindResponseDto;
 import com.pm.spring.ema.common.util.FileUploadUtils;
+import com.pm.spring.ema.common.util.dto.ProductFindResponseDto;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.dto.ProductCreateRequestDto;
 import com.pm.spring.ema.dto.ProductCreateResponseDto;
 import com.pm.spring.ema.dto.ProductUpdateRequestDto;
 import com.pm.spring.ema.dto.ProductUpdateResponseDto;
 import com.pm.spring.ema.exception.ProductNotFoundException;
-import com.pm.spring.ema.permission.ProductService;
+import com.pm.spring.ema.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -35,40 +35,28 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @Operation(
-            summary = "Get List of Products",
-            description = "List of Products",
-            tags = "Product")
+    @Operation(summary = "Get List of Products", description = "List of Products", tags = "Product")
     @GetMapping("list")
     public ResponseEntity<List<ProductFindResponseDto>> findAll() {
         return new ResponseEntity<>(productService.listAll(), HttpStatus.OK);
     }
 
-    @Operation(
-            summary = "Get Product by uuid",
-            description = "Get Product by uuid",
-            tags = "Product")
+    @Operation(summary = "Get Product by uuid", description = "Get Product by uuid", tags = "Product")
     @GetMapping("{id}")
     public ResponseEntity<ProductFindResponseDto> findById(@PathVariable final UUID id) {
         return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
     }
 
-    @Operation(
-            summary = "Insert Product",
-            description = "Add Product",
-            tags = "Product")
+    @Operation(summary = "Insert Product", description = "Add Product", tags = "Product")
     @PostMapping(value = "create")
-    public ResponseEntity<HttpHeaders> create(@RequestBody @Valid final ProductCreateRequestDto productCreateRequestDto) {
+    public ResponseEntity<ProductCreateResponseDto> create(@RequestBody @Valid final ProductCreateRequestDto productCreateRequestDto) {
         var savedProduct = productService.create(productCreateRequestDto);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Location", "/brand" + savedProduct.getId());
         return new ResponseEntity(savedProduct, httpHeaders, HttpStatus.CREATED);
     }
 
-    @Operation(
-            summary = "Insert Product Images",
-            description = "Add Product Image",
-            tags = "Product Image")
+    @Operation(summary = "Insert Product Images", description = "Add Product Image", tags = "Product Image")
     @PostMapping(value = "upload-image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<HttpStatus> uploadImage(@PathVariable @NotNull final UUID id,
                                                   @NotNull @RequestParam(name = "fileImage", value = "fileImage") final MultipartFile multipartFile)
@@ -88,21 +76,14 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @Operation(
-            summary = "Update Product",
-            description = "Update Product",
-            tags = "Product")
+    @Operation(summary = "Update Product", description = "Update Product", tags = "Product")
     @PutMapping("update/{id}")
-    public ResponseEntity<ProductUpdateResponseDto> update(@PathVariable UUID id,
-                                                           @RequestBody ProductUpdateRequestDto productUpdateRequestDto) {
+    public ResponseEntity<ProductUpdateResponseDto> update(@PathVariable UUID id, @RequestBody ProductUpdateRequestDto productUpdateRequestDto) {
         return new ResponseEntity<>(productService.update(id, productUpdateRequestDto), HttpStatus.ACCEPTED);
     }
 
 
-    @Operation(
-            summary = "Update existing Product Status by uuid",
-            description = "Update Product Status by its uuid ",
-            tags = "Product")
+    @Operation(summary = "Update existing Product Status by uuid", description = "Update Product Status by its uuid ", tags = "Product")
     @PutMapping("update/{id}/status/{status}")
     public ResponseEntity<String> updateProductEnabledStatus(@PathVariable final UUID id,
                                                              @PathVariable final boolean status) {
@@ -111,11 +92,8 @@ public class ProductController {
         return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
     }
 
-    @Operation(
-            summary = "Sort & Filter for Products Listing Page",
-            description = "Filter Products Listing Page",
-            tags = "Product")
-    @GetMapping("findByPage/{pageNumber}")
+    @Operation(summary = "Sort & Filter for Products Listing Page", description = "Filter Products Listing Page", tags = "Product")
+    @GetMapping("find-by-page/{pageNumber}")
     public List<ProductFindResponseDto> findByPage(@PathVariable("pageNumber") int pageNumber,
                                                    @RequestParam("sortField") String sortField,
                                                    @RequestParam("sortDir") String sortDir,
@@ -125,10 +103,7 @@ public class ProductController {
 
     }
 
-    @Operation(
-            summary = "Delete existing Product by its uuid",
-            description = "Delete Product by uuid",
-            tags = "Product")
+    @Operation(summary = "Delete existing Product by its uuid", description = "Delete Product by uuid", tags = "Product")
     @DeleteMapping("delete/{id}")
     public ResponseEntity<HttpStatus> deleteById(
             @PathVariable final UUID id) {
@@ -136,31 +111,28 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Operation(
-            summary = "Get Products by Category Id",
-            description = "Get Products by Category Id",
-            tags = "Product")
-    @GetMapping("getByCategoryId/{categoryId}")
+    @Operation(summary = "Get Products by Category Id", description = "Get Products by Category Id", tags = "Product")
+    @GetMapping("get-by-categoryId/{categoryId}")
     public ResponseEntity<List<ProductFindResponseDto>> getByCategoryId(@PathVariable("categoryId") UUID categoryId) {
         return new ResponseEntity<>(productService.getByCategoryId(categoryId), HttpStatus.OK);
     }
 
-    @Operation(
-            summary = "Get Products By Brand Id",
-            description = "Get Products By Brand Id",
-            tags = "Product")
-    @GetMapping("getByBrandId/{brandId}")
+    @Operation(summary = "Get Products By Brand Id", description = "Get Products By Brand Id", tags = "Product")
+    @GetMapping("get-by-brandId/{brandId}")
     public ResponseEntity<List<ProductFindResponseDto>> getByBrandId(@PathVariable UUID brandId) {
         return new ResponseEntity<>(productService.getByBrandId(brandId), HttpStatus.OK);
     }
 
-    @Operation(
-            summary = "Get Products By Category Id and Brand Id",
-            description = "Get Products By Category Id and Brand Id",
-            tags = "Product")
-    @GetMapping("getByCategoryId/{categoryId}/byBrandId/{brandId}")
+    @Operation(summary = "Get Products By Category Id and Brand Id", description = "Get Products By Category Id and Brand Id", tags = "Product")
+    @GetMapping("get-by-categoryId/{categoryId}/byBrandId/{brandId}")
     public ResponseEntity<List<ProductFindResponseDto>> getByCategoryIdAndBrandId(@PathVariable UUID categoryId,
                                                                                   @PathVariable UUID brandId) {
         return new ResponseEntity<>(productService.getByCategoryIdAndBrandId(categoryId, brandId), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get is Product Exists By Product Id", description = "Get is Product Exists By Product Id", tags = "Product")
+    @GetMapping("isProductExistsById/{id}")
+    public ResponseEntity<Boolean> isProductExistsById(@PathVariable UUID id) {
+        return new ResponseEntity<>(productService.isProductExistsById(id), HttpStatus.OK);
     }
 }

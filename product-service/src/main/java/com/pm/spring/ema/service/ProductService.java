@@ -1,6 +1,6 @@
-package com.pm.spring.ema.permission;
+package com.pm.spring.ema.service;
 
-import com.pm.spring.ema.common.dto.ProductFindResponseDto;
+import com.pm.spring.ema.common.util.dto.ProductFindResponseDto;
 import com.pm.spring.ema.dto.ProductCreateRequestDto;
 import com.pm.spring.ema.dto.ProductCreateResponseDto;
 import com.pm.spring.ema.dto.ProductUpdateRequestDto;
@@ -37,4 +37,5 @@ public interface ProductService {
 
     List<ProductFindResponseDto> getByCategoryIdAndBrandId(UUID categoryId, UUID brandId);
 
+    Boolean isProductExistsById(UUID productId);
 }

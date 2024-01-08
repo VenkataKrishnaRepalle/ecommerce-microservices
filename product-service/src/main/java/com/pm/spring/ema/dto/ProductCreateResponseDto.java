@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -29,13 +30,13 @@ public class ProductCreateResponseDto {
     private Boolean inStock;
 
     @NotNull
-    private Float cost;
+    private BigDecimal cost;
 
     @NotNull
-    private Float price;
+    private BigDecimal price;
 
     @NotNull
-    private Float discountPercent;
+    private BigDecimal discountPercent;
 
     @NotNull
     private Float length;

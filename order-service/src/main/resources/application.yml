@@ -23,3 +23,7 @@ logging:
         orm:
           jdbc:
             bind: trace
+
+productService:
+  base:
+    url: http://localhost:1003/api/product/

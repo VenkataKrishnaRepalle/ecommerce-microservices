@@ -1,7 +1,6 @@
 package com.spring6.order.dto.mapper;
 
 import com.pm.spring.ema.order.utils.InstantFormatter;
-import com.spring6.order.dto.request.OrderCreateRequestDto;
 import com.spring6.order.dto.request.OrderUpdateRequestDto;
 import com.spring6.order.dto.response.OrderAuditResponseDto;
 import com.spring6.order.dto.response.OrderCreateResponseDto;
@@ -20,9 +19,8 @@ public interface OrderMapper {
 //    @Mapping(source = "lastUpdatedOn", target = "lastUpdatedOn", qualifiedByName = "formatInstant")
     OrderResponseDto orderToOrderResponseDto(Order order);
 
-    Order orderCreateRequestDtoToOrder(OrderCreateRequestDto orderCreateRequestDto);
-
     OrderCreateResponseDto orderToOrderCreateResponseDto(Order order);
+
 
     Order orderUpdateRequestDtoToOrder(OrderUpdateRequestDto orderUpdateRequestDto);
 

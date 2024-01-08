@@ -18,10 +18,13 @@ public interface OrderService {
 
     OrderResponseDto getById(UUID id);
 
-    OrderCreateResponseDto create(OrderCreateRequestDto orderCreateRequestDto);
+    OrderCreateResponseDto createOrder(UUID userId, OrderCreateRequestDto orderCreateRequestDto);
 
     OrderUpdateResponseDto update(UUID id, OrderUpdateRequestDto brandCreateRequestDto) throws OrderNotFoundException;
 
     void deleteById(UUID id) throws OrderNotFoundException;
 
+    void cancelOrderById(UUID orderId);
+
+    void cancelOrderPartiallyByOrderDetailsId(UUID orderId, UUID orderDetailId);
 }
