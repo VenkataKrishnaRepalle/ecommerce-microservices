@@ -6,7 +6,7 @@
         <module>app-config-data</module>
         <module>common-config</module>
         <module>common-util</module>
-        <module>config-server</module>
+<!--        <module>config-server</module>-->
 <!--        <module>elastic</module>-->
 <!--        <module>elastic-query-service</module>-->
 <!--        <module>elastic-query-service-common</module>-->
@@ -31,15 +31,15 @@
 <!--        <module>brand-service</module>-->
 <!--        <module>camunda</module>-->
 <!--        <module>customer-service</module>-->
-        <module>category-service-common</module>
+<!--        <module>category-service-common</module>-->
 <!--        <module>category-service</module>-->
 <!--        <module>cms-service</module>-->
 <!--        <module>customer-support-service</module>-->
 <!--        <module>discount-service</module>-->
 <!--        <module>inventory-service</module>-->
-        <module>order-service</module>
+<!--        <module>order-service</module>-->
 <!--        <module>payment-service</module>-->
-        <module>product-service</module>
+<!--        <module>product-service</module>-->
 <!--        <module>report-service</module>-->
 <!--        <module>return-refund-service</module>-->
 <!--        <module>review-service</module>-->
@@ -432,11 +432,6 @@
                 <groupId>com.nimbusds</groupId>
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>${nimbus-jose-jwt.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-webflux</artifactId>
-                <version>${spring-boot.version}</version>
             </dependency>
 
         </dependencies>
