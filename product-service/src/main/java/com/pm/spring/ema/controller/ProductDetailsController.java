@@ -1,7 +1,7 @@
 package com.pm.spring.ema.controller;
 
 import com.pm.spring.ema.common.dto.ProductDetailsFindResponseDto;
-import com.pm.spring.ema.service.ProductDetailsService;
+import com.pm.spring.ema.permission.ProductDetailsService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

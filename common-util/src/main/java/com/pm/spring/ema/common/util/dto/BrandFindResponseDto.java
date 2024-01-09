@@ -1,6 +1,6 @@
-package com.pm.spring.ema.common.dto;
+package com.pm.spring.ema.common.util.dto;
 
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
+import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import lombok.Builder;
 import lombok.Data;
 

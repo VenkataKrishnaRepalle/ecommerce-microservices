@@ -1,12 +1,13 @@
-package com.pm.spring.ema.order.service;
+package com.spring6.order.service;
 
-import com.pm.spring.ema.order.dto.request.OrderCreateRequestDto;
-import com.pm.spring.ema.order.dto.request.OrderUpdateRequestDto;
-import com.pm.spring.ema.order.dto.response.OrderCreateResponseDto;
-import com.pm.spring.ema.order.dto.response.OrderResponseDto;
-import com.pm.spring.ema.order.dto.response.OrderUpdateResponseDto;
 import com.pm.spring.ema.order.dto.enums.OrderSearchKeyword;
-import com.pm.spring.ema.order.exception.OrderNotFoundException;
+import com.spring6.order.dto.request.OrderCreateRequestDto;
+import com.spring6.order.dto.request.OrderUpdateRequestDto;
+import com.spring6.order.dto.response.OrderCreateResponseDto;
+import com.spring6.order.dto.response.OrderResponseDto;
+import com.spring6.order.dto.response.OrderUpdateResponseDto;
+import com.spring6.order.exception.OrderNotFoundException;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -17,10 +18,13 @@ public interface OrderService {
 
     OrderResponseDto getById(UUID id);
 
-    OrderCreateResponseDto create(OrderCreateRequestDto orderCreateRequestDto);
+    OrderCreateResponseDto createOrder(UUID userId, OrderCreateRequestDto orderCreateRequestDto);
 
     OrderUpdateResponseDto update(UUID id, OrderUpdateRequestDto brandCreateRequestDto) throws OrderNotFoundException;
 
     void deleteById(UUID id) throws OrderNotFoundException;
 
+    void cancelOrderById(UUID orderId);
+
+    void cancelOrderPartiallyByOrderDetailsId(UUID orderId, UUID orderDetailId);
 }

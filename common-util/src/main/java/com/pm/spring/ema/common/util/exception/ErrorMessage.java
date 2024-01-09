@@ -11,7 +11,7 @@ public class ErrorMessage {
     }
 
     public static ErrorResponse errorResponse(String error, String dynamicValue) {
-        String[] errorCodeAndMessage = error.split("-");
+        String[] errorCodeAndMessage = error.split("-", 1);
         String errorCode = errorCodeAndMessage[0];
         String errorMessage = errorCodeAndMessage[1];
 

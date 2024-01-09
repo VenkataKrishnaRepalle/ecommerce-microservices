@@ -1,18 +1,17 @@
-package com.pm.spring.ema.order.controller;
+package com.spring6.order.controller;
 
-import com.pm.spring.ema.common.exeption.ErrorListResponse;
-import com.pm.spring.ema.common.exeption.ErrorResponse;
-import com.pm.spring.ema.common.util.FileUploadUtils;
+import brave.Tracer;
 import com.pm.spring.ema.common.util.GlobalConstants;
-import com.pm.spring.ema.common.utils.HttpStatusCodes;
+import com.pm.spring.ema.common.util.HttpStatusCodes;
+import com.pm.spring.ema.common.util.api.ErrorResponse;
+import com.pm.spring.ema.common.util.exception.ErrorListResponse;
 import com.pm.spring.ema.order.dto.enums.OrderSearchKeyword;
-import com.pm.spring.ema.order.dto.request.OrderCreateRequestDto;
-import com.pm.spring.ema.order.dto.request.OrderUpdateRequestDto;
-import com.pm.spring.ema.order.dto.response.OrderCreateResponseDto;
-import com.pm.spring.ema.order.dto.response.OrderResponseDto;
-import com.pm.spring.ema.order.dto.response.OrderUpdateResponseDto;
-import com.pm.spring.ema.order.service.OrderService;
-import com.pm.spring.ema.order.utils.TraceIdHolder;
+import com.spring6.order.dto.request.OrderCreateRequestDto;
+import com.spring6.order.dto.request.OrderUpdateRequestDto;
+import com.spring6.order.dto.response.OrderCreateResponseDto;
+import com.spring6.order.dto.response.OrderResponseDto;
+import com.spring6.order.dto.response.OrderUpdateResponseDto;
+import com.spring6.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,15 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +36,8 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    private final Tracer tracer;
+
     @Operation(tags = "Order", summary = "Create Order", description = "Create a new Order by entering order details")
     @ApiResponses(value = {
             @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Order", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderCreateResponseDto.class))}),
@@ -52,22 +45,19 @@ public class OrderController {
             @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @PostMapping(value = "create")
-    public ResponseEntity<OrderCreateResponseDto> createOrder(@RequestBody @Valid final OrderCreateRequestDto orderCreateRequestDto) {
+    @PostMapping(value = "create-order/{userId}")
+    public ResponseEntity<OrderCreateResponseDto> createOrder(@RequestBody OrderCreateRequestDto orderCreateRequestDto, @PathVariable UUID userId) {
 
         log.info("OrderController:createOrder execution started.");
-        log.debug("OrderController:createOrder traceId: {} request payload: {}", TraceIdHolder.getTraceId(), orderCreateRequestDto);
 
-        OrderCreateResponseDto savedOrderDto = orderService.create(orderCreateRequestDto);
+        var savedOrderDto = orderService.createOrder(userId, orderCreateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+        headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
 
-        log.debug("OrderController:createOrder traceId: {} response: {}", TraceIdHolder.getTraceId(), savedOrderDto);
         log.info("OrderController:createOrder execution ended.");
 
         return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(savedOrderDto);
-
     }
 
     @Operation(tags = "Order", summary = "Get Order By Id", description = "Get Order by id")
@@ -80,14 +70,12 @@ public class OrderController {
     public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable @Valid final UUID id) {
 
         log.info("OrderController:getOrderById execution started.");
-        log.info("OrderController:getOrderById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
-        OrderResponseDto orderFindResponseDto = orderService.getById(id);
+        var orderFindResponseDto = orderService.getById(id);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+        headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
 
-        log.info("OrderController:getOrderById traceId: {} response : {}", TraceIdHolder.getTraceId(), orderFindResponseDto);
         log.info("OrderController:getOrderById execution ended.");
 
         return ResponseEntity.ok().headers(headers).body(orderFindResponseDto);
@@ -104,14 +92,12 @@ public class OrderController {
     public ResponseEntity<List<OrderResponseDto>> getAllOrders() {
 
         log.info("OrderController:getAllOrders started.");
-        log.info("OrderController:getAllOrders traceId: {}", TraceIdHolder.getTraceId());
 
-        List<OrderResponseDto> orderFindResponseDtoList = orderService.getAll();
+        var orderFindResponseDtoList = orderService.getAll();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+        headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
 
-        log.info("OrderController:getAllOrders traceId: {} response: {}", TraceIdHolder.getTraceId(), orderFindResponseDtoList);
         log.info("OrderController:getAllOrders execution ended.");
 
         return ResponseEntity.ok().headers(headers).body(orderFindResponseDtoList);
@@ -129,14 +115,12 @@ public class OrderController {
     public ResponseEntity<OrderUpdateResponseDto> updateOrder(@PathVariable UUID id, @RequestBody OrderUpdateRequestDto orderUpdateRequestDto) {
 
         log.info("OrderController:updateOrder started.");
-        log.info("OrderController:updateOrder traceId: {} request id: {} payload: {}", TraceIdHolder.getTraceId(), id, orderUpdateRequestDto);
 
-        OrderUpdateResponseDto orderUpdateResponseDto = orderService.update(id, orderUpdateRequestDto);
+        var orderUpdateResponseDto = orderService.update(id, orderUpdateRequestDto);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+        headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
 
-        log.info("OrderController:updateOrder traceId: {} response: {}", TraceIdHolder.getTraceId(), orderUpdateResponseDto);
         log.info("OrderController:updateOrder ended.");
 
         return ResponseEntity.ok().headers(headers).body(orderUpdateResponseDto);
@@ -154,20 +138,30 @@ public class OrderController {
     public ResponseEntity<Void> deleteOrderById(@PathVariable final UUID id) {
 
         log.info("OrderController:deleteById started.");
-        log.info("OrderController:deleteById traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
 
         orderService.deleteById(id);
-        String dir = "../order-logos/" + id;
-        FileUploadUtils.removeDir(dir);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+        headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
 
-        log.info("OrderController:deleteById traceId: {}", TraceIdHolder.getTraceId());
         log.info("OrderController:deleteById ended.");
 
         return ResponseEntity.noContent().headers(headers).build();
 
+    }
+
+    @PostMapping("cancel-order-by-orderId/{orderId}")
+    public ResponseEntity cancelOrderById(@PathVariable UUID orderId) {
+        orderService.cancelOrderById(orderId);
+        return ResponseEntity.ok()
+                .build();
+    }
+
+    @PostMapping("cancel-order/{orderId}/partial/{orderDetailId}")
+    public ResponseEntity cancelOrderPartiallyByOrderDetailsId(@PathVariable UUID orderDetailId, @PathVariable UUID orderId) {
+        orderService.cancelOrderPartiallyByOrderDetailsId(orderId, orderDetailId);
+        return ResponseEntity.ok()
+                .build();
     }
 
     @Operation(tags = "Order", summary = "Get Orders By Pagination", description = "Get orders by pagination by passing pagination attributes")
@@ -185,14 +179,12 @@ public class OrderController {
 
 
         log.info("OrderController:getOrdersByPage started.");
-        log.info("OrderController:getOrdersByPage traceId: {} request pageNumber: {} perPageCount: {} sortField: {} sortDirection: {} searchField: {} searchKeyword: {}", TraceIdHolder.getTraceId(), pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
-        List<OrderResponseDto> orderFindResponseDtoList = orderService.getByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
+        var orderFindResponseDtoList = orderService.getByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+        headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
 
-        log.info("OrderController:getOrdersByPage traceId: {} response: {}", TraceIdHolder.getTraceId(), orderFindResponseDtoList);
         log.info("OrderController:getOrdersByPage ended.");
 
         return ResponseEntity.ok().headers(headers).body(orderFindResponseDtoList);

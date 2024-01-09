@@ -1,4 +1,4 @@
-package com.pm.spring.ema.order.config;
+package com.spring6.order.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

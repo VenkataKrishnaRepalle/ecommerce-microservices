@@ -2,7 +2,7 @@ package com.pm.spring.ema.controller;
 
 import com.pm.spring.ema.dto.*;
 import com.pm.spring.ema.enums.EnabledStatus;
-import com.pm.spring.ema.service.CustomerService;
+import com.pm.spring.ema.permission.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

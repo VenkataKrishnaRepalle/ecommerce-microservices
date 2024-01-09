@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -30,12 +31,12 @@ public class ProductUpdateRequestDto {
     private Boolean inStock;
 
     @NotNull
-    private Float cost;
+    private BigDecimal cost;
 
     @NotNull
-    private Float price;
+    private BigDecimal price;
 
-    private Float discountPercent;
+    private BigDecimal discountPercent;
 
     @NotNull
     private Float length;

@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: order-service
+  profiles:
+    active: order
+  config:
+    import: 'configserver:'
+  cloud:
+    config:
+      name: order-service,config-client
+      username: user
+      password: password
+
+log:
+  appName: order-service
+
+logging:
+  level:
+    ROOT: INFO
+    org.spring.framework.cloud.config: DEBUG
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace
+
+productService:
+  base:
+    url: http://localhost:1003/api/product/

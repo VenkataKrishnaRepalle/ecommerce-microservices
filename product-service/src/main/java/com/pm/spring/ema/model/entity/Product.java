@@ -9,6 +9,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,11 +45,11 @@ public class Product {
     private Boolean inStock;
 
     @Column(nullable = false)
-    private Float cost;
+    private BigDecimal cost;
 
-    private Float price;
+    private BigDecimal price;
 
-    private Float discountPercent;
+    private BigDecimal discountPercent;
 
     private Float length;
 

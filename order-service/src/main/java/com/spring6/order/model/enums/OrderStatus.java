@@ -1,5 +1,5 @@
-package com.pm.spring.ema.order.model.enums;
+package com.spring6.order.model.enums;
 
 public enum OrderStatus {
-    NEW, PENDING, PROCESSING, COMPLETED, CANCELLED, Delivered, SHIPPED, ON_HOLD, REFUNDED, FAILED, RETURNED
+    NEW, PENDING, PROCESSING, COMPLETED, CANCELLED, DELIVERED, SHIPPED, ON_HOLD, REFUNDED, FAILED, RETURNED
 }

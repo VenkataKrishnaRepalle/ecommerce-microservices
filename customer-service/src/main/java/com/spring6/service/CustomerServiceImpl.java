@@ -1,4 +1,4 @@
-package com.pm.spring.ema.service;
+package com.pm.spring.ema.permission;
 
 import com.pm.spring.ema.dto.*;
 import com.pm.spring.ema.enums.EnabledStatus;

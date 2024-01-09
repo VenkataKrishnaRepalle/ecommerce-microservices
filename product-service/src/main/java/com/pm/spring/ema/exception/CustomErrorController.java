@@ -21,7 +21,7 @@ public class CustomErrorController {
     ResponseEntity handleJPAViolations(TransactionSystemException exception) {
         ResponseEntity.BodyBuilder responseEntity = ResponseEntity.badRequest();
 
-        if(exception.getCause().getCause() instanceof ConstraintViolationException){
+        if (exception.getCause().getCause() instanceof ConstraintViolationException) {
             ConstraintViolationException ve = (ConstraintViolationException) exception.getCause().getCause();
 
             List errors = ve.getConstraintViolations().stream()
@@ -36,6 +36,7 @@ public class CustomErrorController {
 
         return responseEntity.build();
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ErrorResponse> handleBindErrors(MethodArgumentNotValidException exception) {
         ErrorResponse errorResponse = ErrorResponse.builder()
@@ -49,13 +50,14 @@ public class CustomErrorController {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
+
     @ExceptionHandler(ProductNotFoundException.class)
     ResponseEntity handleProductNotFoundExceptionError(ProductNotFoundException exception) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .errors(new ArrayList<>(Arrays.asList(
                         ErrorFormat.builder()
                                 .code(exception.getErrorCode())
-                                .message(MessageFormat.format(ErrorCode.valueOf(exception.getErrorCode()).getMessage(), exception.getDynamicValue()))
+                                .message(exception.getDynamicValue())
                                 .build())))
                 .build();
 
@@ -80,7 +82,7 @@ public class CustomErrorController {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     ResponseEntity handleHttpMessageNotReadableExceptionError(HttpMessageNotReadableException exception) {
-        return  ResponseEntity.badRequest().body(exception.getRootCause().getLocalizedMessage());
+        return ResponseEntity.badRequest().body(exception.getRootCause().getLocalizedMessage());
     }
 
 //    @ExceptionHandler(UnexpectedTypeException.class)

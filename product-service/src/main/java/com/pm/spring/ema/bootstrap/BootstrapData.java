@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Component
@@ -28,9 +29,9 @@ public class BootstrapData implements CommandLineRunner {
                     .shortDescription("very Good Phone")
                     .fullDescription("Very good Phone at low price")
                     .inStock(true)
-                    .cost(22999f)
-                    .price(19999f)
-                    .discountPercent(((22999f - 19999f) / 22999f) * 100)
+                    .cost(BigDecimal.valueOf(22999))
+                    .price(BigDecimal.valueOf(19999))
+                    .discountPercent(BigDecimal.valueOf(22999).subtract(BigDecimal.valueOf(19999).divide(BigDecimal.valueOf(22999).multiply(BigDecimal.valueOf(100)))))
                     .length(3.5f)
                     .width(1.2f)
                     .height(6.2f)
@@ -46,9 +47,9 @@ public class BootstrapData implements CommandLineRunner {
                     .shortDescription("very Good Phone")
                     .fullDescription("Very good Phone at low price")
                     .inStock(true)
-                    .cost(19999f)
-                    .price(16999f)
-                    .discountPercent(((19999f - 16999f) / 19999f) * 100)
+                    .cost(BigDecimal.valueOf(22999))
+                    .price(BigDecimal.valueOf(19999))
+                    .discountPercent(BigDecimal.valueOf(22999).subtract(BigDecimal.valueOf(19999).divide(BigDecimal.valueOf(22999).multiply(BigDecimal.valueOf(100)))))
                     .length(3.5f)
                     .width(1.2f)
                     .height(6.2f)
@@ -64,9 +65,9 @@ public class BootstrapData implements CommandLineRunner {
                     .shortDescription("very Good Phone")
                     .fullDescription("Very good Phone at low price")
                     .inStock(true)
-                    .cost(24999f)
-                    .price(11999f)
-                    .discountPercent(((24999f - 21999f) / 24999f) * 100)
+                    .cost(BigDecimal.valueOf(22999))
+                    .price(BigDecimal.valueOf(19999))
+                    .discountPercent(BigDecimal.valueOf(22999).subtract(BigDecimal.valueOf(19999).divide(BigDecimal.valueOf(22999).multiply(BigDecimal.valueOf(100)))))
                     .length(3.5f)
                     .width(1.2f)
                     .height(6.2f)

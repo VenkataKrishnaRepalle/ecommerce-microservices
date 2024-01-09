@@ -1,13 +1,11 @@
-package com.pm.spring.ema.order.bootstrap;
+package com.spring6.order.bootstrap;
 
-import com.pm.spring.ema.order.model.entity.Order;
-import com.pm.spring.ema.order.model.enums.OrderStatus;
-import com.pm.spring.ema.order.model.repository.OrderRepository;
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
+
+
+import com.spring6.order.model.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component
@@ -19,13 +17,13 @@ public class BootstrapData implements CommandLineRunner {
 //        loadOrderData();
     }
 
-    private void loadOrderData() {
-        if (orderRepository.count() == 0) {
-            orderRepository.save(Order.builder()
-                    .firstName("Kamal")
-                    .lastName("Karthik")
-                    .status(OrderStatus.PROCESSING)
-                    .build());
-        }
-    }
+//    private void loadOrderData() {
+//        if (orderRepository.count() == 0) {
+//            orderRepository.save(Order.builder()
+//                    .firstName("Kamal")
+//                    .lastName("Karthik")
+//                    .status(OrderStatus.PROCESSING)
+//                    .build());
+//        }
+//    }
 }
