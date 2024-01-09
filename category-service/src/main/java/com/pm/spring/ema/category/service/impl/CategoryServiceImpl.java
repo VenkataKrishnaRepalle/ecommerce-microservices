@@ -6,10 +6,10 @@ import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryCreate
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryDeleteResponseDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
 import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
-import com.pm.spring.ema.category.model.dao.CategoryDao;
+import com.pm.spring.ema.category.model.repository.CategoryRepository;
+import com.pm.spring.ema.category.model.repository.SubCategoryRepository;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.ErrorMessage;
-import com.pm.spring.ema.category.model.dao.SubCategoryDao;
 import com.pm.spring.ema.category.model.entity.Category;
 import com.pm.spring.ema.category.model.entity.SubCategory;
 import com.pm.spring.ema.category.exception.CategoryException.CategoryNameAlreadyExistException;
@@ -34,16 +34,16 @@ import java.util.UUID;
 public class CategoryServiceImpl implements CategoryService {
 
     private static final int CATEGORY_PER_PAGE = 5;
-    private final CategoryDao categoryDao;
+    private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    private final SubCategoryDao subCategoryDao;
+    private final SubCategoryRepository subCategoryRepository;
 
 
     public List<CategoryFindResponseDto> getAllCategory() {
         log.debug("CategoryService:getAllCategory EXECUTION STARTED. traceId: {}", TraceIdHolder.getTraceId());
 
 
-        List<CategoryFindResponseDto> categoryFindResponseDtoList = categoryDao.findAll()
+        List<CategoryFindResponseDto> categoryFindResponseDtoList = categoryRepository.findAll()
                 .stream()
                 .map(categoryMapper::categoryToCategoryFindResponseDto)
                 .toList();
@@ -58,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         log.debug("CategoryService:getCategoryById EXECUTION STARTED. traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
-        Optional<Category> optionalCategory = categoryDao.findById(id);
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (!optionalCategory.isPresent()) {
             log.error("CategoryService:getCategoryById EXECUTION ENDED. traceId: {}, errorMessage: Category Not found", TraceIdHolder.getTraceId());
             throw new CategoryNotFoundException(ErrorCodes.E1502, id.toString());
@@ -83,7 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new CategoryNameAlreadyExistException(ErrorCodes.E1501, categoryCreateRequestDto.getName());
         }
         Category category = categoryMapper.categoryCreateRequestDtoToCategory(categoryCreateRequestDto);
-        Category savedCategory = categoryDao.save(category);
+        Category savedCategory = categoryRepository.save(category);
         CategoryCreateResponseDto categoryCreateResponseDto = categoryMapper.categoryToCategoryCreateResponseDto(savedCategory);
 
         log.debug("CategoryService:createCategory EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryCreateRequestDto);
@@ -96,7 +96,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         log.debug("CategoryService:updateCategory EXECUTION STARTED. traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, categoryUpdateRequestDto);
 
-        Optional<Category> optionalCategory = categoryDao.findById(id);
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (!optionalCategory.isPresent()) {
             throw new CategoryNotFoundException(ErrorCodes.E1503, id.toString());
         }
@@ -104,7 +104,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = categoryMapper.categoryUpdateRequestDtoToCategory(categoryUpdateRequestDto);
         category.setId(optionalCategory.get().getId());
-        Category updatedCategory = categoryDao.save(category);
+        Category updatedCategory = categoryRepository.save(category);
         CategoryUpdateResponseDto categoryUpdateResponseDto = categoryMapper.categoryToCategoryUpdateResponseDto(updatedCategory);
 
         log.debug("CategoryService:updateCategory EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryUpdateResponseDto);
@@ -118,17 +118,17 @@ public class CategoryServiceImpl implements CategoryService {
         log.debug("CategoryService:deleteCategoryById EXECUTION STARTED. traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
 
-        Optional<Category> optionalCategory = categoryDao.findById(id);
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isPresent()) {
 
             CategoryDeleteResponseDto categoryDeleteResponseDto = categoryMapper.convertToCategoryDeleteResponseDto(optionalCategory.get());
 
             Category category = optionalCategory.get();
 
-            for (SubCategory subCategory : subCategoryDao.findByCategory(category)) {
-                subCategoryDao.delete(subCategory);
+            for (SubCategory subCategory : subCategoryRepository.findByCategory(category)) {
+                subCategoryRepository.delete(subCategory);
             }
-            categoryDao.deleteById(category.getId());
+            categoryRepository.deleteById(category.getId());
 
             log.debug("CategoryService:deleteCategoryById EXECUTION ENDED. response : {}", categoryDeleteResponseDto);
 
@@ -144,7 +144,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         log.debug("CategoryService:isCategoryExistByName EXECUTION STARTED. traceId: {}", TraceIdHolder.getTraceId());
 
-        Optional<Category> optionalParentCategory = categoryDao.findByName(name);
+        Optional<Category> optionalParentCategory = categoryRepository.findByName(name);
         if (optionalParentCategory.isPresent()) {
             return Boolean.TRUE;
         }
@@ -156,7 +156,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         log.debug("CategoryService:isCategoryExistById traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
-        Optional<Category> optionalCategory = categoryDao.findById(id);
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isPresent()) {
             return Boolean.TRUE;
         }
@@ -171,12 +171,12 @@ public class CategoryServiceImpl implements CategoryService {
         Pageable pageable = PageRequest.of(pageNumber - 1, CATEGORY_PER_PAGE, sort);
 
         if (keyword != null) {
-            return categoryDao.findAllByPage(keyword, pageable)
+            return categoryRepository.findAllByPage(keyword, pageable)
                     .stream()
                     .map(categoryMapper::categoryToCategoryFindResponseDto)
                     .toList();
         }
-        return categoryDao.findAll()
+        return categoryRepository.findAll()
                 .stream()
                 .map(categoryMapper::categoryToCategoryFindResponseDto)
                 .toList();
@@ -188,14 +188,14 @@ public class CategoryServiceImpl implements CategoryService {
 
         log.debug("CategoryService:updateImageById EXECUTION STARTED. traceId: {}, brandId:{}, fileName: {}", TraceIdHolder.getTraceId(), id, fileName);
 
-        Optional<Category> optionalCategory = categoryDao.findById(id);
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isEmpty()) {
             log.error("CategoryService:updateImageById EXECUTION ENDED. traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1505, id.toString()));
             throw new CategoryNotFoundException(ErrorCodes.E1505, id.toString());
         }
         Category category = optionalCategory.get();
         category.setImageName(fileName);
-        Category updatedCategory = categoryDao.save(category);
+        Category updatedCategory = categoryRepository.save(category);
 
         log.debug("CategoryService:updateImageById EXECUTION ENDED. traceId: {}, updatedImageName: {}", TraceIdHolder.getTraceId(), updatedCategory.getImageName());
 
@@ -209,7 +209,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         log.debug("CategoryService:getCategoryImageNameById EXECUTION STARTED. traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
-        Optional<Category> optionalCategory = categoryDao.findById(id);
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
 
         if (!optionalCategory.isPresent()) {
             log.error("BrandService:getCategoryImageNameById EXECUTION ENDED. traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());

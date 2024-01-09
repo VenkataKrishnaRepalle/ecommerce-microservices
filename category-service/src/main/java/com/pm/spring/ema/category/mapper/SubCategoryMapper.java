@@ -8,9 +8,11 @@ import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategory
 import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryUpdateResponseDto;
 import com.pm.spring.ema.category.model.entity.SubCategory;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper
 public interface SubCategoryMapper {
+    @Mapping(source = "category.id", target = "CategoryId")
     SubCategoryFindResponseDto subCategoryToSubCategoryFindResponseDto(SubCategory subCategory);
 
     SubCategory subCategoryUpdateRequestDtoToSubCategory(SubCategoryUpdateRequestDto subCategoryUpdateRequestDto);
