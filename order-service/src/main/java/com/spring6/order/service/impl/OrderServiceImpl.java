@@ -167,42 +167,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderUpdateResponseDto update(final UUID id, OrderUpdateRequestDto orderUpdateRequestDto)
-            throws OrderNotFoundException {
-        log.info("OrderService:updateOrder execution started.");
-
-
-        var optionalOrder = orderRepository.findById(id);
-
-        if (optionalOrder.isEmpty()) {
-            throw new OrderNotFoundException(ErrorCodes.E0502, id.toString());
-        }
-
-        var order = orderMapper.orderUpdateRequestDtoToOrder(orderUpdateRequestDto);
-        order.setId(optionalOrder.get().getId());
-
-        var orderUpdated = orderRepository.save(order);
-        var orderUpdateResponseDto = orderMapper.orderToOrderUpdateResponseDto(orderUpdated);
-
-        log.info("OrderService:updateOrder execution ended.");
-
-        return orderUpdateResponseDto;
-    }
-
-    @Override
-    public void deleteById(UUID id) throws OrderNotFoundException {
-        log.info("OrderService:deleteOrderById execution started.");
-
-        var orderCountById = orderRepository.countById(id);
-        if (orderCountById == 0) {
-            throw new OrderNotFoundException(ErrorCodes.E3002, id.toString());
-        }
-
-        orderRepository.deleteById(id);
-        log.info("OrderService:deleteOrderById execution ended.");
-    }
-
-    @Override
     public void cancelOrderById(UUID orderId) {
         var optionalOrder = orderRepository.findById(orderId);
 

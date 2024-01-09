@@ -7,10 +7,8 @@ import com.pm.spring.ema.common.util.api.ErrorResponse;
 import com.pm.spring.ema.common.util.exception.ErrorListResponse;
 import com.pm.spring.ema.order.dto.enums.OrderSearchKeyword;
 import com.spring6.order.dto.request.OrderCreateRequestDto;
-import com.spring6.order.dto.request.OrderUpdateRequestDto;
 import com.spring6.order.dto.response.OrderCreateResponseDto;
 import com.spring6.order.dto.response.OrderResponseDto;
-import com.spring6.order.dto.response.OrderUpdateResponseDto;
 import com.spring6.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -104,52 +102,12 @@ public class OrderController {
 
     }
 
-    @Operation(tags = "Order", summary = "Update Order", description = "Update order by passing order id and order request body")
+    @Operation(tags = "Order", summary = "Cancel Order By Id", description = "Cancel Order by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Order", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderCreateResponseDto.class))}),
-            @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
-            @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Cancel Order Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Order not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @PatchMapping("update/{id}")
-    public ResponseEntity<OrderUpdateResponseDto> updateOrder(@PathVariable UUID id, @RequestBody OrderUpdateRequestDto orderUpdateRequestDto) {
-
-        log.info("OrderController:updateOrder started.");
-
-        var orderUpdateResponseDto = orderService.update(id, orderUpdateRequestDto);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
-
-        log.info("OrderController:updateOrder ended.");
-
-        return ResponseEntity.ok().headers(headers).body(orderUpdateResponseDto);
-
-    }
-
-    @Operation(tags = "Order", summary = "Delete Order By Id", description = "Delete existing order by passing order id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Order", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderCreateResponseDto.class))}),
-            @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorListResponse.class))),
-            @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteOrderById(@PathVariable final UUID id) {
-
-        log.info("OrderController:deleteById started.");
-
-        orderService.deleteById(id);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
-
-        log.info("OrderController:deleteById ended.");
-
-        return ResponseEntity.noContent().headers(headers).build();
-
-    }
-
     @PostMapping("cancel-order-by-orderId/{orderId}")
     public ResponseEntity cancelOrderById(@PathVariable UUID orderId) {
         orderService.cancelOrderById(orderId);
@@ -157,8 +115,14 @@ public class OrderController {
                 .build();
     }
 
+    @Operation(tags = "Order", summary = "Cancel Order By OrderDetailsId", description = "Cancel Order by OrderDetailsId")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Cancel Order by OrderDetailsId Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Order not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PostMapping("cancel-order/{orderId}/partial/{orderDetailId}")
-    public ResponseEntity cancelOrderPartiallyByOrderDetailsId(@PathVariable UUID orderDetailId, @PathVariable UUID orderId) {
+    public ResponseEntity cancelOrderPartiallyByOrderDetailsId(@PathVariable UUID orderId, @PathVariable UUID orderDetailId) {
         orderService.cancelOrderPartiallyByOrderDetailsId(orderId, orderDetailId);
         return ResponseEntity.ok()
                 .build();
