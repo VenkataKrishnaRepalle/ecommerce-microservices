@@ -6,6 +6,7 @@ import com.pm.spring.ema.common.util.api.FieldErrorListResponse;
 import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.ErrorField;
 import com.pm.spring.ema.common.util.exception.ErrorMessage;
+import com.pm.spring.ema.shoppingcart.exception.cartItemsException.CartItemsNotFoundException;
 import com.pm.spring.ema.shoppingcart.exception.shoppingCartException.ShoppingCartAlreadyExistException;
 import com.pm.spring.ema.shoppingcart.exception.shoppingCartException.ShoppingCartNotFoundException;
 import com.pm.spring.ema.shoppingcart.utils.TraceIdHolder;
@@ -52,7 +53,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ShoppingCartNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(ShoppingCartNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handleShoppingCartNotFoundException(ShoppingCartNotFoundException exception) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -63,32 +64,24 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ShoppingCartAlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNameAlreadyExistException(ShoppingCartAlreadyExistException exception) {
+    public ResponseEntity<ErrorResponse> handleShoppingCartAlreadyExistException(ShoppingCartAlreadyExistException exception) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .headers(headers)
                 .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
     }
-//    @ExceptionHandler(SubCategoryNotFoundException.class)
-//    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(SubCategoryNotFoundException exception) {
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-//
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                .headers(headers)
-//                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
-//    }
-//
-//    @ExceptionHandler(SubCategoryNameAlreadyExistException.class)
-//    public ResponseEntity<ErrorResponse> handleBrandNameAlreadyExistException(SubCategoryNameAlreadyExistException exception) {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
-//        return ResponseEntity.status(HttpStatus.CONFLICT)
-//                .headers(headers)
-//                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
-//    }
+    @ExceptionHandler(CartItemsNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCartItemsNotFoundException(CartItemsNotFoundException exception) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .headers(headers)
+                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {

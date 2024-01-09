@@ -67,10 +67,21 @@ public final class ErrorCodes {
     public static final String E1550 = "E1550-Shopping Cart already exist with ID : {0}";
     public static final String E1551 = "E1551-Could not found shopping cart with ID : {0}";
     public static final String E1552 = "E1552-Could not found shopping cart with customerId : {0}";
+    public static final String E1553 = "E1552-Could not found shopping cart with Id : {0}";
 
     //    Shopping-cart
     public static final String E1600 = "E1600-Field {0} is required.";
     public static final String E1601 = "E1601-Field {0} is required.";
+    public static final String E1602 = "E1602-Field {0} is required.";
+    public static final String E1603 = "E1603-Field {0} is required.";
+    public static final String E1604 = "E1604-Field {0} is required.";
+    public static final String E1605 = "E1605-Field {0} is required.";
+    public static final String E1606 = "E1606-Could not find any CartItems with Shopping cart ID : {0}";
+    public static final String E1607 = "E1607-Could not find any CartItems with ID : {0}";
+    public static final String E1608 = "E1608-Could not find any CartItems with ID : {0}";
+    public static final String E1609 = "E1609-Could not find any ShoppingCart with ID : {0}";
+
+
 
 
     // Product - 2001 to 3000

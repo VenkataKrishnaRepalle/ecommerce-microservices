@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-@Service
 public interface ShoppingCartService {
     ShoppingCartCreateResponseDto createShoppingCart(ShoppingCartCreateRequestDto shoppingCartCreateRequestDto);
 
@@ -15,7 +14,7 @@ public interface ShoppingCartService {
 
     ShoppingCartCreateResponseDto getShoppingCartById(UUID uuid);
 
-    ShoppingCartCreateResponseDto getShoppingCartByUserId(UUID customerId);
+    ShoppingCartCreateResponseDto getShoppingCartByCustomerId(UUID customerId);
 
     void  deleteShoppingCartById(UUID uuid);
 

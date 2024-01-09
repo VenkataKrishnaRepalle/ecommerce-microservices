@@ -27,6 +27,9 @@ public class CartItems {
     @Column(name = "product_id",nullable = false)
     private UUID productId;
 
+    @Column(name = "quantity",nullable = false)
+    private int quantity;
+
     @ManyToOne
     @JoinColumn(name = "shopping_cart_id", nullable = false)
     private ShoppingCart shoppingCart;

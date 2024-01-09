@@ -26,4 +26,7 @@ public class SubCategoryFindResponseDto {
 
     @NotNull
     private SubCategoryEnum status;
+
+    @NotNull
+    private UUID CategoryId;
 }

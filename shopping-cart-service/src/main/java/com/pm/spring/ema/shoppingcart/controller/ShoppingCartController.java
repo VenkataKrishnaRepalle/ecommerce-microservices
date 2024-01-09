@@ -108,6 +108,7 @@ public class ShoppingCartController {
                 .body(SuccessResponse.builder().data(shoppingCartCreateResponseDto).status(StatusType.SUCCESS).build());
 
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Shopping-cart found", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ShoppingCartCreateResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Shopping-cart could not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
@@ -119,7 +120,7 @@ public class ShoppingCartController {
 
         log.debug("ShoppingCartController:getShoppingCartByUserId EXECUTION STARTED. traceId: {} request id: {}", TraceIdHolder.getTraceId(), customerUuid);
 
-        ShoppingCartCreateResponseDto shoppingCartCreateResponseDto  = shoppingCartService.getShoppingCartByUserId(customerUuid);
+        ShoppingCartCreateResponseDto shoppingCartCreateResponseDto  = shoppingCartService.getShoppingCartByCustomerId(customerUuid);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -129,6 +130,28 @@ public class ShoppingCartController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(SuccessResponse.builder().data(shoppingCartCreateResponseDto).status(StatusType.SUCCESS).build());
+
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Shopping-cart deleted.", content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Shopping-cart could not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @Operation(summary = "Delete Shopping-cart by id",description = "Delete a Shopping-cart")
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Void> deleteShoppingCartById(@PathVariable final UUID id) {
+
+        log.debug("ShoppingCartController:deleteShoppingCartById execution started. traceId: {} request id: {}", TraceIdHolder.getTraceId(), id);
+
+        shoppingCartService.deleteShoppingCartById(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
+
+        log.debug("ShoppingCartController:deleteShoppingCartById execution ended. traceId: {}", TraceIdHolder.getTraceId());
+        return ResponseEntity.ok()
+                .headers(headers)
+                .build();
 
     }
 

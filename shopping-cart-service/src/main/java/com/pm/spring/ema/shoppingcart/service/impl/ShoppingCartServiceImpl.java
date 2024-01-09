@@ -7,8 +7,10 @@ import com.pm.spring.ema.shoppingcart.dto.shoppingcartDto.response.ShoppingCartC
 import com.pm.spring.ema.shoppingcart.exception.shoppingCartException.ShoppingCartAlreadyExistException;
 import com.pm.spring.ema.shoppingcart.exception.shoppingCartException.ShoppingCartNotFoundException;
 import com.pm.spring.ema.shoppingcart.mapper.ShoppingCartMapper;
-import com.pm.spring.ema.shoppingcart.model.dao.ShoppingCartDAO;
+import com.pm.spring.ema.shoppingcart.model.entity.CartItems;
 import com.pm.spring.ema.shoppingcart.model.entity.ShoppingCart;
+import com.pm.spring.ema.shoppingcart.model.repository.CartItemsRepository;
+import com.pm.spring.ema.shoppingcart.model.repository.ShoppingCartRepository;
 import com.pm.spring.ema.shoppingcart.service.ShoppingCartService;
 import com.pm.spring.ema.shoppingcart.utils.TraceIdHolder;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-    private final ShoppingCartDAO shoppingCartDAO;
+    private final ShoppingCartRepository shoppingCartRepository;
+    private final CartItemsRepository cartItemsRepository;
     private final ShoppingCartMapper shoppingCartMapper;
 
     @Override
@@ -39,7 +42,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
 
         ShoppingCart shoppingCart = shoppingCartMapper.convertToShoppingCart(shoppingCartCreateRequestDto);
-        ShoppingCart savedShoppingCart = shoppingCartDAO.save(shoppingCart);
+        ShoppingCart savedShoppingCart = shoppingCartRepository.save(shoppingCart);
         ShoppingCartCreateResponseDto shoppingCartCreateResponseDto = shoppingCartMapper.convertToShoppingCartCreateResponseDto(savedShoppingCart);
 
         log.debug("ShoppingCartService:createShoppingCart execution ended. traceId: {}, response: {}", TraceIdHolder.getTraceId(), shoppingCartCreateResponseDto);
@@ -52,7 +55,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         log.debug("ShoppingCartService:getAllShoppingCarts execution started. traceId: {}", TraceIdHolder.getTraceId());
 
-        List<ShoppingCartCreateResponseDto> shoppingCartCreateResponseDtoList = shoppingCartDAO.findAll()
+        List<ShoppingCartCreateResponseDto> shoppingCartCreateResponseDtoList = shoppingCartRepository.findAll()
                 .stream()
                 .map(shoppingCartMapper::convertToShoppingCartCreateResponseDto)
                 .toList();
@@ -67,7 +70,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         log.debug("ShoppingCartService:getShoppingCartById execution started. traceId: {}, uuid : {}", TraceIdHolder.getTraceId(), uuid);
 
-        Optional<ShoppingCart> shoppingCart = shoppingCartDAO.findById(uuid);
+        Optional<ShoppingCart> shoppingCart = shoppingCartRepository.findById(uuid);
 
         if (shoppingCart.isPresent()) {
 
@@ -86,15 +89,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
 
 
-
     }
 
     @Override
-    public ShoppingCartCreateResponseDto getShoppingCartByUserId(UUID uuid) throws ShoppingCartNotFoundException {
+    public ShoppingCartCreateResponseDto getShoppingCartByCustomerId(UUID uuid) throws ShoppingCartNotFoundException {
 
         log.debug("ShoppingCartService:getShoppingCartByUserId execution started. traceId: {}, uuid : {}", TraceIdHolder.getTraceId(), uuid);
 
-        Optional<ShoppingCart> shoppingCart = shoppingCartDAO.findByCustomerId(uuid);
+        Optional<ShoppingCart> shoppingCart = shoppingCartRepository.findByCustomerId(uuid);
 
         if (shoppingCart.isPresent()) {
 
@@ -116,7 +118,27 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void deleteShoppingCartById(UUID uuid) {
+    public void deleteShoppingCartById(UUID uuid) throws ShoppingCartNotFoundException {
+        log.debug("ShoppingCartService:deleteShoppingCartById execution started. traceId: {}, uuid : {}", TraceIdHolder.getTraceId(), uuid);
+
+        Optional<ShoppingCart> optionalShoppingCart = shoppingCartRepository.findById(uuid);
+
+        if (optionalShoppingCart.isPresent()) {
+            ShoppingCart shoppingCart = optionalShoppingCart.get();
+            for (CartItems cartItems : cartItemsRepository.findByShoppingCart(shoppingCart)){
+                cartItemsRepository.delete(cartItems);
+            }
+
+            shoppingCartRepository.deleteById(shoppingCart.getId());
+
+            log.debug("ShoppingCartService:deleteShoppingCartById execution ended.");
+
+        } else {
+            log.error("ShoppingCartService:deleteShoppingCartById execution ended. traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1511, uuid.toString()));
+
+            throw new ShoppingCartNotFoundException(ErrorCodes.E1513, uuid.toString());
+        }
+
 
     }
 
@@ -125,7 +147,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         log.debug("ShoppingCartService:isShoppingCartExistById execution started. traceId: {}", TraceIdHolder.getTraceId());
 
-        Optional<ShoppingCart> optionalShoppingCart = shoppingCartDAO.findById(uuid);
+        Optional<ShoppingCart> optionalShoppingCart = shoppingCartRepository.findByCustomerId(uuid);
         if (optionalShoppingCart.isPresent()) {
             return Boolean.TRUE;
         }

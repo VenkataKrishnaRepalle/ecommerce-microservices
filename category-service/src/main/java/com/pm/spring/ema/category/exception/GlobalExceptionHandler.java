@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(CategoryNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handleCategoryNotFoundException(CategoryNotFoundException exception) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CategoryNameAlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNameAlreadyExistException(CategoryNameAlreadyExistException exception) {
+    public ResponseEntity<ErrorResponse> handleCategoryNameAlreadyExistException(CategoryNameAlreadyExistException exception) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
         return ResponseEntity.status(HttpStatus.CONFLICT)
@@ -73,7 +73,7 @@ public class GlobalExceptionHandler {
                 .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
     }
     @ExceptionHandler(SubCategoryNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(SubCategoryNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handleSubCategoryNotFoundException(SubCategoryNotFoundException exception) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
@@ -84,7 +84,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(SubCategoryNameAlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNameAlreadyExistException(SubCategoryNameAlreadyExistException exception) {
+    public ResponseEntity<ErrorResponse> handleSubCategoryNameAlreadyExistException(SubCategoryNameAlreadyExistException exception) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, TraceIdHolder.getTraceId());
         return ResponseEntity.status(HttpStatus.CONFLICT)
