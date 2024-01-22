@@ -7,7 +7,7 @@ public class InvalidInputException extends RuntimeException {
     private final String errorCode;
 
     public InvalidInputException(String errorCode) {
-        super(String.format("%s : %s", errorCode));
+        super(String.format("%s", errorCode));
 
         this.errorCode = errorCode;
     }

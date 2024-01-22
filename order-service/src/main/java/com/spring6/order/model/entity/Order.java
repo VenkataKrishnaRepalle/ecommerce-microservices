@@ -65,7 +65,7 @@ public class Order {
     @Column(nullable = false)
     private OrderStatus status;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("order")
     private List<OrderDetail> orderDetails;
 

@@ -54,7 +54,7 @@ public class GlobalOrderExceptionHandler {
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(OrderNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handleOrderNotFoundException(OrderNotFoundException exception) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
