@@ -1,5 +1,6 @@
 package com.spring6.order.controller;
 
+import brave.Response;
 import brave.Tracer;
 import com.pm.spring.ema.common.util.GlobalConstants;
 import com.pm.spring.ema.common.util.HttpStatusCodes;
@@ -9,6 +10,8 @@ import com.pm.spring.ema.order.dto.enums.OrderSearchKeyword;
 import com.spring6.order.dto.request.OrderCreateRequestDto;
 import com.spring6.order.dto.response.OrderCreateResponseDto;
 import com.spring6.order.dto.response.OrderResponseDto;
+import com.spring6.order.model.entity.Order;
+import com.spring6.order.model.enums.OrderStatus;
 import com.spring6.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +32,7 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/order")
+@RequestMapping("api")
 public class OrderController {
 
     private final OrderService orderService;
@@ -64,7 +67,7 @@ public class OrderController {
             @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Order not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping("{id}")
+    @GetMapping("get-order-by-id/{id}")
     public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable @Valid final UUID id) {
 
         log.info("OrderController:getOrderById execution started.");
@@ -86,7 +89,7 @@ public class OrderController {
             @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Order not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping("list")
+    @GetMapping("order/list")
     public ResponseEntity<List<OrderResponseDto>> getAllOrders() {
 
         log.info("OrderController:getAllOrders started.");
@@ -97,6 +100,28 @@ public class OrderController {
         headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
 
         log.info("OrderController:getAllOrders execution ended.");
+
+        return ResponseEntity.ok().headers(headers).body(orderFindResponseDtoList);
+
+    }
+
+    @Operation(tags = "Order", summary = "Get All Orders by UserId", description = "Get all orders by by UserId")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Get Orders by UserId Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Order not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("get-all-orders-by-userId/{userId}")
+    public ResponseEntity<List<OrderResponseDto>> getAllOrdersByUserId(@PathVariable UUID userId) {
+
+        log.info("OrderController:getAllOrdersByUserId started.");
+
+        var orderFindResponseDtoList = orderService.getAllByUserId(userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(GlobalConstants.TRACE_ID_HEADER, tracer.currentSpan().context().traceIdString());
+
+        log.info("OrderController:getAllOrdersByUserId execution ended.");
 
         return ResponseEntity.ok().headers(headers).body(orderFindResponseDtoList);
 
@@ -115,7 +140,7 @@ public class OrderController {
                 .build();
     }
 
-    @Operation(tags = "Order", summary = "Cancel Order By OrderDetailsId", description = "Cancel Order by OrderDetailsId")
+    @Operation(tags = "Order", summary = "Cancel Order Partially By OrderDetailsId", description = "Cancel Order by OrderDetailsId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = HttpStatusCodes.OK, description = "Cancel Order by OrderDetailsId Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderResponseDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Order not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
@@ -127,6 +152,20 @@ public class OrderController {
         return ResponseEntity.ok()
                 .build();
     }
+
+    @Operation(tags = "Order", summary = "Update OrderDetail Status", description = "Update OrderDetail Status")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = HttpStatusCodes.OK, description = "CUpdate OrderDetail Status Response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OrderResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.NOT_FOUND, description = "Order not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PostMapping("order/{orderId}/update-status/{orderDetailId}")
+    public ResponseEntity updateOrderDetailStatus(@PathVariable UUID orderId, @PathVariable UUID orderDetailId, @RequestParam OrderStatus status) {
+        orderService.updateOrderDetailStatus(orderId, orderDetailId, status);
+        return ResponseEntity.ok()
+                .build();
+    }
+
 
     @Operation(tags = "Order", summary = "Get Orders By Pagination", description = "Get orders by pagination by passing pagination attributes")
     @ApiResponses(value = {

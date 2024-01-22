@@ -93,6 +93,7 @@ public final class ErrorCodes {
     public static final String E3001 = "E3001-Invalid Order Quantity for Product: ";
     public static final String E3002 = "E3002-Order not found with Id: ";
     public static final String E3003 = "E3003-Invalid order and Order Details";
+    public static final String E3004 = "E3004-No Orders";
 
     //  user - 4001 to 5000 errors
     public static final String E4001 = "E4001-Field {0} is required.";

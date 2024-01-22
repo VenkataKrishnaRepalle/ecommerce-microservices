@@ -6,14 +6,13 @@ import com.pm.spring.ema.common.util.exception.ErrorCodes;
 import com.spring6.order.dto.mapper.OrderDetailsMapper;
 import com.spring6.order.dto.mapper.OrderMapper;
 import com.spring6.order.dto.request.OrderCreateRequestDto;
-import com.spring6.order.dto.request.OrderUpdateRequestDto;
 import com.spring6.order.dto.response.OrderCreateResponseDto;
 import com.spring6.order.dto.response.OrderResponseDto;
-import com.spring6.order.dto.response.OrderUpdateResponseDto;
 import com.spring6.order.exception.InvalidInputException;
 import com.spring6.order.exception.OrderNotFoundException;
 import com.spring6.order.exception.OrderQuantityException;
 import com.spring6.order.model.entity.Order;
+import com.spring6.order.model.entity.OrderDetail;
 import com.spring6.order.model.enums.OrderStatus;
 import com.spring6.order.model.repository.OrderDetailRepository;
 import com.spring6.order.model.repository.OrderRepository;
@@ -109,10 +108,8 @@ public class OrderServiceImpl implements OrderService {
                 .stream()
                 .map(orderDetailsMapper::orderDetailCreateRequestDtoToOrderDetail)
                 .toList();
-
         for (var orderDetail : orderDetails) {
             var productId = orderDetail.getProductId();
-
             var isProductExists = webClient.get()
                     .uri("isProductExistsById/" + userId)
                     .retrieve()
@@ -121,17 +118,14 @@ public class OrderServiceImpl implements OrderService {
             if (Boolean.FALSE.equals(isProductExists)) {
                 throw new InvalidInputException(ErrorCodes.E2003 + productId);
             }
-
             var product = webClient.get()
                     .uri(String.valueOf(productId))
                     .retrieve()
                     .bodyToMono(ProductFindResponseDto.class)
                     .block();
-
             if (orderDetail.getQuantity() <= 0) {
                 throw new OrderQuantityException(ErrorCodes.E3001 + product.getName() + " " + product.getAlias());
             }
-
             var subTotal = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(orderDetail.getQuantity()));
             orderDetail.setUnitPrice(BigDecimal.valueOf(product.getPrice()));
             orderDetail.setShippingCost(BigDecimal.ZERO);
@@ -139,12 +133,9 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setSubtotal(subTotal);
             orderDetail.setStatus(OrderStatus.NEW);
         }
-
         var cost = orderDetails.stream()
                 .mapToDouble(orderDetail -> orderDetail.getSubtotal().doubleValue())
                 .sum();
-
-
         var order = Order.builder()
                 .userId(userId)
                 .orderDetails(orderDetails)
@@ -154,15 +145,11 @@ public class OrderServiceImpl implements OrderService {
                 .total(BigDecimal.valueOf(cost))
                 .status(OrderStatus.NEW)
                 .build();
-
         var savedOrder = orderRepository.save(order);
-
         for (var orderDetail : orderDetails) {
             orderDetail.setOrder(savedOrder);
         }
-
         orderDetailRepository.saveAll(orderDetails);
-
         return orderMapper.orderToOrderCreateResponseDto(savedOrder);
     }
 
@@ -201,6 +188,51 @@ public class OrderServiceImpl implements OrderService {
 
         orderDetail.setStatus(OrderStatus.CANCELLED);
         orderDetailRepository.save(orderDetail);
+    }
+
+    @Override
+    public void updateOrderDetailStatus(UUID orderId, UUID orderDetailId, OrderStatus status) {
+        var optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isEmpty()) {
+            throw new OrderNotFoundException(ErrorCodes.E3002, orderId.toString());
+        }
+
+        var optionalOrderDetail = orderDetailRepository.findById(orderDetailId);
+        if (optionalOrderDetail.isEmpty()) {
+            throw new OrderNotFoundException(ErrorCodes.E3002, orderDetailId.toString());
+        }
+
+        var order = optionalOrder.get();
+        var orderDetail = optionalOrderDetail.get();
+
+        orderDetail.setStatus(status);
+        orderDetailRepository.save(orderDetail);
+
+        var orderDetailsByOrderId = orderDetailRepository.getAllByOrder_Id(orderId);
+
+        var count = orderDetailsByOrderId.size();
+        var countDeliveredStatus = (int) orderDetailsByOrderId
+                .stream()
+                .filter(orderDetail1 -> orderDetail1.getStatus() == OrderStatus.DELIVERED)
+                .count();
+
+        if (count == countDeliveredStatus) {
+            order.setStatus(OrderStatus.DELIVERED);
+        }
+        orderRepository.save(order);
+
+    }
+
+    @Override
+    public List<OrderResponseDto> getAllByUserId(UUID userId) {
+        var orders = orderRepository.getAllByUserId(userId);
+
+        if (orders.isEmpty()) {
+            throw new OrderNotFoundException(ErrorCodes.E3004, userId.toString());
+        }
+        return orders.stream()
+                .map(orderMapper::orderToOrderResponseDto)
+                .toList();
     }
 
 }

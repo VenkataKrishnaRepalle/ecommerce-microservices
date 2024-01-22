@@ -7,6 +7,7 @@ import com.spring6.order.dto.response.OrderCreateResponseDto;
 import com.spring6.order.dto.response.OrderResponseDto;
 import com.spring6.order.dto.response.OrderUpdateResponseDto;
 import com.spring6.order.exception.OrderNotFoundException;
+import com.spring6.order.model.enums.OrderStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,4 +24,8 @@ public interface OrderService {
     void cancelOrderById(UUID orderId);
 
     void cancelOrderPartiallyByOrderDetailsId(UUID orderId, UUID orderDetailId);
+
+    void updateOrderDetailStatus(UUID orderId, UUID orderDetailId, OrderStatus status);
+
+    List<OrderResponseDto> getAllByUserId(UUID userId);
 }
