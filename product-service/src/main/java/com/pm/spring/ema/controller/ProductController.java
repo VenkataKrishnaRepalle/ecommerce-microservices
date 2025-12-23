@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -66,7 +67,7 @@ public class ProductController {
         }
 
         if (!multipartFile.isEmpty()) {
-            var fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            var fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
             var uploadDir = "spring6-ecommerce-product/product-images";
             FileUploadUtils.saveFile(uploadDir, fileName + "_" + id, multipartFile.getInputStream());
