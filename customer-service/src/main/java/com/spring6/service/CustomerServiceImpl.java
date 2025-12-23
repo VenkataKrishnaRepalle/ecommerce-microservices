@@ -233,7 +233,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void sendOTPMobileNumber(UUID id) throws Exception {
         CustomerDto customerRegisterDto = customerMapper.customerToCustomerRegisterDto(customerDao.getReferenceById(id));
 
-        Twilio.init("AC443909b8a51ab7f21ac55e853e7b4d4b", "1eba97540b14fc0ac9be1c12a311da03");
+        Twilio.init(System.getenv("TWILIO_ACCOUNT_SID"), System.getenv("TWILIO_AUTH_TOKEN"));
         try {
             Message.creator(new PhoneNumber(customerRegisterDto.getPhoneNumber()), new PhoneNumber("+14175453283"), "Hi " + customerRegisterDto.getFirstName() + ",\n Your One-Time Password is " + customerRegisterDto.getOneTimePassword() + ".\n Note: this OTP is set to expire in 5 minutes.").create();
         } catch (ApiException e) {
