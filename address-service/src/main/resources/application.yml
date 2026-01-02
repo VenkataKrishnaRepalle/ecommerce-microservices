@@ -1,15 +1,15 @@
 spring:
   application:
     name: address-service
-  profiles:
-    active: address
-  config:
-    import: 'configserver:'
-  cloud:
-    config:
-      name: address-service,config-client
-      username: user
-      password: password
+#  profiles:
+#    active: address
+#  config:
+#    import: 'configserver:'
+#  cloud:
+#    config:
+#      name: address-service,config-client
+#      username: user
+#      password: password
 
 log:
   appName: address-service

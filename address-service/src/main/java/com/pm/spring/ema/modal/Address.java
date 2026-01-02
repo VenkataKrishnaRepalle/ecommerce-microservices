@@ -1,4 +1,4 @@
-package com.pm.spring.ema.model.entity;
+package com.pm.spring.ema.modal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

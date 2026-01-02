@@ -1,19 +1,15 @@
-package com.pm.spring.ema.permission;
+package com.pm.spring.ema.service;
 
-import com.pm.spring.ema.dto.request.AddAddressRequestDto;
-import com.pm.spring.ema.dto.request.UpdateAddressRequestDto;
-import com.pm.spring.ema.dto.response.AddAddressResponseDto;
-import com.pm.spring.ema.dto.response.AddressFindResponseDto;
-import com.pm.spring.ema.dto.response.UpdateAddressResponseDto;
+import com.pm.spring.ema.dto.AddressDto;
 
 import java.util.UUID;
 
 public interface AddressService {
-    AddAddressResponseDto addAddress(UUID userId, AddAddressRequestDto addressRequestDto);
+    AddressDto addAddress(AddressDto addressRequestDto);
 
-    AddressFindResponseDto getAddressById(UUID addressId);
+    AddressDto getAddressById(UUID addressId);
 
-    UpdateAddressResponseDto updateAddressById(UUID addressId, UpdateAddressRequestDto updateAddressRequestDto);
+    AddressDto updateAddressById(UUID addressId, AddressDto updateAddressRequestDto);
 
     void updateDefaultAddress(UUID addressId);
 

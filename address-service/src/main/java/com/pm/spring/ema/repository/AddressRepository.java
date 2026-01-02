@@ -1,6 +1,6 @@
-package com.pm.spring.ema.model.repository;
+package com.pm.spring.ema.repository;
 
-import com.pm.spring.ema.model.entity.Address;
+import com.pm.spring.ema.modal.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,11 +1,8 @@
 package com.pm.spring.ema.controller;
 
-import com.pm.spring.ema.dto.request.AddAddressRequestDto;
-import com.pm.spring.ema.dto.request.UpdateAddressRequestDto;
-import com.pm.spring.ema.dto.response.AddAddressResponseDto;
-import com.pm.spring.ema.dto.response.AddressFindResponseDto;
-import com.pm.spring.ema.dto.response.UpdateAddressResponseDto;
-import com.pm.spring.ema.permission.AddressService;
+import com.pm.spring.ema.dto.AddressDto;
+
+import com.pm.spring.ema.service.AddressService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,17 +19,17 @@ public class AddressController {
 
     private final AddressService addressService;
 
-    @PostMapping("/add-address/{userId}")
-    public ResponseEntity<AddAddressResponseDto> addAddress(@PathVariable UUID userId, @Valid @RequestBody AddAddressRequestDto addressRequestDto) {
+    @PostMapping("/add-address")
+    public ResponseEntity<AddressDto> addAddress(@Valid @RequestBody AddressDto addressRequestDto) {
         log.info("AddressController:addAddress Execution Started");
-        var response = addressService.addAddress(userId, addressRequestDto);
+        var response = addressService.addAddress(addressRequestDto);
         log.info("AddressController:addAddress Execution Ended");
         return ResponseEntity.ok()
                 .body(response);
     }
 
     @GetMapping("/get-address/{addressId}")
-    public ResponseEntity<AddressFindResponseDto> getAddressById(@PathVariable UUID addressId) {
+    public ResponseEntity<AddressDto> getAddressById(@PathVariable UUID addressId) {
         log.info("AddressController:getAddressById Execution Started");
 
         var response = addressService.getAddressById(addressId);
@@ -43,7 +40,7 @@ public class AddressController {
     }
 
     @PutMapping("/update-address/{addressId}")
-    public ResponseEntity<UpdateAddressResponseDto> updateAddressById(@PathVariable UUID addressId, @RequestBody @Valid UpdateAddressRequestDto updateAddressRequestDto) {
+    public ResponseEntity<AddressDto> updateAddressById(@PathVariable UUID addressId, @RequestBody @Valid AddressDto updateAddressRequestDto) {
         log.info("AddressController:updateAddress Execution Started");
 
         var response = addressService.updateAddressById(addressId, updateAddressRequestDto);

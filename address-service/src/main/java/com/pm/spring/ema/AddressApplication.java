@@ -3,13 +3,12 @@ package com.pm.spring.ema;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-//@EnableAdminServer
 @SpringBootApplication
-public class SpringAddressApplication {
+public class AddressApplication {
 
     public static void main(String[] args) {
 
-        SpringApplication.run(SpringAddressApplication.class, args);
+        SpringApplication.run(AddressApplication.class, args);
     }
 
 }

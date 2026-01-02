@@ -1,4 +1,4 @@
-package com.pm.spring.ema.dto.request;
+package com.pm.spring.ema.dto;
 
 import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import jakarta.validation.constraints.NotBlank;
@@ -6,13 +6,19 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Builder
-public class UpdateAddressRequestDto {
+public class AddressDto {
+
+    private UUID id;
+
+    private UUID userUuid;
 
     @NotBlank(message = ErrorCodes.E5001)
     private String country;
