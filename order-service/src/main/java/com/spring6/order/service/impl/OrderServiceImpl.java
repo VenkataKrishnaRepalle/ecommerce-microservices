@@ -2,7 +2,7 @@ package com.spring6.order.service.impl;
 
 import com.pm.spring.ema.common.util.dto.ProductFindResponseDto;
 import com.pm.spring.ema.order.dto.enums.OrderSearchKeyword;
-import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import com.spring6.order.dto.mapper.OrderDetailsMapper;
 import com.spring6.order.dto.mapper.OrderMapper;
 import com.spring6.order.dto.request.OrderCreateRequestDto;
@@ -12,7 +12,6 @@ import com.spring6.order.exception.InvalidInputException;
 import com.spring6.order.exception.OrderNotFoundException;
 import com.spring6.order.exception.OrderQuantityException;
 import com.spring6.order.model.entity.Order;
-import com.spring6.order.model.entity.OrderDetail;
 import com.spring6.order.model.enums.OrderStatus;
 import com.spring6.order.model.repository.OrderDetailRepository;
 import com.spring6.order.model.repository.OrderRepository;

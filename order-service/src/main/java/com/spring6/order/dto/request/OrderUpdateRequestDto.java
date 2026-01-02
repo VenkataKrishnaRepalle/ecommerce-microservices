@@ -1,6 +1,6 @@
 package com.spring6.order.dto.request;
 
-import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import com.spring6.order.model.enums.OrderStatus;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;

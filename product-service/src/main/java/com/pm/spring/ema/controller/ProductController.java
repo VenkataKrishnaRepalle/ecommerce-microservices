@@ -2,7 +2,7 @@ package com.pm.spring.ema.controller;
 
 import com.pm.spring.ema.common.util.FileUploadUtils;
 import com.pm.spring.ema.common.util.dto.ProductFindResponseDto;
-import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import com.pm.spring.ema.dto.ProductCreateRequestDto;
 import com.pm.spring.ema.dto.ProductCreateResponseDto;
 import com.pm.spring.ema.dto.ProductUpdateRequestDto;

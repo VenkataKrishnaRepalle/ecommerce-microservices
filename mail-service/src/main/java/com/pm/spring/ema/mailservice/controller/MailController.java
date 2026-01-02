@@ -2,6 +2,7 @@ package com.pm.spring.ema.mailservice.controller;
 
 import com.pm.spring.ema.common.util.HttpStatusCodes;
 import com.pm.spring.ema.common.util.api.ErrorResponse;
+import com.pm.spring.ema.mailservice.model.entity.Otp;
 import com.pm.spring.ema.mailservice.service.MailService;
 import com.pm.spring.ema.mailservice.model.enums.OtpType;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,17 +38,17 @@ public class MailController {
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal Server Error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping("/send-login-otp/{userId}")
-    public ResponseEntity<HttpStatus> sendLoginOtp(@PathVariable @NotNull UUID userId)
+    public ResponseEntity<Otp> sendLoginOtp(@PathVariable @NotNull UUID userId)
             throws MessagingException, UnsupportedEncodingException {
         log.info("MailController:sendLoginOtp Execution Started");
 
-        mailService.createOtp(userId, OtpType.LOGIN_OTP);
+        var otp = mailService.createOtp(userId, OtpType.LOGIN_OTP);
         mailService.sendLoginOtp(userId);
 
         log.info("MailController:sendLoginOtp OTP sent Successfully for userId : {}", userId);
         log.info("MailController:sendLoginOtp Execution Ended");
 
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(otp);
     }
 
     @Operation(tags = "Mail", summary = "OTP Validation", description = "OTP Validation")

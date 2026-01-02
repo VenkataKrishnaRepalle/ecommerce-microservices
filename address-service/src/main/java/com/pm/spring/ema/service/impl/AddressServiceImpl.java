@@ -1,6 +1,6 @@
 package com.pm.spring.ema.permission.impl;
 
-import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import com.pm.spring.ema.exception.FoundException;
 import com.pm.spring.ema.exception.LimitException;
 import com.pm.spring.ema.exception.NotFoundException;

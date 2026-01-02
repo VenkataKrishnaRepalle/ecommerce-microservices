@@ -28,8 +28,9 @@
             <artifactId>app-config-data</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.pm.spring.ema</groupId>
-            <artifactId>common-config</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>${openfeign.version}</version>
         </dependency>
     </dependencies>
 </project>

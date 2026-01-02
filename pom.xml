@@ -4,7 +4,6 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>app-config-data</module>
-        <module>common-config</module>
         <module>common-util</module>
         <module>config-server</module>
 <!--        <module>elastic</module>-->
@@ -22,7 +21,7 @@
 <!--        <module>gateway-service</module>-->
 <!--        <module>auth-service-common</module>-->
 <!--        <module>auth-service</module>-->
-<!--        <module>address-service</module>-->
+        <module>address-service</module>
 
         <!--        <module>analytics-service</module>-->
 <!--        <module>elastic-query-web-client-common</module>-->
@@ -30,7 +29,7 @@
 <!--        <module>elastic-query-web-client-2</module>-->
 <!--        <module>brand-service</module>-->
 <!--        <module>camunda</module>-->
-<!--        <module>customer-service</module>-->
+        <module>customer-service</module>
 <!--        <module>category-service-common</module>-->
 <!--        <module>category-service</module>-->
 <!--        <module>cms-service</module>-->
@@ -78,7 +77,7 @@
         <kafka-streams.version>3.5.1</kafka-streams.version>
         <kafka-clients.version>3.5.1</kafka-clients.version>
         <spring-retry.version>2.0.2</spring-retry.version>
-        <lombok.version>1.18.28</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
         <spring-cloud.version>4.0.3</spring-cloud.version>
         <spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>
         <jackson-databind.version>2.15.2</jackson-databind.version>
@@ -143,11 +142,6 @@
             <dependency>
                 <groupId>com.pm.spring.ema</groupId>
                 <artifactId>app-config-data</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pm.spring.ema</groupId>
-                <artifactId>common-config</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

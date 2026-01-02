@@ -1,6 +1,6 @@
 package com.pm.spring.ema.dto.request;
 
-import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

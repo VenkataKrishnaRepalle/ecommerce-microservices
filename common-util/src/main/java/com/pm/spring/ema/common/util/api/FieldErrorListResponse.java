@@ -1,7 +1,6 @@
 package com.pm.spring.ema.common.util.api;
 
-import com.pm.spring.ema.common.util.api.StatusType;
-import com.pm.spring.ema.common.util.exception.ErrorField;
+import com.pm.spring.ema.common.util.exception.utils.ErrorField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

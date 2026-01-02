@@ -1,7 +1,7 @@
 package com.pm.spring.ema.service.Impl;
 
 import com.pm.spring.ema.common.util.dto.ProductFindResponseDto;
-import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import com.pm.spring.ema.dto.ProductCreateRequestDto;
 import com.pm.spring.ema.dto.ProductCreateResponseDto;
 import com.pm.spring.ema.dto.ProductImageCreateRequestDto;
@@ -21,7 +21,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
 

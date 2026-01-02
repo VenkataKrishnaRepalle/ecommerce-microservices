@@ -19,3 +19,5 @@ logging:
     org:
       springframework:
         cloud: DEBUG
+server:
+  port: 1004

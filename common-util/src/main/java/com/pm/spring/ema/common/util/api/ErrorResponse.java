@@ -1,6 +1,6 @@
 package com.pm.spring.ema.common.util.api;
 
-import com.pm.spring.ema.common.util.exception.Error;
+import com.pm.spring.ema.common.util.exception.utils.Error;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

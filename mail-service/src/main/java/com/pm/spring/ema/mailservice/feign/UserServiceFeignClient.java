@@ -1,7 +1,7 @@
 package com.pm.spring.ema.mailservice.feign;
 
 import com.pm.spring.ema.mailservice.dto.UserResponseDto;
-import com.pm.spring.ema.mailservice.exception.CustomErrorDecoder;
+import com.pm.spring.ema.common.util.exception.CustomErrorDecoder;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

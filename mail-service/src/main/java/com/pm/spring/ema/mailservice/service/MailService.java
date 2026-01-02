@@ -1,5 +1,6 @@
 package com.pm.spring.ema.mailservice.service;
 
+import com.pm.spring.ema.mailservice.model.entity.Otp;
 import com.pm.spring.ema.mailservice.model.enums.OtpType;
 import jakarta.mail.MessagingException;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
 public interface MailService {
     void otpValidation(UUID userId, Long otp, OtpType type);
 
-    void createOtp(UUID userId, OtpType type);
+    Otp createOtp(UUID userId, OtpType type);
 
     void sendLoginOtp(UUID userId) throws MessagingException, UnsupportedEncodingException;
 

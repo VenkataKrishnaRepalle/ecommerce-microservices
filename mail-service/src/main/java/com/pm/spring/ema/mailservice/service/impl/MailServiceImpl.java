@@ -1,8 +1,8 @@
 package com.pm.spring.ema.mailservice.service.impl;
 
-import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import com.pm.spring.ema.mailservice.dto.UserResponseDto;
-import com.pm.spring.ema.mailservice.exception.InvalidInputException;
+import com.pm.spring.ema.common.util.exception.InvalidInputException;
 import com.pm.spring.ema.mailservice.model.entity.Otp;
 import com.pm.spring.ema.mailservice.service.MailService;
 import com.pm.spring.ema.mailservice.feign.UserServiceFeignClient;
@@ -53,7 +53,7 @@ public class MailServiceImpl implements MailService {
     private String emailHeader;
 
     @Override
-    public void createOtp(UUID userId, OtpType type) {
+    public Otp createOtp(UUID userId, OtpType type) {
         log.info("MailService:createOtp Execution Started");
         var createOtp = Otp.builder()
                 .otpNumber(randomNumber())
@@ -68,6 +68,7 @@ public class MailServiceImpl implements MailService {
         otpRepository.saveAll(otpList);
         otpRepository.save(createOtp);
         log.info("MailService:createOtp Execution Ended");
+        return createOtp;
     }
 
     public void sendLoginOtp(UUID id) throws MessagingException, UnsupportedEncodingException {
@@ -149,9 +150,9 @@ public class MailServiceImpl implements MailService {
         }
 
         if (userOtp.get().getCreatedTime().getTime() + OTP_VALID_DURATION < System.currentTimeMillis()) {
-            log.error("MailService:otpValidation errorMessage : {}", ErrorCodes.E3005);
+            log.error("MailService:otpValidation errorMessage : {}", ErrorCodes.E8001);
             log.info("MailService:otpValidation Execution Ended");
-            throw new InvalidInputException(ErrorCodes.E3005);
+            throw new InvalidInputException(ErrorCodes.E8001);
         }
 
         var activeOtp = userOtp.get();

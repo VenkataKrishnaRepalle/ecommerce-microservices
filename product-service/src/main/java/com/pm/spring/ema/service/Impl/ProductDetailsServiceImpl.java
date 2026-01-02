@@ -1,7 +1,7 @@
 package com.pm.spring.ema.permission.Impl;
 
 import com.pm.spring.ema.common.dto.ProductDetailsFindResponseDto;
-import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import com.pm.spring.ema.dto.ProductDetailsCreateRequestDto;
 import com.pm.spring.ema.dto.ProductDetailsUpdateRequestDto;
 import com.pm.spring.ema.model.dao.ProductDetailsDao;

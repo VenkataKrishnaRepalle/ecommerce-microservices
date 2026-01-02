@@ -19,10 +19,6 @@
         </dependency>
         <dependency>
             <groupId>com.pm.spring.ema</groupId>
-            <artifactId>common-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.pm.spring.ema</groupId>
             <artifactId>common-util</artifactId>
         </dependency>
         <dependency>

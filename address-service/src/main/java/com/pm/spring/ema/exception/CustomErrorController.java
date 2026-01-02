@@ -1,6 +1,6 @@
 package com.pm.spring.ema.exception;
 
-import com.pm.spring.ema.common.util.exception.ErrorMessage;
+import com.pm.spring.ema.common.util.exception.utils.ErrorMessage;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

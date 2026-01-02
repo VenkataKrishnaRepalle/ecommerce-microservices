@@ -1,16 +1,14 @@
 package com.spring6.order.controller;
 
-import brave.Response;
 import brave.Tracer;
 import com.pm.spring.ema.common.util.GlobalConstants;
 import com.pm.spring.ema.common.util.HttpStatusCodes;
 import com.pm.spring.ema.common.util.api.ErrorResponse;
-import com.pm.spring.ema.common.util.exception.ErrorListResponse;
+import com.pm.spring.ema.common.util.exception.utils.ErrorListResponse;
 import com.pm.spring.ema.order.dto.enums.OrderSearchKeyword;
 import com.spring6.order.dto.request.OrderCreateRequestDto;
 import com.spring6.order.dto.response.OrderCreateResponseDto;
 import com.spring6.order.dto.response.OrderResponseDto;
-import com.spring6.order.model.entity.Order;
 import com.spring6.order.model.enums.OrderStatus;
 import com.spring6.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
