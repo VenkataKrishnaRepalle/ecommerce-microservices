@@ -1,8 +1,8 @@
-package com.pm.spring.ema.mailservice.model.repository;
+package com.pm.spring.ema.mailservice.repository;
 
-import com.pm.spring.ema.mailservice.model.entity.Otp;
-import com.pm.spring.ema.mailservice.model.enums.OtpStatus;
-import com.pm.spring.ema.mailservice.model.enums.OtpType;
+import com.pm.spring.ema.mailservice.model.Otp;
+import com.pm.spring.ema.mailservice.model.OtpStatus;
+import com.pm.spring.ema.mailservice.model.OtpType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

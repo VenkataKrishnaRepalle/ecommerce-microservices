@@ -1,14 +1,14 @@
 package com.pm.spring.ema.mailservice.service.impl;
 
+import com.pm.spring.ema.common.util.dto.CustomerDto;
 import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
-import com.pm.spring.ema.mailservice.dto.UserResponseDto;
 import com.pm.spring.ema.common.util.exception.InvalidInputException;
-import com.pm.spring.ema.mailservice.model.entity.Otp;
+import com.pm.spring.ema.mailservice.model.Otp;
 import com.pm.spring.ema.mailservice.service.MailService;
 import com.pm.spring.ema.mailservice.feign.UserServiceFeignClient;
-import com.pm.spring.ema.mailservice.model.enums.OtpStatus;
-import com.pm.spring.ema.mailservice.model.enums.OtpType;
-import com.pm.spring.ema.mailservice.model.repository.OtpRepository;
+import com.pm.spring.ema.mailservice.model.OtpStatus;
+import com.pm.spring.ema.mailservice.model.OtpType;
+import com.pm.spring.ema.mailservice.repository.OtpRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,7 @@ public class MailServiceImpl implements MailService {
     @Value("${email.template.forgot-password}")
     private String emailForgotPasswordTemplateName;
 
-    @Value("${default.send.email}")
+    @Value("${default.send.email.address}")
     private String email;
 
     @Value("${default.send.email.header}")
@@ -91,7 +91,7 @@ public class MailServiceImpl implements MailService {
         helper.setSubject("Here is your One Time Password for login - Expire in 2 minutes!");
 
         Context context = new Context();
-        context.setVariable("name", user.getFullName());
+        context.setVariable("name", user.getFirstName() + " " + user.getLastName());
         context.setVariable("otp", otp.get().getOtpNumber());
 
         helper.setText(templateEngine.process(emailLoginTemplateName, context), true);
@@ -122,7 +122,7 @@ public class MailServiceImpl implements MailService {
         helper.setSubject("Here is your One Time Password for Forgot Password - Expire in 2 minutes");
 
         Context context = new Context();
-        context.setVariable("name", user.getFullName());
+        context.setVariable("name", user.getFirstName() + " " + user.getLastName());
         context.setVariable("otp", otp.get().getOtpNumber());
 
         helper.setText(templateEngine.process(emailForgotPasswordTemplateName, context), true);
@@ -168,7 +168,7 @@ public class MailServiceImpl implements MailService {
         return random.nextLong(100000, 999999);
     }
 
-    private UserResponseDto getUserByUserId(UUID id) {
+    private CustomerDto getUserByUserId(UUID id) {
         return userServiceFeignClient.getById(id);
     }
 }

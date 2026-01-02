@@ -7,15 +7,17 @@ import java.util.UUID;
 
 public interface CustomerService {
 
+    CustomerDto getById(UUID userId);
+
     CustomerDto register(CustomerDto customerDto);
 
     void login(LoginDto loginDto) throws Exception;
 
     Enum<EnabledStatus> getIsEnabledStatus(UUID id);
 
-    void forgotPassword(String email, ForgotPasswordDto forgotPasswordDto);
+    void forgotPassword(ForgotPasswordDto forgotPasswordDto);
 
-    void changePassword(String email, ChangePasswordDto changePasswordDto);
+    void changePassword(ChangePasswordDto changePasswordDto);
 
     void isEmailExists(String email);
 

@@ -1,4 +1,4 @@
-package com.pm.spring.ema.mailservice.model.enums;
+package com.pm.spring.ema.mailservice.model;
 
 public enum OtpType {
     LOGIN_OTP,

@@ -1,7 +1,7 @@
 package com.pm.spring.ema.mailservice.service.scheduledTasks;
 
-import com.pm.spring.ema.mailservice.model.enums.OtpStatus;
-import com.pm.spring.ema.mailservice.model.repository.OtpRepository;
+import com.pm.spring.ema.mailservice.model.OtpStatus;
+import com.pm.spring.ema.mailservice.repository.OtpRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,5 @@
-package com.pm.spring.ema.mailservice.model.entity;
+package com.pm.spring.ema.mailservice.model;
 
-import com.pm.spring.ema.mailservice.model.enums.OtpStatus;
-import com.pm.spring.ema.mailservice.model.enums.OtpType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

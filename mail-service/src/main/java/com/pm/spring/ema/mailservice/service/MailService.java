@@ -1,7 +1,7 @@
 package com.pm.spring.ema.mailservice.service;
 
-import com.pm.spring.ema.mailservice.model.entity.Otp;
-import com.pm.spring.ema.mailservice.model.enums.OtpType;
+import com.pm.spring.ema.mailservice.model.Otp;
+import com.pm.spring.ema.mailservice.model.OtpType;
 import jakarta.mail.MessagingException;
 
 import java.io.UnsupportedEncodingException;

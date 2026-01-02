@@ -29,6 +29,11 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("get/{userId}")
+    public ResponseEntity<CustomerDto> getCustomer(@PathVariable UUID userId) {
+        return new ResponseEntity<>(customerService.getById(userId), HttpStatus.OK);
+    }
+
     @GetMapping("isEnabledStatus/{id}")
     public Enum<EnabledStatus> getIsEnabledStatus(@PathVariable UUID id) {
         return customerService.getIsEnabledStatus(id);
@@ -40,18 +45,15 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("forgotPasswod/{email}")
-    public ResponseEntity<HttpStatus> forgotPassword(@PathVariable String email,
-                                                     @RequestBody ForgotPasswordDto forgotPasswordDto) {
-        customerService.forgotPassword(email, forgotPasswordDto);
-            return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping("forgotPasswod")
+    public ResponseEntity<HttpStatus> forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto) {
+        customerService.forgotPassword(forgotPasswordDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("changePassword/{email}")
-    public ResponseEntity<HttpStatus> changePassword(@PathVariable String email,
-                                                     @RequestBody ChangePasswordDto changePasswordDto
-                                                     ) {
-        customerService.changePassword(email, changePasswordDto);
+    @PostMapping("changePassword")
+    public ResponseEntity<HttpStatus> changePassword(@RequestBody ChangePasswordDto changePasswordDto) {
+        customerService.changePassword(changePasswordDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

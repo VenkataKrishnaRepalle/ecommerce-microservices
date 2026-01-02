@@ -2,9 +2,9 @@ package com.pm.spring.ema.mailservice.controller;
 
 import com.pm.spring.ema.common.util.HttpStatusCodes;
 import com.pm.spring.ema.common.util.api.ErrorResponse;
-import com.pm.spring.ema.mailservice.model.entity.Otp;
+import com.pm.spring.ema.mailservice.model.Otp;
 import com.pm.spring.ema.mailservice.service.MailService;
-import com.pm.spring.ema.mailservice.model.enums.OtpType;
+import com.pm.spring.ema.mailservice.model.OtpType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

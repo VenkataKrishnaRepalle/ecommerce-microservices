@@ -1,5 +1,6 @@
 package com.pm.spring.ema.service;
 
+import com.pm.spring.ema.common.util.exception.InvalidInputException;
 import com.pm.spring.ema.dto.*;
 import com.pm.spring.ema.feign.MailServiceFeign;
 import com.pm.spring.ema.modal.Country;
@@ -32,6 +33,13 @@ public class CustomerServiceImpl implements CustomerService {
     private final MailServiceFeign mailService;
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Override
+    public CustomerDto getById(UUID userId) {
+        var customer = customerRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Customer not found with id: " + userId));
+        return customerMapper.customerToCustomerDto(customer);
+    }
 
     public CustomerDto register(CustomerDto customerDto) {
 
@@ -73,8 +81,8 @@ public class CustomerServiceImpl implements CustomerService {
         return customer.getIsEnabled();
     }
 
-    public void forgotPassword(String email, ForgotPasswordDto forgotPasswordDto) {
-        var customer = customerRepository.findByEmail(email);
+    public void forgotPassword(ForgotPasswordDto forgotPasswordDto) {
+        var customer = customerRepository.findByEmail(forgotPasswordDto.getEmail());
         System.out.println(customer);
         if (customer != null && forgotPasswordDto.getPassword().equals(forgotPasswordDto.getConfirmPassword())) {
             if (passwordEncoder.matches(forgotPasswordDto.getPassword(), customer.getPassword())) {
@@ -88,8 +96,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     }
 
-    public void changePassword(String email, ChangePasswordDto changePasswordDto) {
-        var customer = customerRepository.findByEmail(email);
+    public void changePassword(ChangePasswordDto changePasswordDto) {
+        var customer = customerRepository.findByEmail(changePasswordDto.getEmail());
         System.out.println(customer);
         if (customer != null && passwordEncoder.matches(changePasswordDto.getOldPassword(), customer.getPassword())) {
             if (changePasswordDto.getOldPassword().equals(changePasswordDto.getNewPassword())) {
