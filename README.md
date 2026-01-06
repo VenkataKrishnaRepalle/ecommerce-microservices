@@ -351,3 +351,13 @@
 - [ ] Assignment 5: Code Admin Dashboard
     - [ ]  Understand Requirement of Admin Dashboard
     - [ ]  Test Admin Dashboard
+
+## Keycloak implementation
+
+```shell
+docker run -d \
+  -p 8080:8080 \
+  -e KEYCLOAK_ADMIN=admin \
+  -e KEYCLOAK_ADMIN_PASSWORD=admin \
+  quay.io/keycloak/keycloak:24.0.1 start-dev
+```

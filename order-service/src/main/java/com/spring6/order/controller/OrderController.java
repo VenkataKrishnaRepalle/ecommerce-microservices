@@ -5,7 +5,7 @@ import com.pm.spring.ema.common.util.GlobalConstants;
 import com.pm.spring.ema.common.util.HttpStatusCodes;
 import com.pm.spring.ema.common.util.api.ErrorResponse;
 import com.pm.spring.ema.common.util.exception.utils.ErrorListResponse;
-import com.pm.spring.ema.order.dto.enums.OrderSearchKeyword;
+import com.spring6.order.dto.enums.OrderSearchKeyword;
 import com.spring6.order.dto.request.OrderCreateRequestDto;
 import com.spring6.order.dto.response.OrderCreateResponseDto;
 import com.spring6.order.dto.response.OrderResponseDto;

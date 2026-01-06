@@ -1,12 +1,9 @@
 package com.spring6.order.service;
 
-import com.pm.spring.ema.order.dto.enums.OrderSearchKeyword;
+import com.spring6.order.dto.enums.OrderSearchKeyword;
 import com.spring6.order.dto.request.OrderCreateRequestDto;
-import com.spring6.order.dto.request.OrderUpdateRequestDto;
 import com.spring6.order.dto.response.OrderCreateResponseDto;
 import com.spring6.order.dto.response.OrderResponseDto;
-import com.spring6.order.dto.response.OrderUpdateResponseDto;
-import com.spring6.order.exception.OrderNotFoundException;
 import com.spring6.order.model.enums.OrderStatus;
 
 import java.util.List;

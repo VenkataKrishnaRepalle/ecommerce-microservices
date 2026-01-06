@@ -1,10 +1,10 @@
 package com.pm.spring.ema.category.bootstrap;
-import com.pm.spring.ema.category.common.enums.CategoryEnum;
-import com.pm.spring.ema.category.common.enums.SubCategoryEnum;
-import com.pm.spring.ema.category.model.entity.SubCategory;
-import com.pm.spring.ema.category.model.entity.Category;
-import com.pm.spring.ema.category.model.repository.CategoryRepository;
-import com.pm.spring.ema.category.model.repository.SubCategoryRepository;
+import com.pm.spring.ema.category.model.SubCategory;
+import com.pm.spring.ema.category.model.Category;
+import com.pm.spring.ema.category.repository.CategoryRepository;
+import com.pm.spring.ema.category.repository.SubCategoryRepository;
+import com.pm.spring.ema.common.util.enums.CategoryEnum;
+import com.pm.spring.ema.common.util.enums.SubCategoryEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

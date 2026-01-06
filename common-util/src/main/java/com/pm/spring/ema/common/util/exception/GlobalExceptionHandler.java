@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidInputException.class)
     public ResponseEntity<ErrorResponse> handleInvalidInputException(InvalidInputException exception) {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getMessage()));
     }
 
@@ -59,5 +59,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ErrorMessage.errorResponse(ErrorCodes.E0500, exception.getMessage()));
+    }
+
+    @ExceptionHandler(FoundException.class)
+    public ResponseEntity<ErrorResponse> handleFoundException(FoundException exception) {
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getErrorMessage()));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getErrorMessage()));
     }
 }

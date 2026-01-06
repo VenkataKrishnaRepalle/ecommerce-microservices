@@ -19,7 +19,7 @@ public interface CartItemsService {
 
     List<CartItemsResponseDto> getCartItemsByShoppingCartId(UUID ShoppingCartId);
 
-    CartItemsUpdateResponseDto updateCartItems (UUID cartItemId, CartItemsUpdateRequestDto subCategoryUpdateRequestDto);
+    CartItemsUpdateResponseDto updateCartItems (UUID cartItemId, CartItemsUpdateRequestDto subCategoryRequestDto);
 
 
     void deleteCartItemsById(UUID uuid);

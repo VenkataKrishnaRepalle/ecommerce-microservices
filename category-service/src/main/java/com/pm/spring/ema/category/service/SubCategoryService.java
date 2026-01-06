@@ -1,32 +1,27 @@
 package com.pm.spring.ema.category.service;
 
-import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryCreateRequestDto;
-import com.pm.spring.ema.category.common.dto.subcategoryDto.request.SubCategoryUpdateRequestDto;
-import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryCreateResponseDto;
-import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryDeleteResponseDto;
-import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryFindResponseDto;
-import com.pm.spring.ema.category.common.dto.subcategoryDto.response.SubCategoryUpdateResponseDto;
+import com.pm.spring.ema.common.util.dto.SubCategoryDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface SubCategoryService {
 
-    List<SubCategoryFindResponseDto> getAllSubCategory();
+    List<SubCategoryDto> getAllSubCategory();
 
-    SubCategoryFindResponseDto getSubCategoryById(UUID id);
+    SubCategoryDto getSubCategoryById(UUID id);
 
-    SubCategoryUpdateResponseDto updateSubCategory(UUID id, SubCategoryUpdateRequestDto subCategoryUpdateRequestDto);
+    SubCategoryDto updateSubCategory(UUID id, SubCategoryDto subCategoryRequestDto);
 
-    SubCategoryDeleteResponseDto deleteSubCategoryById(UUID id);
+    SubCategoryDto deleteSubCategoryById(UUID id);
 
-    SubCategoryCreateResponseDto createSubCategory(SubCategoryCreateRequestDto subCategoryCreateRequestDto);
+    SubCategoryDto createSubCategory(SubCategoryDto subCategoryCreateRequestDto);
 
     Boolean isSubCategoryExistByName(String name);
 
-    List<SubCategoryFindResponseDto> getSubCategoriesByCategoryId(UUID categoryId);
+    List<SubCategoryDto> getSubCategoriesByCategoryId(UUID categoryId);
 
-    List<SubCategoryFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
+    List<SubCategoryDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
 
     boolean isSubCategoryExistById(UUID id);
 

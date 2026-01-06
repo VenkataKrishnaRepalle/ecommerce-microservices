@@ -1,15 +1,14 @@
+server:
+  port: 1006
+
 spring:
   application:
     name: product-service
-  profiles:
-    active: product
-  config:
-    import: 'configserver:'
-  cloud:
-    config:
-      name: product-service,config-client
-      username: user
-      password: password
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1000/eureka/
 
 log:
   appName: product-service

@@ -17,21 +17,20 @@
 <!--        <module>kafka/kafka-consumer</module>-->
 <!--        <module>kafka-to-elastic-service</module>-->
         <!--        <module>kafka-streams-service</module>-->
-<!--        <module>discovery-service</module>-->
-<!--        <module>gateway-service</module>-->
-<!--        <module>auth-service-common</module>-->
-<!--        <module>auth-service</module>-->
+        <module>discovery-service</module>
+        <module>gateway-service</module>
+        <module>auth-service</module>
+        <module>security-common</module>
         <module>address-service</module>
 
         <!--        <module>analytics-service</module>-->
 <!--        <module>elastic-query-web-client-common</module>-->
 <!--        <module>elastic-query-web-client</module>-->
 <!--        <module>elastic-query-web-client-2</module>-->
-<!--        <module>brand-service</module>-->
+        <module>brand-service</module>
 <!--        <module>camunda</module>-->
         <module>customer-service</module>
-<!--        <module>category-service-common</module>-->
-<!--        <module>category-service</module>-->
+        <module>category-service</module>
 <!--        <module>cms-service</module>-->
 <!--        <module>customer-support-service</module>-->
 <!--        <module>discount-service</module>-->
@@ -96,7 +95,6 @@
         <karate-junit5.version>1.4.1</karate-junit5.version>
         <spring-cloud-starter-circuitbreaker-reactor-resilience4j.version>3.0.3</spring-cloud-starter-circuitbreaker-reactor-resilience4j.version>
         <spring-cloud-starter-zipkin.version>2.2.8.RELEASE</spring-cloud-starter-zipkin.version>
-
         <mysql.version>8.0.32</mysql.version>
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <springdoc.openapi.version>2.0.4</springdoc.openapi.version>

@@ -18,48 +18,48 @@ public class FallbackController {
 
     private static final Logger LOG = LoggerFactory.getLogger(FallbackController.class);
 
-    @Value("${server.port}")
-    private String port;
-
-    @PostMapping("/query-fallback")
-    public ResponseEntity<QueryServiceFallbackModel> queryServiceFallback() {
-        LOG.info("Returning fallback result for elastic-query-service! on port {}", port);
-        return ResponseEntity.ok(QueryServiceFallbackModel.builder()
-                .fallbackMessage("Fallback result for elastic-query-service!")
-                .build());
-    }
-
-    @PostMapping("/analytics-fallback")
-    public ResponseEntity<AnalyticsDataFallbackModel> analyticsServiceFallback() {
-        LOG.info("Returning fallback result for analytics-service! on port {}", port);
-        return ResponseEntity.ok(AnalyticsDataFallbackModel.builder()
-                .wordCount(0L)
-                .build());
-    }
-
-
-    @PostMapping("/streams-fallback")
-    public ResponseEntity<AnalyticsDataFallbackModel> streamsServiceFallback() {
-        LOG.info("Returning fallback result for kafka-streams-service! on port {}", port);
-        return ResponseEntity.ok(AnalyticsDataFallbackModel.builder()
-                .wordCount(0L)
-                .build());
-    }
-
-    @PostMapping("/authentication-fallback")
-    public ResponseEntity<AuthenticationServiceFallbackModel> authenticationServiceFallback() {
-        LOG.info("Returning fallback result for authentication! on port {}", port);
-        return ResponseEntity.ok(AuthenticationServiceFallbackModel.builder()
-                .fallbackMessage("Fallback result for authentication-service!")
-                .build());
-    }
-    @PostMapping("/message-fallback")
-    public ResponseEntity<MessageServiceFallbackModel> messageServiceFallback() {
-        LOG.info("Returning fallback result for message! on port {}", port);
-        return ResponseEntity.ok(MessageServiceFallbackModel.builder()
-                .fallbackMessage("Fallback result for message-service!")
-                .build());
-    }
+//    @Value("${server.port}")
+//    private String port;
+//
+//    @PostMapping("/query-fallback")
+//    public ResponseEntity<QueryServiceFallbackModel> queryServiceFallback() {
+//        LOG.info("Returning fallback result for elastic-query-service! on port {}", port);
+//        return ResponseEntity.ok(QueryServiceFallbackModel.builder()
+//                .fallbackMessage("Fallback result for elastic-query-service!")
+//                .build());
+//    }
+//
+//    @PostMapping("/analytics-fallback")
+//    public ResponseEntity<AnalyticsDataFallbackModel> analyticsServiceFallback() {
+//        LOG.info("Returning fallback result for analytics-service! on port {}", port);
+//        return ResponseEntity.ok(AnalyticsDataFallbackModel.builder()
+//                .wordCount(0L)
+//                .build());
+//    }
+//
+//
+//    @PostMapping("/streams-fallback")
+//    public ResponseEntity<AnalyticsDataFallbackModel> streamsServiceFallback() {
+//        LOG.info("Returning fallback result for kafka-streams-service! on port {}", port);
+//        return ResponseEntity.ok(AnalyticsDataFallbackModel.builder()
+//                .wordCount(0L)
+//                .build());
+//    }
+//
+//    @PostMapping("/authentication-fallback")
+//    public ResponseEntity<AuthenticationServiceFallbackModel> authenticationServiceFallback() {
+//        LOG.info("Returning fallback result for authentication! on port {}", port);
+//        return ResponseEntity.ok(AuthenticationServiceFallbackModel.builder()
+//                .fallbackMessage("Fallback result for authentication-service!")
+//                .build());
+//    }
+//    @PostMapping("/message-fallback")
+//    public ResponseEntity<MessageServiceFallbackModel> messageServiceFallback() {
+//        LOG.info("Returning fallback result for message! on port {}", port);
+//        return ResponseEntity.ok(MessageServiceFallbackModel.builder()
+//                .fallbackMessage("Fallback result for message-service!")
+//                .build());
+//    }
 
 
 

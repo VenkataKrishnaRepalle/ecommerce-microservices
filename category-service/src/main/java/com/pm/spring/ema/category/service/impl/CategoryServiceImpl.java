@@ -1,22 +1,16 @@
 package com.pm.spring.ema.category.service.impl;
 
-import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryCreateRequestDto;
-import com.pm.spring.ema.category.common.dto.categoryDto.request.CategoryUpdateRequestDto;
-import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryCreateResponseDto;
-import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryDeleteResponseDto;
-import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryFindResponseDto;
-import com.pm.spring.ema.category.common.dto.categoryDto.response.CategoryUpdateResponseDto;
-import com.pm.spring.ema.category.model.repository.CategoryRepository;
-import com.pm.spring.ema.category.model.repository.SubCategoryRepository;
-import com.pm.spring.ema.common.util.exception.ErrorCodes;
-import com.pm.spring.ema.common.util.exception.ErrorMessage;
-import com.pm.spring.ema.category.model.entity.Category;
-import com.pm.spring.ema.category.model.entity.SubCategory;
-import com.pm.spring.ema.category.exception.CategoryException.CategoryNameAlreadyExistException;
-import com.pm.spring.ema.category.exception.CategoryException.CategoryNotFoundException;
+import com.pm.spring.ema.category.repository.CategoryRepository;
+import com.pm.spring.ema.category.repository.SubCategoryRepository;
+import com.pm.spring.ema.common.util.dto.CategoryDto;
+import com.pm.spring.ema.category.model.Category;
 import com.pm.spring.ema.category.mapper.CategoryMapper;
 import com.pm.spring.ema.category.service.CategoryService;
 import com.pm.spring.ema.category.utils.TraceIdHolder;
+import com.pm.spring.ema.common.util.exception.FoundException;
+import com.pm.spring.ema.common.util.exception.NotFoundException;
+import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
+import com.pm.spring.ema.common.util.exception.utils.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -39,13 +33,13 @@ public class CategoryServiceImpl implements CategoryService {
     private final SubCategoryRepository subCategoryRepository;
 
 
-    public List<CategoryFindResponseDto> getAllCategory() {
+    public List<CategoryDto> getAllCategory() {
         log.debug("CategoryService:getAllCategory EXECUTION STARTED. traceId: {}", TraceIdHolder.getTraceId());
 
 
-        List<CategoryFindResponseDto> categoryFindResponseDtoList = categoryRepository.findAll()
+        List<CategoryDto> categoryFindResponseDtoList = categoryRepository.findAll()
                 .stream()
-                .map(categoryMapper::categoryToCategoryFindResponseDto)
+                .map(categoryMapper::toCategoryDto)
                 .toList();
         log.debug("CategoryService:getAllCategory EXECUTION ENDED. traceId: {}, response {} ", TraceIdHolder.getTraceId(), categoryFindResponseDtoList);
 
@@ -54,16 +48,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryFindResponseDto getCategoryById(UUID id) throws CategoryNotFoundException {
+    public CategoryDto getCategoryById(UUID id) throws NotFoundException {
 
         log.debug("CategoryService:getCategoryById EXECUTION STARTED. traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
         Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (!optionalCategory.isPresent()) {
+        if (optionalCategory.isEmpty()) {
             log.error("CategoryService:getCategoryById EXECUTION ENDED. traceId: {}, errorMessage: Category Not found", TraceIdHolder.getTraceId());
-            throw new CategoryNotFoundException(ErrorCodes.E1502, id.toString());
+            throw new NotFoundException(ErrorCodes.E1502, id.toString());
         }
-        CategoryFindResponseDto categoryFindResponseDto = categoryMapper.categoryToCategoryFindResponseDto(optionalCategory.get());
+        CategoryDto categoryFindResponseDto = categoryMapper.toCategoryDto(optionalCategory.get());
 
         log.debug("CategoryService:getCategoryById EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryFindResponseDto);
 
@@ -73,39 +67,39 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryCreateResponseDto createCategory(CategoryCreateRequestDto categoryCreateRequestDto) throws CategoryNameAlreadyExistException {
+    public CategoryDto createCategory(CategoryDto categoryRequestDto) throws FoundException {
 
 
-        log.debug("CategoryService:createCategory EXECUTION STARTED. traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), categoryCreateRequestDto);
+        log.debug("CategoryService:createCategory EXECUTION STARTED. traceId: {} , brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), categoryRequestDto);
 
-        if (isCategoryExistByName(categoryCreateRequestDto.getName())) {
-            log.error("CategoryService:createCategory EXECUTION ENDED. traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1501, categoryCreateRequestDto.getName()));
-            throw new CategoryNameAlreadyExistException(ErrorCodes.E1501, categoryCreateRequestDto.getName());
+        if (isCategoryExistByName(categoryRequestDto.getName())) {
+            log.error("CategoryService:createCategory EXECUTION ENDED. traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1501, categoryRequestDto.getName()));
+            throw new FoundException(ErrorCodes.E1501, categoryRequestDto.getName());
         }
-        Category category = categoryMapper.categoryCreateRequestDtoToCategory(categoryCreateRequestDto);
+        Category category = categoryMapper.toCategory(categoryRequestDto);
         Category savedCategory = categoryRepository.save(category);
-        CategoryCreateResponseDto categoryCreateResponseDto = categoryMapper.categoryToCategoryCreateResponseDto(savedCategory);
+        CategoryDto categoryResponseDto = categoryMapper.toCategoryDto(savedCategory);
 
-        log.debug("CategoryService:createCategory EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryCreateRequestDto);
-        return categoryCreateResponseDto;
+        log.debug("CategoryService:createCategory EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryRequestDto);
+        return categoryResponseDto;
 
     }
 
     @Override
-    public CategoryUpdateResponseDto updateCategory(UUID id, CategoryUpdateRequestDto categoryUpdateRequestDto) throws CategoryNotFoundException {
+    public CategoryDto updateCategory(UUID id, CategoryDto CategoryRequestDto) throws NotFoundException {
 
-        log.debug("CategoryService:updateCategory EXECUTION STARTED. traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, categoryUpdateRequestDto);
+        log.debug("CategoryService:updateCategory EXECUTION STARTED. traceId: {}, id: {}, brandCreateRequestDto: {}", TraceIdHolder.getTraceId(), id, CategoryRequestDto);
 
         Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (!optionalCategory.isPresent()) {
-            throw new CategoryNotFoundException(ErrorCodes.E1503, id.toString());
+        if (optionalCategory.isEmpty()) {
+            throw new NotFoundException(ErrorCodes.E1503, id.toString());
         }
 
 
-        Category category = categoryMapper.categoryUpdateRequestDtoToCategory(categoryUpdateRequestDto);
+        Category category = categoryMapper.toCategory(CategoryRequestDto);
         category.setId(optionalCategory.get().getId());
         Category updatedCategory = categoryRepository.save(category);
-        CategoryUpdateResponseDto categoryUpdateResponseDto = categoryMapper.categoryToCategoryUpdateResponseDto(updatedCategory);
+        CategoryDto categoryUpdateResponseDto = categoryMapper.toCategoryDto(updatedCategory);
 
         log.debug("CategoryService:updateCategory EXECUTION ENDED. traceId: {}, response: {}", TraceIdHolder.getTraceId(), categoryUpdateResponseDto);
 
@@ -113,7 +107,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDeleteResponseDto deleteCategoryById(UUID id) throws CategoryNotFoundException {
+    public CategoryDto deleteCategoryById(UUID id) throws NotFoundException {
 
         log.debug("CategoryService:deleteCategoryById EXECUTION STARTED. traceId: {}, id: {}", TraceIdHolder.getTraceId(), id);
 
@@ -121,13 +115,11 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isPresent()) {
 
-            CategoryDeleteResponseDto categoryDeleteResponseDto = categoryMapper.convertToCategoryDeleteResponseDto(optionalCategory.get());
+            CategoryDto categoryDeleteResponseDto = categoryMapper.toCategoryDto(optionalCategory.get());
 
             Category category = optionalCategory.get();
 
-            for (SubCategory subCategory : subCategoryRepository.findByCategory(category)) {
-                subCategoryRepository.delete(subCategory);
-            }
+            subCategoryRepository.deleteAll(subCategoryRepository.findByCategory(category));
             categoryRepository.deleteById(category.getId());
 
             log.debug("CategoryService:deleteCategoryById EXECUTION ENDED. response : {}", categoryDeleteResponseDto);
@@ -135,7 +127,7 @@ public class CategoryServiceImpl implements CategoryService {
             return categoryDeleteResponseDto;
         } else {
             log.error("CategoryService:deleteCategoryById EXECUTION ENDED. traceId: {}, errorMessage: {}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1504, id.toString()));
-            throw new CategoryNotFoundException(ErrorCodes.E1504, id.toString());
+            throw new NotFoundException(ErrorCodes.E1504, id.toString());
         }
     }
 
@@ -164,7 +156,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryFindResponseDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword) {
+    public List<CategoryDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword) {
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("ASC") ? sort.ascending() : sort.descending();
 
@@ -173,25 +165,25 @@ public class CategoryServiceImpl implements CategoryService {
         if (keyword != null) {
             return categoryRepository.findAllByPage(keyword, pageable)
                     .stream()
-                    .map(categoryMapper::categoryToCategoryFindResponseDto)
+                    .map(categoryMapper::toCategoryDto)
                     .toList();
         }
         return categoryRepository.findAll()
                 .stream()
-                .map(categoryMapper::categoryToCategoryFindResponseDto)
+                .map(categoryMapper::toCategoryDto)
                 .toList();
 
     }
 
     @Override
-    public String updateImageById(UUID id, String fileName) throws CategoryNotFoundException {
+    public String updateImageById(UUID id, String fileName) throws NotFoundException {
 
         log.debug("CategoryService:updateImageById EXECUTION STARTED. traceId: {}, brandId:{}, fileName: {}", TraceIdHolder.getTraceId(), id, fileName);
 
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isEmpty()) {
             log.error("CategoryService:updateImageById EXECUTION ENDED. traceId: {}, errorMessage:{}", TraceIdHolder.getTraceId(), ErrorMessage.message(ErrorCodes.E1505, id.toString()));
-            throw new CategoryNotFoundException(ErrorCodes.E1505, id.toString());
+            throw new NotFoundException(ErrorCodes.E1505, id.toString());
         }
         Category category = optionalCategory.get();
         category.setImageName(fileName);
@@ -211,9 +203,9 @@ public class CategoryServiceImpl implements CategoryService {
 
         Optional<Category> optionalCategory = categoryRepository.findById(id);
 
-        if (!optionalCategory.isPresent()) {
+        if (optionalCategory.isEmpty()) {
             log.error("BrandService:getCategoryImageNameById EXECUTION ENDED. traceId: {}, errorMessage: Brand Not found", TraceIdHolder.getTraceId());
-            throw new CategoryNotFoundException(ErrorCodes.E1506, id.toString());
+            throw new NotFoundException(ErrorCodes.E1506, id.toString());
         }
 
         String imageName = optionalCategory.get().getImageName();

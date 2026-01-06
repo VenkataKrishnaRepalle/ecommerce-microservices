@@ -1,6 +1,7 @@
 package com.pm.spring.ema.category.model.repository;
 
-import com.pm.spring.ema.category.model.entity.Category;
+import com.pm.spring.ema.category.model.Category;
+import com.pm.spring.ema.category.repository.CategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

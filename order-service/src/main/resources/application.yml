@@ -1,15 +1,14 @@
+server:
+  port: 1007
+
 spring:
   application:
     name: order-service
-  profiles:
-    active: order
-  config:
-    import: 'configserver:'
-  cloud:
-    config:
-      name: order-service,config-client
-      username: user
-      password: password
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1000/eureka/
 
 log:
   appName: order-service
@@ -23,7 +22,3 @@ logging:
         orm:
           jdbc:
             bind: trace
-
-productService:
-  base:
-    url: http://localhost:1003/api/product/

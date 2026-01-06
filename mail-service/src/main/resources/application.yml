@@ -1,15 +1,9 @@
-log:
-  appName: mail-service
-
-logging:
-  level:
-    org:
-      springframework:
-        cloud: DEBUG
 server:
-  port: 1004
+  port: 1008
 
 spring:
+  application:
+    name: mail-service
   mail:
     host: smtp.gmail.com
     username: v4431365@gmail.com
@@ -25,6 +19,20 @@ spring:
     config:
       import-check:
         enabled: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1000/eureka/
+
+log:
+  appName: mail-service
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud: DEBUG
 
 default:
   send:
