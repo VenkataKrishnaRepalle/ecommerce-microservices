@@ -1,9 +1,11 @@
 package com.pm.spring.ema.service;
 
+import com.pm.spring.ema.common.util.dto.ApiResponse;
 import com.pm.spring.ema.common.util.exception.InvalidInputException;
 import com.pm.spring.ema.dto.*;
 import com.pm.spring.ema.feign.MailServiceFeign;
 import com.pm.spring.ema.modal.Country;
+import com.pm.spring.ema.modal.Customer;
 import com.pm.spring.ema.modal.EnabledStatus;
 import com.pm.spring.ema.exception.AlreadyFoundException;
 import com.pm.spring.ema.exception.LoginException;
@@ -35,16 +37,16 @@ public class CustomerServiceImpl implements CustomerService {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
-    public CustomerDto getById(UUID userId) {
-        var customer = customerRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("Customer not found with id: " + userId));
-        return customerMapper.customerToCustomerDto(customer);
+    public ApiResponse<CustomerDto> getById(UUID userId) {
+        return customerRepository.findById(userId)
+                .map(customer -> ApiResponse.success(customerMapper.customerToCustomerDto(customer)))
+                .orElseGet(() -> ApiResponse.error("Customer not found with id: " + userId));
     }
 
-    public CustomerDto register(CustomerDto customerDto) {
+    public ApiResponse<CustomerDto> register(CustomerDto customerDto) {
 
         if (isCustomerEmailExists(customerDto.getEmail())) {
-            throw new AlreadyFoundException("Customer already exists with email : " + customerDto.getEmail());
+            return ApiResponse.error("Customer already exists with email : " + customerDto.getEmail());
         }
 
         if (customerDto.getIsEnabled() == null) {
@@ -53,20 +55,21 @@ public class CustomerServiceImpl implements CustomerService {
 
         Country country = countryRepository.getCountryByName(customerDto.getCountry().toLowerCase());
         if (country == null) {
-            throw new NotFoundException("Could not found country of name : " + customerDto.getCountry());
+            return ApiResponse.error("Could not found country of name : " + customerDto.getCountry());
         }
 
         customerDto.setPhoneNumber(getCountryCode(country.getName()) + customerDto.getPhoneNumber());
         customerDto.setCountry(country.getName());
         customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
 
-        return customerMapper.customerToCustomerDto(customerRepository.save(customerMapper.cutomerRegisterDtoToCustomer(customerDto)));
+        return ApiResponse.success(customerMapper.customerToCustomerDto(
+                customerRepository.save(customerMapper.cutomerRegisterDtoToCustomer(customerDto))));
     }
 
 
     public void login(LoginDto loginDto) {
         var customer = customerRepository.findByEmail(loginDto.getEmail());
-        if(customer == null) {
+        if (customer == null) {
             throw new NotFoundException("could not found account with email: " + loginDto.getEmail());
         }
         if (customer.getEmail().equals(loginDto.getEmail()) && passwordEncoder.matches(loginDto.getPassword(), customer.getPassword())) {

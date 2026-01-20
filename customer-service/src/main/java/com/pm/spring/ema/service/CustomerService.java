@@ -1,5 +1,6 @@
 package com.pm.spring.ema.service;
 
+import com.pm.spring.ema.common.util.dto.ApiResponse;
 import com.pm.spring.ema.dto.*;
 import com.pm.spring.ema.modal.EnabledStatus;
 
@@ -7,9 +8,9 @@ import java.util.UUID;
 
 public interface CustomerService {
 
-    CustomerDto getById(UUID userId);
+    ApiResponse<CustomerDto> getById(UUID userId);
 
-    CustomerDto register(CustomerDto customerDto);
+    ApiResponse<CustomerDto> register(CustomerDto customerDto);
 
     void login(LoginDto loginDto) throws Exception;
 

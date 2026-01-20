@@ -1,5 +1,6 @@
 package com.pm.spring.ema.controller;
 
+import com.pm.spring.ema.common.util.dto.ApiResponse;
 import com.pm.spring.ema.dto.*;
 import com.pm.spring.ema.modal.EnabledStatus;
 import com.pm.spring.ema.service.CustomerService;
@@ -19,7 +20,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping("register")
-    public ResponseEntity<CustomerDto> register(@RequestBody CustomerDto customerCreateRequestDto) {
+    public ResponseEntity<ApiResponse<CustomerDto>> register(@RequestBody CustomerDto customerCreateRequestDto) {
         return new ResponseEntity<>(customerService.register(customerCreateRequestDto), HttpStatus.CREATED);
     }
 
@@ -30,7 +31,7 @@ public class CustomerController {
     }
 
     @GetMapping("get/{userId}")
-    public ResponseEntity<CustomerDto> getCustomer(@PathVariable UUID userId) {
+    public ResponseEntity<ApiResponse<CustomerDto>> getCustomer(@PathVariable UUID userId) {
         return new ResponseEntity<>(customerService.getById(userId), HttpStatus.OK);
     }
 
