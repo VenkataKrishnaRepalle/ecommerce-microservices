@@ -25,9 +25,8 @@ public class CustomerController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<HttpStatus> login(@RequestBody @Valid LoginDto loginDto) throws Exception {
-        customerService.login(loginDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ApiResponse<Void>> login(@RequestBody @Valid LoginDto loginDto) throws Exception {
+        return new ResponseEntity<>(customerService.login(loginDto), HttpStatus.OK);
     }
 
     @GetMapping("get/{userId}")
@@ -41,20 +40,17 @@ public class CustomerController {
     }
 
     @PostMapping("{email}")
-    public ResponseEntity<HttpStatus> isEmailExists(@PathVariable String email) {
-        customerService.isEmailExists(email);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ApiResponse<Void>> isEmailExists(@PathVariable String email) {
+        return new ResponseEntity<>(customerService.isEmailExists(email), HttpStatus.OK);
     }
 
     @PostMapping("forgotPasswod")
-    public ResponseEntity<HttpStatus> forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto) {
-        customerService.forgotPassword(forgotPasswordDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ApiResponse<Void>> forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto) {
+        return new ResponseEntity<>(customerService.forgotPassword(forgotPasswordDto), HttpStatus.OK);
     }
 
     @PostMapping("changePassword")
-    public ResponseEntity<HttpStatus> changePassword(@RequestBody ChangePasswordDto changePasswordDto) {
-        customerService.changePassword(changePasswordDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ApiResponse<Void>> changePassword(@RequestBody ChangePasswordDto changePasswordDto) {
+        return new ResponseEntity<>(customerService.changePassword(changePasswordDto), HttpStatus.OK);
     }
 }

@@ -12,14 +12,14 @@ public interface CustomerService {
 
     ApiResponse<CustomerDto> register(CustomerDto customerDto);
 
-    void login(LoginDto loginDto) throws Exception;
+    ApiResponse<Void> login(LoginDto loginDto) throws Exception;
 
     Enum<EnabledStatus> getIsEnabledStatus(UUID id);
 
-    void forgotPassword(ForgotPasswordDto forgotPasswordDto);
+    ApiResponse<Void> forgotPassword(ForgotPasswordDto forgotPasswordDto);
 
-    void changePassword(ChangePasswordDto changePasswordDto);
+    ApiResponse<Void> changePassword(ChangePasswordDto changePasswordDto);
 
-    void isEmailExists(String email);
+    ApiResponse<Void> isEmailExists(String email);
 
 }
