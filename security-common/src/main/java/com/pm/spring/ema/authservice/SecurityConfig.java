@@ -12,11 +12,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private static final String[] SWAGGER_PATHS = {
+    private static final String[] PUBLIC_PATHS = {
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs/**",
-            "/v3/api-docs/swagger-config"
+            "/v3/api-docs/swagger-config",
+            "/customer/**",
+            "/customer-service/**"
     };
 
 
@@ -26,8 +28,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(SWAGGER_PATHS).permitAll()
-                        .requestMatchers("/customer-service/**").permitAll()
+                        .requestMatchers(PUBLIC_PATHS).permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->
