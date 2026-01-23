@@ -24,12 +24,6 @@ public class JwtTokenProvider {
     @Value("${app.jwt-expiration-milliseconds}")
     private Long jwtExpirationDate;
 
-    @Value("${app.jwt.refresh-secret}")
-    private String refreshTokenSecretKey;
-
-    @Value("${app.refresh-token-expiration-milliseconds}")
-    private Long refreshTokenExpirationDate;
-
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         Date currentDate = new Date();
@@ -45,12 +39,6 @@ public class JwtTokenProvider {
     private Key key() {
         return Keys.hmacShaKeyFor(
                 Decoders.BASE64.decode(jwtSecretKey)
-        );
-    }
-
-    private Key refreshKey() {
-        return Keys.hmacShaKeyFor(
-                Decoders.BASE64.decode(refreshTokenSecretKey)
         );
     }
 

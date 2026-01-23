@@ -50,6 +50,7 @@ eureka:
 # This is the standard way to configure grouped Swagger docs with explicit routes.
 springdoc:
   swagger-ui:
+    persistAuthorization: true
     # Define the name and URL for each service's documentation.
     # The URL is the path through the gateway.
     urls:

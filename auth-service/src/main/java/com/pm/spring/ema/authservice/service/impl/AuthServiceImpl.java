@@ -5,7 +5,6 @@ import com.pm.spring.ema.authservice.dto.LoginDto;
 import com.pm.spring.ema.authservice.security.JwtTokenProvider;
 import com.pm.spring.ema.authservice.service.AuthService;
 import com.pm.spring.ema.common.util.dto.ApiResponse;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,9 +21,6 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthDao authDao;
     private final JwtTokenProvider jwtTokenProvider;
-
-    @Value("${app.jwt-expiration-milliseconds}")
-    private int jwtExpiryTime;
 
     @Override
     public ApiResponse<?> login(LoginDto loginDto, HttpServletResponse response) {
@@ -46,15 +42,7 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenProvider.generateToken(authentication);
 
-        addAuthCookie(response, token, jwtExpiryTime);
-        return ApiResponse.success("Login successful");
-    }
-
-    private void addAuthCookie(HttpServletResponse response, String value, int maxAge) {
-        Cookie cookie = new Cookie("token", value);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(maxAge);
-        response.addCookie(cookie);
+        // Return token in response body as well
+        return ApiResponse.success(token, "Login successful");
     }
 }
