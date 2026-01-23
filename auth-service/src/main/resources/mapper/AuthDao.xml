@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.spring.ema.authservice.dao.AuthDao">
+    <resultMap id="customerResponseMap" type="com.pm.spring.ema.authservice.dto.CustomerResponseDto">
+        <result column="id" property="uuid" javaType="java.util.UUID"
+                typeHandler="com.pm.spring.ema.authservice.handler.UuidTypeHandler"/>
+        <result column="email" property="email"/>
+        <result column="password" property="password"/>
+    </resultMap>
+
+    <select id="login" resultMap="customerResponseMap">
+        SELECT id, email, password
+        FROM customer
+        WHERE email = #{email}
+    </select>
+</mapper>

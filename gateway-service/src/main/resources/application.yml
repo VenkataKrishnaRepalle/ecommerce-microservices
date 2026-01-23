@@ -24,6 +24,16 @@ spring:
             # before forwarding the request to the actual service.
             - StripPrefix=1
 
+        # Explicit route for auth-service
+        - id: auth-service
+          uri: lb://auth-service # "lb" means load-balance via Eureka
+          predicates:
+            - Path=/auth-service/**
+          filters:
+            # This is the crucial part: it removes "/auth-service" from the path
+            # before forwarding the request to the actual service.
+            - StripPrefix=1
+
         # Add explicit routes for your other services here in the same pattern
         # - id: product-service
         #   uri: lb://product-service
@@ -45,5 +55,7 @@ springdoc:
     urls:
       - name: Customer Service
         url: /customer-service/v3/api-docs
+      - name: Auth Service
+        url: /auth-service/v3/api-docs
       # - name: Product Service
       #   url: /product-service/v3/api-docs

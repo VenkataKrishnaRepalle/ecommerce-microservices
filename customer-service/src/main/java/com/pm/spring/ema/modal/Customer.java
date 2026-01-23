@@ -10,6 +10,8 @@ import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -63,6 +65,14 @@ public class Customer {
     @Enumerated
     private EnabledStatus isEnabled;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "customer_role",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
     @CreationTimestamp
     @Column(name = "creation_time", updatable = false)
     private LocalDateTime createdTime;
@@ -70,4 +80,14 @@ public class Customer {
     @UpdateTimestamp
     @Column(name = "updation_time")
     private LocalDateTime updatedTime;
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+        role.getCustomers().add(this);
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+        role.getCustomers().remove(this);
+    }
 }
