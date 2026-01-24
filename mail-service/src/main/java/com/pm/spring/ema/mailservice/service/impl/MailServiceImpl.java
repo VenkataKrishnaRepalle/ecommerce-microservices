@@ -1,6 +1,7 @@
 package com.pm.spring.ema.mailservice.service.impl;
 
-import com.pm.spring.ema.common.util.dto.CustomerDto;
+import com.pm.spring.ema.common.util.dto.ApiResponse;
+import com.pm.spring.ema.common.util.dto.CustomerDetailsDto;
 import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.InvalidInputException;
 import com.pm.spring.ema.mailservice.model.Otp;
@@ -39,7 +40,6 @@ public class MailServiceImpl implements MailService {
 
     private static final long OTP_VALID_DURATION = 2 * 60 * 1000;
 
-    //    todo: change @value to logic app-config-data configuration
     @Value("${email.template.login}")
     private String emailLoginTemplateName;
 
@@ -73,64 +73,68 @@ public class MailServiceImpl implements MailService {
 
     public void sendLoginOtp(UUID id) throws MessagingException, UnsupportedEncodingException {
         log.info("MailService:sendLoginOtp Execution Started");
-
-        var user = getUserByUserId(id);
-        var otp = otpRepository.findByUserUuidAndStatusAndType(id, OtpStatus.ACTIVE, OtpType.LOGIN_OTP);
-
-        if (otp.isEmpty()) {
-            log.error("MailService:sendLoginOtp errorMessage : {}", ErrorCodes.E1001);
-            log.info("MailService:sendLoginOtp Execution Ended");
-            throw new InvalidInputException(ErrorCodes.E3001);
+        var userResponse = getUserByUserId(id);
+        if(validateApiResponse(userResponse)) {
+            return;
         }
+        var user = userResponse.getData();
 
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setFrom(email, emailHeader);
-        helper.setTo(user.getEmail());
-
-        helper.setSubject("Here is your One Time Password for login - Expire in 2 minutes!");
-
-        Context context = new Context();
-        context.setVariable("name", user.getFirstName() + " " + user.getLastName());
-        context.setVariable("otp", otp.get().getOtpNumber());
-
-        helper.setText(templateEngine.process(emailLoginTemplateName, context), true);
-
-        mailSender.send(message);
+        sendLoginMail(user);
 
         log.info("MailService:sendLoginOtp Mail sent successfully");
         log.info("MailService:sendLoginOtp Execution Ended");
     }
 
+    public void sendLoginMail(CustomerDetailsDto user) throws MessagingException, UnsupportedEncodingException {
+        var otp = createOtp(user.id(), OtpType.LOGIN_OTP);
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setFrom(email, emailHeader);
+        helper.setTo(user.email());
+
+        helper.setSubject("Here is your One Time Password for login - Expire in 2 minutes!");
+
+        Context context = new Context();
+        context.setVariable("name", user.firstName() + " " + user.lastName());
+        context.setVariable("otp", otp.getOtpNumber());
+
+        helper.setText(templateEngine.process(emailLoginTemplateName, context), true);
+
+        mailSender.send(message);
+    }
+
     public void sendForgotPasswordOtp(UUID id) throws MessagingException, UnsupportedEncodingException {
         log.info("MailService:sendForgotPasswordOtp Execution Started");
 
-        var user = getUserByUserId(id);
-        var otp = otpRepository.findByUserUuidAndStatusAndType(id, OtpStatus.ACTIVE, OtpType.FORGOT_PASSWORD_OTP);
-        if (otp.isEmpty()) {
-            log.error("MailService:sendForgotPasswordOtp errorMessage : {}", ErrorCodes.E1001);
-            throw new InvalidInputException(ErrorCodes.E3001);
+        var userResponse = getUserByUserId(id);
+        if(validateApiResponse(userResponse)) {
+            return;
         }
+        var user = userResponse.getData();
+
+        sendForgotPasswordMail(user);
+        log.info("MailService:sendForgotPasswordOtp Mail sent successfully");
+        log.info("MailService:sendForgotPasswordOtp Execution Ended");
+    }
+
+    public void sendForgotPasswordMail(CustomerDetailsDto user) throws MessagingException, UnsupportedEncodingException {
+        var otp = createOtp(user.id(), OtpType.FORGOT_PASSWORD_OTP);
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         helper.setFrom(email, emailHeader);
-        helper.setTo(user.getEmail());
-        //            todo: add & read message from configuration
+        helper.setTo(user.email());
 
         helper.setSubject("Here is your One Time Password for Forgot Password - Expire in 2 minutes");
 
         Context context = new Context();
-        context.setVariable("name", user.getFirstName() + " " + user.getLastName());
-        context.setVariable("otp", otp.get().getOtpNumber());
+        context.setVariable("name", user.firstName() + " " + user.lastName());
+        context.setVariable("otp", otp.getOtpNumber());
 
         helper.setText(templateEngine.process(emailForgotPasswordTemplateName, context), true);
 
         mailSender.send(message);
-
-        log.info("MailService:sendForgotPasswordOtp Mail sent successfully");
-        log.info("MailService:sendForgotPasswordOtp Execution Ended");
     }
 
     @Override
@@ -168,7 +172,16 @@ public class MailServiceImpl implements MailService {
         return random.nextLong(100000, 999999);
     }
 
-    private CustomerDto getUserByUserId(UUID id) {
+    private ApiResponse<CustomerDetailsDto> getUserByUserId(UUID id) {
         return userServiceFeignClient.getById(id);
     }
+
+    private boolean validateApiResponse(ApiResponse<CustomerDetailsDto> response) {
+        if (!response.isSuccess()) {
+            log.error("OTP sent failed. Reason : {}", response.getMessage());
+            return true;
+        }
+        return false;
+    }
 }
+

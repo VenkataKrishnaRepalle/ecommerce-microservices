@@ -92,9 +92,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.pm.spring.ema</groupId>
-            <artifactId>security-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
     </dependencies>
 

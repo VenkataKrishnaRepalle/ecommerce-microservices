@@ -1,5 +1,5 @@
 server:
-  port: 1008
+  port: 1004
 
 spring:
   application:
@@ -15,15 +15,57 @@ spring:
           auth: true
           starttls:
             enable: true
+  datasource:
+    username: postgres
+    password: root
+    url: jdbc:postgresql://localhost:5432/ecommerce?characterEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: RestDB-Pool
+      maximum-pool-size: 5
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        rewriteBatchedStatements: true
+        cacheResultSetMetadata: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        maintainTimeStats: false
+  jpa:
+    database: Postgresql
+    properties:
+      hibernate:
+        show-sql: true
+        format-sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   cloud:
     config:
       import-check:
         enabled: false
 
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+    consumer:
+      group-id: mail-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:1000/eureka/
+  instance:
+    prefer-ip-address: true
 
 log:
   appName: mail-service
@@ -40,8 +82,11 @@ default:
       address: v4431365@gmail.com
       header: Chat App OTP Verification
 
-
 email:
   template:
     login: send-login-otp
     forgot-password: send-forgot-password-otp
+
+app:
+  jwt:
+    secret: 8ae2a6ebc0cd16aecb0e94e85c1eed0a1b1d8a668f65c3838b341a99197ff370

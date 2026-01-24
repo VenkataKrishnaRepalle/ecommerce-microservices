@@ -2,7 +2,6 @@ package com.pm.spring.ema.mailservice.controller;
 
 import com.pm.spring.ema.common.util.HttpStatusCodes;
 import com.pm.spring.ema.common.util.api.ErrorResponse;
-import com.pm.spring.ema.mailservice.model.Otp;
 import com.pm.spring.ema.mailservice.service.MailService;
 import com.pm.spring.ema.mailservice.model.OtpType;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -38,17 +34,25 @@ public class MailController {
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal Server Error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping("/send-login-otp/{userId}")
-    public ResponseEntity<Otp> sendLoginOtp(@PathVariable @NotNull UUID userId)
+    public ResponseEntity<Void> sendLoginOtp(@PathVariable @NotNull UUID userId)
             throws MessagingException, UnsupportedEncodingException {
         log.info("MailController:sendLoginOtp Execution Started");
 
-        var otp = mailService.createOtp(userId, OtpType.LOGIN_OTP);
         mailService.sendLoginOtp(userId);
 
         log.info("MailController:sendLoginOtp OTP sent Successfully for userId : {}", userId);
         log.info("MailController:sendLoginOtp Execution Ended");
 
-        return ResponseEntity.ok(otp);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/send-otp/{userId}")
+    public ResponseEntity<Void> sendOtp(@PathVariable UUID userId, @RequestBody OtpType otpType) {
+        log.info("MailController:sendOtp Execution Started");
+        mailService.createOtp(userId, otpType);
+        log.info("MailController:sendOtp Execution Ended");
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(tags = "Mail", summary = "OTP Validation", description = "OTP Validation")
@@ -65,7 +69,7 @@ public class MailController {
 
         mailService.otpValidation(userId, otp, type);
 
-        log.info("MailController:otpValidation otpValidation Successfull for userId : {}", userId);
+        log.info("MailController:otpValidation otpValidation Successful for userId : {}", userId);
         log.info("MailController:otpValidation Execution Ended");
 
         return ResponseEntity.ok(HttpStatus.OK);

@@ -1,8 +1,10 @@
 package com.pm.spring.ema.controller;
 
 import com.pm.spring.ema.common.util.dto.ApiResponse;
+import com.pm.spring.ema.common.util.dto.CustomerDetailsDto;
+import com.pm.spring.ema.common.util.dto.CustomerDto;
+import com.pm.spring.ema.common.util.dto.EnabledStatus;
 import com.pm.spring.ema.dto.*;
-import com.pm.spring.ema.modal.EnabledStatus;
 import com.pm.spring.ema.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,11 @@ public class CustomerController {
     @GetMapping("get/{userId}")
     public ResponseEntity<ApiResponse<CustomerDto>> getCustomer(@PathVariable UUID userId) {
         return new ResponseEntity<>(customerService.getById(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("getDetails/{userId}")
+    public ResponseEntity<ApiResponse<CustomerDetailsDto>> getCustomerDetails(@PathVariable UUID userId) {
+        return new ResponseEntity<>(customerService.getCustomerDetails(userId), HttpStatus.OK);
     }
 
     @GetMapping("isEnabledStatus/{id}")

@@ -1,10 +1,12 @@
 package com.pm.spring.ema.service;
 
 import com.pm.spring.ema.common.util.dto.ApiResponse;
+import com.pm.spring.ema.common.util.dto.CustomerDetailsDto;
+import com.pm.spring.ema.common.util.dto.CustomerDto;
+import com.pm.spring.ema.common.util.dto.EnabledStatus;
 import com.pm.spring.ema.dto.*;
-import com.pm.spring.ema.feign.MailServiceFeign;
+import com.pm.spring.ema.kafka.MailProducer;
 import com.pm.spring.ema.modal.Country;
-import com.pm.spring.ema.modal.EnabledStatus;
 import com.pm.spring.ema.mapper.CountryMapper;
 import com.pm.spring.ema.mapper.CustomerMapper;
 import com.pm.spring.ema.repository.CountryRepository;
@@ -27,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CountryMapper countryMapper;
 
-    private final MailServiceFeign mailService;
+    private final MailProducer mailProducer;
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -35,6 +37,13 @@ public class CustomerServiceImpl implements CustomerService {
     public ApiResponse<CustomerDto> getById(UUID userId) {
         return customerRepository.findById(userId)
                 .map(customer -> ApiResponse.success(customerMapper.customerToCustomerDto(customer)))
+                .orElseGet(() -> ApiResponse.error("Customer not found with id: " + userId));
+    }
+
+    @Override
+    public ApiResponse<CustomerDetailsDto> getCustomerDetails(UUID userId) {
+        return customerRepository.findById(userId)
+                .map(customer -> ApiResponse.success(customerMapper.toCustomerDetailsDto(customer)))
                 .orElseGet(() -> ApiResponse.error("Customer not found with id: " + userId));
     }
 
@@ -68,7 +77,7 @@ public class CustomerServiceImpl implements CustomerService {
             return ApiResponse.error("could not found account with email: " + loginDto.getEmail());
         }
         if (customer.getEmail().equals(loginDto.getEmail()) && passwordEncoder.matches(loginDto.getPassword(), customer.getPassword())) {
-            mailService.sendOTP(customer.getId());
+            mailProducer.sendLoginOtp(customerMapper.toCustomerDetailsDto(customer));
         } else {
             return ApiResponse.error("Invalid Credentials");
         }

@@ -1,5 +1,5 @@
 server:
-  port: 1002
+  port: 1001
 
 spring:
   application:
@@ -34,6 +34,15 @@ spring:
             # before forwarding the request to the actual service.
             - StripPrefix=1
 
+        - id: mail-service
+          uri: lb://mail-service # "lb" means load-balance via Eureka
+          predicates:
+            - Path=/mail-service/**
+          filters:
+            # This is the crucial part: it removes "/auth-service" from the path
+            # before forwarding the request to the actual service.
+            - StripPrefix=1
+
         # Add explicit routes for your other services here in the same pattern
         # - id: product-service
         #   uri: lb://product-service
@@ -46,6 +55,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:1000/eureka/
+  instance:
+    prefer-ip-address: true
 
 # This is the standard way to configure grouped Swagger docs with explicit routes.
 springdoc:
@@ -58,5 +69,7 @@ springdoc:
         url: /customer-service/v3/api-docs
       - name: Auth Service
         url: /auth-service/v3/api-docs
+      - name: Mail Service
+        url: /mail-service/v3/api-docs
       # - name: Product Service
       #   url: /product-service/v3/api-docs

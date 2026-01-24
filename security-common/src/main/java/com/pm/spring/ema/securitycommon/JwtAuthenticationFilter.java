@@ -1,4 +1,4 @@
-package com.pm.spring.ema.authservice;
+package com.pm.spring.ema.securitycommon;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -21,6 +22,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthDao authDao;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ApiResponse<?> login(LoginDto loginDto, HttpServletResponse response) {
@@ -29,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
             return ApiResponse.error("Invalid Email for login");
         }
 
-        if (!customer.getPassword().equals(loginDto.getPassword())) {
+        if (!passwordEncoder.matches(loginDto.getPassword(), customer.getPassword())) {
             return ApiResponse.error("Invalid Password for login");
         }
 

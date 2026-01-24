@@ -1,5 +1,7 @@
 package com.pm.spring.ema.modal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pm.spring.ema.common.util.dto.EnabledStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -33,6 +35,7 @@ public class Customer {
     private String email;
 
     @Column(length = 64, nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(length = 45, nullable = false)

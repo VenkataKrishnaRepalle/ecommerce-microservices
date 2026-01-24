@@ -1,5 +1,5 @@
 server:
-  port: 1003
+  port: 1002
 
 spring:
   application:
@@ -20,6 +20,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:1000/eureka/
+  instance:
+    prefer-ip-address: true
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
