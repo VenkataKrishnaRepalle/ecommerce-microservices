@@ -1,4 +1,4 @@
-package com.pm.spring.ema.common.util.config;
+package com.pm.spring.ema.category.configuration;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

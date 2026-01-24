@@ -1,41 +1,38 @@
+server:
+  port: 1005
+
 spring:
   application:
     name: category-service
-  profiles:
-    active: category
-  config:
-    import: 'configserver:'
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce?characterEncoding=UTF-8&serverTimezone=UTC
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
   cloud:
     config:
-      name: category-service,config-client
-      username: user
-      password: password
-#  zipkin:
-#    baseUrl: http://localhost:9411
-#    sleuth:
-#      sampler:
-#        probability: 1
-#        spring:
-#          sleuth:
-#            probability: 1
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
-#  instance:
-#    lease-expiration-duration-in-seconds: 5
-#    lease-renewal-interval-in-seconds: 2
+      import-check:
+        enabled: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1000/eureka/
+  instance:
+    prefer-ip-address: true
 
 log:
   appName: category-service
 
-#jasypt:
-#  encryptor:
-#    password: ${JASYPT_ENCRYPTOR_PASSWORD}
-#    algorithm: PBEWithHMACSHA512AndAES_256
-#    string-output-type: base64
-
-#   remove it in production
 logging:
   level:
     ROOT: INFO
@@ -46,9 +43,7 @@ logging:
           jdbc:
             bind: trace
 
-# Logger
-#logging.file.path=C:/Users/praja/IdeaProjects/spring6/spring6-order
-#logging.file.name=spring6-order-log.log
-
-# Spring Admin
-#  spring.boot.admin.client.url=http://localhost:8080
+app:
+  jwt:
+    secret: 8ae2a6ebc0cd16aecb0e94e85c1eed0a1b1d8a668f65c3838b341a99197ff370
+  jwt-expiration-milliseconds: 1800000

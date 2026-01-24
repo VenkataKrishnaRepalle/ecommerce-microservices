@@ -43,6 +43,15 @@ spring:
             # before forwarding the request to the actual service.
             - StripPrefix=1
 
+        - id: category-service
+          uri: lb://category-service # "lb" means load-balance via Eureka
+          predicates:
+            - Path=/category-service/**
+          filters:
+            # This is the crucial part: it removes "/category-service" from the path
+            # before forwarding the request to the actual service.
+            - StripPrefix=1
+
         # Add explicit routes for your other services here in the same pattern
         # - id: product-service
         #   uri: lb://product-service
@@ -71,5 +80,7 @@ springdoc:
         url: /auth-service/v3/api-docs
       - name: Mail Service
         url: /mail-service/v3/api-docs
+      - name: Category Service
+        url: /category-service/v3/api-docs
       # - name: Product Service
       #   url: /product-service/v3/api-docs

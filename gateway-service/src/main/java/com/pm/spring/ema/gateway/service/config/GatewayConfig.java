@@ -7,25 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.Customizer;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsUtils;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
-import org.springframework.web.server.WebFilter;
-import reactor.core.publisher.Mono;
+import org.springframework.web.server.ServerWebExchange;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
-import java.time.Duration;
 
 @Slf4j
 @Configuration
@@ -43,7 +38,7 @@ public class GatewayConfig {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowedOrigins(Collections.singletonList("*"));
         corsConfig.setMaxAge(3600L);
-        corsConfig.setAllowedMethods(Collections.singletonList("*"));
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         corsConfig.setAllowedHeaders(Collections.singletonList("*"));
         corsConfig.setAllowCredentials(true);
         corsConfig.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
@@ -53,27 +48,18 @@ public class GatewayConfig {
 
         return new CorsWebFilter(source);
     }
-    
+
     @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE + 1)
-    public WebFilter corsFilter() {
+    public GlobalFilter customGlobalFilter() {
         return (exchange, chain) -> {
-            ServerHttpRequest request = exchange.getRequest();
-            if (CorsUtils.isCorsRequest(request)) {
-                ServerHttpResponse response = exchange.getResponse();
-                HttpHeaders headers = response.getHeaders();
-                headers.add("Access-Control-Allow-Origin", "http://venkyrepalle:1004");
-                headers.add("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-                headers.add("Access-Control-Max-Age", "3600");
-                headers.add("Access-Control-Allow-Headers", "*");
-                headers.add("Access-Control-Allow-Credentials", "true");
-                headers.add("Access-Control-Expose-Headers", "Authorization");
-                if (request.getMethod() == HttpMethod.OPTIONS) {
-                    response.setStatusCode(HttpStatus.OK);
-                    return Mono.empty();
-                }
-            }
-            return chain.filter(exchange);
+            ServerWebExchange modifiedExchange = exchange.mutate()
+                    .request(originalRequest -> originalRequest.headers(headers -> {
+                        HttpHeaders originalHeaders = exchange.getRequest().getHeaders();
+                        if (originalHeaders.containsKey(HttpHeaders.AUTHORIZATION)) {
+                            headers.addAll(HttpHeaders.AUTHORIZATION, originalHeaders.get(HttpHeaders.AUTHORIZATION));
+                        }
+                    })).build();
+            return chain.filter(modifiedExchange);
         };
     }
 
