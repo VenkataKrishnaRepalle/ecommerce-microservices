@@ -14,7 +14,6 @@ public class CategoryDto {
 
     private String name;
 
-
     private String alias;
 
     private String imageName;
