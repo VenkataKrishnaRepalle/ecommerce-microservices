@@ -2,7 +2,7 @@ package com.pm.spring.ema.brand.bootstrap;
 
 import com.pm.spring.ema.brand.model.entity.Brand;
 import com.pm.spring.ema.brand.model.repository.BrandRepository;
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
+import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

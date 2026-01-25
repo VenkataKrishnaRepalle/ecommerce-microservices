@@ -1,6 +1,6 @@
 package com.pm.spring.ema.brand.model.entity;
 
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
+import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

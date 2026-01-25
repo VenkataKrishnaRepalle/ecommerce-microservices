@@ -6,19 +6,17 @@ import com.pm.spring.ema.brand.dto.response.BrandAuditResponseDto;
 import com.pm.spring.ema.brand.dto.response.BrandCreateResponseDto;
 import com.pm.spring.ema.brand.dto.response.BrandUpdateResponseDto;
 import com.pm.spring.ema.brand.model.entity.Brand;
-import com.pm.spring.ema.common.dto.BrandFindResponseDto;
-import com.pm.spring.ema.common.util.InstantFormatter;
+import com.pm.spring.ema.common.util.dto.BrandFindResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.springframework.format.datetime.standard.InstantFormatter;
 
 import java.time.Instant;
 
 @Mapper
 public interface BrandMapper {
 
-    @Mapping(source = "createdOn", target = "createdOn", qualifiedByName = "formatInstant")
-    @Mapping(source = "lastUpdatedOn", target = "lastUpdatedOn", qualifiedByName = "formatInstant")
     BrandFindResponseDto brandToBrandFindResponseDto(Brand brand);
 
     Brand brandCreateRequestDtoToBrand(BrandCreateRequestDto brandCreateRequestDto);
@@ -29,16 +27,6 @@ public interface BrandMapper {
 
     BrandUpdateResponseDto brandToBrandUpdateResponseDto(Brand brand);
 
-    @Mapping(source = "createdOn", target = "createdOn", qualifiedByName = "formatInstant")
-    @Mapping(source = "lastUpdatedOn", target = "lastUpdatedOn", qualifiedByName = "formatInstant")
     BrandAuditResponseDto brandToBrandAuditResponseDto(Brand brand);
-
-    @Named("formatInstant")
-    default String formatInstant(Instant instant) {
-        if (instant != null) {
-            return InstantFormatter.formatInstant(instant);
-        }
-        return null;
-    }
 
 }

@@ -1,7 +1,7 @@
 package com.pm.spring.ema.brand.dto.response;
 
 
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
+import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import lombok.Builder;
 import lombok.Data;
 

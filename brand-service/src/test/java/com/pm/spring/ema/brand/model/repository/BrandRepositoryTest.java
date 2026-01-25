@@ -1,7 +1,7 @@
 package com.pm.spring.ema.brand.model.repository;
 
 import com.pm.spring.ema.brand.model.entity.Brand;
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
+import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

@@ -1,7 +1,7 @@
 package com.pm.spring.ema.brand.dto.request;
 
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
-import com.pm.spring.ema.common.util.exception.ErrorCodes;
+import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
+import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

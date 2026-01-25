@@ -39,12 +39,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = getTokenFromRequest(request);
 
         if (StringUtils.hasText(token)) {
-            System.out.println("Token found: " + token);
             if (validateToken(token)) {
-                System.out.println("Token is valid. Setting authentication context.");
                 String username = getUsernameFromToken(token);
-                System.out.println("Username from token: " + username);
-
                 UserDetails userDetails = new User(username, "", Collections.emptyList());
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

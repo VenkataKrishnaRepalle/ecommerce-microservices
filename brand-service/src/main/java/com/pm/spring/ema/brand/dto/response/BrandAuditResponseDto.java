@@ -1,14 +1,11 @@
 package com.pm.spring.ema.brand.dto.response;
 
 
-import com.pm.spring.ema.common.enums.BrandStatusEnum;
+import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.RevisionType;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Data

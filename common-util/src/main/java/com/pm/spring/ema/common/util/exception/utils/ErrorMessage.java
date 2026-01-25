@@ -11,30 +11,18 @@ public class ErrorMessage {
     }
 
     public static ErrorResponse errorResponse(String error, String dynamicValue) {
-        String[] errorCodeAndMessage = error.split("-", 1);
-        String errorCode = errorCodeAndMessage[0];
-        String errorMessage = errorCodeAndMessage[1];
 
         return ErrorResponse.builder()
                 .status(StatusType.ERROR)
-                .error(Error.builder()
-                        .code(errorCode)
-                        .message(MessageFormat.format(errorMessage, dynamicValue))
-                        .build())
+                .message(error + dynamicValue)
                 .build();
     }
 
     public static ErrorResponse errorResponse(String error) {
-        String[] errorCodeAndMessage = error.split("-", 2);
-        String errorCode = errorCodeAndMessage[0];
-        String errorMessage = errorCodeAndMessage[1];
 
         return ErrorResponse.builder()
                 .status(StatusType.ERROR)
-                .error(Error.builder()
-                        .code(errorCode)
-                        .message(errorMessage)
-                        .build())
+                .message(error)
                 .build();
     }
 }

@@ -5,8 +5,8 @@ import com.pm.spring.ema.brand.dto.response.BrandCreateResponseDto;
 import com.pm.spring.ema.brand.dto.request.BrandUpdateRequestDto;
 import com.pm.spring.ema.brand.dto.response.BrandUpdateResponseDto;
 import com.pm.spring.ema.brand.dto.enums.BrandSearchKeywordEnum;
-import com.pm.spring.ema.brand.exception.BrandNotFoundException;
-import com.pm.spring.ema.common.dto.BrandFindResponseDto;
+import com.pm.spring.ema.common.util.dto.BrandFindResponseDto;
+import com.pm.spring.ema.common.util.exception.NotFoundException;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,9 +20,9 @@ public interface BrandService {
 
     BrandCreateResponseDto create(BrandCreateRequestDto brandCreateRequestDto);
 
-    BrandUpdateResponseDto update(UUID id, BrandUpdateRequestDto brandCreateRequestDto) throws BrandNotFoundException;
+    BrandUpdateResponseDto update(UUID id, BrandUpdateRequestDto brandCreateRequestDto) throws NotFoundException;
 
-    void deleteById(UUID id) throws BrandNotFoundException;
+    void deleteById(UUID id) throws NotFoundException;
 
     Boolean isIdExist(UUID uuid);
 
