@@ -2,9 +2,11 @@ package com.pm.spring.ema.authservice.service.impl;
 
 import com.pm.spring.ema.authservice.dao.AuthDao;
 import com.pm.spring.ema.authservice.dto.LoginDto;
+import com.pm.spring.ema.authservice.kafka.MailProducer;
 import com.pm.spring.ema.authservice.security.JwtTokenProvider;
 import com.pm.spring.ema.authservice.service.AuthService;
 import com.pm.spring.ema.common.util.dto.ApiResponse;
+import com.pm.spring.ema.common.util.dto.CustomerDetailsDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +23,12 @@ import java.util.Collections;
 public class AuthServiceImpl implements AuthService {
 
     private final AuthDao authDao;
+
     private final JwtTokenProvider jwtTokenProvider;
+
     private final PasswordEncoder passwordEncoder;
+
+    private final MailProducer mailProducer;
 
     @Override
     public ApiResponse<?> login(LoginDto loginDto, HttpServletResponse response) {
@@ -44,7 +50,8 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenProvider.generateToken(authentication);
 
-        // Return token in response body as well
+        mailProducer.sendLoginOtp(new CustomerDetailsDto(customer.getUuid(), customer.getEmail(), customer.getFirstName(), customer.getLastName()));
+
         return ApiResponse.success(token, "Login successful");
     }
 }
