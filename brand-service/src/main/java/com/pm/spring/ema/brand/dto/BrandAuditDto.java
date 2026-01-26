@@ -1,4 +1,4 @@
-package com.pm.spring.ema.brand.dto.response;
+package com.pm.spring.ema.brand.dto;
 
 
 import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class BrandAuditResponseDto {
+public class BrandAuditDto {
     private UUID id;
     private String name;
     private String imageName;

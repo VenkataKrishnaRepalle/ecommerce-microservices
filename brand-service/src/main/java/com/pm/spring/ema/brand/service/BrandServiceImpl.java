@@ -1,12 +1,8 @@
 package com.pm.spring.ema.brand.service;
 
-import com.pm.spring.ema.brand.dto.request.BrandCreateRequestDto;
-import com.pm.spring.ema.brand.dto.response.BrandCreateResponseDto;
-import com.pm.spring.ema.brand.dto.request.BrandUpdateRequestDto;
-import com.pm.spring.ema.brand.dto.response.BrandUpdateResponseDto;
+import com.pm.spring.ema.brand.dto.BrandDto;
 import com.pm.spring.ema.brand.model.dao.BrandDao;
 import com.pm.spring.ema.brand.model.entity.Brand;
-import com.pm.spring.ema.brand.dto.enums.BrandSearchKeywordEnum;
 import com.pm.spring.ema.brand.mapper.BrandMapper;
 import com.pm.spring.ema.common.util.dto.BrandFindResponseDto;
 import com.pm.spring.ema.common.util.exception.FoundException;
@@ -37,7 +33,7 @@ public class BrandServiceImpl implements BrandService {
 
         List<BrandFindResponseDto> brandFindResponseDtoList = brandDao.findAll()
                 .stream()
-                .map(brandMapper::brandToBrandFindResponseDto)
+                .map(brandMapper::toBrandFindResponseDto)
                 .toList();
 
         log.info("BrandService:getAllBrands execution ended.");
@@ -45,7 +41,7 @@ public class BrandServiceImpl implements BrandService {
         return brandFindResponseDtoList;
     }
 
-    public List<BrandFindResponseDto> getByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDirectory, BrandSearchKeywordEnum searchField, String searchKeyword) {
+    public List<BrandFindResponseDto> getByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDirectory, String searchField, String searchKeyword) {
         log.info("BrandService:getBrandsByPage execution started.");
 
         if (sortField.isBlank()) {
@@ -59,7 +55,7 @@ public class BrandServiceImpl implements BrandService {
 
         Page<Brand> brandList;
 
-        if (searchKeyword != null && searchField.equals(BrandSearchKeywordEnum.BRAND_NAME)) {
+        if (searchKeyword != null && searchField.equals("BRAND_NAME")) {
             brandList =  brandDao.findAllByName(searchKeyword, pageable);
 
         } else {
@@ -67,7 +63,7 @@ public class BrandServiceImpl implements BrandService {
         }
 
         List<BrandFindResponseDto> brandFindResponseDtoList = brandList.stream()
-                .map(brandMapper::brandToBrandFindResponseDto)
+                .map(brandMapper::toBrandFindResponseDto)
                 .toList();
         log.info("BrandService:getBrandsByPage execution ended.");
 
@@ -86,23 +82,23 @@ public class BrandServiceImpl implements BrandService {
             throw new NotFoundException(ErrorCodes.E0501, id.toString());
         }
 
-        BrandFindResponseDto brandFindResponseDto = brandMapper.brandToBrandFindResponseDto(optionalBrand.get());
+        BrandFindResponseDto brandFindResponseDto = brandMapper.toBrandFindResponseDto(optionalBrand.get());
         log.info("BrandService:getBrandById execution ended.");
 
         return brandFindResponseDto;
     }
 
     @Override
-    public BrandCreateResponseDto create(BrandCreateRequestDto brandCreateRequestDto) {
+    public BrandDto create(BrandDto brandDto) {
         log.info("BrandService:createBrand execution started.");
 
-        if (isNameExist(brandCreateRequestDto.getName())) {
-            throw new FoundException(ErrorCodes.E0502, brandCreateRequestDto.getName());
+        if (isNameExist(brandDto.getName())) {
+            throw new FoundException(ErrorCodes.E0502, brandDto.getName());
         }
 
-        Brand brand = brandMapper.brandCreateRequestDtoToBrand(brandCreateRequestDto);
+        Brand brand = brandMapper.toBrand(brandDto);
         Brand brandCreated = brandDao.save(brand);
-        BrandCreateResponseDto brandCreateResponseDto = brandMapper.brandToBrandCreateResponseDto(brandCreated);
+        BrandDto brandCreateResponseDto = brandMapper.toBrandDto(brandCreated);
 
         log.info("BrandService:createBrand execution ended.");
 
@@ -111,7 +107,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandUpdateResponseDto update(final UUID id, BrandUpdateRequestDto brandUpdateRequestDto)
+    public BrandDto update(final UUID id, BrandDto brandUpdateRequestDto)
             throws NotFoundException {
         log.info("BrandService:updateBrand execution started.");
 
@@ -122,11 +118,11 @@ public class BrandServiceImpl implements BrandService {
             throw new NotFoundException(ErrorCodes.E0502, id.toString());
         }
 
-        Brand brand = brandMapper.brandUpdateRequestDtoToBrand(brandUpdateRequestDto);
+        Brand brand = brandMapper.toBrand(brandUpdateRequestDto);
         brand.setId(optionalBrand.get().getId());
 
         Brand brandUpdated = brandDao.save(brand);
-        BrandUpdateResponseDto brandUpdateResponseDto = brandMapper.brandToBrandUpdateResponseDto(brandUpdated);
+        BrandDto brandUpdateResponseDto = brandMapper.toBrandDto(brandUpdated);
 
         log.info("BrandService:updateBrand execution ended.");
 

@@ -1,6 +1,6 @@
 package com.pm.spring.ema.brand.controller;
 
-import com.pm.spring.ema.brand.dto.response.BrandAuditResponseDto;
+import com.pm.spring.ema.brand.dto.BrandAuditDto;
 import com.pm.spring.ema.brand.service.BrandAuditService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ public class BrandAuditController {
     private final BrandAuditService brandAuditService;
 
     @GetMapping("{id}/audit")
-    public List<BrandAuditResponseDto> getBrandAudits(
+    public List<BrandAuditDto> getBrandAudits(
             @PathVariable("id") UUID id) {
 
         return brandAuditService.getAuditRecords(id);

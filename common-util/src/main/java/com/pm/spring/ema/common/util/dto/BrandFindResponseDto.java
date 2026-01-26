@@ -11,9 +11,9 @@ import java.util.UUID;
 @Builder
 public class BrandFindResponseDto {
     private UUID id;
+    private UUID subcategoryId;
     private String name;
     private BrandStatusEnum status;
     private String createdOn;
     private String lastUpdatedOn;
-    private UUID subcategoryId;
 }

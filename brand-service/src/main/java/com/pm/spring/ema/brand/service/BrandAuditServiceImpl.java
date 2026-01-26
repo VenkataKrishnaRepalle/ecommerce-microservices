@@ -1,6 +1,6 @@
 package com.pm.spring.ema.brand.service;
 
-import com.pm.spring.ema.brand.dto.response.BrandAuditResponseDto;
+import com.pm.spring.ema.brand.dto.BrandAuditDto;
 import com.pm.spring.ema.brand.model.dao.AuditDao;
 import com.pm.spring.ema.brand.model.entity.Brand;
 import com.pm.spring.ema.brand.mapper.BrandMapper;
@@ -21,17 +21,17 @@ public class BrandAuditServiceImpl implements BrandAuditService {
     private final BrandMapper brandMapper;
 
     @Override
-    public List<BrandAuditResponseDto> getAuditRecords(UUID entityId) {
+    public List<BrandAuditDto> getAuditRecords(UUID entityId) {
 
         List<Object[]> auditEntities =  brandAuditDao.getAuditRecords(Brand.class, entityId);
-        List<BrandAuditResponseDto> auditDTOs = new ArrayList<>();
+        List<BrandAuditDto> auditDTOs = new ArrayList<>();
 
         for (Object[] auditEntity : auditEntities) {
             Brand brand = (Brand) auditEntity[0];
             DefaultRevisionEntity revisionEntity = (DefaultRevisionEntity) auditEntity[1];
             RevisionType revisionType = (RevisionType) auditEntity[2];
 
-            BrandAuditResponseDto auditDTO = brandMapper.brandToBrandAuditResponseDto(brand);
+            BrandAuditDto auditDTO = brandMapper.brandToBrandAuditResponseDto(brand);
             auditDTO.setRevision(revisionEntity.getId());
             auditDTO.setRevisionType(revisionType);
 

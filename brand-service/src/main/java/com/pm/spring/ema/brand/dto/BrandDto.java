@@ -1,4 +1,4 @@
-package com.pm.spring.ema.brand.dto.request;
+package com.pm.spring.ema.brand.dto;
 
 import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
@@ -13,7 +13,10 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class BrandCreateRequestDto {
+public class BrandDto {
+
+    private UUID id;
+
     @NotBlank(message = ErrorCodes.E0001)
     @Size(min = 2, max = 45, message = ErrorCodes.E0002)
     private String name;

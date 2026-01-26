@@ -1,10 +1,6 @@
 package com.pm.spring.ema.brand.service;
 
-import com.pm.spring.ema.brand.dto.request.BrandCreateRequestDto;
-import com.pm.spring.ema.brand.dto.response.BrandCreateResponseDto;
-import com.pm.spring.ema.brand.dto.request.BrandUpdateRequestDto;
-import com.pm.spring.ema.brand.dto.response.BrandUpdateResponseDto;
-import com.pm.spring.ema.brand.dto.enums.BrandSearchKeywordEnum;
+import com.pm.spring.ema.brand.dto.BrandDto;
 import com.pm.spring.ema.common.util.dto.BrandFindResponseDto;
 import com.pm.spring.ema.common.util.exception.NotFoundException;
 
@@ -14,13 +10,13 @@ import java.util.UUID;
 public interface BrandService {
     List<BrandFindResponseDto> getAll();
 
-    List<BrandFindResponseDto> getByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, BrandSearchKeywordEnum searchField, String searchKeyword);
+    List<BrandFindResponseDto> getByPage(Integer pageNumber, Integer perPageCount, String sortField, String sortDir, String searchField, String searchKeyword);
 
     BrandFindResponseDto getById(UUID id);
 
-    BrandCreateResponseDto create(BrandCreateRequestDto brandCreateRequestDto);
+    BrandDto create(BrandDto brandDto);
 
-    BrandUpdateResponseDto update(UUID id, BrandUpdateRequestDto brandCreateRequestDto) throws NotFoundException;
+    BrandDto update(UUID id, BrandDto brandCreateRequestDto) throws NotFoundException;
 
     void deleteById(UUID id) throws NotFoundException;
 

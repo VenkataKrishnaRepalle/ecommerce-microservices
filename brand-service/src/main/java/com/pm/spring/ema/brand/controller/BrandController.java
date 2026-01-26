@@ -1,10 +1,6 @@
 package com.pm.spring.ema.brand.controller;
 
-import com.pm.spring.ema.brand.dto.request.BrandCreateRequestDto;
-import com.pm.spring.ema.brand.dto.response.BrandCreateResponseDto;
-import com.pm.spring.ema.brand.dto.request.BrandUpdateRequestDto;
-import com.pm.spring.ema.brand.dto.response.BrandUpdateResponseDto;
-import com.pm.spring.ema.brand.dto.enums.BrandSearchKeywordEnum;
+import com.pm.spring.ema.brand.dto.BrandDto;
 import com.pm.spring.ema.brand.service.BrandService;
 import com.pm.spring.ema.brand.validations.ValidImageExtension;
 import com.pm.spring.ema.common.util.HttpStatusCodes;
@@ -49,18 +45,14 @@ public class BrandController {
 
     @Operation(tags = "Brand", summary = "Create Brand", description = "Create a new Brand by entering brand details")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Brand", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BrandCreateResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Brand", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BrandDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = List.class))),
             @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping(value = "create")
-    public ResponseEntity<BrandCreateResponseDto> createBrand(
-            @RequestBody @Valid final BrandCreateRequestDto brandCreateRequestDto)
-            throws FoundException {
-
-        BrandCreateResponseDto savedBrandDto = brandService.create(brandCreateRequestDto);
-
+    public ResponseEntity<BrandDto> createBrand(@RequestBody @Valid final BrandDto brandDto) {
+        BrandDto savedBrandDto = brandService.create(brandDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedBrandDto);
     }
@@ -74,7 +66,6 @@ public class BrandController {
     @GetMapping("{id}")
     public ResponseEntity<BrandFindResponseDto> getBrandById(@PathVariable @Valid final UUID id) {
         BrandFindResponseDto brandFindResponseDto = brandService.getById(id);
-
         return ResponseEntity.ok()
                 .body(brandFindResponseDto);
     }
@@ -94,14 +85,14 @@ public class BrandController {
 
     @Operation(tags = "Brand", summary = "Update Brand", description = "Update brand by passing brand id and brand request body")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Brand", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BrandCreateResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Brand", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BrandDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = List.class))),
             @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PatchMapping("update/{id}")
-    public ResponseEntity<BrandUpdateResponseDto> updateBrand(@PathVariable UUID id, @RequestBody BrandUpdateRequestDto brandUpdateRequestDto) {
-        BrandUpdateResponseDto brandUpdateResponseDto = brandService.update(id, brandUpdateRequestDto);
+    public ResponseEntity<BrandDto> updateBrand(@PathVariable UUID id, @RequestBody BrandDto brandUpdateRequestDto) {
+        BrandDto brandUpdateResponseDto = brandService.update(id, brandUpdateRequestDto);
         return ResponseEntity.ok()
                 .body(brandUpdateResponseDto);
 
@@ -109,7 +100,7 @@ public class BrandController {
 
     @Operation(tags = "Brand", summary = "Delete Brand By Id", description = "Delete existing brand by passing brand id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Brand", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BrandCreateResponseDto.class))}),
+            @ApiResponse(responseCode = HttpStatusCodes.CREATED, description = "Create a Brand", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BrandDto.class))}),
             @ApiResponse(responseCode = HttpStatusCodes.BAD_REQUEST, description = "Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = List.class))),
             @ApiResponse(responseCode = HttpStatusCodes.CONFLICT, description = "Some data already exist", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR, description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
@@ -133,7 +124,7 @@ public class BrandController {
                                                                       @RequestParam("perPageCount") Integer perPageCount,
                                                                       @RequestParam("sortField") String sortField,
                                                                       @RequestParam("sortDirection") String sortDirection,
-                                                                      @RequestParam("searchField") BrandSearchKeywordEnum searchField,
+                                                                      @RequestParam("searchField") String searchField,
                                                                       @RequestParam("searchKeyword") String searchKeyword) {
         List<BrandFindResponseDto> brandFindResponseDtoList = brandService.getByPage(pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
         return ResponseEntity.ok()
