@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MessageServiceFallbackModel {
-    private String fallbackMessage;
+  private String fallbackMessage;
 }

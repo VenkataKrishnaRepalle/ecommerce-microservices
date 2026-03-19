@@ -8,9 +8,7 @@ import lombok.Data;
 @Builder
 public class LoginDto {
 
-    @NotNull
-    private String email;
+  @NotNull private String email;
 
-    @NotNull
-    private String password;
+  @NotNull private String password;
 }

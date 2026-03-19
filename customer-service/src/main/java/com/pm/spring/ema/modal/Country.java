@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Country {
 
-    @Id
-    @Column(nullable = false)
-    private String code;
+  @Id
+  @Column(nullable = false)
+  private String code;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+  @Column(nullable = false, unique = true)
+  private String name;
 }

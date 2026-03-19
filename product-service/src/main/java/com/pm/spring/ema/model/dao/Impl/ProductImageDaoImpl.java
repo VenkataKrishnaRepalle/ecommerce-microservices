@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class ProductImageDaoImpl implements ProductImageDao {
-    private final ProductImageRepository productImageRepository;
+  private final ProductImageRepository productImageRepository;
 
-    @Override
-    public ProductImage save(ProductImage productImage) {
-        return productImageRepository.save(productImage);
-    }
+  @Override
+  public ProductImage save(ProductImage productImage) {
+    return productImageRepository.save(productImage);
+  }
 }

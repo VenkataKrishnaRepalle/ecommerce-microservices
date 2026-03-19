@@ -5,5 +5,5 @@ import com.pm.spring.ema.common.util.dto.ApiResponse;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthService {
-    ApiResponse<?> login(LoginDto loginDto, HttpServletResponse response);
+  ApiResponse<?> login(LoginDto loginDto, HttpServletResponse response);
 }

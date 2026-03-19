@@ -9,13 +9,9 @@ import lombok.Data;
 @Builder
 public class ForgotPasswordDto {
 
-    @Email
-    @NotNull
-    private String email;
+  @Email @NotNull private String email;
 
-    @NotNull
-    private String password;
+  @NotNull private String password;
 
-    @NotNull
-    private String confirmPassword;
+  @NotNull private String confirmPassword;
 }

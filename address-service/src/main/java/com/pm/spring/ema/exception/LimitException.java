@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Limit reached!")
 public class LimitException extends RuntimeException {
-    private final String errorCode;
+  private final String errorCode;
 
-    public LimitException(String errorCode) {
-        super(String.format("%s", errorCode));
-        this.errorCode = errorCode;
-    }
-
+  public LimitException(String errorCode) {
+    super(String.format("%s", errorCode));
+    this.errorCode = errorCode;
+  }
 }

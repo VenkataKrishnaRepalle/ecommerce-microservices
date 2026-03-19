@@ -11,13 +11,13 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface ProductMapper {
 
-    ProductFindResponseDto productToProductFindResponseDto(Product product);
+  ProductFindResponseDto productToProductFindResponseDto(Product product);
 
-    Product productCreateRequestDtoToProduct(ProductCreateRequestDto productCreateRequestDto);
+  Product productCreateRequestDtoToProduct(ProductCreateRequestDto productCreateRequestDto);
 
-    ProductCreateResponseDto productToProductCreateResponseDto(Product product);
+  ProductCreateResponseDto productToProductCreateResponseDto(Product product);
 
-    Product productUpdateRequestDtoToProduct(ProductUpdateRequestDto productUpdateRequestDto);
+  Product productUpdateRequestDtoToProduct(ProductUpdateRequestDto productUpdateRequestDto);
 
-    ProductUpdateResponseDto productToProductUpdateResponseDto(Product product);
+  ProductUpdateResponseDto productToProductUpdateResponseDto(Product product);
 }

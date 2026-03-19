@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 class SubSubCategoryServiceTest {
 
-    @Test
-    void listAll() {
-    }
+  @Test
+  void listAll() {}
 }

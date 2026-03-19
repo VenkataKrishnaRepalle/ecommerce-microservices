@@ -8,8 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.pm.spring.ema.authservice.dao")
 public class AuthServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(AuthServiceApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(AuthServiceApplication.class, args);
+  }
 }

@@ -9,12 +9,11 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface BrandMapper {
 
-    BrandFindResponseDto toBrandFindResponseDto(Brand brand);
+  BrandFindResponseDto toBrandFindResponseDto(Brand brand);
 
-    Brand toBrand(BrandDto brandDto);
+  Brand toBrand(BrandDto brandDto);
 
-    BrandDto toBrandDto(Brand brand);
+  BrandDto toBrandDto(Brand brand);
 
-    BrandAuditDto brandToBrandAuditResponseDto(Brand brand);
-
+  BrandAuditDto brandToBrandAuditResponseDto(Brand brand);
 }

@@ -68,3 +68,23 @@ Accept: application/json
 
 ###
 DELETE http://localhost:1002/product/delete/bb4ff010-fade-41ee-b49b-d1bda72a82bc
+
+###
+POST https://api.brevo.com/v3/smtp/email
+Content-Type: application/json
+api-key: ${API_KEY}
+
+{
+  "sender": {
+    "name": "EMS App",
+    "email": "v4431365@gmail.com"
+  },
+  "to": [
+    {
+      "email": "rvkrishna13052001@gmail.com",
+      "name": "Venkata Krishna Repalle"
+    }
+  ],
+  "subject": "My subject",
+  "htmlContent": "Congratulations! You successfully sent this example email via the Brevo API."
+}

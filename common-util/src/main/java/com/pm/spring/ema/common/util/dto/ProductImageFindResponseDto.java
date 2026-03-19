@@ -1,18 +1,16 @@
 package com.pm.spring.ema.common.dto;
 
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.UUID;
 
 @Data
 @Builder
 public class ProductImageFindResponseDto {
 
-    private UUID id;
+  private UUID id;
 
-    private String name;
+  private String name;
 
-    private UUID productId;
-
+  private UUID productId;
 }

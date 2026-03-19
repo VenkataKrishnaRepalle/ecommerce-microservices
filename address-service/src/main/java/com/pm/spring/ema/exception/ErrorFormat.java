@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class ErrorFormat {
-    private String code;
-    private String message;
+  private String code;
+  private String message;
 }
-

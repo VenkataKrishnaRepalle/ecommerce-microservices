@@ -10,13 +10,16 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface ProductImageMapper {
 
-    ProductImageFindResponseDto ProductImageToProductImageFindResponseDto(ProductImage productImage);
+  ProductImageFindResponseDto ProductImageToProductImageFindResponseDto(ProductImage productImage);
 
-    ProductImage ProductImageCreateRequestDtoToProductImage(ProductImageCreateRequestDto productCreateRequestDto);
+  ProductImage ProductImageCreateRequestDtoToProductImage(
+      ProductImageCreateRequestDto productCreateRequestDto);
 
-    ProductCreateRequestDto ProductImageToProductImageCreateRequestDto(ProductImage productImage);
+  ProductCreateRequestDto ProductImageToProductImageCreateRequestDto(ProductImage productImage);
 
-    ProductImage ProductImageCreateResponseDtoToProductImage(ProductImageCreateResponseDto productImageCreateResponseDto);
+  ProductImage ProductImageCreateResponseDtoToProductImage(
+      ProductImageCreateResponseDto productImageCreateResponseDto);
 
-    ProductImageCreateResponseDto ProductImageToProductImageCreateResponseDto(ProductImage productImage);
+  ProductImageCreateResponseDto ProductImageToProductImageCreateResponseDto(
+      ProductImage productImage);
 }

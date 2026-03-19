@@ -15,36 +15,34 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
+  public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+  }
 
-    private static final String[] PUBLIC_PATHS = {
-            "/swagger-ui.html",
-            "/swagger-ui/**",
-            "/v3/api-docs/**",
-            "/v3/api-docs/swagger-config",
-            "/actuator/**",
-            "/customer/register",
-            "/customer/login",
-            "/customer/forgotPasswod",
-            "/customer/changePassword"
-    };
+  private static final String[] PUBLIC_PATHS = {
+    "/swagger-ui.html",
+    "/swagger-ui/**",
+    "/v3/api-docs/**",
+    "/v3/api-docs/swagger-config",
+    "/actuator/**",
+    "/customer/register",
+    "/customer/login",
+    "/customer/forgotPasswod",
+    "/customer/changePassword"
+  };
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults()) // Enable CORS in Spring Security
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(PUBLIC_PATHS).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    http.csrf(AbstractHttpConfigurer::disable)
+        .cors(Customizer.withDefaults()) // Enable CORS in Spring Security
+        .authorizeHttpRequests(
+            authorize ->
+                authorize.requestMatchers(PUBLIC_PATHS).permitAll().anyRequest().authenticated())
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+    return http.build();
+  }
 }

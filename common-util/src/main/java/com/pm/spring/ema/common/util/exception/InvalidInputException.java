@@ -4,12 +4,11 @@ import lombok.Getter;
 
 @Getter
 public class InvalidInputException extends RuntimeException {
-    private final String errorCode;
+  private final String errorCode;
 
-    public InvalidInputException(String errorCode) {
-        super(String.format("%s", errorCode));
+  public InvalidInputException(String errorCode) {
+    super(String.format("%s", errorCode));
 
-        this.errorCode = errorCode;
-    }
-
+    this.errorCode = errorCode;
+  }
 }

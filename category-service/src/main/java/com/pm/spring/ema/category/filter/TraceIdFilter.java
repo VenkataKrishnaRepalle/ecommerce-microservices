@@ -2,23 +2,21 @@ package com.pm.spring.ema.category.filter;
 
 import com.pm.spring.ema.category.utils.TraceIdHolder;
 import jakarta.servlet.*;
-import org.springframework.stereotype.Component;
-
 import java.io.IOException;
+import org.springframework.stereotype.Component;
 
 @Component
 public class TraceIdFilter implements Filter {
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
 
-        TraceIdHolder.generateTraceId();
-        try {
-            chain.doFilter(request, response);
-        } finally {
-            TraceIdHolder.clearTraceId();
-        }
+    TraceIdHolder.generateTraceId();
+    try {
+      chain.doFilter(request, response);
+    } finally {
+      TraceIdHolder.clearTraceId();
     }
-
+  }
 }

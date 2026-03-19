@@ -8,9 +8,7 @@ import lombok.Data;
 @Builder
 public class CountryDto {
 
-    @NotNull
-    private String code;
+  @NotNull private String code;
 
-    @NotNull
-    private String name;
+  @NotNull private String name;
 }

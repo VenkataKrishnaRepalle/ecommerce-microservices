@@ -1,17 +1,12 @@
 package com.pm.spring.ema.model.entity;
 
 import jakarta.persistence.*;
-
 import java.util.UUID;
-
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
 
 @Entity
 @Data
@@ -19,19 +14,18 @@ import org.hibernate.type.SqlTypes;
 @RequiredArgsConstructor
 public class ProductImage {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(columnDefinition = "varchar(36)",
-            updatable = false, nullable = false)
-    private UUID id;
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @JdbcTypeCode(SqlTypes.CHAR)
+  @Column(columnDefinition = "varchar(36)", updatable = false, nullable = false)
+  private UUID id;
 
-    @Column(nullable = false)
-    private String name;
-// todo: imageOrder -> Integer, Status -> Active, Disable
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(columnDefinition = "varchar(36)", nullable = false)
-    private UUID productId;
+  @Column(nullable = false)
+  private String name;
+
+  // todo: imageOrder -> Integer, Status -> Active, Disable
+  @JdbcTypeCode(SqlTypes.CHAR)
+  @Column(columnDefinition = "varchar(36)", nullable = false)
+  private UUID productId;
 }

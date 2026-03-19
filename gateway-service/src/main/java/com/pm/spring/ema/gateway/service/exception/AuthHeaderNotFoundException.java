@@ -1,9 +1,9 @@
-//package com.pm.spring.ema.gateway.service.exception;
+// package com.pm.spring.ema.gateway.service.exception;
 //
-//import lombok.Getter;
+// import lombok.Getter;
 //
-//@Getter
-//public class AuthHeaderNotFoundException extends RuntimeException {
+// @Getter
+// public class AuthHeaderNotFoundException extends RuntimeException {
 //    private final String errorCode;
 //
 //    public AuthHeaderNotFoundException(String errorCode) {
@@ -12,4 +12,4 @@
 //        this.errorCode = errorCode;
 //    }
 //
-//}
+// }

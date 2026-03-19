@@ -1,23 +1,17 @@
 package com.pm.spring.ema.dto;
 
 import jakarta.validation.constraints.NotNull;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.UUID;
-
 
 @Data
 @Builder
 public class ProductImageCreateResponseDto {
 
-    @NotNull
-    private UUID id;
+  @NotNull private UUID id;
 
-    @NotNull
-    private String name;
+  @NotNull private String name;
 
-    @NotNull
-    private UUID productId;
-
+  @NotNull private UUID productId;
 }

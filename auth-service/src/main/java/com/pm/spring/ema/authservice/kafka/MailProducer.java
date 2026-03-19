@@ -11,16 +11,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MailProducer {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+  private final KafkaTemplate<String, String> kafkaTemplate;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void sendLoginOtp(CustomerDetailsDto customerDetailsDto) {
-        try {
-            kafkaTemplate.send("send-login-mail", objectMapper.writeValueAsString(customerDetailsDto));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+  public void sendLoginOtp(CustomerDetailsDto customerDetailsDto) {
+    try {
+      kafkaTemplate.send("send-login-mail", objectMapper.writeValueAsString(customerDetailsDto));
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
     }
-
+  }
 }

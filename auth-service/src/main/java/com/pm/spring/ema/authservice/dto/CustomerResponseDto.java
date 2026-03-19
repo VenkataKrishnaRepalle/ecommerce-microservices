@@ -1,23 +1,22 @@
 package com.pm.spring.ema.authservice.dto;
 
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerResponseDto {
 
-    private UUID uuid;
+  private UUID uuid;
 
-    private String firstName;
+  private String firstName;
 
-    private String lastName;
+  private String lastName;
 
-    private String email;
+  private String email;
 
-    private String password;
+  private String password;
 }

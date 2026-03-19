@@ -10,21 +10,22 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Configuration
 public class CustomFeignConfiguration {
 
-    @Bean
-    public CustomErrorDecoder customErrorDecoder() {
-        return new CustomErrorDecoder();
-    }
+  @Bean
+  public CustomErrorDecoder customErrorDecoder() {
+    return new CustomErrorDecoder();
+  }
 
-    @Bean
-    public RequestInterceptor requestInterceptor() {
-        return requestTemplate -> {
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-            if (attributes != null) {
-                String authorizationHeader = attributes.getRequest().getHeader("Authorization");
-                if (authorizationHeader != null && !authorizationHeader.isEmpty()) {
-                    requestTemplate.header("Authorization", authorizationHeader);
-                }
-            }
-        };
-    }
+  @Bean
+  public RequestInterceptor requestInterceptor() {
+    return requestTemplate -> {
+      ServletRequestAttributes attributes =
+          (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+      if (attributes != null) {
+        String authorizationHeader = attributes.getRequest().getHeader("Authorization");
+        if (authorizationHeader != null && !authorizationHeader.isEmpty()) {
+          requestTemplate.header("Authorization", authorizationHeader);
+        }
+      }
+    };
+  }
 }

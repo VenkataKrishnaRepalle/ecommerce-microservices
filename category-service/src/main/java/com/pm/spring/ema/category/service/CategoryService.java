@@ -1,28 +1,27 @@
 package com.pm.spring.ema.category.service;
 
 import com.pm.spring.ema.common.util.dto.CategoryDto;
-
 import java.util.List;
 import java.util.UUID;
 
 public interface CategoryService {
-    CategoryDto createCategory(CategoryDto categoryRequestDto);
+  CategoryDto createCategory(CategoryDto categoryRequestDto);
 
-    List<CategoryDto> getAllCategory();
+  List<CategoryDto> getAllCategory();
 
-    CategoryDto getCategoryById(UUID id);
+  CategoryDto getCategoryById(UUID id);
 
-    CategoryDto updateCategory(UUID id, CategoryDto CategoryRequestDto);
+  CategoryDto updateCategory(UUID id, CategoryDto CategoryRequestDto);
 
-    CategoryDto deleteCategoryById(UUID id);
+  CategoryDto deleteCategoryById(UUID id);
 
-    Boolean isCategoryExistByName(String name);
+  Boolean isCategoryExistByName(String name);
 
-    Boolean isCategoryExistById(UUID id);
+  Boolean isCategoryExistById(UUID id);
 
-    List<CategoryDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
+  List<CategoryDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
 
-    String updateImageById(UUID id, String fileName);
+  String updateImageById(UUID id, String fileName);
 
-    String getCategoryImageNameById(UUID id);
+  String getCategoryImageNameById(UUID id);
 }

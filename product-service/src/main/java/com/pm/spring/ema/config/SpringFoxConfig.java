@@ -1,5 +1,3 @@
 package com.pm.spring.ema.config;
 
-public class SpringFoxConfig {
-
-}
+public class SpringFoxConfig {}

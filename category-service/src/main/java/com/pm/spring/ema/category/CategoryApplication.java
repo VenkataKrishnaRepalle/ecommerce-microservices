@@ -9,14 +9,10 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-@ComponentScan(basePackages = {
-        "com.pm.spring.ema.category",
-        "com.pm.spring.ema.securitycommon"
-})
+@ComponentScan(basePackages = {"com.pm.spring.ema.category", "com.pm.spring.ema.securitycommon"})
 public class CategoryApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(CategoryApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(CategoryApplication.class, args);
+  }
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SuccessResponse {
-    private StatusType status = StatusType.SUCCESS;
-    private Object data;
+  private StatusType status = StatusType.SUCCESS;
+  private Object data;
 }

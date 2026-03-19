@@ -4,11 +4,11 @@ import lombok.Getter;
 
 @Getter
 public class NotFoundException extends RuntimeException {
-    private final String errorCode;
+  private final String errorCode;
 
-    public NotFoundException(String errorCode) {
-        super(String.format("%s", errorCode));
+  public NotFoundException(String errorCode) {
+    super(String.format("%s", errorCode));
 
-        this.errorCode = errorCode;
-    }
+    this.errorCode = errorCode;
+  }
 }

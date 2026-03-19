@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface CountryRepository extends JpaRepository<Country, Integer> {
 
-    @Query("SELECT c FROM Country c WHERE lower(c.name) = :name")
-    Country getCountryByName(@Param("name") String name);
+  @Query("SELECT c FROM Country c WHERE lower(c.name) = :name")
+  Country getCountryByName(@Param("name") String name);
 }

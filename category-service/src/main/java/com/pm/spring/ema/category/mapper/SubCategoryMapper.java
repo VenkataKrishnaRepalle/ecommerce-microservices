@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface SubCategoryMapper {
-    SubCategoryDto toSubCategoryDto(SubCategory subCategory);
+  SubCategoryDto toSubCategoryDto(SubCategory subCategory);
 
-    SubCategory toSubCategory(SubCategoryDto subCategory);
+  SubCategory toSubCategory(SubCategoryDto subCategory);
 }

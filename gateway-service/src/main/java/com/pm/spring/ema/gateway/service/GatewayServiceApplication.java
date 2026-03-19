@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.pm.spring.ema.gateway.service", "com.pm.spring.ema.app.config"})
 public class GatewayServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(GatewayServiceApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(GatewayServiceApplication.class, args);
+  }
 }

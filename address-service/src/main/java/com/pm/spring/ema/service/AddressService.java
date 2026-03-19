@@ -1,17 +1,16 @@
 package com.pm.spring.ema.service;
 
 import com.pm.spring.ema.dto.AddressDto;
-
 import java.util.UUID;
 
 public interface AddressService {
-    AddressDto addAddress(AddressDto addressRequestDto);
+  AddressDto addAddress(AddressDto addressRequestDto);
 
-    AddressDto getAddressById(UUID addressId);
+  AddressDto getAddressById(UUID addressId);
 
-    AddressDto updateAddressById(UUID addressId, AddressDto updateAddressRequestDto);
+  AddressDto updateAddressById(UUID addressId, AddressDto updateAddressRequestDto);
 
-    void updateDefaultAddress(UUID addressId);
+  void updateDefaultAddress(UUID addressId);
 
-    void deleteAddress(UUID addressId);
+  void deleteAddress(UUID addressId);
 }

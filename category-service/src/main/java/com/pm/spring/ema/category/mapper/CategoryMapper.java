@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface CategoryMapper {
-    CategoryDto toCategoryDto(Category category);
+  CategoryDto toCategoryDto(Category category);
 
-    Category toCategory(CategoryDto CategoryRequestDto);
+  Category toCategory(CategoryDto CategoryRequestDto);
 }

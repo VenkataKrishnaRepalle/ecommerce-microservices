@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface AddressMapper {
 
-    Address convertToAddress(AddressDto addressRequestDto);
+  Address convertToAddress(AddressDto addressRequestDto);
 
-    AddressDto convertToAddressDto(Address address);
+  AddressDto convertToAddressDto(Address address);
 }

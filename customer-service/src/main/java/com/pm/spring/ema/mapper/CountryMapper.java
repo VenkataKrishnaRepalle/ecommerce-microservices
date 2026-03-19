@@ -6,5 +6,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CountryMapper {
-    CountryDto countryToCountryFindResponseDto(Country country);
+  CountryDto countryToCountryFindResponseDto(Country country);
 }

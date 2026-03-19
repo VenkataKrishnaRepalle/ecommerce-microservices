@@ -80,7 +80,9 @@ default:
   send:
     email:
       address: v4431365@gmail.com
-      header: Chat App OTP Verification
+      header: Ecommerce OTP Verification
+      api-key: ${API_KEY}
+      url: https://api.brevo.com/v3/smtp
 
 email:
   template:

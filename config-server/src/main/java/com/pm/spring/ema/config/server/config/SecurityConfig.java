@@ -10,17 +10,21 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain webSecurityCustomizer(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(requests -> requests
-                        .requestMatchers(new AntPathRequestMatcher("/actuator/**"),
-                                new AntPathRequestMatcher("/encrypt/**"),
-                                new AntPathRequestMatcher("/decrypt/**"))
-                        .permitAll()
-                        .anyRequest().authenticated())
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/encrypt/**", "/decrypt/**"))
-                .httpBasic(Customizer.withDefaults());
+  @Bean
+  public SecurityFilterChain webSecurityCustomizer(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests(
+            requests ->
+                requests
+                    .requestMatchers(
+                        new AntPathRequestMatcher("/actuator/**"),
+                        new AntPathRequestMatcher("/encrypt/**"),
+                        new AntPathRequestMatcher("/decrypt/**"))
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+        .csrf(csrf -> csrf.ignoringRequestMatchers("/encrypt/**", "/decrypt/**"))
+        .httpBasic(Customizer.withDefaults());
 
-        return http.build();
-    }
+    return http.build();
+  }
 }

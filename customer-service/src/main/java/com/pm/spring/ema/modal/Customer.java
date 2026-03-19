@@ -3,18 +3,16 @@ package com.pm.spring.ema.modal;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pm.spring.ema.common.util.dto.EnabledStatus;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -24,73 +22,71 @@ import java.util.UUID;
 @Builder
 public class Customer {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(columnDefinition = "varchar(36)", updatable = false, nullable = false)
-    private UUID id;
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @JdbcTypeCode(SqlTypes.CHAR)
+  @Column(columnDefinition = "varchar(36)", updatable = false, nullable = false)
+  private UUID id;
 
-    @Column(length = 45, nullable = false)
-    private String email;
+  @Column(length = 45, nullable = false)
+  private String email;
 
-    @Column(length = 64, nullable = false)
-    @JsonIgnore
-    private String password;
+  @Column(length = 64, nullable = false)
+  @JsonIgnore
+  private String password;
 
-    @Column(length = 45, nullable = false)
-    private String firstName;
+  @Column(length = 45, nullable = false)
+  private String firstName;
 
-    @Column(length = 45, nullable = false)
-    private String lastName;
+  @Column(length = 45, nullable = false)
+  private String lastName;
 
-    @Column(length = 15, nullable = false)
-    private String phoneNumber;
+  @Column(length = 15, nullable = false)
+  private String phoneNumber;
 
-    @Column(length = 64, nullable = false)
-    private String addressLine1;
+  @Column(length = 64, nullable = false)
+  private String addressLine1;
 
-    @Column(length = 64)
-    private String addressLine2;
+  @Column(length = 64)
+  private String addressLine2;
 
-    @Column(length = 45, nullable = false)
-    private String city;
+  @Column(length = 45, nullable = false)
+  private String city;
 
-    @Column(length = 45, nullable = false)
-    private String state;
+  @Column(length = 45, nullable = false)
+  private String state;
 
-    @Column(nullable = false)
-    private String country;
+  @Column(nullable = false)
+  private String country;
 
-    @Column(length = 10, nullable = false)
-    private String postalCode;
+  @Column(length = 10, nullable = false)
+  private String postalCode;
 
-    @Enumerated
-    private EnabledStatus isEnabled;
+  @Enumerated private EnabledStatus isEnabled;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "customer_role",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "customer_role",
+      joinColumns = @JoinColumn(name = "customer_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id"))
+  private Set<Role> roles = new HashSet<>();
 
-    @CreationTimestamp
-    @Column(name = "creation_time", updatable = false)
-    private LocalDateTime createdTime;
+  @CreationTimestamp
+  @Column(name = "creation_time", updatable = false)
+  private LocalDateTime createdTime;
 
-    @UpdateTimestamp
-    @Column(name = "updation_time")
-    private LocalDateTime updatedTime;
+  @UpdateTimestamp
+  @Column(name = "updation_time")
+  private LocalDateTime updatedTime;
 
-    public void addRole(Role role) {
-        this.roles.add(role);
-        role.getCustomers().add(this);
-    }
+  public void addRole(Role role) {
+    this.roles.add(role);
+    role.getCustomers().add(this);
+  }
 
-    public void removeRole(Role role) {
-        this.roles.remove(role);
-        role.getCustomers().remove(this);
-    }
+  public void removeRole(Role role) {
+    this.roles.remove(role);
+    role.getCustomers().remove(this);
+  }
 }

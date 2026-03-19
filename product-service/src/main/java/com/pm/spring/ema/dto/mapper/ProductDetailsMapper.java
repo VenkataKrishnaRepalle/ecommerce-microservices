@@ -8,15 +8,21 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface ProductDetailsMapper {
-    ProductDetailsFindResponseDto productDetailsToProductDetailsFindResponseDto(ProductDetails productDetails);
+  ProductDetailsFindResponseDto productDetailsToProductDetailsFindResponseDto(
+      ProductDetails productDetails);
 
-    ProductDetails productDetailsFindResponseDtoToProductDetails(ProductDetailsFindResponseDto roductDetailsFindResponseDto);
+  ProductDetails productDetailsFindResponseDtoToProductDetails(
+      ProductDetailsFindResponseDto roductDetailsFindResponseDto);
 
-    ProductDetails ProductDetailsCreateRequestDtoToProductDetails(ProductDetailsCreateRequestDto productDetailsCreateRequestDto);
+  ProductDetails ProductDetailsCreateRequestDtoToProductDetails(
+      ProductDetailsCreateRequestDto productDetailsCreateRequestDto);
 
-    ProductDetailsCreateRequestDto ProductDetailsToProductDetailsCreateRequestDto(ProductDetails productDetails);
+  ProductDetailsCreateRequestDto ProductDetailsToProductDetailsCreateRequestDto(
+      ProductDetails productDetails);
 
-    ProductDetails ProductDetailsUpdateRequestDtoToProductDetails(ProductDetailsUpdateRequestDto productDetailsUpdateRequestDto);
+  ProductDetails ProductDetailsUpdateRequestDtoToProductDetails(
+      ProductDetailsUpdateRequestDto productDetailsUpdateRequestDto);
 
-    ProductDetailsUpdateRequestDto ProductDetailsToProductDetailsUpdateRequestDto(ProductDetails productDetails);
+  ProductDetailsUpdateRequestDto ProductDetailsToProductDetailsUpdateRequestDto(
+      ProductDetails productDetails);
 }
