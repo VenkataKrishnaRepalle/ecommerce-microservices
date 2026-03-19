@@ -9,9 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.mail.MessagingException;
 import jakarta.validation.constraints.NotNull;
-import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +50,7 @@ public class MailController {
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
   @PostMapping("/send-login-otp/{userId}")
-  public ResponseEntity<Void> sendLoginOtp(@PathVariable @NotNull UUID userId)
-      throws MessagingException, UnsupportedEncodingException {
+  public ResponseEntity<Void> sendLoginOtp(@PathVariable @NotNull UUID userId) {
     log.info("MailController:sendLoginOtp Execution Started");
 
     mailService.sendLoginOtp(userId);
@@ -142,8 +139,7 @@ public class MailController {
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
   @PostMapping("/send-forgot-password-otp/{userId}")
-  public ResponseEntity<HttpStatus> sendForgotPasswordOtp(@PathVariable @NotNull UUID userId)
-      throws MessagingException, UnsupportedEncodingException {
+  public ResponseEntity<HttpStatus> sendForgotPasswordOtp(@PathVariable @NotNull UUID userId) {
     log.info("MailController:sendForgotPasswordOtp Execution Started");
 
     mailService.createOtp(userId, OtpType.FORGOT_PASSWORD_OTP);

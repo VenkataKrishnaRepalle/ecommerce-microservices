@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pm.spring.ema.common.util.dto.CustomerDetailsDto;
 import com.pm.spring.ema.mailservice.service.MailService;
-import jakarta.mail.MessagingException;
-import java.io.UnsupportedEncodingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -19,8 +17,7 @@ public class MailConsumer {
   private final MailService mailService;
 
   @KafkaListener(topics = "send-login-mail", groupId = "mail-group")
-  public void sendLoginMail(String message)
-      throws JsonProcessingException, MessagingException, UnsupportedEncodingException {
+  public void sendLoginMail(String message) throws JsonProcessingException {
     var details = objectMapper.readValue(message, CustomerDetailsDto.class);
     System.out.println("Received details: " + details);
     mailService.sendLoginMail(details);

@@ -41,6 +41,8 @@ spring:
         show-sql: true
         format-sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
   cloud:
     config:
       import-check:
