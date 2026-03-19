@@ -33,4 +33,4 @@ target
 /docker-compose/grafana/
 /docker-compose/postgresql.conf/
 /docker-compose/prometheus/
-.env
+mail-service/.env
