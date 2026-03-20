@@ -1,5 +1,5 @@
 server:
-  port: 1005
+  port: 1006
 
 spring:
   application:
@@ -22,6 +22,11 @@ spring:
     config:
       import-check:
         enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/ecommerce
 
 eureka:
   client:
