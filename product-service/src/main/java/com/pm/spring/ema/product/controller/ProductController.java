@@ -124,16 +124,6 @@ public class ProductController {
   }
 
   @Operation(
-      summary = "Get Products by Category Id",
-      description = "Get Products by Category Id",
-      tags = "Product")
-  @GetMapping("get-by-categoryId/{categoryId}")
-  public ResponseEntity<List<ProductDto>> getByCategoryId(
-          @PathVariable UUID categoryId) {
-    return new ResponseEntity<>(productService.getByCategoryId(categoryId), HttpStatus.OK);
-  }
-
-  @Operation(
       summary = "Get Products By Brand Id",
       description = "Get Products By Brand Id",
       tags = "Product")
@@ -142,16 +132,6 @@ public class ProductController {
     return new ResponseEntity<>(productService.getByBrandId(brandId), HttpStatus.OK);
   }
 
-  @Operation(
-      summary = "Get Products By Category Id and Brand Id",
-      description = "Get Products By Category Id and Brand Id",
-      tags = "Product")
-  @GetMapping("get-by-categoryId/{categoryId}/byBrandId/{brandId}")
-  public ResponseEntity<List<ProductDto>> getByCategoryIdAndBrandId(
-      @PathVariable UUID categoryId, @PathVariable UUID brandId) {
-    return new ResponseEntity<>(
-        productService.getByCategoryIdAndBrandId(categoryId, brandId), HttpStatus.OK);
-  }
 
   @Operation(
       summary = "Get is Product Exists By Product Id",

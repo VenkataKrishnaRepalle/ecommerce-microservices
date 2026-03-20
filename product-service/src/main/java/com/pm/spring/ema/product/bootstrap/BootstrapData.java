@@ -1,8 +1,9 @@
 package com.pm.spring.ema.product.bootstrap;
 
-import com.pm.spring.ema.product.model.entity.Product;
-import com.pm.spring.ema.product.model.repository.ProductRepository;
+import com.pm.spring.ema.product.entity.Product;
+import com.pm.spring.ema.product.repository.ProductRepository;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -14,8 +15,11 @@ public class BootstrapData implements CommandLineRunner {
 
   private final ProductRepository productRepository;
 
+  private static final BigDecimal COST = BigDecimal.valueOf(22999);
+  private static final BigDecimal PRICE = BigDecimal.valueOf(19999);
+
   @Override
-  public void run(String... args) throws Exception {
+  public void run(String... args) {
     loadBrandData();
   }
 
@@ -29,19 +33,14 @@ public class BootstrapData implements CommandLineRunner {
               .shortDescription("very Good Phone")
               .fullDescription("Very good Phone at low price")
               .inStock(true)
-              .cost(BigDecimal.valueOf(22999))
-              .price(BigDecimal.valueOf(19999))
-              .discountPercent(
-                  BigDecimal.valueOf(22999)
-                      .subtract(
-                          BigDecimal.valueOf(19999)
-                              .divide(BigDecimal.valueOf(22999).multiply(BigDecimal.valueOf(100)))))
+              .cost(COST)
+              .price(PRICE)
+              .discountPercent(discountPercent(COST, PRICE))
               .length(3.5f)
               .width(1.2f)
               .height(6.2f)
               .weight(12.5f)
               .mainImage("11.jpg")
-              .categoryId(UUID.fromString("3540536f-5468-42d4-92ff-9a576c3e7747"))
               .brandId(UUID.fromString("a3976462-93b7-4303-b504-0e5b0eddb283"))
               .isEnabled(Boolean.TRUE)
               .build());
@@ -52,19 +51,14 @@ public class BootstrapData implements CommandLineRunner {
               .shortDescription("very Good Phone")
               .fullDescription("Very good Phone at low price")
               .inStock(true)
-              .cost(BigDecimal.valueOf(22999))
-              .price(BigDecimal.valueOf(19999))
-              .discountPercent(
-                  BigDecimal.valueOf(22999)
-                      .subtract(
-                          BigDecimal.valueOf(19999)
-                              .divide(BigDecimal.valueOf(22999).multiply(BigDecimal.valueOf(100)))))
+              .cost(COST)
+              .price(PRICE)
+              .discountPercent(discountPercent(COST, PRICE))
               .length(3.5f)
               .width(1.2f)
               .height(6.2f)
               .weight(12.5f)
               .mainImage("11.jpg")
-              .categoryId(UUID.fromString("3540536f-5468-42d4-92ff-9a576c3e7747"))
               .brandId(UUID.fromString("a3976462-93b7-4303-b504-0e5b0eddb283"))
               .isEnabled(Boolean.TRUE)
               .build());
@@ -75,22 +69,23 @@ public class BootstrapData implements CommandLineRunner {
               .shortDescription("very Good Phone")
               .fullDescription("Very good Phone at low price")
               .inStock(true)
-              .cost(BigDecimal.valueOf(22999))
-              .price(BigDecimal.valueOf(19999))
-              .discountPercent(
-                  BigDecimal.valueOf(22999)
-                      .subtract(
-                          BigDecimal.valueOf(19999)
-                              .divide(BigDecimal.valueOf(22999).multiply(BigDecimal.valueOf(100)))))
+              .cost(COST)
+              .price(PRICE)
+              .discountPercent(discountPercent(COST, PRICE))
               .length(3.5f)
               .width(1.2f)
               .height(6.2f)
               .weight(12.5f)
               .mainImage("11.jpg")
-              .categoryId(UUID.fromString("3540536f-5468-42d4-92ff-9a576c3e7747"))
               .brandId(UUID.fromString("a3976462-93b7-4303-b504-0e5b0eddb283"))
               .isEnabled(Boolean.TRUE)
               .build());
     }
+  }
+
+  private BigDecimal discountPercent(BigDecimal cost, BigDecimal price) {
+    return cost.subtract(price)
+        .multiply(BigDecimal.valueOf(100))
+        .divide(cost, 2, RoundingMode.HALF_UP);
   }
 }

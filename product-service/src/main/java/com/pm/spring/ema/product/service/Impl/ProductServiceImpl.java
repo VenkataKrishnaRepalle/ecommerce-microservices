@@ -1,21 +1,25 @@
 package com.pm.spring.ema.product.service.Impl;
 
+import com.pm.spring.ema.common.util.HttpStatusCodes;
 import com.pm.spring.ema.common.util.dto.ProductDto;
-import com.pm.spring.ema.common.util.dto.ProductImageDto;
 import com.pm.spring.ema.common.util.exception.FoundException;
+import com.pm.spring.ema.common.util.exception.InvalidInputException;
 import com.pm.spring.ema.common.util.exception.NotFoundException;
 import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
-import com.pm.spring.ema.product.mapper.ProductImageMapper;
+import com.pm.spring.ema.common.util.handler.TokenHandler;
+import com.pm.spring.ema.product.entity.ProductImage;
+import com.pm.spring.ema.product.feign.BrandClient;
 import com.pm.spring.ema.product.mapper.ProductMapper;
-import com.pm.spring.ema.product.model.entity.Product;
-import com.pm.spring.ema.product.model.repository.ProductImageRepository;
-import com.pm.spring.ema.product.model.repository.ProductRepository;
+import com.pm.spring.ema.product.repository.ProductImageRepository;
+import com.pm.spring.ema.product.repository.ProductRepository;
 import com.pm.spring.ema.product.service.ProductService;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -31,9 +35,11 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductMapper productMapper;
 
-    private final ProductImageMapper productImageMapper;
-
     private final ProductRepository productRepo;
+
+    private final BrandClient brandClient;
+
+    private final TokenHandler tokenHandler;
 
     public List<ProductDto> listAll() {
         return productRepo.findAll().stream()
@@ -43,7 +49,6 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductDto getProductById(final UUID id) {
         var product = productRepo.findById(id);
-
         if (product.isPresent()) {
             return productMapper.toProductDto(product.get());
         }
@@ -54,11 +59,29 @@ public class ProductServiceImpl implements ProductService {
         if (isProductNameExists(productDto.getName())) {
             throw new FoundException(ErrorCodes.E2002, productDto.getName());
         }
-        var discountedPercent =getDiscountedPercent(productDto.getCost(), productDto.getPrice());
-        productDto.setDiscountPercent(discountedPercent);
+        validateBrand(productDto.getBrandId());
 
+        var discountedPercent = getDiscountedPercent(productDto.getCost(), productDto.getPrice());
+        productDto.setDiscountPercent(discountedPercent);
         return productMapper.toProductDto(
                 productRepo.save(productMapper.toProduct(productDto)));
+    }
+
+    private void validateBrand(UUID brandId) {
+        if (brandId == null) {
+            throw new InvalidInputException("Invalid input", "Brand Id is missing from input");
+        }
+        try {
+            brandClient.getById(tokenHandler.getToken(), brandId);
+        } catch (FeignException ex) {
+            if (ex.status() == Integer.parseInt(HttpStatusCodes.NOT_FOUND)) {
+                throw new NotFoundException(ErrorCodes.E1502, brandId.toString());
+            }
+            if (ex.status() == Integer.parseInt(HttpStatusCodes.BAD_REQUEST)) {
+                throw new InvalidInputException("Invalid Input", "Invalid category id: " + brandId);
+            }
+            throw ex;
+        }
     }
 
     public void updateProductStatusById(final UUID id, final boolean status) {
@@ -71,7 +94,6 @@ public class ProductServiceImpl implements ProductService {
 
     public void deleteProductById(final UUID id) {
         var countById = productRepo.countById(id);
-
         if (countById == 0) {
             throw new NotFoundException(ErrorCodes.E2001, String.valueOf(id));
         }
@@ -79,49 +101,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public boolean isProductNameExists(final String productName) {
-        var optionalProduct = productRepo.findByName(productName);
-
-        if (optionalProduct != null) {
-            return Boolean.TRUE;
-        }
-
-        return Boolean.FALSE;
+        var product = productRepo.findByName(productName);
+        return product != null;
     }
 
     public boolean isProductExists(final UUID id) {
-        var optionalProduct = productRepo.findById(id);
-
-        if (optionalProduct.isPresent()) {
-            return Boolean.TRUE;
-        }
-
-        return Boolean.FALSE;
+        var product = productRepo.findById(id);
+        return product.isPresent();
     }
 
     public void uploadImage(final UUID id, final String fileName) {
-        var optionalProduct = productRepo.findById(id);
-
-        if (optionalProduct.isEmpty()) {
-            throw new NotFoundException(ErrorCodes.E2001, String.valueOf(id));
-        }
-        Product product = optionalProduct.get();
+        var product = productRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorCodes.E2001, String.valueOf(id)));
         if (product.getMainImage().isEmpty()) {
             product.setMainImage(fileName + "_" + id);
             productRepo.save(product);
         } else {
-            ProductImageDto productImageCreateRequestDto = new ProductImageDto();
-            productImageCreateRequestDto.setName(fileName + "_" + id);
-            productImageCreateRequestDto.setProductId(id);
-            productImageRepo.save(productImageMapper.toProductImage(productImageCreateRequestDto));
+            ProductImage productImage = new ProductImage();
+            productImage.setName(fileName + "_" + id);
+            productImage.setProductId(id);
+            productImageRepo.save(productImage);
         }
     }
 
     public ProductDto update(final UUID id, final ProductDto productDto) {
-        var existingProduct = productRepo.findById(id);
+        productRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorCodes.E2001, String.valueOf(id)));
 
-        if (existingProduct.isEmpty()) {
-            throw new NotFoundException(ErrorCodes.E2001, String.valueOf(id));
-        }
+        validateBrand(productDto.getBrandId());
 
         var product = productMapper.toProduct(productDto);
 
@@ -133,10 +140,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private BigDecimal getDiscountedPercent(BigDecimal cost, BigDecimal price) {
-        return (cost.compareTo(BigDecimal.ZERO) > 0
-                && price.compareTo(BigDecimal.ZERO) > 0
+        return (cost.compareTo(BigDecimal.ZERO) > 0 && price.compareTo(BigDecimal.ZERO) > 0
                 && cost.compareTo(price) > 0)
-                ? (((cost.subtract(price).divide(cost))).multiply(BigDecimal.valueOf(100)))
+                ? cost.subtract(price)
+                .multiply(BigDecimal.valueOf(100))
+                .divide(cost, 2, RoundingMode.HALF_UP)
                 : BigDecimal.ZERO;
     }
 
@@ -157,14 +165,6 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
     }
 
-    public List<ProductDto> getByCategoryId(UUID categoryId) {
-        var productList = productRepo.getByCategoryId(categoryId);
-        if (productList.isEmpty()) {
-            throw new NotFoundException(ErrorCodes.E2001, String.valueOf(categoryId));
-        }
-        return productList.stream().map(productMapper::toProductDto).toList();
-    }
-
     @Override
     public List<ProductDto> getByBrandId(UUID brandId) {
         var productList = productRepo.getByBrandId(brandId);
@@ -176,22 +176,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getByCategoryIdAndBrandId(UUID categoryId, UUID brandId) {
-        if (productRepo.getByCategoryId(categoryId).isEmpty()) {
-            throw new NotFoundException(ErrorCodes.E2001, String.valueOf(categoryId));
-        } else if (productRepo.getByBrandId(brandId).isEmpty()) {
-            throw new NotFoundException(ErrorCodes.E2001, String.valueOf(brandId));
-        }
-        return productRepo.getByCategoryIdAndBrandId(categoryId, brandId).stream()
-                .map(productMapper::toProductDto)
-                .toList();
-    }
-
-    @Override
     public Boolean isProductExistsById(UUID productId) {
         var product = productRepo.findById(productId);
         if (product.isPresent() && product.get().getIsEnabled()) {
-            if (Boolean.TRUE.equals(product.get().getInStock())) {
+            if (product.get().getInStock()) {
                 return Boolean.TRUE;
             } else {
                 throw new NotFoundException(ErrorCodes.E2003, productId.toString());

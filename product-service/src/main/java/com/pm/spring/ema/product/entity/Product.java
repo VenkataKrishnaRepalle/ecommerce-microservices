@@ -1,4 +1,4 @@
-package com.pm.spring.ema.product.model.entity;
+package com.pm.spring.ema.product.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

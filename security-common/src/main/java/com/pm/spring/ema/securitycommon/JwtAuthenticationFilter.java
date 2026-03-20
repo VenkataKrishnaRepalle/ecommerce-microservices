@@ -3,6 +3,7 @@ package com.pm.spring.ema.securitycommon;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -28,11 +30,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Component
+import javax.crypto.SecretKey;
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Value("${app.jwt.secret}")
@@ -55,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(token)) {
             if (isKeycloakToken(token)) {
                 authenticateWithKeycloakJwtIfPossible(token, request);
-            } else if (validateToken(token)) {
+            } else if (validateToken(token, request)) {
                 String username = getUsernameFromToken(token);
                 UserDetails userDetails = new User(username, "", Collections.emptyList());
                 UsernamePasswordAuthenticationToken authenticationToken =
@@ -143,11 +145,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
-    private boolean validateToken(String token) {
+    public boolean validateToken(String token, HttpServletRequest request) {
         try {
-            Jwts.parser().setSigningKey(key()).build().parse(token);
+            Jwts.parser().verifyWith((SecretKey) key()).build().parse(token);
             return true;
-        } catch (Exception e) {
+        } catch (ExpiredJwtException ex) {
+            request.setAttribute("tokenExpired", true);
+            return false;
+        } catch (AccessDeniedException exception) {
+            request.setAttribute("not_authorized", true);
+            return false;
+        } catch (Exception ex) {
+            request.setAttribute("invalidToken", true);
             return false;
         }
     }

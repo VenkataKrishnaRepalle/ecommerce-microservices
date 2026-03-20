@@ -1,28 +1,44 @@
 server:
-  port: 1006
-
+  port: 1008
 spring:
   application:
     name: product-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce?characterEncoding=UTF-8&serverTimezone=UTC
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: Postgresql
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
   cloud:
     config:
       import-check:
         enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/ecommerce
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:1000/eureka/
+  instance:
+    prefer-ip-address: true
 
-log:
-  appName: product-service
+app:
+  jwt:
+    secret: 8ae2a6ebc0cd16aecb0e94e85c1eed0a1b1d8a668f65c3838b341a99197ff370
 
-logging:
-  level:
-    ROOT: INFO
-    org.spring.framework.cloud.config: DEBUG
-    org:
-      hibernate:
-        orm:
-          jdbc:
-            bind: trace
+keycloak:
+  token-base-url: http://localhost:8080/realms/ecommerce/protocol/openid-connect
+  client-id: 019d06b7-82be-73cf-9074-75650dcbe921
+  client-secret: PLIXSaHf75THIppZUM46NOY5ZidTFfxm

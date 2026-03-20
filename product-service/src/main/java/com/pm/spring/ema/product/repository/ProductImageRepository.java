@@ -1,6 +1,6 @@
-package com.pm.spring.ema.product.model.repository;
+package com.pm.spring.ema.product.repository;
 
-import com.pm.spring.ema.product.model.entity.ProductImage;
+import com.pm.spring.ema.product.entity.ProductImage;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

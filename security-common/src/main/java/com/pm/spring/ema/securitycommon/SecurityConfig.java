@@ -1,5 +1,6 @@
 package com.pm.spring.ema.securitycommon;
 
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,12 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-  private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-  public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-  }
-
   private static final String[] PUBLIC_PATHS = {
     "/error",
     "/swagger-ui.html",
@@ -35,7 +30,14 @@ public class SecurityConfig {
   };
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public JwtAuthenticationFilter jwtAuthenticationFilter(
+      ObjectProvider<org.springframework.security.oauth2.jwt.JwtDecoder> keycloakJwtDecoderProvider) {
+    return new JwtAuthenticationFilter(keycloakJwtDecoderProvider);
+  }
+
+  @Bean
+  public SecurityFilterChain securityFilterChain(
+      HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
 
     http.csrf(AbstractHttpConfigurer::disable)
         .cors(Customizer.withDefaults()) // Enable CORS in Spring Security

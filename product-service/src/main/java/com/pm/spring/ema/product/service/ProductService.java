@@ -28,11 +28,7 @@ public interface ProductService {
   List<ProductDto> findByPage(
       int pageNumber, String sortField, String sortDir, String keyword);
 
-  List<ProductDto> getByCategoryId(UUID categoryId);
-
   List<ProductDto> getByBrandId(UUID brandId);
-
-  List<ProductDto> getByCategoryIdAndBrandId(UUID categoryId, UUID brandId);
 
   Boolean isProductExistsById(UUID productId);
 }

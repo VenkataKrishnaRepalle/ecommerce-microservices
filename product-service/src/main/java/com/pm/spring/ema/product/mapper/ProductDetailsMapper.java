@@ -1,7 +1,7 @@
 package com.pm.spring.ema.product.mapper;
 
 import com.pm.spring.ema.common.util.dto.ProductDetailsDto;
-import com.pm.spring.ema.product.model.entity.ProductDetails;
+import com.pm.spring.ema.product.entity.ProductDetails;
 import org.mapstruct.Mapper;
 
 @Mapper

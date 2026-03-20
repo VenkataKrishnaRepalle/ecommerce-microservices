@@ -1,19 +1,19 @@
-package com.pm.spring.ema.product.model.entity;
+package com.pm.spring.ema.product.entity;
 
 import jakarta.persistence.*;
 import java.util.UUID;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 @Entity
 @Data
-@Table(name = "product_images")
-@RequiredArgsConstructor
-public class ProductImage {
-
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "product_details")
+public class ProductDetails {
   @Id
   @GeneratedValue(generator = "UUID")
   @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -21,10 +21,12 @@ public class ProductImage {
   @Column(columnDefinition = "varchar(36)", updatable = false, nullable = false)
   private UUID id;
 
-  @Column(nullable = false)
+  @Column(length = 255, nullable = false)
   private String name;
 
-  // todo: imageOrder -> Integer, Status -> Active, Disable
+  @Column(length = 255, nullable = false)
+  private String value;
+
   @JdbcTypeCode(SqlTypes.CHAR)
   @Column(columnDefinition = "varchar(36)", nullable = false)
   private UUID productId;

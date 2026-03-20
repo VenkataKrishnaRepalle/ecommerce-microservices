@@ -1,6 +1,6 @@
-package com.pm.spring.ema.product.model.repository;
+package com.pm.spring.ema.product.repository;
 
-import com.pm.spring.ema.product.model.entity.Product;
+import com.pm.spring.ema.product.entity.Product;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -31,14 +31,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
   @Query("SELECT p FROM Product p WHERE p.name LIKE '%:keyword'")
   Page<Product> findAll(@Param("keyword") String keyword, Pageable pageable);
 
-  @Query("SELECT p FROM Product p WHERE p.categoryId = :id ORDER BY p.categoryId")
-  List<Product> getByCategoryId(@Param("id") UUID id);
-
   @Query("SELECT p FROM Product p WHERE p.brandId = :id ORDER BY p.brandId")
   List<Product> getByBrandId(@Param("id") UUID id);
-
-  @Query(
-      "SELECT p FROM Product p WHERE p.categoryId = :categoryId AND p.brandId = :brandId ORDER BY p.categoryId, p.brandId")
-  List<Product> getByCategoryIdAndBrandId(
-      @Param("categoryId") UUID categoryId, @Param("brandId") UUID brandId);
 }
