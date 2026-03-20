@@ -19,11 +19,9 @@ public class BrandDto {
   @Size(min = 2, max = 45, message = ErrorCodes.E0002)
   private String name;
 
-  @NotNull(message = ErrorCodes.E0003)
-  private UUID categoryId;
+  @NotNull(message = ErrorCodes.E0003) private UUID categoryId;
 
   private UUID subCategoryId;
 
-  @NotNull(message = ErrorCodes.E0004)
-  private BrandStatusEnum status;
+  @NotNull(message = ErrorCodes.E0004) private BrandStatusEnum status;
 }

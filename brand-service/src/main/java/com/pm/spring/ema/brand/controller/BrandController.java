@@ -1,11 +1,11 @@
 package com.pm.spring.ema.brand.controller;
 
-import com.pm.spring.ema.common.util.dto.BrandDto;
 import com.pm.spring.ema.brand.service.BrandService;
 import com.pm.spring.ema.brand.validations.ValidImageExtension;
 import com.pm.spring.ema.common.util.FileUploadUtils;
 import com.pm.spring.ema.common.util.HttpStatusCodes;
 import com.pm.spring.ema.common.util.api.ErrorResponse;
+import com.pm.spring.ema.common.util.dto.BrandDto;
 import com.pm.spring.ema.common.util.exception.NotFoundException;
 import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import io.swagger.v3.oas.annotations.Operation;
@@ -299,7 +299,8 @@ public class BrandController {
   @PostMapping("upload-image")
   public ResponseEntity<Void> uploadBrandImage(
       @RequestParam @NotNull final UUID brandId,
-      @NotNull @ValidImageExtension @RequestParam("fileImage") final MultipartFile multipartFile) throws IOException {
+      @NotNull @ValidImageExtension @RequestParam("fileImage") final MultipartFile multipartFile)
+      throws IOException {
 
     if (brandService.isIdExist(brandId)) {
       throw new NotFoundException(ErrorCodes.E0501, brandId.toString());

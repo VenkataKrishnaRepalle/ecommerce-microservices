@@ -1,7 +1,6 @@
 package com.pm.spring.ema.common.util.dto;
 
 import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

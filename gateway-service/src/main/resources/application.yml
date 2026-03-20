@@ -66,6 +66,12 @@ spring:
           filters:
             - StripPrefix=1
 
+        - id: address-service
+          uri: lb://address-service
+          predicates:
+            - Path=/address-service/**
+          filters:
+            - StripPrefix=1
 
 eureka:
   client:
@@ -93,3 +99,5 @@ springdoc:
         url: /brand-service/v3/api-docs
       - name: Product Service
         url: /product-service/v3/api-docs
+      - name: Address Service
+        url: /address-service/v3/api-docs

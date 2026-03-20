@@ -2,10 +2,8 @@ package com.pm.spring.ema.brand.entity;
 
 import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import jakarta.persistence.*;
-
 import java.time.Instant;
 import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,37 +21,35 @@ import org.hibernate.type.SqlTypes;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(
-        name = "brand",
-        indexes = {@Index(name = "idx__brand__id_name", columnList = "id, name")})
+    name = "brand",
+    indexes = {@Index(name = "idx__brand__id_name", columnList = "id, name")})
 @Entity
 public class Brand {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(updatable = false, nullable = false)
-    private UUID id;
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @Column(updatable = false, nullable = false)
+  private UUID id;
 
-    @Column(nullable = false, length = 45, unique = true)
-    private String name;
+  @Column(nullable = false, length = 45, unique = true)
+  private String name;
 
-    @Column(length = 128)
-    private String imageName;
+  @Column(length = 128)
+  private String imageName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 15, nullable = false)
-    private BrandStatusEnum status;
+  @Enumerated(EnumType.STRING)
+  @Column(length = 15, nullable = false)
+  private BrandStatusEnum status;
 
-    @CreationTimestamp
-    private Instant createdOn;
+  @CreationTimestamp private Instant createdOn;
 
-    @UpdateTimestamp
-    private Instant lastUpdatedOn;
+  @UpdateTimestamp private Instant lastUpdatedOn;
 
-    @Column(nullable = false, length = 36)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    private UUID categoryId;
+  @Column(nullable = false, length = 36)
+  @JdbcTypeCode(SqlTypes.VARCHAR)
+  private UUID categoryId;
 
-    @Column(length = 36)
-    private UUID subCategoryId;
+  @Column(length = 36)
+  private UUID subCategoryId;
 }

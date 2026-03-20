@@ -59,7 +59,8 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(FeignException.class)
   public ResponseEntity<ErrorResponse> handleFeignException(FeignException exception) {
-    HttpStatus status = exception.status() > 0 ? HttpStatus.valueOf(exception.status()) : HttpStatus.BAD_GATEWAY;
+    HttpStatus status =
+        exception.status() > 0 ? HttpStatus.valueOf(exception.status()) : HttpStatus.BAD_GATEWAY;
     return ResponseEntity.status(status)
         .body(ErrorMessage.errorResponse(ErrorCodes.E0500, exception.getMessage()));
   }

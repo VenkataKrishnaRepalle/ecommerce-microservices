@@ -1,7 +1,6 @@
 package com.pm.spring.ema.product.service;
 
 import com.pm.spring.ema.common.util.dto.ProductDto;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -25,8 +24,7 @@ public interface ProductService {
 
   void uploadImage(UUID id, String fileName);
 
-  List<ProductDto> findByPage(
-      int pageNumber, String sortField, String sortDir, String keyword);
+  List<ProductDto> findByPage(int pageNumber, String sortField, String sortDir, String keyword);
 
   List<ProductDto> getByBrandId(UUID brandId);
 

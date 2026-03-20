@@ -139,9 +139,7 @@ public class CategoryController {
         TraceIdHolder.getTraceId(),
         categoryFindResponseDto);
 
-    return ResponseEntity.ok()
-        .headers(headers)
-        .body(categoryFindResponseDto);
+    return ResponseEntity.ok().headers(headers).body(categoryFindResponseDto);
   }
 
   @ApiResponses(

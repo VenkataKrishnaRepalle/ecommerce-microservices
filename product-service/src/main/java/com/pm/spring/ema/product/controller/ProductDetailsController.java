@@ -5,7 +5,6 @@ import com.pm.spring.ema.product.service.ProductDetailsService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import java.util.UUID;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +25,7 @@ public class ProductDetailsController {
       description = "View Product Details by Product Id",
       tags = "Product Details")
   @GetMapping("{id}")
-  public ResponseEntity<List<ProductDetailsDto>> getByProductId(
-          @PathVariable UUID id) {
+  public ResponseEntity<List<ProductDetailsDto>> getByProductId(@PathVariable UUID id) {
     return new ResponseEntity<>(productDetailsService.getByProductId(id), HttpStatus.OK);
   }
 
@@ -37,7 +35,7 @@ public class ProductDetailsController {
       tags = "Product Details")
   @PostMapping("/create/{id}")
   public ResponseEntity<List<ProductDetailsDto>> create(
-          @PathVariable UUID id,
+      @PathVariable UUID id,
       @RequestParam("detailNames") String[] detailNames,
       @RequestParam("detailValue") String[] detailValues) {
     List<ProductDetailsDto> productDetailsCreateResponseDtoList =
@@ -51,7 +49,7 @@ public class ProductDetailsController {
       tags = "Product Details")
   @PutMapping("/update/{id}")
   public ResponseEntity<List<ProductDetailsDto>> update(
-          @PathVariable UUID id,
+      @PathVariable UUID id,
       @RequestParam("detailName") String[] detailName,
       @RequestParam("detailValue") String[] detailValue) {
     return new ResponseEntity<>(

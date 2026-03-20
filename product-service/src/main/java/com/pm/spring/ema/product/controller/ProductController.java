@@ -45,8 +45,7 @@ public class ProductController {
 
   @Operation(summary = "Insert Product", description = "Add Product", tags = "Product")
   @PostMapping(value = "create")
-  public ResponseEntity<ProductDto> create(
-      @RequestBody @Valid final ProductDto productDto) {
+  public ResponseEntity<ProductDto> create(@RequestBody @Valid final ProductDto productDto) {
     var savedProduct = productService.create(productDto);
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add("Location", "/brand" + savedProduct.getId());
@@ -83,8 +82,7 @@ public class ProductController {
   @PutMapping("update/{id}")
   public ResponseEntity<ProductDto> update(
       @PathVariable UUID id, @RequestBody ProductDto productDto) {
-    return new ResponseEntity<>(
-        productService.update(id, productDto), HttpStatus.ACCEPTED);
+    return new ResponseEntity<>(productService.update(id, productDto), HttpStatus.ACCEPTED);
   }
 
   @Operation(
@@ -105,7 +103,7 @@ public class ProductController {
       tags = "Product")
   @GetMapping("find-by-page/{pageNumber}")
   public List<ProductDto> findByPage(
-          @PathVariable int pageNumber,
+      @PathVariable int pageNumber,
       @RequestParam("sortField") String sortField,
       @RequestParam("sortDir") String sortDir,
       @RequestParam("keyword") String keyword) {
@@ -131,7 +129,6 @@ public class ProductController {
   public ResponseEntity<List<ProductDto>> getByBrandId(@PathVariable UUID brandId) {
     return new ResponseEntity<>(productService.getByBrandId(brandId), HttpStatus.OK);
   }
-
 
   @Operation(
       summary = "Get is Product Exists By Product Id",

@@ -31,7 +31,8 @@ public class SecurityConfig {
 
   @Bean
   public JwtAuthenticationFilter jwtAuthenticationFilter(
-      ObjectProvider<org.springframework.security.oauth2.jwt.JwtDecoder> keycloakJwtDecoderProvider) {
+      ObjectProvider<org.springframework.security.oauth2.jwt.JwtDecoder>
+          keycloakJwtDecoderProvider) {
     return new JwtAuthenticationFilter(keycloakJwtDecoderProvider);
   }
 

@@ -6,8 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface ProductDetailsMapper {
-    ProductDetailsDto toProductDetailsDto(ProductDetails productDetails);
+  ProductDetailsDto toProductDetailsDto(ProductDetails productDetails);
 
-    ProductDetails toProductDetails(ProductDetailsDto productDetailsDto);
-
+  ProductDetails toProductDetails(ProductDetailsDto productDetailsDto);
 }

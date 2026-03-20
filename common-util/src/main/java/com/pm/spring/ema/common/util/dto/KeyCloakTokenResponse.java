@@ -11,20 +11,20 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KeyCloakTokenResponse {
 
-    @JsonProperty("access_token")
-    private String accessToken;
+  @JsonProperty("access_token")
+  private String accessToken;
 
-    @JsonProperty("expires_in")
-    private int expiresIn;
+  @JsonProperty("expires_in")
+  private int expiresIn;
 
-    @JsonProperty("refresh_expires_in")
-    private int refreshExpiresIn;
+  @JsonProperty("refresh_expires_in")
+  private int refreshExpiresIn;
 
-    @JsonProperty("token_type")
-    private String tokenType;
+  @JsonProperty("token_type")
+  private String tokenType;
 
-    @JsonProperty("not-before-policy")
-    private int notBeforePolicy;
+  @JsonProperty("not-before-policy")
+  private int notBeforePolicy;
 
-    private String scope;
+  private String scope;
 }

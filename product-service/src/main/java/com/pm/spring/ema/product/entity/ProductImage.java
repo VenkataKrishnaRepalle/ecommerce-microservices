@@ -2,8 +2,6 @@ package com.pm.spring.ema.product.entity;
 
 import jakarta.persistence.*;
 import java.util.UUID;
-
-import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;

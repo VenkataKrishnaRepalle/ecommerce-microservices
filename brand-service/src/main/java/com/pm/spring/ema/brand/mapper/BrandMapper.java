@@ -1,7 +1,7 @@
 package com.pm.spring.ema.brand.mapper;
 
-import com.pm.spring.ema.common.util.dto.BrandDto;
 import com.pm.spring.ema.brand.entity.Brand;
+import com.pm.spring.ema.common.util.dto.BrandDto;
 import org.mapstruct.Mapper;
 
 @Mapper
