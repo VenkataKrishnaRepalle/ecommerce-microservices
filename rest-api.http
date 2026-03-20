@@ -88,3 +88,9 @@ api-key: ${API_KEY}
   "subject": "My subject",
   "htmlContent": "Congratulations! You successfully sent this example email via the Brevo API."
 }
+
+###
+POST http://localhost:8080/realms/ecommerce/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}
