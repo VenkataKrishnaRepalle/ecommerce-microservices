@@ -1,13 +1,12 @@
 package com.pm.spring.ema.brand.service;
 
-import com.pm.spring.ema.brand.dto.BrandDto;
+import com.pm.spring.ema.brand.repository.BrandRepository;
+import com.pm.spring.ema.common.util.dto.BrandDto;
 import com.pm.spring.ema.brand.feign.CategoryClient;
 import com.pm.spring.ema.brand.feign.SubCategoryClient;
 import com.pm.spring.ema.brand.mapper.BrandMapper;
-import com.pm.spring.ema.brand.model.dao.BrandDao;
-import com.pm.spring.ema.brand.model.entity.Brand;
+import com.pm.spring.ema.brand.entity.Brand;
 import com.pm.spring.ema.common.util.HttpStatusCodes;
-import com.pm.spring.ema.common.util.dto.BrandFindResponseDto;
 import com.pm.spring.ema.common.util.dto.CategoryDto;
 import com.pm.spring.ema.common.util.dto.SubCategoryDto;
 import com.pm.spring.ema.common.util.exception.FoundException;
@@ -36,7 +35,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BrandServiceImpl implements BrandService {
 
-    private final BrandDao brandDao;
+    private final BrandRepository brandRepo;
 
     private final BrandMapper brandMapper;
 
@@ -48,14 +47,14 @@ public class BrandServiceImpl implements BrandService {
 
     private final TokenHandler tokenHandler;
 
-    public List<BrandFindResponseDto> getAll() {
-        return brandDao.findAll()
+    public List<BrandDto> getAll() {
+        return brandRepo.findAll()
                 .stream()
-                .map(brandMapper::toBrandFindResponseDto)
+                .map(brandMapper::toBrandDto)
                 .toList();
     }
 
-    public List<BrandFindResponseDto> getByPage(
+    public List<BrandDto> getByPage(
             Integer pageNumber,
             Integer perPageCount,
             String sortField,
@@ -73,25 +72,25 @@ public class BrandServiceImpl implements BrandService {
         Page<Brand> brandList;
 
         if (searchKeyword != null && searchField.equals("BRAND_NAME")) {
-            brandList = brandDao.findAllByName(searchKeyword, pageable);
+            brandList = brandRepo.findAllByName(searchKeyword, pageable);
 
         } else {
-            brandList = brandDao.findAll(pageable);
+            brandList = brandRepo.findAll(pageable);
         }
 
         return brandList
                 .stream()
-                .map(brandMapper::toBrandFindResponseDto)
+                .map(brandMapper::toBrandDto)
                 .toList();
     }
 
     @Override
-    public BrandFindResponseDto getById(UUID id) throws NotFoundException {
-        Optional<Brand> optionalBrand = brandDao.findById(id);
+    public BrandDto getById(UUID id) throws NotFoundException {
+        Optional<Brand> optionalBrand = brandRepo.findById(id);
         if (optionalBrand.isEmpty()) {
             throw new NotFoundException(ErrorCodes.E0501, id.toString());
         }
-        return brandMapper.toBrandFindResponseDto(optionalBrand.get());
+        return brandMapper.toBrandDto(optionalBrand.get());
     }
 
     @Override
@@ -100,7 +99,7 @@ public class BrandServiceImpl implements BrandService {
             throw new FoundException(ErrorCodes.E0502, brandDto.getName());
         }
         validateBrandRequest(brandDto);
-        Brand brandCreated = brandDao.save(brandMapper.toBrand(brandDto));
+        Brand brandCreated = brandRepo.save(brandMapper.toBrand(brandDto));
         return brandMapper.toBrandDto(brandCreated);
     }
 
@@ -159,7 +158,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto update(final UUID id, BrandDto brandUpdateRequestDto) {
-        Optional<Brand> optionalBrand = brandDao.findById(id);
+        Optional<Brand> optionalBrand = brandRepo.findById(id);
         if (optionalBrand.isEmpty()) {
             throw new NotFoundException(ErrorCodes.E0502, id.toString());
         }
@@ -168,35 +167,35 @@ public class BrandServiceImpl implements BrandService {
 
         Brand brand = brandMapper.toBrand(brandUpdateRequestDto);
         brand.setId(optionalBrand.get().getId());
-        Brand brandUpdated = brandDao.save(brand);
+        Brand brandUpdated = brandRepo.save(brand);
         return brandMapper.toBrandDto(brandUpdated);
     }
 
     @Override
     public void deleteById(UUID id) throws NotFoundException {
-        Long brandCountById = brandDao.countById(id);
+        Long brandCountById = brandRepo.countById(id);
         if (brandCountById == 0) {
             throw new NotFoundException(ErrorCodes.E0501, id.toString());
         }
-        brandDao.deleteById(id);
+        brandRepo.deleteById(id);
     }
 
     @Override
     public String updateImageName(UUID brandId, String fileName) {
-        Optional<Brand> optionalBrand = brandDao.findById(brandId);
+        Optional<Brand> optionalBrand = brandRepo.findById(brandId);
         if (optionalBrand.isEmpty()) {
             throw new NotFoundException(ErrorCodes.E0501, brandId.toString());
         }
 
         Brand brand = optionalBrand.get();
         brand.setImageName(fileName);
-        Brand brandUpdated = brandDao.save(brand);
+        Brand brandUpdated = brandRepo.save(brand);
         return brandUpdated.getImageName();
     }
 
     @Override
     public String getImageNameById(UUID id) {
-        Optional<Brand> optionalBrand = brandDao.findById(id);
+        Optional<Brand> optionalBrand = brandRepo.findById(id);
         if (optionalBrand.isEmpty()) {
             throw new NotFoundException(ErrorCodes.E0501, id.toString());
         }
@@ -205,7 +204,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Boolean isIdExist(UUID uuid) {
-        Optional<Brand> optionalBrand = brandDao.findById(uuid);
+        Optional<Brand> optionalBrand = brandRepo.findById(uuid);
         if (optionalBrand.isPresent()) {
             return Boolean.TRUE;
         }
@@ -213,7 +212,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     private Boolean isNameExist(String name) {
-        Optional<Brand> optionalBrand = brandDao.findByName(name);
+        Optional<Brand> optionalBrand = brandRepo.findByName(name);
         if (optionalBrand.isPresent()) {
             return Boolean.TRUE;
         }

@@ -1,13 +1,11 @@
 package com.pm.spring.ema.brand.controller;
 
-import com.pm.spring.ema.brand.dto.BrandDto;
+import com.pm.spring.ema.common.util.dto.BrandDto;
 import com.pm.spring.ema.brand.service.BrandService;
 import com.pm.spring.ema.brand.validations.ValidImageExtension;
 import com.pm.spring.ema.common.util.FileUploadUtils;
 import com.pm.spring.ema.common.util.HttpStatusCodes;
 import com.pm.spring.ema.common.util.api.ErrorResponse;
-import com.pm.spring.ema.common.util.dto.BrandFindResponseDto;
-import com.pm.spring.ema.common.util.exception.FoundException;
 import com.pm.spring.ema.common.util.exception.NotFoundException;
 import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import io.swagger.v3.oas.annotations.Operation;
@@ -93,7 +91,7 @@ public class BrandController {
             content = {
               @Content(
                   mediaType = "application/json",
-                  schema = @Schema(implementation = BrandFindResponseDto.class))
+                  schema = @Schema(implementation = BrandDto.class))
             }),
         @ApiResponse(
             responseCode = HttpStatusCodes.NOT_FOUND,
@@ -111,9 +109,9 @@ public class BrandController {
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
   @GetMapping("{id}")
-  public ResponseEntity<BrandFindResponseDto> getBrandById(@PathVariable @Valid final UUID id) {
-    BrandFindResponseDto brandFindResponseDto = brandService.getById(id);
-    return ResponseEntity.ok().body(brandFindResponseDto);
+  public ResponseEntity<BrandDto> getBrandById(@PathVariable @Valid final UUID id) {
+    BrandDto BrandDto = brandService.getById(id);
+    return ResponseEntity.ok().body(BrandDto);
   }
 
   @Operation(
@@ -128,7 +126,7 @@ public class BrandController {
             content = {
               @Content(
                   mediaType = "application/json",
-                  schema = @Schema(implementation = BrandFindResponseDto.class))
+                  schema = @Schema(implementation = BrandDto.class))
             }),
         @ApiResponse(
             responseCode = HttpStatusCodes.NOT_FOUND,
@@ -146,10 +144,10 @@ public class BrandController {
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
   @GetMapping("list")
-  public ResponseEntity<List<BrandFindResponseDto>> getAllBrands() {
-    List<BrandFindResponseDto> brandFindResponseDtoList = brandService.getAll();
+  public ResponseEntity<List<BrandDto>> getAllBrands() {
+    List<BrandDto> BrandDtoList = brandService.getAll();
 
-    return ResponseEntity.ok().body(brandFindResponseDtoList);
+    return ResponseEntity.ok().body(BrandDtoList);
   }
 
   @Operation(
@@ -252,7 +250,7 @@ public class BrandController {
             content = {
               @Content(
                   mediaType = "application/json",
-                  schema = @Schema(implementation = BrandFindResponseDto.class))
+                  schema = @Schema(implementation = BrandDto.class))
             }),
         @ApiResponse(
             responseCode = HttpStatusCodes.INTERNAL_SERVER_ERROR,
@@ -263,17 +261,17 @@ public class BrandController {
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
   @GetMapping("page")
-  public ResponseEntity<List<BrandFindResponseDto>> getBrandsByPage(
+  public ResponseEntity<List<BrandDto>> getBrandsByPage(
       @RequestParam(name = "pageNumber") Integer pageNumber,
       @RequestParam("perPageCount") Integer perPageCount,
       @RequestParam("sortField") String sortField,
       @RequestParam("sortDirection") String sortDirection,
       @RequestParam("searchField") String searchField,
       @RequestParam("searchKeyword") String searchKeyword) {
-    List<BrandFindResponseDto> brandFindResponseDtoList =
+    List<BrandDto> BrandDtoList =
         brandService.getByPage(
             pageNumber, perPageCount, sortField, sortDirection, searchField, searchKeyword);
-    return ResponseEntity.ok().body(brandFindResponseDtoList);
+    return ResponseEntity.ok().body(BrandDtoList);
   }
 
   @Operation(

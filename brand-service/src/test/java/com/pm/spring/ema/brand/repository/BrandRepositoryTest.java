@@ -1,8 +1,8 @@
-package com.pm.spring.ema.brand.model.repository;
+package com.pm.spring.ema.brand.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.pm.spring.ema.brand.model.entity.Brand;
+import com.pm.spring.ema.brand.entity.Brand;
 import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;

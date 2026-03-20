@@ -1,7 +1,7 @@
 package com.pm.spring.ema.brand.bootstrap;
 
-import com.pm.spring.ema.brand.model.entity.Brand;
-import com.pm.spring.ema.brand.model.repository.BrandRepository;
+import com.pm.spring.ema.brand.entity.Brand;
+import com.pm.spring.ema.brand.repository.BrandRepository;
 import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 
 import java.util.UUID;

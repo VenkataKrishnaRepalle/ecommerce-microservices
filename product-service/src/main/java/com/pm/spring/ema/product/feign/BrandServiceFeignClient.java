@@ -1,8 +1,9 @@
 package com.pm.spring.ema.product.feign;
 
-import com.pm.spring.ema.common.util.dto.BrandFindResponseDto;
 import java.util.List;
 import java.util.UUID;
+
+import com.pm.spring.ema.common.util.dto.BrandDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface BrandServiceFeignClient {
 
   @GetMapping("brand/list")
-  List<BrandFindResponseDto> listAll();
+  List<BrandDto> listAll();
 
   @GetMapping("brand/{brandId}")
-  BrandFindResponseDto getById(@PathVariable UUID brandId);
+  BrandDto getById(@PathVariable UUID brandId);
 }

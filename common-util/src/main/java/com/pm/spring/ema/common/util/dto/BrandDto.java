@@ -1,8 +1,7 @@
-package com.pm.spring.ema.brand.dto;
+package com.pm.spring.ema.common.util.dto;
 
 import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -25,6 +24,6 @@ public class BrandDto {
 
   private UUID subCategoryId;
 
-  @NotNull(message = ErrorCodes.E0004) @Enumerated
+  @NotNull(message = ErrorCodes.E0004)
   private BrandStatusEnum status;
 }

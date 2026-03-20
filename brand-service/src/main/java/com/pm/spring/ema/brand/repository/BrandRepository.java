@@ -1,6 +1,6 @@
-package com.pm.spring.ema.brand.model.repository;
+package com.pm.spring.ema.brand.repository;
 
-import com.pm.spring.ema.brand.model.entity.Brand;
+import com.pm.spring.ema.brand.entity.Brand;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;

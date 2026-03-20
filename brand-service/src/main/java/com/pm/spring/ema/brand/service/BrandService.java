@@ -1,16 +1,14 @@
 package com.pm.spring.ema.brand.service;
 
-import com.pm.spring.ema.brand.dto.BrandDto;
-import com.pm.spring.ema.common.util.dto.BrandFindResponseDto;
+import com.pm.spring.ema.common.util.dto.BrandDto;
 import com.pm.spring.ema.common.util.exception.NotFoundException;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 public interface BrandService {
-  List<BrandFindResponseDto> getAll();
+  List<BrandDto> getAll();
 
-  List<BrandFindResponseDto> getByPage(
+  List<BrandDto> getByPage(
       Integer pageNumber,
       Integer perPageCount,
       String sortField,
@@ -18,7 +16,7 @@ public interface BrandService {
       String searchField,
       String searchKeyword);
 
-  BrandFindResponseDto getById(UUID id);
+  BrandDto getById(UUID id);
 
   BrandDto create(BrandDto brandDto);
 

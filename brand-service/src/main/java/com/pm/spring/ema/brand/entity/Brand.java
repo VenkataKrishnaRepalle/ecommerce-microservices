@@ -1,4 +1,4 @@
-package com.pm.spring.ema.brand.model.entity;
+package com.pm.spring.ema.brand.entity;
 
 import com.pm.spring.ema.common.util.enums.BrandStatusEnum;
 import jakarta.persistence.*;
