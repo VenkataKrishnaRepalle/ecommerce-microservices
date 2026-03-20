@@ -5,6 +5,7 @@ import com.pm.spring.ema.common.util.dto.BrandFindResponseDto;
 import com.pm.spring.ema.common.util.exception.NotFoundException;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public interface BrandService {
   List<BrandFindResponseDto> getAll();
@@ -21,7 +22,7 @@ public interface BrandService {
 
   BrandDto create(BrandDto brandDto);
 
-  BrandDto update(UUID id, BrandDto brandCreateRequestDto) throws NotFoundException;
+  BrandDto update(UUID id, BrandDto brandCreateRequestDto);
 
   void deleteById(UUID id) throws NotFoundException;
 

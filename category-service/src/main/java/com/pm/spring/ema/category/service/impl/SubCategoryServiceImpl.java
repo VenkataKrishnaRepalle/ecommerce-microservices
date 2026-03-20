@@ -91,7 +91,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     SubCategory subCategory = subCategoryMapper.toSubCategory(subCategoryCreateRequestDto);
-    UUID categoryId = subCategoryCreateRequestDto.getCategoryUUID();
+    UUID categoryId = subCategoryCreateRequestDto.getCategoryUuid();
     Category category =
         categoryRepository
             .findById(categoryId)
@@ -100,7 +100,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     SubCategory savedSubCategory = subCategoryRepository.save(subCategory);
     SubCategoryDto subCategoryCreateResponseDto =
         subCategoryMapper.toSubCategoryDto(savedSubCategory);
-    subCategoryCreateResponseDto.setCategoryUUID(categoryId);
+    subCategoryCreateResponseDto.setCategoryUuid(categoryId);
 
     log.debug(
         "SubCategoryService:createSubCategory EXECUTION ENDED. traceId: {}, response: {}",

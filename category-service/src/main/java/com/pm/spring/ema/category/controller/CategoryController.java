@@ -122,7 +122,7 @@ public class CategoryController {
       })
   @Operation(summary = "Get a category by id", description = "Get a category by id")
   @GetMapping("{categoryId}")
-  public ResponseEntity<SuccessResponse> getCategoryById(@PathVariable final UUID categoryId) {
+  public ResponseEntity<CategoryDto> getCategoryById(@PathVariable final UUID categoryId) {
 
     log.debug(
         "CategoryController:getCategoryById EXECUTION STARTED. traceId: {} request id: {}",
@@ -141,11 +141,7 @@ public class CategoryController {
 
     return ResponseEntity.ok()
         .headers(headers)
-        .body(
-            SuccessResponse.builder()
-                .data(categoryFindResponseDto)
-                .status(StatusType.SUCCESS)
-                .build());
+        .body(categoryFindResponseDto);
   }
 
   @ApiResponses(

@@ -45,6 +45,6 @@ public class SubCategory {
   @UpdateTimestamp private Instant lastUpdatedOn;
 
   @ManyToOne(cascade = CascadeType.MERGE)
-  @JoinColumn(name = "category_id", nullable = false)
+  @JoinColumn(name = "category_uuid", nullable = false)
   private Category category;
 }

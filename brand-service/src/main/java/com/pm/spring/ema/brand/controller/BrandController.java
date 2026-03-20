@@ -301,8 +301,7 @@ public class BrandController {
   @PostMapping("upload-image")
   public ResponseEntity<Void> uploadBrandImage(
       @RequestParam @NotNull final UUID brandId,
-      @NotNull @ValidImageExtension @RequestParam("fileImage") final MultipartFile multipartFile)
-      throws IOException, FoundException {
+      @NotNull @ValidImageExtension @RequestParam("fileImage") final MultipartFile multipartFile) throws IOException {
 
     if (brandService.isIdExist(brandId)) {
       throw new NotFoundException(ErrorCodes.E0501, brandId.toString());

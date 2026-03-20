@@ -19,5 +19,5 @@ public class SubCategoryDto {
 
   private SubCategoryEnum status;
 
-  private UUID categoryUUID;
+  private UUID categoryUuid;
 }

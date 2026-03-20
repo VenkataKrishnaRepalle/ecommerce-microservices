@@ -27,7 +27,7 @@ public class BrandRepositoryTest {
         .name("Acer")
         .imageName("Acer.png")
         .status(BrandStatusEnum.ACTIVE)
-        .subcategoryId(UUID.randomUUID())
+        .subCategoryId(UUID.randomUUID())
         .build();
   }
 }

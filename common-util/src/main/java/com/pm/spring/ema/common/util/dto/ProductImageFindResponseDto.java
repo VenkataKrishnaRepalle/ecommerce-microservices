@@ -1,4 +1,4 @@
-package com.pm.spring.ema.common.dto;
+package com.pm.spring.ema.common.util.dto;
 
 import java.util.UUID;
 import lombok.Builder;

@@ -3,6 +3,7 @@ package com.pm.spring.ema.common.util.exception;
 import com.pm.spring.ema.common.util.api.ErrorResponse;
 import com.pm.spring.ema.common.util.exception.utils.ErrorCodes;
 import com.pm.spring.ema.common.util.exception.utils.ErrorMessage;
+import feign.FeignException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -31,12 +32,6 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
   }
 
-  @ExceptionHandler(FeignClientException.class)
-  public ResponseEntity<ErrorResponse> handleAlreadyFoundException(FeignClientException exception) {
-    return ResponseEntity.status(HttpStatus.FOUND)
-        .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getDynamicValue()));
-  }
-
   @ExceptionHandler(InvalidInputException.class)
   public ResponseEntity<ErrorResponse> handleInvalidInputException(
       InvalidInputException exception) {
@@ -60,5 +55,12 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException exception) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(ErrorMessage.errorResponse(exception.getErrorCode(), exception.getErrorMessage()));
+  }
+
+  @ExceptionHandler(FeignException.class)
+  public ResponseEntity<ErrorResponse> handleFeignException(FeignException exception) {
+    HttpStatus status = exception.status() > 0 ? HttpStatus.valueOf(exception.status()) : HttpStatus.BAD_GATEWAY;
+    return ResponseEntity.status(status)
+        .body(ErrorMessage.errorResponse(ErrorCodes.E0500, exception.getMessage()));
   }
 }

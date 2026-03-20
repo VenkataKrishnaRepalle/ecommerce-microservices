@@ -28,7 +28,7 @@ public class AddressServiceImpl implements AddressService {
   public AddressDto addAddress(AddressDto addressRequestDto) {
     log.info("AddressService:addAddress Execution Started");
     if (addressRequestDto == null || addressRequestDto.getUserUuid() == null) {
-      throw new InvalidInputException("Invalid address address");
+      throw new InvalidInputException("Add address", "Invalid address");
     }
     var userId = addressRequestDto.getUserUuid();
 
