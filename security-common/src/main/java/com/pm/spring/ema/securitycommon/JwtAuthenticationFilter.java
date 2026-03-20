@@ -50,18 +50,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
-        System.out.println("--- [JwtAuthenticationFilter] ---");
-        System.out.println("Request URI: " + request.getRequestURI());
-
         String token = getTokenFromRequest(request);
 
         if (StringUtils.hasText(token)) {
             if (isKeycloakToken(token)) {
-                System.out.println("Key cloak token received");
                 authenticateWithKeycloakJwtIfPossible(token, request);
             } else if (validateToken(token)) {
-                System.out.println("Normal token received");
                 String username = getUsernameFromToken(token);
                 UserDetails userDetails = new User(username, "", Collections.emptyList());
                 UsernamePasswordAuthenticationToken authenticationToken =
@@ -90,7 +84,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println(jwtDecoder);
         if (jwtDecoder == null) {
             request.setAttribute("not_authorized", true);
-            System.out.println("Failed authorization : line 92");
             return;
         }
 
@@ -98,11 +91,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             var jwt = jwtDecoder.decode(rawToken);
             String email = jwt.getClaimAsString("email");
             String preferredUsername = jwt.getClaimAsString("preferred_username");
-            System.out.println("Preferred username: " + preferredUsername);
 
             if (!StringUtils.hasText(email) && !StringUtils.hasText(preferredUsername)) {
                 request.setAttribute("not_authorized", true);
-                System.out.println("Failed authorization : line 103");
                 return;
             }
 
@@ -114,7 +105,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         } catch (JwtException ex) {
-            System.out.println("Failed authorization : line 115");
             request.setAttribute("not_authorized", true);
         }
     }
@@ -139,14 +129,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getTokenFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            System.out.println("Found token in Authorization header.");
             return bearerToken.substring(7);
         }
 
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if ("token".equals(cookie.getName())) {
-                    System.out.println("Found token in cookie.");
                     return cookie.getValue();
                 }
             }
@@ -160,7 +148,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Jwts.parser().setSigningKey(key()).build().parse(token);
             return true;
         } catch (Exception e) {
-            System.out.println("Token validation failed: " + e.getMessage());
             return false;
         }
     }

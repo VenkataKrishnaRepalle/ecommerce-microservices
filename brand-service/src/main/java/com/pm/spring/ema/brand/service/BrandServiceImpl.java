@@ -49,14 +49,10 @@ public class BrandServiceImpl implements BrandService {
     private final TokenHandler tokenHandler;
 
     public List<BrandFindResponseDto> getAll() {
-        log.info("BrandService:getAllBrands execution started.");
-
-        List<BrandFindResponseDto> brandFindResponseDtoList =
-                brandDao.findAll().stream().map(brandMapper::toBrandFindResponseDto).toList();
-
-        log.info("BrandService:getAllBrands execution ended.");
-
-        return brandFindResponseDtoList;
+        return brandDao.findAll()
+                .stream()
+                .map(brandMapper::toBrandFindResponseDto)
+                .toList();
     }
 
     public List<BrandFindResponseDto> getByPage(
@@ -66,8 +62,6 @@ public class BrandServiceImpl implements BrandService {
             String sortDirectory,
             String searchField,
             String searchKeyword) {
-        log.info("BrandService:getBrandsByPage execution started.");
-
         if (sortField.isBlank()) {
             sortField = "name";
         }
@@ -85,47 +79,29 @@ public class BrandServiceImpl implements BrandService {
             brandList = brandDao.findAll(pageable);
         }
 
-        List<BrandFindResponseDto> brandFindResponseDtoList =
-                brandList.stream().map(brandMapper::toBrandFindResponseDto).toList();
-        log.info("BrandService:getBrandsByPage execution ended.");
-
-        return brandFindResponseDtoList;
+        return brandList
+                .stream()
+                .map(brandMapper::toBrandFindResponseDto)
+                .toList();
     }
 
     @Override
     public BrandFindResponseDto getById(UUID id) throws NotFoundException {
-        log.info("BrandService:getBrandById execution started.");
-
         Optional<Brand> optionalBrand = brandDao.findById(id);
-
         if (optionalBrand.isEmpty()) {
-            log.info("BrandService:getBrandById execution ended.");
             throw new NotFoundException(ErrorCodes.E0501, id.toString());
         }
-
-        BrandFindResponseDto brandFindResponseDto =
-                brandMapper.toBrandFindResponseDto(optionalBrand.get());
-        log.info("BrandService:getBrandById execution ended.");
-
-        return brandFindResponseDto;
+        return brandMapper.toBrandFindResponseDto(optionalBrand.get());
     }
 
     @Override
     public BrandDto create(BrandDto brandDto) {
-        log.info("BrandService:createBrand execution started.");
-
         if (isNameExist(brandDto.getName())) {
             throw new FoundException(ErrorCodes.E0502, brandDto.getName());
         }
-
         validateBrandRequest(brandDto);
-
         Brand brandCreated = brandDao.save(brandMapper.toBrand(brandDto));
-        BrandDto brandCreateResponseDto = brandMapper.toBrandDto(brandCreated);
-
-        log.info("BrandService:createBrand execution ended.");
-
-        return brandCreateResponseDto;
+        return brandMapper.toBrandDto(brandCreated);
     }
 
     private void validateBrandRequest(BrandDto brandDto) {
@@ -148,8 +124,6 @@ public class BrandServiceImpl implements BrandService {
 
         CategoryDto categoryDto = categoryFuture.join();
         SubCategoryDto subCategoryDto = subCategoryFuture.join();
-        log.info("category: {}", categoryDto );
-        log.info("sub-category: {}", subCategoryDto );
         if (subCategoryDto != null && !subCategoryDto.getCategoryUuid().equals(categoryDto.getId())) {
             throw new InvalidInputException("Invalid Input", "Category and subCategory are not linked");
         }
@@ -185,10 +159,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto update(final UUID id, BrandDto brandUpdateRequestDto) {
-        log.info("BrandService:updateBrand execution started.");
-
         Optional<Brand> optionalBrand = brandDao.findById(id);
-
         if (optionalBrand.isEmpty()) {
             throw new NotFoundException(ErrorCodes.E0502, id.toString());
         }
@@ -197,69 +168,43 @@ public class BrandServiceImpl implements BrandService {
 
         Brand brand = brandMapper.toBrand(brandUpdateRequestDto);
         brand.setId(optionalBrand.get().getId());
-
         Brand brandUpdated = brandDao.save(brand);
-        BrandDto brandUpdateResponseDto = brandMapper.toBrandDto(brandUpdated);
-
-        log.info("BrandService:updateBrand execution ended.");
-
-        return brandUpdateResponseDto;
+        return brandMapper.toBrandDto(brandUpdated);
     }
 
     @Override
     public void deleteById(UUID id) throws NotFoundException {
-        log.info("BrandService:deleteBrandById execution started.");
-
         Long brandCountById = brandDao.countById(id);
         if (brandCountById == 0) {
             throw new NotFoundException(ErrorCodes.E0501, id.toString());
         }
-
         brandDao.deleteById(id);
-        log.info("BrandService:deleteBrandById execution ended.");
     }
 
     @Override
     public String updateImageName(UUID brandId, String fileName) {
-        log.info("BrandService:updateImageName execution started.");
-
         Optional<Brand> optionalBrand = brandDao.findById(brandId);
-
         if (optionalBrand.isEmpty()) {
             throw new NotFoundException(ErrorCodes.E0501, brandId.toString());
         }
 
         Brand brand = optionalBrand.get();
         brand.setImageName(fileName);
-
         Brand brandUpdated = brandDao.save(brand);
-
-        log.info("BrandService:updateImageName execution ended.");
-
         return brandUpdated.getImageName();
     }
 
     @Override
     public String getImageNameById(UUID id) {
-        log.info("BrandService:getBrandImageNameById execution started.");
-
         Optional<Brand> optionalBrand = brandDao.findById(id);
-
         if (optionalBrand.isEmpty()) {
-            log.info("BrandService:getBrandImageNameById execution ended.");
             throw new NotFoundException(ErrorCodes.E0501, id.toString());
         }
-
-        String imageName = optionalBrand.get().getImageName();
-
-        log.info("BrandService:getBrandImageNameById execution ended.");
-
-        return imageName;
+        return optionalBrand.get().getImageName();
     }
 
     @Override
     public Boolean isIdExist(UUID uuid) {
-
         Optional<Brand> optionalBrand = brandDao.findById(uuid);
         if (optionalBrand.isPresent()) {
             return Boolean.TRUE;
@@ -268,7 +213,6 @@ public class BrandServiceImpl implements BrandService {
     }
 
     private Boolean isNameExist(String name) {
-
         Optional<Brand> optionalBrand = brandDao.findByName(name);
         if (optionalBrand.isPresent()) {
             return Boolean.TRUE;
