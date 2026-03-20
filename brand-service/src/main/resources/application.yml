@@ -1,5 +1,5 @@
 server:
-  port: 1006
+  port: 1007
 spring:
   application:
     name: brand-service
@@ -21,6 +21,11 @@ spring:
     config:
       import-check:
         enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/ecommerce
 
 eureka:
   client:
@@ -32,7 +37,11 @@ eureka:
 app:
   jwt:
     secret: 8ae2a6ebc0cd16aecb0e94e85c1eed0a1b1d8a668f65c3838b341a99197ff370
-  jwt-expiration-milliseconds: 1800000
 
 file:
   upload_directory: spring6-ecommerce-brand/brand-logos
+
+keycloak:
+  token-base-url: http://localhost:8080/realms/ecommerce/protocol/openid-connect
+  client-id: 019d06b7-82be-73cf-9074-75650dcbe921
+  client-secret: PLIXSaHf75THIppZUM46NOY5ZidTFfxm
